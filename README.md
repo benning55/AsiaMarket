@@ -8,3 +8,6 @@
 
 # Run Backend
 ``` docker-compose exec app sh -c "python manage.py runserver 0.0.0.0:8000" ```
+
+# Create Database
+``` docker-compose exec app sh -c "python manage.py makemigrations && python manage.py migrate" ```
