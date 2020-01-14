@@ -70,7 +70,7 @@
                         //     console.log(error);
                         //     alert(this.$store.state.jwt)
                         // })
-                        this.$store.commit("setAuth", {isAuthenticated: true});
+                        this.$store.commit("setAuth", true);
                         this.$router.push("/movies")
                     })
                     .catch((error) => {

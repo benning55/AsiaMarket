@@ -12,6 +12,7 @@
                     <router-link to="/login" v-if="this.$store.state.isAuthenticated === false"><a class="nav-item nav-link">Login</a></router-link>
                     <router-link to="/register" v-if="this.$store.state.isAuthenticated === false"><a class="nav-item nav-link">Register</a></router-link>
                     <a class="nav-item nav-link" v-if="this.$store.state.isAuthenticated === true" @click="logOut">Logout</a>
+                    <a @click="lookOut">State</a>
                 </div>
             </div>
         </nav>
@@ -30,6 +31,9 @@
             logOut() {
                 this.$store.commit('removeToken');
                 this.$router.push("/auth");
+            },
+            lookOut() {
+                console.log(this.$store.state.isAuthenticated)
             }
         }
     }

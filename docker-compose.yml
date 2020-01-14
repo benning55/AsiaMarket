@@ -11,7 +11,26 @@ services:
     volumes:
       - ./app:/app:Z
     command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "tail -f /dev/null"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=asiamarket
+      - DB_USER=adminmarket
+      - DB_PASS=postgres15
+    depends_on:
+      - db
+
+  db:
+    image: postgres:10-alpine
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_DB=asiamarket
+      - POSTGRES_USER=adminmarket
+      - POSTGRES_PASSWORD=postgres15
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - ./docker_volumes/pg_data:/var/lib/postgresql/data
 
   frontend:
     user: $UID:$GID

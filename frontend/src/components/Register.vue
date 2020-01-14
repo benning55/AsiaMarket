@@ -4,7 +4,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="inputEmail">Username</label>
-                    <input type="text" v-model="username" class="form-control" id="inputEmail" placeholder="Email">
+                    <input type="text" v-model="username" class="form-control" id="inputEmail" placeholder="Username">
                 </div>
             </div>
             <div class="form-row">
@@ -42,18 +42,35 @@
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         name: 'Register',
         data() {
             return {
-                "email": null,
-                "username": null,
-                "password": null,
-                "password2": null
+                "email": '',
+                "username": '',
+                "password": '',
+                "password2": ''
             }
         },
         methods: {
             registered (){
+                const payload = {
+                    username: this.username,
+                    password: this.password,
+                    first_name: '',
+                    last_name: '',
+                    email: this.email
+                };
+                axios.post(this.$store.state.endpoints.registerUrL, payload)
+                    .then((response) => {
+                        console.log(response.data);
+                        alert(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        alert('fuck you');
+                    })
             }
         },
     }

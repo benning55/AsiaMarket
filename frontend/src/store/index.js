@@ -11,7 +11,8 @@ export default new Vuex.Store({
     endpoints: {
       obtainJWT: 'http://localhost:8000/auth/obtain_token/',
       refreshJWT: 'http://localhost:8000/auth/refresh_token/',
-      baseUrL: 'http://localhost:8000/api/'
+      baseUrL: 'http://localhost:8000/api/',
+      registerUrL: 'http://localhost:8000/api/accounts/register/'
     }
   },
   mutations: {

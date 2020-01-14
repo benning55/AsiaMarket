@@ -15,7 +15,7 @@
         methods: {
             checkLogIn(){
                 if(this.$store.state.jwt === null){
-                    this.$router.push('/auth');
+                    this.$router.push('/login');
                 }
             },
             logout(){
