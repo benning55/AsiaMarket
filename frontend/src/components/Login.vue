@@ -41,37 +41,36 @@
                 axios.post(this.$store.state.endpoints.obtainJWT, payload)
                     .then((response) => {
                         this.$store.commit('updateToken', response.data.token);
-                        // get and set auth user
-                        // const base = {
-                        //     baseURL: this.$store.state.endpoints.baseUrL,
-                        //     headers: {
-                        //         // Set your Authorization to 'JWT', not Bearer!!!
-                        //         Authorization: `JWT ${this.$store.state.jwt}`,
-                        //         'Content-Type': 'application/json'
-                        //     },
-                        //     xhrFields: {
-                        //         withCredentials: true
-                        //     }
-                        // };
-                        // Even though the authentication returned a user object that can be
-                        // decoded, we fetch it again. This way we aren't super dependant on
-                        // JWT and can plug in something else.
-                        // const axiosInstance = axios.create(base);
-                        // axiosInstance({
-                        //     url: "/user/",
-                        //     method: "get",
-                        //     params: {}
-                        // }).then((response) => {
-                        //         this.$store.commit("setAuthUser",
-                        //             {authUser: response.data, isAuthenticated: true}
-                        //         );
-                        //         this.$router.push("/movies")
-                        //     }).catch((error) => {
-                        //     console.log(error);
-                        //     alert(this.$store.state.jwt)
-                        // })
-                        this.$store.commit("setAuth", true);
-                        this.$router.push("/movies")
+                        //get and set auth user
+                        const base = {
+                            baseURL: this.$store.state.endpoints.baseUrL,
+                            headers: {
+                                // Set your Authorization to 'JWT', not Bearer!!!
+                                Authorization: `JWT ${this.$store.state.jwt}`,
+                                'Content-Type': 'application/json'
+                            },
+                            xhrFields: {
+                                withCredentials: true
+                            }
+                        };
+                        //Even though the authentication returned a user object that can be
+                        //decoded, we fetch it again. This way we aren't super dependant on
+                        //JWT and can plug in something else.
+                        const axiosInstance = axios.create(base);
+                        axiosInstance({
+                            url: "/user/",
+                            method: "get",
+                            params: {}
+                        }).then((response) => {
+                                this.$store.commit("setAuthUser",
+                                    {authUser: response.data, isAuthenticated: true}
+                                );
+                                console.log(this.$store.state.authUser);
+                                this.$router.push("/movies")
+                            }).catch((error) => {
+                            console.log(error);
+                            alert(this.$store.state.jwt)
+                        })
                     })
                     .catch((error) => {
 
