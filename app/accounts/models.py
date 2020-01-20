@@ -49,12 +49,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
 
-class Profile(models.Model):
-    """ Profile model """
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
-    tel = models.CharField(max_length=12, blank=True)
-    dob = models.DateField
+# class Profile(models.Model):
+#     """ Profile model """
+#     user = models.OneToOneField(
+#         User,
+#         on_delete=models.CASCADE,
+#         primary_key=True,
+#     )
+#     tel = models.CharField(max_length=12, blank=True)
+#     dob = models.DateField
