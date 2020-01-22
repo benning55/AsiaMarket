@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
+from accounts.validates import validate_password
 
 
 class UserManager(BaseUserManager):
@@ -49,12 +50,22 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
 
-# class Profile(models.Model):
-#     """ Profile model """
-#     user = models.OneToOneField(
-#         User,
-#         on_delete=models.CASCADE,
-#         primary_key=True,
-#     )
-#     tel = models.CharField(max_length=12, blank=True)
-#     dob = models.DateField
+class Profile(models.Model):
+    """ Profile model """
+    SEX_TYPE = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('LGBT', 'LGBT')
+    )
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    tel = models.CharField(max_length=12, blank=True)
+    dob = models.DateField(blank=True)
+    sex = models.CharField(
+        max_length=10,
+        choices=SEX_TYPE,
+        blank=True
+    )
