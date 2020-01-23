@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
-from accounts.validates import validate_password
 
 
 class UserManager(BaseUserManager):
@@ -23,7 +22,7 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, username, email, password):
+    def create_superuser(self, username, email, password=None):
         """Create and save a new superuser with given details"""
         user = self.create_user(username, email, password)
 
