@@ -66,6 +66,7 @@
                                     {authUser: response.data, isAuthenticated: true}
                                 );
                                 console.log(this.$store.state.authUser);
+                                console.log(this.$store.state.authUser['profile']);
                                 this.$router.push("/movies")
                             }).catch((error) => {
                             console.log(error);

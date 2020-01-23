@@ -1,6 +1,6 @@
 import sys
 from django.core import exceptions
-from accounts.models import User
+from accounts.models import User, Profile
 from rest_framework import serializers
 import django.contrib.auth.password_validation as validators
 
@@ -36,5 +36,25 @@ class UserSerializer(serializers.ModelSerializer):
         user = super(UserSerializer, self).create(validated_data)
         user.set_password(validated_data['password'])
         user.save()
+        profile = Profile.objects.create(user_id=user.id)
+        profile.save()
         return user
 
+
+class ProfileSerializer(serializers.ModelSerializer):
+    """Serializer for Profile model"""
+
+    class Meta:
+        model = Profile
+        fields = ('user_id', 'tel', 'dob', 'sex', 'profile_status')
+        extra_kwargs = {
+            'profile_status': {'read_only': True}
+        }
+
+    def update(self, instance, validated_data):
+        instance.tel = validated_data.get('tel', instance.tel)
+        instance.dob = validated_data.get('dob', instance.dob)
+        instance.sex = validated_data.get('sex', instance.sex)
+
+        instance.save()
+        return instance

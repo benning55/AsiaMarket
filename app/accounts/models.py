@@ -30,6 +30,8 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.save(using=self._db)
 
+        profile = Profile.objects.create(user_id=user.id)
+        profile.save()
         return user
 
 
@@ -62,9 +64,15 @@ class Profile(models.Model):
         primary_key=True,
     )
     tel = models.CharField(max_length=12, blank=True)
-    dob = models.DateField(blank=True)
+    dob = models.DateField(auto_now=False, null=True)
     sex = models.CharField(
         max_length=10,
         choices=SEX_TYPE,
         blank=True
     )
+    profile_status = models.BooleanField(default=False)
+
+    def __str__(self):
+        user = User.objects.get(pk=self.user_id)
+        name = user.username
+        return name
