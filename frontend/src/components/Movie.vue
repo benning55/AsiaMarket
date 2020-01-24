@@ -1,7 +1,7 @@
 <template>
     <div class="movies">
         <h1>This is Movies Pages</h1>
-        <h1>555555</h1>
+
         <button @click="logout">Log out</button>
     </div>
 </template>

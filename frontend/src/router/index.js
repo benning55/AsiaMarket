@@ -21,12 +21,12 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('../components/Login')
+    component: () => import('../views/Login')
   },
   {
     path: '/register',
     name: 'register',
-    component: () => import('../components/Register')
+    component: () => import('../views/Register')
   },
   {
     path: '/movie',
