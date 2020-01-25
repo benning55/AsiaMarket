@@ -4,6 +4,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from accounts.datalist import AllInfo
 
+
 class UserManager(BaseUserManager):
     """Manager for user profiles"""
 

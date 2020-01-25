@@ -60,9 +60,26 @@ class ProfileSerializer(serializers.ModelSerializer):
         return instance
 
 
-# class AddressSerializer(serializers.ModelSerializer):
-#     """Serializer for address model"""
-#
-#     class Meta:
-#         model = Address
-#         fields = ('user_id', 'address', 'street', 'city', 'post_code')
+class AddressSerializer(serializers.ModelSerializer):
+    """Serializer for address model"""
+    recipient = serializers.CharField(allow_blank=True)
+
+    class Meta:
+        model = Address
+        fields = ('id', 'user_id', 'recipient', 'street', 'house_number', 'post_code', 'city')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }
+
+    def create(self, validated_data):
+        return Address(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.recipient = validated_data.get('recipient', instance.recipient)
+        instance.street = validated_data.get('street', instance.street)
+        instance.house_number = validated_data.get('house_number', instance.house_number)
+        instance.post_code = validated_data.get('post_code', instance.post_code)
+        instance.city = validated_data.get('city', instance.city)
+
+        instance.save()
+        return instance
