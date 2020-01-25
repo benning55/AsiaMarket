@@ -85,3 +85,9 @@ class ProfileApiView(APIView):
         if serializer.is_valid(raise_exception=True):
             profile_save = serializer.save()
         return Response({"updated": serializer.data}, status=status.HTTP_200_OK)
+
+
+class AddressApiView(APIView):
+    """
+    Address of user view
+    """

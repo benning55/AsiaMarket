@@ -76,3 +76,19 @@ class Profile(models.Model):
         user = User.objects.get(pk=self.user_id)
         name = user.username
         return name
+
+
+class Address(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    address = models.CharField(max_length=255)
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    post_code = models.CharField(max_length=255)
+
+    def __str__(self):
+        user = User.objects.get(pk=self.user_id)
+        name = user.username
+        return name
