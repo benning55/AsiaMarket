@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
-
+from accounts.datalist import AllInfo
 
 class UserManager(BaseUserManager):
     """Manager for user profiles"""
@@ -79,14 +79,19 @@ class Profile(models.Model):
 
 
 class Address(models.Model):
+    """ All address in the system"""
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE
     )
-    address = models.CharField(max_length=255)
+    recipient = models.CharField(max_length=255)
     street = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
+    house_number = models.CharField(max_length=255)
     post_code = models.CharField(max_length=255)
+    city = models.CharField(
+        choices=AllInfo.CITY_NAME,
+        max_length=30,
+    )
 
     def __str__(self):
         user = User.objects.get(pk=self.user_id)

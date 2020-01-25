@@ -60,8 +60,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         return instance
 
 
-class AddressSerializer(serializers.ModelSerializer):
-    """Serializer for address model"""
-
-    class Meta:
-        model = Address
+# class AddressSerializer(serializers.ModelSerializer):
+#     """Serializer for address model"""
+#
+#     class Meta:
+#         model = Address
+#         fields = ('user_id', 'address', 'street', 'city', 'post_code')
