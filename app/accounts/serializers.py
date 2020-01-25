@@ -1,6 +1,6 @@
 import sys
 from django.core import exceptions
-from accounts.models import User, Profile
+from accounts.models import User, Profile, Address
 from rest_framework import serializers
 import django.contrib.auth.password_validation as validators
 
@@ -58,3 +58,10 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class AddressSerializer(serializers.ModelSerializer):
+    """Serializer for address model"""
+
+    class Meta:
+        model = Address
