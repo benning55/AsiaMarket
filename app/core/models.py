@@ -98,3 +98,9 @@ class Address(models.Model):
         user = User.objects.get(pk=self.user_id)
         name = user.username
         return name
+
+
+class Category(models.Model):
+    type = models.CharField(max_length=255)
+    color = models.CharField(max_length=255)
+

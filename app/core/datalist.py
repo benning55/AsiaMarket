@@ -17,3 +17,14 @@ class AllInfo:
         ('Schleswig-Holstein', 'Schleswig-Holstein'),
         ('Thüringen', 'Thüringen')
     )
+
+    FOOD_TYPE = (
+        ('Fruits and Vegetables', 'Fruits and Vegetables'),
+        ('Dry goods and Seasonings', 'Dry goods and seasonings'),
+        ('Rice Flour and Noodles', 'Rice Flour and Noodles'),
+        ('Condiments and Sauces', 'Condiments and Sauces'),
+        ('Normal and Alcoholic Beverages', 'Normal and Alcoholic Beverages'),
+        ('Snack', 'Snack'),
+        ('Frozen Products', 'Frozen Products'),
+        ('Other', 'Other')
+    )
