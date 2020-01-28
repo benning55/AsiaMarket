@@ -5,7 +5,7 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 
-from accounts.models import User, Profile, Address
+from core.models import User, Profile, Address
 from rest_framework.decorators import api_view, permission_classes
 from accounts import serializers
 
@@ -65,21 +65,24 @@ class ProfileApiView(APIView):
         """
         pk = self.kwargs.get('pk')
         if pk is None:
-            profile = Profile.objects.all()
-            serializer = serializers.ProfileSerializer(profile, many=True)
-            return Response({"profiles": serializer.data}, status=status.HTTP_200_OK)
-        else:
-            profile = get_object_or_404(Profile.objects.all(), pk=pk)
+            user_id = request.user.id
+            profile = get_object_or_404(Profile.objects.all(), pk=user_id)
             serializer = serializers.ProfileSerializer(profile)
             return Response({"profile": serializer.data}, status=status.HTTP_200_OK)
+        else:
+            if request.user.id != pk:
+                return Response({"error": "You have no permission"}, status=status.HTTP_403_FORBIDDEN)
+            else:
+                profile = get_object_or_404(Profile.objects.all(), pk=pk)
+                serializer = serializers.ProfileSerializer(profile)
+                return Response({"profile": serializer.data}, status=status.HTTP_200_OK)
 
     def put(self, request, *args, **kwargs):
         """
         Update user profile
         """
-        pk = self.kwargs.get('pk')
-        profile = get_object_or_404(Profile.objects.all(), pk=pk)
         data = request.data
+        profile = get_object_or_404(Profile.objects.all(), pk=data['user_id'])
         profile.profile_status = True
         serializer = serializers.ProfileSerializer(instance=profile, data=data, partial=True)
         if serializer.is_valid(raise_exception=True):

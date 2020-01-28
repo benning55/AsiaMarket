@@ -1,6 +1,6 @@
 import sys
 from django.core import exceptions
-from accounts.models import User, Profile, Address
+from core.models import User, Profile, Address
 from rest_framework import serializers
 import django.contrib.auth.password_validation as validators
 
@@ -48,7 +48,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ('user_id', 'tel', 'dob', 'sex', 'profile_status')
         extra_kwargs = {
-            'profile_status': {'read_only': True}
+            'profile_status': {'read_only': True},
         }
 
     def update(self, instance, validated_data):

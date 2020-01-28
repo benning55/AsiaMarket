@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
-from accounts.datalist import AllInfo
+from core.datalist import AllInfo
 
 
 class UserManager(BaseUserManager):
@@ -55,8 +55,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Profile(models.Model):
     """ Profile model """
     SEX_TYPE = (
-        ('M', 'Male'),
-        ('F', 'Female'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
         ('LGBT', 'LGBT')
     )
     user = models.OneToOneField(
