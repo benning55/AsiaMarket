@@ -1,3 +1,5 @@
+import uuid
+import os
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -8,7 +10,10 @@ from app.settings import MEDIA_ROOT
 
 def product_image_path(instance, filename):
     """Generate file path"""
-    return os.path.join('media', filename)
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return os.path.join('uploads/products/', filename)
 
 
 class UserManager(BaseUserManager):
@@ -121,8 +126,8 @@ class Product(models.Model):
     )
     title = models.CharField(max_length=255)
     pic1 = models.ImageField(upload_to=product_image_path, null=True)
-    pic2 = models.ImageField(upload_to=product_image_path, null=True)
-    pic3 = models.ImageField(upload_to=product_image_path, null=True)
+    pic2 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
+    pic3 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
     description = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=7, decimal_places=2)
     quantity = models.IntegerField()
