@@ -3,6 +3,12 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from core.datalist import AllInfo
+from app.settings import MEDIA_ROOT
+
+
+def product_image_path(instance, filename):
+    """Generate file path"""
+    return os.path.join('media', filename)
 
 
 class UserManager(BaseUserManager):
@@ -103,4 +109,24 @@ class Address(models.Model):
 class Category(models.Model):
     type = models.CharField(max_length=255)
     color = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.type
+
+
+class Product(models.Model):
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=255)
+    pic1 = models.ImageField(upload_to=product_image_path, null=True)
+    pic2 = models.ImageField(upload_to=product_image_path, null=True)
+    pic3 = models.ImageField(upload_to=product_image_path, null=True)
+    description = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=7, decimal_places=2)
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.title
 
