@@ -1,5 +1,8 @@
 <template>
     <div>
+        <ul class="w-full py-6">
+            <li class="inline-block px-5">LOGO</li>
+        </ul>
         <VueSlickCarousel v-bind="setting1">
             <img v-for="image in mockup.showCarousel" :key="image.id" class="object-cover w-full h-56"
                  :src="image.image"
@@ -8,13 +11,13 @@
 
         <VueSlickCarousel v-bind="setting2">
             <button v-for="category in mockup.categorys" :key="category.id"
-                    class="bg-white mt-3 border-r-2 hover:bg-gray-500 text-black py-2 px-4">
+                    class="bg-white mt-3 cs-border hover:bg-unHilight text-black py-2 px-4">
                 {{category.title}}
             </button>
         </VueSlickCarousel>
 
         <section class="mt-3">
-            Promotion
+            <h1 class="my-3 text-xl">Promotion</h1>
             <VueSlickCarousel v-bind="setting3">
                 <ProductCard/>
                 <ProductCard/>
@@ -28,11 +31,31 @@
         </section>
 
         <section class="mt-3">
-            Recommend
+            <h1 class="my-3 text-xl">Recommend</h1>
+            <VueSlickCarousel v-bind="setting3">
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+            </VueSlickCarousel>
         </section>
 
         <section class="mt-3">
-            New Product
+            <h1 class="my-3 text-xl">New Product</h1>
+            <VueSlickCarousel v-bind="setting3">
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+            </VueSlickCarousel>
         </section>
     </div>
 </template>
@@ -45,7 +68,7 @@
 
     export default {
         name: 'MyComponent',
-        components: {VueSlickCarousel,ProductCard},
+        components: {VueSlickCarousel, ProductCard},
         data() {
             return {
                 setting1: {
@@ -55,7 +78,12 @@
                     "infinite": true,
                     "speed": 500,
                     "slidesToShow": 1,
-                    "slidesToScroll": 1
+                    "slidesToScroll": 1,
+                    "autoplay": true,
+                    "autoplaySpeed": 3000,
+                    "pauseOnDotsHover": true,
+                    "pauseOnFocus": true,
+                    "pauseOnHover": true
                 },
                 setting2: {
                     "dots": false,
@@ -97,6 +125,12 @@
                     "arrows": false,
                     "swipeToSlide": true,
                     "responsive": [
+                        {
+                            "breakpoint": 1400,
+                            "settings": {
+                                "slidesToShow": 4,
+                            }
+                        },
                         {
                             "breakpoint": 1024,
                             "settings": {
@@ -176,5 +210,10 @@
     .slick-prev {
         left: 15px;
         z-index: 3;
+    }
+
+    .cs-border {
+        border: 3px solid #e3e4e3;
+        border-style: none solid none none
     }
 </style>

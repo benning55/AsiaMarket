@@ -1,91 +1,46 @@
 <template lang="html">
     <div>
-        <Navbar/>
+        <ul class="w-full py-6">
+            <li class="inline-block px-5">LOGO</li>
+        </ul>
         <div class="auth">
-
-            <!--        <form>-->
-            <!--            <h1>Log In</h1>-->
-            <!--            <div class="form-group">-->
-            <!--                <label for="exampleInputEmail1">Username</label>-->
-            <!--                <input type="text" v-model="username" class="form-control" id="exampleInputEmail1"-->
-            <!--                       aria-describedby="emailHelp"-->
-            <!--                       placeholder="Enter Username">-->
-            <!--                <small id="emailHelp" class="form-text text-muted">We'll never share your Username with anyone-->
-            <!--                    else.</small>-->
-            <!--            </div>-->
-
-            <!--            <div class="form-group">-->
-            <!--                <label for="exampleInputPassword1">Password</label>-->
-            <!--                <input type="password" v-model="password" class="form-control" id="exampleInputPassword1"-->
-            <!--                       placeholder="Password">-->
-            <!--            </div>-->
-            <!--            <router-link to="/register"><small>Don't have an account?</small></router-link>-->
-            <!--            <br><br>-->
-            <!--            <button type="submit" class="btn btn-primary" @click.prevent="authenticate">Submit</button>-->
-            <!--        </form>-->
-            <form
-
-                    class="mt-16 w-full sm:w-4/5 md:w-2/3 lg:w-2/5 xl:w-1/3 mx-auto bg-white shadow-md px-8 pt-6 pb-8 mb-4"
-                    style="border-top: 6px solid #619F21;"
-            >
+            <form class="mt-16 w-11/12 sm:w-4/5 md:w-2/3 lg:w-2/3 xl:w-2/3 mx-auto bg-white shadow-md px-8 pt-6 pb-8 mb-4"
+                  style="border-top: 6px solid #619F21;">
                 <div class="mb-4 sm:px-10 md:px-16 lg:px-16">
-                    <label
-                            v-if="!validation.firstError('username')"
-                            class="block text-gray-700 text-sm font-bold mb-2"
-                            for="username"
-                    >      {{$t('username')}}</label>
-                    <label
-                            v-else
-                            class="block text-red-500 text-sm font-bold mb-2"
-                            for="username"
-                    >Please input Username</label>
-                    <!-- <p v-if="usernameValidate" class="text-red-500 text-xs italic">Please input a Username.</p> -->
+                    <label v-if="!validation.firstError('username')"
+                           class="block text-sm mb-2"
+                           for="username"> {{$t('username')}}</label>
+                    <label v-else
+                           class="block text-red text-sm mb-2"
+                           for="username">Please input Username</label>
                     <input
                             v-model="username"
-                            v-bind:class="{ 'is-invalid': validation.firstError('username') }"
-                            class="appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            v-bind:class="{ 'border-red': validation.firstError('username') }"
+                            class="appearance-none border w-full py-2 px-3 text-gray leading-tight focus:outline-none"
                             id="username"
                             type="text"
                     />
 
                 </div>
                 <div class="mb-6 sm:px-10 md:px-16 lg:px-16">
-                    <label
-                            v-if="!validation.firstError('password')"
-                            class="block text-gray-700 text-sm font-bold mb-2"
-                            for="password"
-                    >{{$t('password')}}</label>
-                    <label
-                            v-else
-                            class="block text-red-500 text-sm font-bold mb-2"
-                            for="password"
-                    >Please input Password</label>
-                    <!-- <p v-if="passwordValidate" class="text-red-500 text-xs italic">Please input a password.</p> -->
-                    <input
-                            v-model="password"
-                            v-bind:class="{ 'border-red-500': validation.firstError('password') }"
-                            class="appearance-none border w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                            id="password"
-                            type="text"
-                    />
-                    <!-- <p class="text-red-500 text-xs italic">Please choose a password.</p> -->
+                    <label v-if="!validation.firstError('password')"
+                           class="block text-sm mb-2"
+                           for="password">{{$t('password')}}</label>
+                    <label v-else
+                           class="block text-red text-sm mb-2"
+                           for="password">Please input Password</label>
+                    <input v-model="password"
+                           v-bind:class="{ 'border-red': validation.firstError('password') }"
+                           class="appearance-none border w-full py-2 px-3 text-gray mb-3 leading-tight focus:outline-none"
+                           id="password"
+                           type="text"/>
                 </div>
 
                 <div class="mb-6 sm:px-10 md:px-16 lg:px-16">
-                    <button
-                            @click="authenticate()"
-                            class="w-full bg-maingreen hover:bg-blue-700 text-white font-bold py-2 px-20 focus:outline-none focus:shadow-outline"
-                            type="button"
-                    >{{$t('login')}}
-                    </button
-                    >
-
-                    <!--                <button-->
-                    <!--                        v-else-->
-                    <!--                        disabled-->
-                    <!--                        class="w-full bg-green-500 text-white font-bold py-2 px-20 opacity-50 cursor-not-allowed"-->
-                    <!--                >Sign In-->
-                    <!--                </button>-->
+                    <button @click="authenticate()"
+                            class="w-full bg-green text-white py-2 px-20 focus:outline-none"
+                            type="button">{{$t('login')}}
+                    </button>
                 </div>
             </form>
         </div>
@@ -95,13 +50,10 @@
 <script>
     import axios from 'axios'
     import {Validator} from "../main";
-    import Navbar from "../components/Navbar";
 
     export default {
         name: "Login",
-        components: {Navbar},
         comments: {
-            Navbar
         },
         data() {
             return {
@@ -121,7 +73,7 @@
             password(value) {
                 return Validator.value(value)
                     .required("กรุณาใส่รหัสผ่าน")
-                    // .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
+                // .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
             }
         },
         methods: {

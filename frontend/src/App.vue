@@ -9,8 +9,9 @@
 
 <script>
     import Navbar from "./components/Navbar";
+
     export default {
-        components:{
+        components: {
             Navbar
         },
         data() {
@@ -29,7 +30,7 @@
 
 <style lang="scss">
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        font-family: 'Kanit', sans-serif;
     }
 
     #nav {
@@ -48,4 +49,5 @@
     body {
         background-color: #e3e4e3;
     }
+
 </style>
