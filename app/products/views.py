@@ -35,6 +35,9 @@ class ProductApiView(APIView):
         """
         category_id = request.data['category_id']
         queryset = Product.objects.all()
-        queryset_cat = queryset.filter(category_id=category_id)
-        serializer = serializers.ProductSerializer(queryset_cat, many=True)
-        return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+        queryset_cat = queryset.filter(category_id=category_id).order_by('-id')
+        if len(queryset_cat) == 0:
+            return Response({"data": "There is no category here"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            serializer = serializers.ProductSerializer(queryset_cat, many=True)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
