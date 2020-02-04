@@ -94,6 +94,7 @@
                     "slidesToScroll": 1,
                     "arrows": false,
                     "swipeToSlide": true,
+
                     "responsive": [
                         {
                             "breakpoint": 1024,
@@ -124,6 +125,7 @@
                     "slidesToScroll": 1,
                     "arrows": false,
                     "swipeToSlide": true,
+                    "touchThreshold":4,
                     "responsive": [
                         {
                             "breakpoint": 1400,

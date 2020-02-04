@@ -38,7 +38,7 @@
         }
     }
 </script>
-<style>
+<style scoped>
     .title {
         height: 3em;
         line-height: 1.5em;
