@@ -1,10 +1,13 @@
 import uuid
 import os
+from urllib.request import urlopen
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from core.datalist import AllInfo
+from django.core.files import File
+from tempfile import NamedTemporaryFile
 from app.settings import MEDIA_ROOT
 
 
@@ -125,9 +128,10 @@ class Product(models.Model):
         on_delete=models.CASCADE
     )
     title = models.CharField(max_length=255)
-    pic1 = models.ImageField(upload_to=product_image_path, null=True)
+    pic1 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
     pic2 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
     pic3 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
+    url = models.URLField(blank=True, null=True)
     description = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=7, decimal_places=2)
     quantity = models.IntegerField()
@@ -135,3 +139,11 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        """ save data as url """
+        if self.url and not self.pic1:
+            img_temp = NamedTemporaryFile(delete=True)
+            img_temp.write(urlopen(self.url).read())
+            img_temp.flush()
+            self.pic1.save(f"image_{self.pk}.jpg", File(img_temp, 'rb'))
+        super(Product, self).save(*args, **kwargs)

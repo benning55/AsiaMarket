@@ -22,11 +22,18 @@ class ProductApiView(APIView):
         pk = self.kwargs.get('pk')
         if pk is None:
             queryset = Product.objects.all().order_by('-id')
+            # serializer1 = serializers.ProductDataSerializer(queryset, many=True)
+            # serializer2 = serializers.ProductImageSerializer(queryset, many=True)
+            # infos = {"info": [serializer1.data, serializer2.data]}
             serializer = serializers.ProductSerializer(queryset, many=True)
-            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+            return Response({
+                "data": serializer.data
+            }, status=status.HTTP_200_OK
+            )
         else:
             queryset = get_object_or_404(Product.objects.all().order_by('-id'), pk=pk)
             serializer = serializers.ProductSerializer(queryset)
+            print("data", serializer.data.values())
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):

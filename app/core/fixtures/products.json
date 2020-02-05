@@ -1,0 +1,17 @@
+[
+  {
+    "model": "core.product",
+    "pk": 1,
+    "fields": {
+      "category_id": 1,
+      "title": "food",
+      "pic1": "",
+      "pic2": "",
+      "pic3": "",
+      "url": "https://restaurants.mu/blog-admin/wp-content/uploads/2018/10/top-8-worst-food-drink-to-avoid-for-digestive-problems.jpg",
+      "description": "This is food",
+      "price": 20,
+      "quantity": 30
+    }
+  }
+]
