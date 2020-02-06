@@ -30,6 +30,19 @@
             </VueSlickCarousel>
         </section>
 
+        <div class=" overflow-auto" style="-webkit-overflow-scrolling: touch">
+            <div class="flex" style="width: 600%">
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+            </div>
+
+        </div>
+
         <section class="mt-3">
             <h1 class="my-3 text-xl">Recommend</h1>
             <VueSlickCarousel v-bind="setting3">
@@ -125,7 +138,7 @@
                     "slidesToScroll": 1,
                     "arrows": false,
                     "swipeToSlide": true,
-                    "touchThreshold":4,
+                    "touchThreshold": 4,
                     "responsive": [
                         {
                             "breakpoint": 1400,
