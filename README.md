@@ -1,5 +1,5 @@
 # AsiaMarket
-``` python manage.py loaddata ingredients ```
+``` docker-compose exec app sh -c "python manage.py loaddata products" ```
 
 # Start The Project
 ``` bash run-local.sh ```

@@ -32,19 +32,3 @@ class Command(BaseCommand):
             Category.objects.create(type='Other', color='pink').save()
         else:
             self.stdout.write("Category Data already add.")
-
-        product = Product.objects.all()
-        if product.count() < 1:
-            Product.objects.create(
-                category_id=1,
-                title="test",
-                pic1="",
-                pic2="",
-                pic3="",
-                url="https://lh3.googleusercontent.com/proxy/LSCAnu-GvPBTKR568Eo-fzoLqXBof8p-q_RCwDVQxD8BsbyMZLbIuU7HA2vuw1UdV9s9KdBBLsX2kmQcoWv_G-mtM6KmAqnPgJrOB_qQYToxFSXfbKItQPgBaK9KsBGwFo4",
-                description="Thai food defult",
-                price=25,
-                quantity=10
-            ).save()
-        else:
-            self.stdout.write("Product was made")
