@@ -2,31 +2,28 @@ from core.models import Category, Product
 from rest_framework import serializers
 
 
+class CategorySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    type = serializers.CharField()
+
+    class Meta:
+        model = Category
+        fields = ('id', 'type')
+
+
 class ProductSerializer(serializers.ModelSerializer):
     """serializer for product model"""
     title = serializers.CharField(max_length=255, allow_blank=True)
 
     class Meta:
         model = Product
-        fields = ('id', 'category_id', 'title', 'pic1', 'pic2', 'pic3', 'url', 'description', 'price', 'quantity')
+        fields = ('id', 'category_name', 'title', 'pic1', 'pic2', 'pic3', 'url', 'description', 'price', 'quantity')
 
-    # def to_representation(self, instance):
-    #     resdata = {
-    #         'id': instance.id,
-    #         'category_id': instance.category_id,
-    #         'title': instance.title,
-    #         'image': {
-    #             'pic1': instance.pic1,
-    #             'pic2': instance.pic2,
-    #             'pic3': instance.pic3
-    #         },
-    #         'url': instance.url,
-    #         'description': instance.description,
-    #         'price': instance.price,
-    #         'quantity': instance.quantity
-    #     }
-    #
-    #     return resdata
+    category_name = serializers.SerializerMethodField('get_type_name')
+
+    def get_type_name(self, obj):
+        return obj.category.type
+
 
 class ProductDataSerializer(serializers.ModelSerializer):
     """serializer for product model"""
@@ -34,7 +31,12 @@ class ProductDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('id', 'category_id', 'title', 'url', 'description', 'price', 'quantity')
+        fields = ('id', 'category_name', 'title', 'url', 'description', 'price', 'quantity')
+
+    category_name = serializers.SerializerMethodField('get_type_name')
+
+    def get_type_name(self, obj):
+        return obj.category.type
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
