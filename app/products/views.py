@@ -22,18 +22,15 @@ class ProductApiView(APIView):
         pk = self.kwargs.get('pk')
         if pk is None:
             queryset = Product.objects.all().order_by('-id')
-            serializer1 = serializers.ProductDataSerializer(queryset, many=True)
-            serializer2 = serializers.ProductImageSerializer(queryset, many=True)
+            serializer = serializers.ProductSerializer(queryset, many=True)
             return Response({
-                "data": serializer1.data,
-                "image": serializer2.data
+                "data": serializer.data
             }, status=status.HTTP_200_OK
             )
         else:
             queryset = get_object_or_404(Product.objects.all().order_by('-id'), pk=pk)
-            serializer1 = serializers.ProductDataSerializer(queryset)
-            serializer2 = serializers.ProductImageSerializer(queryset)
-            return Response({"data": serializer1.data, "image": serializer2.data}, status=status.HTTP_200_OK)
+            serializer = serializers.ProductSerializer(queryset)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
         """
@@ -45,6 +42,5 @@ class ProductApiView(APIView):
         if len(queryset_cat) == 0:
             return Response({"data": "There is no category here"}, status=status.HTTP_404_NOT_FOUND)
         else:
-            serializer1 = serializers.ProductDataSerializer(queryset_cat, many=True)
-            serializer2 = serializers.ProductImageSerializer(queryset_cat, many=True)
-            return Response({"data": serializer1.data, "image": serializer2.data}, status=status.HTTP_200_OK)
+            serializer = serializers.ProductSerializer(queryset_cat, many=True)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
