@@ -80,9 +80,13 @@
                  class="inset-y-0 left-0 fixed bg-white fixed z-20 shadow-md w-70  overflow-auto h-screen">
                 <ul class="w-full py-6">L</ul>
                 <div class="relative h-100 w-70">
+                    <div class="py-3 px-10 text-xl text-center border-bottom font-l bg-gray_bg cursor-pointer">
+                        <a @click="changeLocale(`en`)">EN </a> | <a
+                            @click="changeLocale(`th`)"> TH</a>
+                    </div>
                     <div class="py-3 px-10 text-xl border-bottom hover:bg-unHilight cursor-pointer">
                         <i @click="mobileDrawer =! mobileDrawer" class="material-icons text-2xl cursor-pointer absolute"
-                           style="top:7px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
+                           style="top:61px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
                         Firstname Lastname
                     </div>
                     <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Order history
@@ -108,8 +112,7 @@
                     <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address</div>
                     <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Payment</div>
                     <div class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
-                        Log
-                        Out
+                        Log Out
                     </div>
                 </div>
             </div>
@@ -210,15 +213,15 @@
         data() {
             return {
                 accountDrawer: false,
-                cartDrawer: true,
+                cartDrawer: false,
                 mobileDrawer: false
             }
         },
         methods: {
             toggleOpacity() {
-                this.accountDrawer = false,
-                    this.cartDrawer = false,
-                    this.mobileDrawer = false
+                this.accountDrawer = false
+                this.cartDrawer = false
+                this.mobileDrawer = false
             },
             changeLocale(locale) {
                 i18n.locale = locale

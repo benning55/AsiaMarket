@@ -10,6 +10,10 @@ import SimpleVueValidation from 'simple-vue-validator';
 import i18n from "./plugins/i18n";
 import VueSlickCarousel from 'vue-slick-carousel'
 
+import VueDragscroll from 'vue-dragscroll'
+
+Vue.use(VueDragscroll)
+
 window.$ = window.jQuery = jQuery;
 import 'popper.js'
 import 'bootstrap'

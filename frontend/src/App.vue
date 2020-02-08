@@ -15,6 +15,9 @@
             Navbar
         },
         data() {
+            return{
+
+            }
         },
         methods: {
             logOut() {

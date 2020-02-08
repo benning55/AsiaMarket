@@ -4,9 +4,9 @@
             <div class="w-32">
                 <img src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg" alt="">
             </div>
-            <div class="grid grid-cols-3 gap-4 ml-2">
+            <div class=" ml-2">
                 <div class="h-12 flex">
-                    <div class="w-full" style="line-height: 18px;">Name eeeeeee eeeeee eeee eee eee eeeeee</div>
+                    <div class="w-full" style="line-height: 18px;">Name eeeeeee eeeeee eeee eee eee eeeeeexx</div>
                     <i class='fas fa-trash-alt m-2 text-lightGray'></i>
                 </div>
                 <div class="flex justify-between">

@@ -20,6 +20,16 @@ module.exports = {
             colors: {
                 maingreen: '#619F21'
             },
+            width: {
+                '4/1':'400%',
+                '2/1':'200%',
+                '16/10':'160%',
+                '266per':'266%'
+            },
+            screens: {
+                'sc-1400':'1400px',
+                'sc-480':{'min': '480px', 'max': '640px'}
+            }
         },
     },
     variants: {},

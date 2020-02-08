@@ -5,17 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Kanit&display=swap" rel="stylesheet">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <link href="styles/style.css" type="text/css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/818733fa55.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-
     <script src="https://npmcdn.com/flickity@2/dist/flickity.pkgd.js"></script>
-    <!-- CSS -->
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-    <!-- JavaScript -->
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <script src="https://unpkg.com/vue-dragscroll"></script>
     <title>frontend</title>
 </head>
 <body>
@@ -37,7 +32,7 @@
 
     html {
         overflow: scroll;
-        overflow-x: hidden;
+    {#overflow: hidden;#}
     }
 
     ::-webkit-scrollbar {
@@ -47,7 +42,10 @@
 
     /* Optional: show position indicator in red */
     ::-webkit-scrollbar-thumb {
-        background: #FF0000;
+        background-color: #afbcc2;
+        border: 3px solid transparent;
+        border-radius: 9px;
+        background-clip: content-box;
     }
 </style>
 </html>

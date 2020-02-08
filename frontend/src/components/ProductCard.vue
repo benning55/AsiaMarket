@@ -3,7 +3,7 @@
         <img class="w-4/6 object-cover mx-auto my-3"
              src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg"
              alt="Sunset in the mountains">
-        <div class="px-2 py-2  h-30">
+        <div class="px-2 py-2">
             <div class="text-md mb-2 title">The Coldest</div>
             <a class="text-lightGray line-through ml-2">60</a>
             <a class="text-2xl ml-2">36 ฿</a>

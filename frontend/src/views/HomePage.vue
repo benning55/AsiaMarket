@@ -16,59 +16,111 @@
             </button>
         </VueSlickCarousel>
 
-        <section class="mt-3">
-            <h1 class="my-3 text-xl">Promotion</h1>
-            <VueSlickCarousel v-bind="setting3">
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-            </VueSlickCarousel>
-        </section>
-
-        <div class=" overflow-auto" style="-webkit-overflow-scrolling: touch">
-            <div class="flex" style="width: 600%">
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
+        <div v-dragscroll class=" overflow-auto">
+            <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
+                <div class="w-1/4" v-for="category in mockup.categorys" :key="category.id">
+                    <button
+                            class="w-full bg-white mt-3 cs-border hover:bg-unHilight text-black py-2 px-4">
+                        {{category.title}}
+                    </button>
+                </div>
             </div>
-
         </div>
 
         <section class="mt-3">
+            <h1 class="my-3 text-xl">Promotion</h1>
+            <div v-dragscroll class=" overflow-auto">
+                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-3">
             <h1 class="my-3 text-xl">Recommend</h1>
-            <VueSlickCarousel v-bind="setting3">
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-            </VueSlickCarousel>
+            <div v-dragscroll class=" overflow-auto">
+                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="mt-3">
             <h1 class="my-3 text-xl">New Product</h1>
-            <VueSlickCarousel v-bind="setting3">
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-            </VueSlickCarousel>
+            <div v-dragscroll class=" overflow-auto">
+                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                    <div class="w-1/4">
+                        <ProductCard/>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 </template>
@@ -78,9 +130,14 @@
     import 'vue-slick-carousel/dist/vue-slick-carousel.css'
     import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
     import ProductCard from "../components/ProductCard";
+    import {dragscroll} from 'vue-dragscroll'
+    // import axios from 'axios'
 
     export default {
         name: 'MyComponent',
+        directives: {
+            dragscroll
+        },
         components: {VueSlickCarousel, ProductCard},
         data() {
             return {
@@ -116,7 +173,7 @@
                             }
                         },
                         {
-                            "breakpoint": 600,
+                            "breakpoint": 640,
                             "settings": {
                                 "slidesToShow": 4,
                             }
@@ -153,7 +210,7 @@
                             }
                         },
                         {
-                            "breakpoint": 600,
+                            "breakpoint": 640,
                             "settings": {
                                 "slidesToShow": 3,
                             }
@@ -192,6 +249,11 @@
                     ]
                 }
             }
+        },
+        created() {
+            // axios.get(this.$store.state.endpoints.productUrL).then((res) => {
+            //     console.log(res)
+            // }).catch()
         }
     }
 </script>
@@ -230,5 +292,9 @@
     .cs-border {
         border: 3px solid #e3e4e3;
         border-style: none solid none none
+    }
+
+    .w-25-per {
+        width: 25%;
     }
 </style>

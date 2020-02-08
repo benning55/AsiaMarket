@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
 import HomePage from "../views/HomePage";
 import Detail from "../views/Detail";
+import CategoryView from "../views/CategoryView";
 
 Vue.use(VueRouter)
 
@@ -31,9 +32,9 @@ const routes = [
     component: () => import('../views/Register')
   },
   {
-    path: '/movie',
-    name: 'movie',
-    component: () => import('../components/Movie')
+    path: '/category',
+    name: 'Category',
+    component: CategoryView
   },
   {
     path:'/detail',
