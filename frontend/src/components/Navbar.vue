@@ -3,12 +3,13 @@
         <!--        navbar desktop version-->
         <nav class="hidden sm:hidden md:hidden lg:block shadow-lg flex items-center justify-between flex-wrap bg-white py-6 fixed w-full z-50">
             <ul class="w-full">
-                <li class="hidden sm:hidden md:hidden lg:inline-block px-5">LOGO</li>
+                <li @click="goHome" class="hidden sm:hidden md:hidden lg:inline-block px-5">LOGO</li>
                 <li class="float-right px-5 flex-grow"><a @click="changeLocale(`en`)">EN </a> | <a
                         @click="changeLocale(`th`)"> TH</a>
                 </li>
             </ul>
         </nav>
+
 
         <!--        navbar mobile version-->
         <nav class="block sm:block md:block lg:hidden shadow-lg flex items-center justify-between flex-wrap bg-white py-5 fixed w-full z-50"
@@ -38,9 +39,7 @@
                     <li class="mb-1">Promotion</li>
                     <li class="mb-1">Recomment</li>
                     <li class="mb-4">New Product</li>
-                    <li class="mb-1">ddd</li>
-                    <li class="mb-1">ddd</li>
-                    <li class="mb-1">ddd</li>
+                    <li v-for="category in categorys" :key="category.id" class="mb-1">{{category.type}}</li>
                 </ul>
             </div>
         </div>
@@ -97,20 +96,9 @@
                     <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address</div>
                     <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">Payment</div>
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg">Product</div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Order history
+                    <div v-for="category in categorys" :key="category.id" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">{{category.type}}
                     </div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Personal
-                        Detail
-                    </div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address</div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Payment</div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Order history
-                    </div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Personal
-                        Detail
-                    </div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address</div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Payment</div>
+                    <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg"></div>
                     <div class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
                         Log Out
                     </div>
@@ -214,10 +202,25 @@
             return {
                 accountDrawer: false,
                 cartDrawer: false,
-                mobileDrawer: false
+                mobileDrawer: false,
+                categorys: [
+                        {id: 0, type: "Fruits and Vegetables", color: "green"},
+                        {id: 1, type: "Dry goods and Seasonings", color: "blue"},
+                        {id: 2, type: "Rice Flour and Noodles", color: "yellow"},
+                        {id: 3, type: "Condiments and Sauces", color: "red"},
+                        {id: 4, type: "Normal and Alcoholic Beverages", color: "black"},
+                        {id: 5, type: "Snack", color: "orange"},
+                        {id: 6, type: "Frozen Products", color: "purple"},
+                        {id: 7, type: "Other", color: "pink"},
+                    ]
             }
         },
         methods: {
+            goHome(){
+              this.$router.push({
+                  name:'HomePage'
+              })
+            },
             toggleOpacity() {
                 this.accountDrawer = false
                 this.cartDrawer = false
@@ -230,11 +233,10 @@
     }
 </script>
 
-<style scoped>
-    .font-l {
-        font-family: kanit light;
-    }
+<style>
 
+</style>
+<style scoped>
     .border-bottom {
         border-bottom: 1px solid #707070
     }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul class="w-full py-6">
-            <li class="inline-block px-5">LOGO</li>
+            <li class="inline-block px-5"></li>
         </ul>
         <VueSlickCarousel v-bind="setting1">
             <img v-for="image in mockup.showCarousel" :key="image.id" class="object-cover w-full h-56"
@@ -9,19 +9,12 @@
                  alt="Promotion">
         </VueSlickCarousel>
 
-        <VueSlickCarousel v-bind="setting2">
-            <button v-for="category in mockup.categorys" :key="category.id"
-                    class="bg-white mt-3 cs-border hover:bg-unHilight text-black py-2 px-4">
-                {{category.title}}
-            </button>
-        </VueSlickCarousel>
-
-        <div v-dragscroll class=" overflow-auto">
-            <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
+        <div v-dragscroll class="overflow-auto">
+            <div class="flex mt-3 w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
                 <div class="w-1/4" v-for="category in mockup.categorys" :key="category.id">
                     <button
-                            class="w-full bg-white mt-3 cs-border hover:bg-unHilight text-black py-2 px-4">
-                        {{category.title}}
+                            class="w-full bg-white  cs-border hover:bg-unHilight text-black py-2 px-4 h-full">
+                        {{category.type}}
                     </button>
                 </div>
             </div>
@@ -239,13 +232,14 @@
                         }
                     ],
                     categorys: [
-                        {id: 0, title: "friut"},
-                        {id: 1, title: "friut"},
-                        {id: 2, title: "friut"},
-                        {id: 3, title: "friut"},
-                        {id: 4, title: "friut"},
-                        {id: 5, title: "friut"},
-                        {id: 6, title: "friut"},
+                        {id: 0, type: "Fruits and Vegetables", color: "green"},
+                        {id: 1, type: "Dry goods and Seasonings", color: "blue"},
+                        {id: 2, type: "Rice Flour and Noodles", color: "yellow"},
+                        {id: 3, type: "Condiments and Sauces", color: "red"},
+                        {id: 4, type: "Normal and Alcoholic Beverages", color: "black"},
+                        {id: 5, type: "Snack", color: "orange"},
+                        {id: 6, type: "Frozen Products", color: "purple"},
+                        {id: 7, type: "Other", color: "pink"},
                     ]
                 }
             }

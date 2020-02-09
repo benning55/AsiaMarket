@@ -4,14 +4,19 @@
              src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg"
              alt="Sunset in the mountains">
         <div class="px-2 py-2">
-            <div class="text-md mb-2 title">The Coldest</div>
+<!--            <div class="text-md mb-2 title">The Coldest</div>-->
+            <button
+                    class="w-full text-left bg-white text-black py-2 h-full">
+                ategory.ty pedfs fsdfsdfsdvsd
+            </button>
+            <div class="text-md title text-green">Category 1</div>
             <a class="text-lightGray line-through ml-2">60</a>
             <a class="text-2xl ml-2">36 ฿</a>
             <a class="text-lightGray ml-2"> /piece</a>
             <div @mouseover="hover = true"
                  @mouseleave="hover = false"
                  v-if="hover"
-                 class="button-area mx-auto flex justify-between">
+                 class="button-area mx-auto flex justify-between mb-2">
                 <div class="button-increase  bg-green">
                     <i class="material-icons">remove</i>
                 </div>
@@ -23,7 +28,7 @@
             <div @mouseover="hover = true"
                  @mouseleave="hover = false"
                  v-if="!hover"
-                 class="button-area mx-auto flex justify-between" style="border: 1.5px solid #707070">
+                 class="button-area mx-auto flex justify-between mb-2" style="border: 1.5px solid #707070">
                 <div class="text-xl" style="margin: auto">Add</div>
             </div>
         </div>
@@ -40,7 +45,6 @@
 </script>
 <style scoped>
     .title {
-        height: 3em;
         line-height: 1.5em;
         overflow: hidden;
     }

@@ -9,12 +9,36 @@
                  alt="Promotion">
         </VueSlickCarousel>
 
-        <VueSlickCarousel v-bind="setting2">
-            <button v-for="category in mockup.categorys" :key="category.id"
-                    class="bg-white mt-3 cs-border hover:bg-unHilight text-black py-2 px-4">
-                {{category.title}}
-            </button>
-        </VueSlickCarousel>
+        <section class="mt-3 w-full">
+            <h1 class="my-3 text-xl">Promotion</h1>
+            <div class="flex flex-wrap">
+                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
+                    <ProductCard/>
+                </div>
+                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
+                    <ProductCard/>
+                </div>
+                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
+                    <ProductCard/>
+                </div>
+                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
+                    <ProductCard/>
+                </div>
+                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
+                    <ProductCard/>
+                </div>
+                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
+                    <ProductCard/>
+                </div>
+                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
+                    <ProductCard/>
+                </div>
+                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
+                    <ProductCard/>
+                </div>
+
+            </div>
+        </section>
     </div>
 
 </template>
@@ -23,13 +47,14 @@
     import VueSlickCarousel from 'vue-slick-carousel'
     import 'vue-slick-carousel/dist/vue-slick-carousel.css'
     import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
-    // import ProductCard from "../components/ProductCard";
+    import ProductCard from "../components/ProductCard";
     // import axios from 'axios'
 
     export default {
         name: 'CategoryView',
-        components:{
+        components: {
             VueSlickCarousel,
+            ProductCard
         },
         data() {
             return {
@@ -107,3 +132,25 @@
         }
     }
 </script>
+
+<style scoped>
+    .grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+
+    .grid-cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+
+    .grid-cols-5 {
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    }
+
+    .grid {
+        display: grid !important;
+    }
+</style>

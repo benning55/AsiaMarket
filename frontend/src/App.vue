@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+<!--        {{$router.currentRoute.name}}-->
         <Navbar/>
         <div class=" mx-auto px-0 sm:px-0 md:px-0 lg:px-56 xl:px-64">
             <router-view/>
@@ -32,6 +33,9 @@
 </script>
 
 <style lang="scss">
+    .font-l {
+        font-weight: 300;
+    }
     #app {
         font-family: 'Kanit', sans-serif;
     }

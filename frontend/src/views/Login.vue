@@ -1,11 +1,12 @@
 <template lang="html">
     <div>
         <ul class="w-full py-6">
-            <li class="inline-block px-5">LOGO</li>
+            <li class="inline-block px-5"> </li>
         </ul>
         <div class="auth">
-            <form class="mt-16 w-11/12 sm:w-4/5 md:w-2/3 lg:w-2/3 xl:w-2/3 mx-auto bg-white shadow-md px-8 pt-6 pb-8 mb-4"
+            <form class="mt-16 w-11/12 sm:w-4/5 md:w-3/5 lg:w-3/5 xl:w-3/5 mx-auto bg-white shadow-md px-3 sm:px-3 md:px-5 lg:px-16 xl:px-16 pt-6 pb-8 mb-4"
                   style="border-top: 6px solid #619F21;">
+                <div class="text-center text-2xl mb-10 mt-5 font-l">Login</div>
                 <div class="mb-4 sm:px-10 md:px-16 lg:px-16">
                     <label v-if="!validation.firstError('username')"
                            class="block text-sm mb-2"
@@ -41,6 +42,7 @@
                             class="w-full bg-green text-white py-2 px-20 focus:outline-none"
                             type="button">{{$t('login')}}
                     </button>
+                    <div class="text-center font-l mt-4" style="font-size: 10px">Use Asian market in First time? <span class="text-orange">Register Now</span></div>
                 </div>
             </form>
         </div>
