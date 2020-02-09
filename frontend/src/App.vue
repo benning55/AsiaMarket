@@ -56,5 +56,8 @@
     body {
         background-color: #e3e4e3;
     }
+    .border-green-top{
+        border-top: 6px solid #619F21;
+    }
 
 </style>

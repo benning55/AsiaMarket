@@ -232,14 +232,14 @@
                         }
                     ],
                     categorys: [
-                        {id: 0, type: "Fruits and Vegetables", color: "green"},
-                        {id: 1, type: "Dry goods and Seasonings", color: "blue"},
-                        {id: 2, type: "Rice Flour and Noodles", color: "yellow"},
-                        {id: 3, type: "Condiments and Sauces", color: "red"},
-                        {id: 4, type: "Normal and Alcoholic Beverages", color: "black"},
-                        {id: 5, type: "Snack", color: "orange"},
-                        {id: 6, type: "Frozen Products", color: "purple"},
-                        {id: 7, type: "Other", color: "pink"},
+                        {id: 1, type: "Fruits and Vegetables", color: "green"},
+                        {id: 2, type: "Dry goods and Seasonings", color: "blue"},
+                        {id: 3, type: "Rice Flour and Noodles", color: "yellow"},
+                        {id: 4, type: "Condiments and Sauces", color: "red"},
+                        {id: 5, type: "Normal and Alcoholic Beverages", color: "black"},
+                        {id: 6, type: "Snack", color: "orange"},
+                        {id: 7, type: "Frozen Products", color: "purple"},
+                        {id: 8, type: "Other", color: "pink"},
                     ]
                 }
             }

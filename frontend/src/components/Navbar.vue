@@ -39,7 +39,9 @@
                     <li class="mb-1">Promotion</li>
                     <li class="mb-1">Recomment</li>
                     <li class="mb-4">New Product</li>
-                    <li v-for="category in categorys" :key="category.id" class="mb-1">{{category.type}}</li>
+                    <li v-for="category in categorys" :key="category.id" class="mb-1 hover:text-green cursor-pointer">
+                        <span @click="goCategory(category)">{{category.type}}</span>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -96,7 +98,8 @@
                     <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address</div>
                     <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">Payment</div>
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg">Product</div>
-                    <div v-for="category in categorys" :key="category.id" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">{{category.type}}
+                    <div v-for="category in categorys" :key="category.id" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <span @click="goCategory(category)">{{category.type}}</span>
                     </div>
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg"></div>
                     <div class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
@@ -204,14 +207,14 @@
                 cartDrawer: false,
                 mobileDrawer: false,
                 categorys: [
-                        {id: 0, type: "Fruits and Vegetables", color: "green"},
-                        {id: 1, type: "Dry goods and Seasonings", color: "blue"},
-                        {id: 2, type: "Rice Flour and Noodles", color: "yellow"},
-                        {id: 3, type: "Condiments and Sauces", color: "red"},
-                        {id: 4, type: "Normal and Alcoholic Beverages", color: "black"},
-                        {id: 5, type: "Snack", color: "orange"},
-                        {id: 6, type: "Frozen Products", color: "purple"},
-                        {id: 7, type: "Other", color: "pink"},
+                        {id: 1, type: "Fruits and Vegetables", color: "green"},
+                        {id: 2, type: "Dry goods and Seasonings", color: "blue"},
+                        {id: 3, type: "Rice Flour and Noodles", color: "yellow"},
+                        {id: 4, type: "Condiments and Sauces", color: "red"},
+                        {id: 5, type: "Normal and Alcoholic Beverages", color: "black"},
+                        {id: 6, type: "Snack", color: "orange"},
+                        {id: 7, type: "Frozen Products", color: "purple"},
+                        {id: 8, type: "Other", color: "pink"},
                     ]
             }
         },
@@ -220,6 +223,12 @@
               this.$router.push({
                   name:'HomePage'
               })
+            },
+            goCategory(category){
+                this.$router.push({
+                    name:'Category',
+                    params:{id:category.id}
+                })
             },
             toggleOpacity() {
                 this.accountDrawer = false

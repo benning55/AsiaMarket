@@ -8,32 +8,12 @@
                  :src="image.image"
                  alt="Promotion">
         </VueSlickCarousel>
+        {{items}}
 
         <section class="mt-3 w-full">
             <h1 class="my-3 text-xl">Promotion</h1>
             <div class="flex flex-wrap">
-                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
-                    <ProductCard/>
-                </div>
-                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
-                    <ProductCard/>
-                </div>
-                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
-                    <ProductCard/>
-                </div>
-                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
-                    <ProductCard/>
-                </div>
-                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
-                    <ProductCard/>
-                </div>
-                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
-                    <ProductCard/>
-                </div>
-                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
-                    <ProductCard/>
-                </div>
-                <div class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
+                <div v-for="item in items" :key="item.id" class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
                     <ProductCard/>
                 </div>
 
@@ -48,7 +28,7 @@
     import 'vue-slick-carousel/dist/vue-slick-carousel.css'
     import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
     import ProductCard from "../components/ProductCard";
-    // import axios from 'axios'
+    import axios from 'axios'
 
     export default {
         name: 'CategoryView',
@@ -127,7 +107,26 @@
                         {id: 5, title: "friut"},
                         {id: 6, title: "friut"},
                     ]
-                }
+                },
+                items:[]
+            }
+        },
+        created() {
+            this.loadCategory()
+        },
+        methods: {
+            loadCategory() {
+                this.items = []
+                axios.post('http://localhost:8000/api/products/product/', {
+                    "category_id": this.$route.params.id
+                }).then(res=>this.items = res.data.data).catch()
+
+            }
+        },
+        watch:{
+            '$route.params.id'(){
+                console.log("change")
+                this.loadCategory()
             }
         }
     }
