@@ -14,5 +14,6 @@ urlpatterns = [
     path('list-all-user/', views.GetAllUser.as_view(), name='getAllUser'),
     path('profile/', views.ProfileApiView.as_view()),
     path('profile/<int:pk>/', views.ProfileApiView.as_view()),
-    path('user/address/', views.UserAddressApiView.as_view())
+    path('user/address/', views.UserAddressApiView.as_view()),
+    path('forget-password/', views.forget_password)
 ]

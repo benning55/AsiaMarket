@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 from core.models import User, Profile, Address
 from rest_framework.decorators import api_view, permission_classes
@@ -172,3 +174,23 @@ def address_register(request):
             return Response({"address": serializer.validated_data}, status=status.HTTP_200_OK)
 
         return Response({"Error": "Somethings Wrong"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST', ])
+@permission_classes([AllowAny, ])
+def forget_password(request):
+    """Test send EMAil"""
+    if request.method == 'POST':
+        data = request.data
+        user_email = data['email']
+        queryset = get_object_or_404(User.objects.all(), email=user_email)
+        message = render_to_string('forgot_password.html', {'bar': 'foo'})
+        send_mail(
+            'Reset Password',
+            message,
+            "support@Asiamarket.com",
+            [queryset.email],
+            html_message=message,
+            fail_silently=False,
+        )
+        return Response({'ben': 'working plz'}, status=status.HTTP_200_OK)
