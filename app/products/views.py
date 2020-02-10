@@ -55,9 +55,13 @@ def new_products(request):
     New 10 Product in system
     """
     if request.method == 'GET':
-        queryset = Product.objects.all().order_by('-id')[:10]
-        serializer = serializers.ProductSerializer(queryset, many=True)
-        return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+        queryset = Product.objects.all().order_by('-id')
+        if len(queryset) < 10:
+            return Response({"error": 'Data not enough'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            queryset = queryset[:10]
+            serializer = serializers.ProductSerializer(queryset, many=True)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET', ])
@@ -68,7 +72,9 @@ def recommend_products(request):
     """
     if request.method == 'GET':
         queryset = Product.objects.all()
-        random_items = random.sample(list(queryset), 10)
-        # print(random_items)
-        serializer = serializers.ProductSerializer(random_items, many=True)
-        return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+        if len(queryset) < 10:
+            return Response({"error": 'Data not enough'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            random_items = random.sample(list(queryset), 10)
+            serializer = serializers.ProductSerializer(random_items, many=True)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)

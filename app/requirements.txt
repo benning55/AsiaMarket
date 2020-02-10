@@ -7,3 +7,4 @@ djangorestframework-jwt==1.11.0
 requests==2.22.0
 sendgrid==6.1.1
 django-environ==0.4.5
+django-crispy-forms==1.8.1

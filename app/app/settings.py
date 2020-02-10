@@ -43,8 +43,11 @@ INSTALLED_APPS = [
     'corsheaders',
     'core',
     'accounts',
-    'products'
+    'products',
+    'crispy_forms'
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
