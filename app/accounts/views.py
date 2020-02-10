@@ -31,6 +31,24 @@ class GetAllUser(generics.ListAPIView):
     permission_classes = (IsAdminUser,)
 
 
+@api_view(['POST', ])
+@permission_classes([AllowAny, ])
+def register(request):
+    """
+    register user to the system
+    """
+    if request.method == 'POST':
+        """
+        Save new user
+        """
+        data = request.data
+        username = data['username']
+        password = data['password']
+        email = data['password']
+        first_name = data['first_name']
+        last_name = data['last_name']
+
+
 @api_view(['GET', 'DELETE', ])
 @permission_classes([IsAuthenticated, ])
 def user_view(request):
@@ -226,3 +244,5 @@ def reset_password(request, uidb64, token):
         form = ResetPassword()
 
     return render(request, 'reset_password.html', {'form': form})
+
+

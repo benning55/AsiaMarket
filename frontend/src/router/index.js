@@ -49,7 +49,7 @@ const routes = [
     path:'/address',
     name:'ViewAddress',
     component:ViewAddress
-  }
+  },
 ]
 
 const router = new VueRouter({

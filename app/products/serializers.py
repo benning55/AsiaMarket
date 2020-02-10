@@ -17,13 +17,16 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('id', 'category_name', 'title', 'pic1', 'pic2', 'pic3', 'url', 'description', 'price', 'quantity')
+        fields = ('id', 'category_name', 'category_color', 'title', 'pic1', 'pic2', 'pic3', 'url', 'description', 'price', 'quantity')
 
     category_name = serializers.SerializerMethodField('get_type_name')
+    category_color = serializers.SerializerMethodField('get_color')
 
     def get_type_name(self, obj):
         return obj.category.type
 
+    def get_color(self, obj):
+        return obj.category.color
 
 class ProductDataSerializer(serializers.ModelSerializer):
     """serializer for product model"""
