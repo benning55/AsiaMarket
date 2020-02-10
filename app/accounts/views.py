@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import generics
@@ -6,7 +6,11 @@ from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
+from accounts.forms import ResetPassword
 from core.models import User, Profile, Address
 from rest_framework.decorators import api_view, permission_classes
 from accounts import serializers
@@ -184,7 +188,12 @@ def forget_password(request):
         data = request.data
         user_email = data['email']
         queryset = get_object_or_404(User.objects.all(), email=user_email)
-        message = render_to_string('forgot_password.html', {'bar': 'foo'})
+        currnt_site = get_current_site(request)
+        message = render_to_string('forgot_password.html', {
+            'firstname': queryset.first_name,
+            'domain': currnt_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(queryset.id)),
+        })
         send_mail(
             'Reset Password',
             message,
@@ -193,4 +202,25 @@ def forget_password(request):
             html_message=message,
             fail_silently=False,
         )
-        return Response({'ben': 'working plz'}, status=status.HTTP_200_OK)
+        return Response({"status": "Email have been sent"}, status=status.HTTP_200_OK)
+
+
+def reset_password(request, uidb64):
+    """ Test activate account """
+    if request.method == 'POST':
+        form = ResetPassword(request.POST)
+        if form.is_valid():
+            try:
+                uid = force_text(urlsafe_base64_decode(uidb64), encoding='ascii')
+                user = User.objects.get(pk=uid)
+            except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+                user = None
+            if user is not None:
+                password1 = form.cleaned_data['password1']
+                user.set_password(password1)
+                user.save()
+            return render(request, 'success_reset.html', {'bar': 'foo'})
+    else:
+        form = ResetPassword()
+
+    return render(request, 'reset_password.html', {'form': form})
