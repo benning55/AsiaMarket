@@ -1,5 +1,7 @@
+import random
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -44,3 +46,29 @@ class ProductApiView(APIView):
         else:
             serializer = serializers.ProductSerializer(queryset_cat, many=True)
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', ])
+@permission_classes([AllowAny, ])
+def new_products(request):
+    """
+    New 10 Product in system
+    """
+    if request.method == 'GET':
+        queryset = Product.objects.all().order_by('-id')[:10]
+        serializer = serializers.ProductSerializer(queryset, many=True)
+        return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', ])
+@permission_classes([AllowAny, ])
+def recommend_products(request):
+    """
+    Random 10 recommend product
+    """
+    if request.method == 'GET':
+        queryset = Product.objects.all()
+        random_items = random.sample(list(queryset), 10)
+        # print(random_items)
+        serializer = serializers.ProductSerializer(random_items, many=True)
+        return Response({"data": serializer.data}, status=status.HTTP_200_OK)

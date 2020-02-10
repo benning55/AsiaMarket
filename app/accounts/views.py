@@ -11,6 +11,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from accounts.forms import ResetPassword
+from accounts.token import account_activation_token
 from core.models import User, Profile, Address
 from rest_framework.decorators import api_view, permission_classes
 from accounts import serializers
@@ -183,7 +184,7 @@ def address_register(request):
 @api_view(['POST', ])
 @permission_classes([AllowAny, ])
 def forget_password(request):
-    """Test send EMAil"""
+    """ Send email to user for change password """
     if request.method == 'POST':
         data = request.data
         user_email = data['email']
@@ -193,6 +194,7 @@ def forget_password(request):
             'firstname': queryset.first_name,
             'domain': currnt_site.domain,
             'uid': urlsafe_base64_encode(force_bytes(queryset.id)),
+            'token': account_activation_token.make_token(queryset)
         })
         send_mail(
             'Reset Password',
@@ -205,8 +207,8 @@ def forget_password(request):
         return Response({"status": "Email have been sent"}, status=status.HTTP_200_OK)
 
 
-def reset_password(request, uidb64):
-    """ Test activate account """
+def reset_password(request, uidb64, token):
+    """ reset password """
     if request.method == 'POST':
         form = ResetPassword(request.POST)
         if form.is_valid():
@@ -215,7 +217,7 @@ def reset_password(request, uidb64):
                 user = User.objects.get(pk=uid)
             except(TypeError, ValueError, OverflowError, User.DoesNotExist):
                 user = None
-            if user is not None:
+            if user is not None and account_activation_token.check_token(user, token):
                 password1 = form.cleaned_data['password1']
                 user.set_password(password1)
                 user.save()
