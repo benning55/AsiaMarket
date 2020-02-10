@@ -78,6 +78,10 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
+MIDDLEWARE_CLASSES = (
+    'app.CorsMiddleware'
+)
+
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     # TODO - set this properly for production

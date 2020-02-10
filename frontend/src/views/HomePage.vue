@@ -20,65 +20,44 @@
             </div>
         </div>
 
-        <section class="mt-3">
-            <h1 class="my-3 text-xl">Promotion</h1>
-            <div v-dragscroll class=" overflow-auto">
-                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!--        <section class="mt-3">-->
+        <!--            <h1 class="my-3 text-xl">Promotion</h1>-->
+        <!--            <div v-dragscroll class=" overflow-auto">-->
+        <!--                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
+        <!--                    <div class="w-1/4">-->
+        <!--                        <ProductCard/>-->
+        <!--                    </div>-->
+        <!--                    <div class="w-1/4">-->
+        <!--                        <ProductCard/>-->
+        <!--                    </div>-->
+        <!--                    <div class="w-1/4">-->
+        <!--                        <ProductCard/>-->
+        <!--                    </div>-->
+        <!--                    <div class="w-1/4">-->
+        <!--                        <ProductCard/>-->
+        <!--                    </div>-->
+        <!--                    <div class="w-1/4">-->
+        <!--                        <ProductCard/>-->
+        <!--                    </div>-->
+        <!--                    <div class="w-1/4">-->
+        <!--                        <ProductCard/>-->
+        <!--                    </div>-->
+        <!--                    <div class="w-1/4">-->
+        <!--                        <ProductCard/>-->
+        <!--                    </div>-->
+        <!--                    <div class="w-1/4">-->
+        <!--                        <ProductCard/>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </section>-->
 
         <section class="mt-3">
             <h1 class="my-3 text-xl">Recommend</h1>
-            <div v-dragscroll class=" overflow-auto">
+            <div v-dragscroll class="overflow-auto">
                 <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
+                    <div v-for="product in recommendProduct" :key="product.key" class="w-1/4">
+                        <ProductCard :productData="product"/>
                     </div>
                 </div>
             </div>
@@ -88,29 +67,8 @@
             <h1 class="my-3 text-xl">New Product</h1>
             <div v-dragscroll class=" overflow-auto">
                 <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
-                    </div>
-                    <div class="w-1/4">
-                        <ProductCard/>
+                    <div v-for="product in newestProduct" :key="product.key" class="w-1/4">
+                        <ProductCard :productData="product"/>
                     </div>
                 </div>
             </div>
@@ -124,7 +82,7 @@
     import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
     import ProductCard from "../components/ProductCard";
     import {dragscroll} from 'vue-dragscroll'
-    // import axios from 'axios'
+    import axios from 'axios'
 
     export default {
         name: 'MyComponent',
@@ -241,13 +199,20 @@
                         {id: 7, type: "Frozen Products", color: "purple"},
                         {id: 8, type: "Other", color: "pink"},
                     ]
-                }
+                },
+                recommendProduct: [],
+                newestProduct: []
             }
         },
         created() {
-            // axios.get(this.$store.state.endpoints.productUrL).then((res) => {
-            //     console.log(res)
-            // }).catch()
+            axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
+                console.log(res.data.data)
+                this.recommendProduct = res.data.data.slice(0, 8)
+            }).catch()
+            axios.get(this.$store.state.endpoints.newestProduct).then(res => {
+                console.log(res.data.data)
+                this.newestProduct = res.data.data.slice(0, 8)
+            }).catch()
         }
     }
 </script>

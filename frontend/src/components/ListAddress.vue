@@ -4,7 +4,6 @@
             {{address.address}} {{address.addition}} {{address.city}} {{address.postalCode}}
         </div>
         <div>
-
         </div>
     </div>
 </template>

@@ -1,17 +1,17 @@
 <template>
-    <div class="max-w-sm bg-white cs-border">
+    <div class="max-w-sm bg-white cs-border cursor-pointer" @click="goDetail(productData.id)">
         <img class="w-4/6 object-cover mx-auto my-3"
              src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg"
              alt="Sunset in the mountains">
         <div class="px-2 py-2">
-<!--            <div class="text-md mb-2 title">The Coldest</div>-->
-            <button
-                    class="w-full text-left bg-white text-black py-2 h-full">
-                ategory.ty pedfs fsdfsdfsdvsd
-            </button>
-            <div class="text-md title text-green">Category 1</div>
-            <a class="text-lightGray line-through ml-2">60</a>
-            <a class="text-2xl ml-2">36 ฿</a>
+            <div class="w-full text-left bg-white text-black py-2 h-24">
+                {{productData.title}}
+            </div>
+            <div class="text-left text-md title text-green h-12" :style="`color:${productData.category_color}`">
+                {{productData.category_name}}
+            </div>
+<!--            <a class="text-lightGray line-through ml-2">60</a>-->
+            <a class="text-2xl ml-2">{{productData.price}} €</a>
             <a class="text-lightGray ml-2"> /piece</a>
             <div @mouseover="hover = true"
                  @mouseleave="hover = false"
@@ -36,9 +36,20 @@
 </template>
 <script>
     export default {
+        props: [
+            "productData"
+        ],
         data() {
             return {
                 hover: false
+            }
+        },
+        methods:{
+            goDetail(id){
+                this.$router.push({
+                    name:'Detail',
+                    params:{id:id}
+                })
             }
         }
     }

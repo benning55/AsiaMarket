@@ -70,11 +70,11 @@
         validators: {
             username(value) {
                 return Validator.value(value)
-                    .required("กรุณาใส่อีเมลล์");
+                    .required("username");
             },
             password(value) {
                 return Validator.value(value)
-                    .required("กรุณาใส่รหัสผ่าน")
+                    .required("password")
                 // .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
             }
         },

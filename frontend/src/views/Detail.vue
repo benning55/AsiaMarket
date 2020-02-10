@@ -4,7 +4,7 @@
             <li class="inline-block px-5">LOGO</li>
         </ul>
         <section class="bg-white p-5 my-5">
-            <a><span>Home</span> > {{mockup.detail.data.category_id}} > {{mockup.detail.data.title}}</a>
+            <a><span>Home</span> > {{dataProduct.category_name}} > {{dataProduct.title}}</a>
         </section>
         <section class="my-5 mb-10">
             <div class="flex mb-4 bg-white">
@@ -33,14 +33,12 @@
                     </div>
                 </div>
                 <div class="w-6/12 md:5/12 lg:md:5/12 px-10 pt-12">
-                    <h1 class="text-3xl">Ctitle</h1>
+                    <h1 class="text-3xl">{{dataProduct.title}}</h1>
                     <h1 class="text-lightGray">unit</h1>
-                    <p class="mt-10">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                        Ipsum has been
-                    </p>
+                    <p class="mt-10"> {{dataProduct.description}}</p>
                 </div>
                 <div class="w-3/12 px-10 pt-12">
-                    <h1 class="text-4xl">30 $</h1>
+                    <h1 class="text-4xl">{{dataProduct.price}} $</h1>
                     <div @mouseover="hover = true"
                          @mouseleave="hover = false"
                          v-if="hover"
@@ -59,23 +57,20 @@
                          class="button-area flex justify-between" style="border: 1.5px solid #707070">
                         <div class="text-xl" style="margin: auto">Add</div>
                     </div>
-                    <h1 class="text-lightGray my-5">10 Left</h1>
+                    <h1 class="text-lightGray my-5">{{dataProduct.quantity}} Left</h1>
                 </div>
             </div>
         </section>
-        <h1 class="mb-2 text-xl">You may also like</h1>
-        <section class="mt-3 bg-white">
-            <VueSlickCarousel v-bind="setting3">
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-            </VueSlickCarousel>
 
+        <section class="mt-3">
+            <h1 class="mb-2 text-xl">You may also like</h1>
+            <div v-dragscroll class="overflow-auto">
+                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
+                    <div v-for="product in recommendProduct" :key="product.key" class="w-1/4">
+                        <ProductCard :productData="product"/>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 </template>
@@ -85,6 +80,7 @@
     import 'vue-slick-carousel/dist/vue-slick-carousel.css'
     import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
     import ProductCard from "../components/ProductCard";
+    import axios from "axios";
 
     export default {
         name: 'Detail',
@@ -148,8 +144,18 @@
                         }
                     ]
                 },
-                hover: false
+                hover: false,
+                recommendProduct: [],
+                dataProduct: []
             }
+        },
+        created() {
+            axios.get("http://localhost:8000/api/products/product/" + this.$route.params.id + "/").then(res => {
+                this.dataProduct = res.data.data
+            }).catch()
+            axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
+                this.recommendProduct = res.data.data.slice(0, 8)
+            }).catch()
         }
     }
 </script>

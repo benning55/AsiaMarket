@@ -14,7 +14,9 @@ export default new Vuex.Store({
       refreshJWT: 'http://localhost:8000/auth/refresh_token/',
       baseUrL: 'http://localhost:8000/api/accounts/',
       registerUrL: 'http://localhost:8000/api/accounts/register/',
-      productUrL: 'http://localhost:8000/api/products/product/'
+      productUrL: 'http://localhost:8000/api/products/product/',
+      recommendProduct:'http://localhost:8000/api/products/recommend/',
+      newestProduct:'http://localhost:8000/api/products/new/'
     }
   },
   mutations: {

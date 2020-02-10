@@ -8,13 +8,12 @@
                  :src="image.image"
                  alt="Promotion">
         </VueSlickCarousel>
-        {{items}}
 
         <section class="mt-3 w-full">
             <h1 class="my-3 text-xl">Promotion</h1>
             <div class="flex flex-wrap">
                 <div v-for="item in items" :key="item.id" class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
-                    <ProductCard/>
+                    <ProductCard :productData="item"/>
                 </div>
 
             </div>
