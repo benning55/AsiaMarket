@@ -105,11 +105,3 @@ class RegisterSerializer(serializers.Serializer):
     user = UserSerializer()
     profile = ProfileRegisterSerializer()
     address = AddressRegisterSerializer()
-
-    def create(self, validated_data):
-        user = super(UserSerializer, self.user).create(validated_data)
-        user.set_password(validated_data['password'])
-        user.save()
-        profile = Profile.objects.create(user_id=user.id)
-        profile.save()
-        return user
