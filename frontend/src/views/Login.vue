@@ -28,7 +28,8 @@
                            for="password">Please input Password</label>
                     <el-input id="password"
                               placeholder="Please input"
-                              v-model="password">
+                              v-model="password"
+                              show-password>
                     </el-input>
                 </div>
 
@@ -38,7 +39,9 @@
                             type="button">{{$t('login')}}
                     </button>
                     <div class="text-center font-l mt-4" style="font-size: 10px">Use Asian market in First time? <span
-                            @click="goRegister" class="text-orange">Register Now</span></div>
+                            @click="goRegister" class="text-orange cursor-pointer">Register Now</span></div>
+                    <div class="text-center font-l mt-4" style="font-size: 10px">Forget your password? <span
+                            @click="goForgetPassword" class="text-orange cursor-pointer">Click Here</span></div>
                 </div>
             </form>
         </div>
@@ -77,6 +80,11 @@
             goRegister() {
                 this.$router.push({
                     name: 'register'
+                })
+            },
+            goForgetPassword() {
+                this.$router.push({
+                    name: 'ForgetPassword'
                 })
             },
             authenticate() {

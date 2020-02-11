@@ -3,7 +3,7 @@
         <!--        navbar desktop version-->
         <nav class="hidden sm:hidden md:hidden lg:block shadow-lg flex items-center justify-between flex-wrap bg-white py-6 fixed w-full z-50">
             <ul class="w-full">
-                <li @click="goHome" class="hidden sm:hidden md:hidden lg:inline-block px-5">LOGO</li>
+                <li @click="goHome" class="hidden sm:hidden md:hidden lg:inline-block px-5 cursor-pointer">LOGO</li>
                 <li class="float-right px-5 flex-grow"><a @click="changeLocale(`en`)">EN </a> | <a
                         @click="changeLocale(`th`)"> TH</a>
                 </li>
@@ -19,7 +19,7 @@
                     class="inline-block sm:inline-block md:inline-block lg:hidden px-5 "><i
                         class="material-icons text-3xl">menu</i>
                 </li>
-                <li class="inline-block">Logo</li>
+                <li @click="goHome" class="inline-block cursor-pointer">Logo</li>
                 <li class="float-right px-5">
                     <div @click="cartDrawer = !cartDrawer, mobileDrawer =false" class="relative">
                         <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
@@ -35,9 +35,9 @@
         <div class="inset-y-0 left-0 fixed hidden sm:hidden md:hidden lg:block">
             <div class="container px-5">
                 <ul class="mt-24">
-                    <li @click="goHome" class="mb-4">Home</li>
-                    <li class="mb-1">Promotion</li>
-                    <li class="mb-1 hover:text-green cursor-pointer">Recomment</li>
+                    <li @click="goHome" class="mb-4 hover:text-green cursor-pointer">Home</li>
+                    <li class="mb-1 text-gray cursor-pointer">Promotion</li>
+                    <li class="mb-1 text-gray cursor-pointer">Recomment</li>
                     <li @click="goCategory({id:'new-product'})" class="mb-4 hover:text-green cursor-pointer">New
                         Product
                     </li>

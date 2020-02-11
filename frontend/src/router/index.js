@@ -6,6 +6,7 @@ import Detail from "../views/Detail";
 import CategoryView from "../views/CategoryView";
 import ViewProfile from "../views/ViewProfile";
 import ViewAddress from "../views/ViewAddress";
+import ForgetPassword from "../views/ForgetPassword";
 
 Vue.use(VueRouter)
 
@@ -50,6 +51,11 @@ const routes = [
     name:'ViewAddress',
     component:ViewAddress
   },
+  {
+    path:'/forget-password',
+    name:'ForgetPassword',
+    component:ForgetPassword
+  }
 ]
 
 const router = new VueRouter({

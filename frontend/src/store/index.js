@@ -16,7 +16,8 @@ export default new Vuex.Store({
       registerUrL: 'http://localhost:8000/api/accounts/register/',
       productUrL: 'http://localhost:8000/api/products/product/',
       recommendProduct:'http://localhost:8000/api/products/recommend/',
-      newestProduct:'http://localhost:8000/api/products/new/'
+      newestProduct:'http://localhost:8000/api/products/new/',
+      forgotPasswordUrL:'http://localhost:8000/api/accounts/forget-password/'
     }
   },
   mutations: {
