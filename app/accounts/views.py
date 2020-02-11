@@ -72,6 +72,31 @@ def register(request):
         }
         serializer = serializers.RegisterSerializer(data=timeline)
         if serializer.is_valid():
+            new_user = User.objects.create(
+                username=user['username'],
+                first_name=user['first_name'],
+                last_name=user['last_name'],
+                email=user['email']
+            )
+            new_user.set_password(user['password'])
+            new_user.save()
+            new_profile = Profile.objects.create(
+                user_id=new_user.id,
+                tel=profile['tel'],
+                sex=profile['sex'],
+                dob=profile['dob'],
+                profile_status=True
+            )
+            new_profile.save()
+            new_address = Address.objects.create(
+                user_id=new_user.id,
+                house_number=address['house_number'],
+                street=address['street'],
+                post_code=address['post_code'],
+                city=address['city']
+            )
+            new_address.recipient = new_user.last_name
+            new_address.save()
             return Response({'data': serializer.data}, status=status.HTTP_200_OK)
         return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
