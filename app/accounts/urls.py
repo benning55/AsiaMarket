@@ -8,7 +8,7 @@ router.register('profile', views.ProfileApiView, base_name='profile-viewset'),
 router.register('user_address', views.UserAddressApiView, base_name='address-viewset')
 
 urlpatterns = [
-    path('register/', views.CreateUser.as_view(), name='register'),
+    path('register/', views.register, name='register'),
     path('register/address/', views.address_register),
     path('user/', views.user_view),
     path('list-all-user/', views.GetAllUser.as_view(), name='getAllUser'),

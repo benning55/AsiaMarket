@@ -60,6 +60,14 @@ class ProfileSerializer(serializers.ModelSerializer):
         return instance
 
 
+class ProfileRegisterSerializer(serializers.ModelSerializer):
+    """Serializer for Profile model"""
+
+    class Meta:
+        model = Profile
+        fields = ('tel', 'dob', 'sex')
+
+
 class AddressSerializer(serializers.ModelSerializer):
     """Serializer for address model"""
     recipient = serializers.CharField(allow_blank=True)
@@ -83,3 +91,25 @@ class AddressSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class AddressRegisterSerializer(serializers.ModelSerializer):
+    """Serializer for address model"""
+
+    class Meta:
+        model = Address
+        fields = ('street', 'house_number', 'post_code', 'city')
+
+
+class RegisterSerializer(serializers.Serializer):
+    user = UserSerializer()
+    profile = ProfileRegisterSerializer()
+    address = AddressRegisterSerializer()
+
+    def create(self, validated_data):
+        user = super(UserSerializer, self.user).create(validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        profile = Profile.objects.create(user_id=user.id)
+        profile.save()
+        return user

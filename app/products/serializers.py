@@ -28,6 +28,7 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_color(self, obj):
         return obj.category.color
 
+
 class ProductDataSerializer(serializers.ModelSerializer):
     """serializer for product model"""
     title = serializers.CharField(max_length=255, allow_blank=True)

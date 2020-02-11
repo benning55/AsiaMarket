@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from rest_framework import status
+import json
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
@@ -9,12 +10,16 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from collections import namedtuple
 
 from accounts.forms import ResetPassword
 from accounts.token import account_activation_token
 from core.models import User, Profile, Address
 from rest_framework.decorators import api_view, permission_classes
 from accounts import serializers
+
+
+Timeline = namedtuple('Timeline', ('user', 'profile'))
 
 
 class CreateUser(generics.CreateAPIView):
@@ -42,11 +47,33 @@ def register(request):
         Save new user
         """
         data = request.data
-        username = data['username']
-        password = data['password']
-        email = data['password']
-        first_name = data['first_name']
-        last_name = data['last_name']
+        user = {
+            'username': data['username'],
+            'password': data['password'],
+            'email': data['email'],
+            'first_name': data['firstname'],
+            'last_name': data['lastname']
+        }
+        profile = {
+            'tel': data['phone'],
+            'dob': data['dob'],
+            'sex': data['sex']
+        }
+        address = {
+            'house_number': data['address']['house_number'],
+            'street': data['address']['street'],
+            'post_code': data['address']['postalCode'],
+            'city': data['address']['city']
+        }
+        timeline = {
+            'user': user,
+            'profile': profile,
+            'address': address
+        }
+        serializer = serializers.RegisterSerializer(data=timeline)
+        if serializer.is_valid():
+            return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+        return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'DELETE', ])
@@ -196,7 +223,7 @@ def address_register(request):
             address.save()
             return Response({"address": serializer.validated_data}, status=status.HTTP_200_OK)
 
-        return Response({"Error": "Somethings Wrong"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"Error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST', ])
