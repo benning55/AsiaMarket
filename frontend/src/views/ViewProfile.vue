@@ -112,7 +112,6 @@
                 </div>
             </div>
         </div>
-        {{$store.state.authUser}}
     </div>
 </template>
 
@@ -161,11 +160,11 @@
         methods: {
             loadUserData() {
                 this.userData = {
-                    firstname: this.$store.state.authUser.user.firstname,
-                    lastname: this.$store.state.authUser.user.lastname,
+                    firstname: this.$store.state.authUser.user.first_name,
+                    lastname: this.$store.state.authUser.user.last_name,
                     email: this.$store.state.authUser.user.email,
-                    phone: '0501326252',
-                    dob: '12-12-2012'
+                    phone: this.$store.state.authUser.user.email,
+                    dob: this.$store.state.authUser.user.email
                 }
                 this.equal()
             },
