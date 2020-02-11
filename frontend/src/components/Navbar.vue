@@ -35,7 +35,7 @@
         <div class="inset-y-0 left-0 fixed hidden sm:hidden md:hidden lg:block">
             <div class="container px-5">
                 <ul class="mt-24">
-                    <li class="mb-4">Home</li>
+                    <li @click="goHome" class="mb-4">Home</li>
                     <li class="mb-1">Promotion</li>
                     <li class="mb-1 hover:text-green cursor-pointer">Recomment</li>
                     <li @click="goCategory({id:'new-product'})" class="mb-4 hover:text-green cursor-pointer">New

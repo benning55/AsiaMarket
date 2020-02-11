@@ -42,8 +42,8 @@
                                class="block text-red text-sm mb-2 text-left"
                                for="sex">Please Select Gender</label>
                         <el-radio-group id="sex" v-model="sex" style="border-radius: 0px">
-                            <el-radio-button label="male">Male</el-radio-button>
-                            <el-radio-button label="female">Female</el-radio-button>
+                            <el-radio-button label="Male">Male</el-radio-button>
+                            <el-radio-button label="Female">Female</el-radio-button>
                         </el-radio-group>
                     </div>
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
@@ -105,11 +105,13 @@
                             <label v-else
                                    class="block text-red text-sm mb-2">Please input Date of Birth</label>
                             <el-date-picker
-                                    style="width: 100%;border-radius: 0epx"
+                                    style="width: 100%;border-radius: 0px"
                                     v-model="dob"
                                     type="date"
                                     placeholder="Pick a date"
-                                    default-value="2010-10-01">
+                                    default-value="2000-01-01"
+                                    format="yyyy-MM-dd"
+                                    value-format="yyyy-MM-dd">
                             </el-date-picker>
                         </div>
                         <div class="mb-6 pl-2 w-1/2">
@@ -121,6 +123,7 @@
                                    for="phone">Please input Phone Number</label>
                             <el-input id="phone"
                                       placeholder="Please input"
+                                      type="number"
                                       v-model="phone">
                             </el-input>
                         </div>
@@ -170,7 +173,8 @@
                                for="password">Please input Password</label>
                         <el-input id="password"
                                   placeholder="Please input"
-                                  v-model="password">
+                                  v-model="password"
+                                  show-password>
                         </el-input>
                     </div>
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
@@ -182,7 +186,8 @@
                                for="password2">Please input Password Again</label>
                         <el-input id="password2"
                                   placeholder="Please input"
-                                  v-model="password2">
+                                  v-model="password2"
+                                  show-password>
                         </el-input>
                     </div>
                     <div class="flex justify-between sm:px-10 md:px-16 lg:px-16">
@@ -211,7 +216,6 @@
 <script>
     import axios from 'axios'
     import {Validator} from "../main";
-    // import {Validator} from "../main";
 
     export default {
         name: 'Register',
@@ -336,26 +340,55 @@
                         this.validation.firstError('password') == null &&
                         this.validation.firstError('password2') == null
                     ) {
-                        this.state++
+                        this.registered()
                     }
                 }
             },
             registered() {
                 const payload = {
-                    username: this.username,
+                    email: this.email,
                     password: this.password,
-                    first_name: '',
-                    last_name: '',
-                    email: this.email
+                    username: this.username,
+                    firstname: this.firstname,
+                    lastname: this.lastname,
+                    phone: this.phone,
+                    dob: this.dob,
+                    sex: this.sex,
+                    address: {
+                        house_number: this.houseNumber,
+                        street: this.street,
+                        city: this.city,
+                        postalCode: this.postalCode
+                    }
                 };
+                const payloa = {
+                    email: "60050@kmitl.ac.th",
+                    password: "ning123456",
+                    username: "ningNongz",
+                    firstname: "woranan",
+                    lastname: "buathong",
+                    phone: "0895652189",
+                    dob: "2012-12-12",
+                    sex: "Male",
+                    address: {
+                        house_number: "45/9 village 1",
+                        street: "xxx road, green building",
+                        city: "Berlin",
+                        postalCode: "12021"
+                    }
+                };
+                console.log(payloa)
+                console.log(payload)
                 axios.post(this.$store.state.endpoints.registerUrL, payload)
                     .then((response) => {
                         console.log(response.data);
-                        alert(response.data);
+                        this.$router.push({
+                            name: "login"
+                        })
                     })
                     .catch((error) => {
                         console.log(error);
-                        alert('fuck you');
+                        alert(error.message);
                     })
             }
         },
