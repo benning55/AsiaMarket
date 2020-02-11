@@ -124,7 +124,7 @@
                         this.titleCategory = "New Product"
                     }).catch()
                 } else {
-                    axios.post('http://localhost:8000/api/products/product/', {
+                    axios.post(this.$store.state.endpoints.productUrL, {
                         "category_id": this.$route.params.id
                     }).then(res => {
                         this.items = res.data.data
