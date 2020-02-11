@@ -90,10 +90,12 @@
 
                     <!--                    show when not log in-->
                     <div v-if="!$store.state.isAuthenticated">
-                        <div @click="goLogin" class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
+                        <div @click="goLogin"
+                             class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
                             Login
                         </div>
-                        <div @click="goRegister" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <div @click="goRegister"
+                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                             Register
                         </div>
                     </div>
@@ -194,10 +196,12 @@
                 <div class="relative h-100 w-70">
                     <!--                    show when not log in-->
                     <div v-if="!$store.state.isAuthenticated">
-                        <div @click="goLogin" class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
+                        <div @click="goLogin"
+                             class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
                             Login
                         </div>
-                        <div @click="goRegister" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <div @click="goRegister"
+                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                             Register
                         </div>
                     </div>
@@ -205,7 +209,7 @@
                     <!--                    show when logged in-->
                     <div v-else>
                         <div class="py-3 px-10 text-xl border-bottom hover:bg-unHilight cursor-pointer">
-                            <i @click="mobileDrawer =! mobileDrawer"
+                            <i @click="accountDrawer =! accountDrawer"
                                class="material-icons text-2xl cursor-pointer absolute"
                                style="top:7px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
                             Firstname Lastname
@@ -213,7 +217,8 @@
                         <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                             Order history
                         </div>
-                        <div @click="goProfile" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <div @click="goProfile"
+                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                             Personal Detail
                         </div>
                         <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
@@ -221,6 +226,11 @@
                         </div>
                         <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">
                             Payment
+                        </div>
+                        <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg"></div>
+                        <div v-if="$store.state.isAuthenticated" @click="logout"
+                             class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
+                            Log Out
                         </div>
                     </div>
                 </div>
@@ -262,21 +272,21 @@
                 })
                 this.toggleOpacity()
             },
-            goLogin(){
+            goLogin() {
                 this.$router.push({
-                    name:"login"
+                    name: "login"
                 })
                 this.toggleOpacity()
             },
-            goRegister(){
+            goRegister() {
                 this.$router.push({
-                    name:"register"
+                    name: "register"
                 })
                 this.toggleOpacity()
             },
-            goProfile(){
+            goProfile() {
                 this.$router.push({
-                    name:'ViewProfile'
+                    name: 'ViewProfile'
                 })
                 this.toggleOpacity()
             },

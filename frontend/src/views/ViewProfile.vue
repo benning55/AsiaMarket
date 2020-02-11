@@ -162,7 +162,7 @@
             loadUserData() {
                 this.userData = {
                     firstname: this.$store.state.authUser.user.firstname,
-                    lastname: 'mennakred',
+                    lastname: this.$store.state.authUser.user.lastname,
                     email: this.$store.state.authUser.user.email,
                     phone: '0501326252',
                     dob: '12-12-2012'

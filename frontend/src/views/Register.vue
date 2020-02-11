@@ -16,10 +16,10 @@
                             <label v-else
                                    class="block text-red text-sm mb-2"
                                    for="firstname">Please input Firstname</label>
-                            <input v-model="firstname"
-                                   class="appearance-none border w-full py-2 px-3 text-gray leading-tight focus:outline-none"
-                                   id="firstname"
-                                   type="text"/>
+                            <el-input id="firstname"
+                                      placeholder="Please input"
+                                      v-model="firstname">
+                            </el-input>
                         </div>
                         <div class="mb-6 pl-2 w-1/2">
                             <label v-if="!validation.firstError('lastname')"
@@ -27,44 +27,62 @@
                                    for="lastname">Lastname</label>
                             <label v-else class="block text-red text-sm mb-2"
                                    for="lastname">Please input Lastname</label>
-                            <input v-model="lastname"
-                                   class="appearance-none border w-full py-2 px-3 text-gray mb-3 leading-tight focus:outline-none"
-                                   id="lastname"
-                                   type="text"/>
+                            <el-input id="lastname"
+                                      placeholder="Please input"
+                                      v-model="lastname">
+                            </el-input>
                         </div>
                     </div>
-                    <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
-                        <label v-if="!validation.firstError('address')"
-                               class="block text-sm mb-2"
-                               for="address">Address</label>
+
+                    <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full text-center ">
+                        <label v-if="!validation.firstError('sex')"
+                               class="block text-sm mb-2 text-left"
+                               for="sex">Select Gender</label>
                         <label v-else
-                               class="block text-red text-sm mb-2"
-                               for="address">Please input Address</label>
-                        <input v-model="address"
-                               class="appearance-none border w-full py-2 px-3 text-gray mb-3 leading-tight focus:outline-none"
-                               id="address"
-                               type="text"/>
+                               class="block text-red text-sm mb-2 text-left"
+                               for="sex">Please Select Gender</label>
+                        <el-radio-group id="sex" v-model="sex" style="border-radius: 0px">
+                            <el-radio-button label="male">Male</el-radio-button>
+                            <el-radio-button label="female">Female</el-radio-button>
+                        </el-radio-group>
                     </div>
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
-                        <label class="block text-sm mb-2"
-                               for="addition">Addition Information</label>
-                        <input v-model="addition"
-                               class="appearance-none border w-full py-2 px-3 text-gray mb-3 leading-tight focus:outline-none"
-                               id="addition"
-                               type="text"/>
+                        <label v-if="!validation.firstError('houseNumber')"
+                               class="block text-sm mb-2"
+                               for="houseNumber">House Number</label>
+                        <label v-else
+                               class="block text-red text-sm mb-2"
+                               for="houseNumber">Please input House Number</label>
+                        <el-input id="houseNumber"
+                                  placeholder="Please input"
+                                  v-model="houseNumber">
+                        </el-input>
+                    </div>
+                    <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
+                        <label v-if="!validation.firstError('street')"
+                               class="block text-sm mb-2"
+                               for="houseNumber">Street</label>
+                        <label v-else class="block text-sm mb-2 text-red"
+                               for="street">Please input Street</label>
+                        <el-input id="street"
+                                  placeholder="Please input"
+                                  v-model="street">
+                        </el-input>
                     </div>
                     <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-16">
                         <div class="mb-4 pr-2 w-1/2">
                             <label v-if="!validation.firstError('city')"
-                                   class="block text-sm mb-2"
-                                   for="city"> City</label>
+                                   class="block text-sm mb-2"> City</label>
                             <label v-else
-                                   class="block text-red text-sm mb-2"
-                                   for="city">Please input City</label>
-                            <input v-model="city"
-                                   class="appearance-none border w-full py-2 px-3 text-gray leading-tight focus:outline-none"
-                                   id="city"
-                                   type="text"/>
+                                   class="block text-red text-sm mb-2">Please input City</label>
+                            <el-select v-model="city" placeholder="Select">
+                                <el-option
+                                        v-for="item in cityOptions"
+                                        :key="item"
+                                        :label="item"
+                                        :value="item">
+                                </el-option>
+                            </el-select>
                         </div>
                         <div class="mb-6 pl-2 w-1/2">
                             <label v-if="!validation.firstError('postalCode')"
@@ -73,24 +91,26 @@
                             <label v-else
                                    class="block text-red text-sm mb-2"
                                    for="postal">Please input Postal</label>
-                            <input v-model="postalCode"
-                                   class="appearance-none border w-full py-2 px-3 text-gray mb-3 leading-tight focus:outline-none"
-                                   id="postal"
-                                   type="text"/>
+                            <el-input id="postal"
+                                      placeholder="Please input"
+                                      type="number"
+                                      v-model="postalCode">
+                            </el-input>
                         </div>
                     </div>
                     <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-16">
                         <div class="mb-4 pr-2 w-1/2">
                             <label v-if="!validation.firstError('dob')"
-                                   class="block text-sm mb-2"
-                                   for="dob">Date of Birth</label>
+                                   class="block text-sm mb-2">Date of Birth</label>
                             <label v-else
-                                   class="block text-red text-sm mb-2"
-                                   for="dob">Please input Date of Birth</label>
-                            <input v-model="dob"
-                                   class="appearance-none border w-full py-2 px-3 text-gray leading-tight focus:outline-none"
-                                   id="dob"
-                                   type="text"/>
+                                   class="block text-red text-sm mb-2">Please input Date of Birth</label>
+                            <el-date-picker
+                                    style="width: 100%;border-radius: 0epx"
+                                    v-model="dob"
+                                    type="date"
+                                    placeholder="Pick a date"
+                                    default-value="2010-10-01">
+                            </el-date-picker>
                         </div>
                         <div class="mb-6 pl-2 w-1/2">
                             <label v-if="!validation.firstError('phone')"
@@ -99,10 +119,10 @@
                             <label v-else
                                    class="block text-red text-sm mb-2"
                                    for="phone">Please input Phone Number</label>
-                            <input v-model="phone"
-                                   class="appearance-none border w-full py-2 px-3 text-gray mb-3 leading-tight focus:outline-none"
-                                   id="phone"
-                                   type="text"/>
+                            <el-input id="phone"
+                                      placeholder="Please input"
+                                      v-model="phone">
+                            </el-input>
                         </div>
                     </div>
                     <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-16">
@@ -124,10 +144,10 @@
                         <label v-else
                                class="block text-red text-sm mb-2"
                                for="email">Please input Email</label>
-                        <input v-model="email"
-                               class="appearance-none border w-full py-2 px-3 text-gray mb-3 leading-tight focus:outline-none"
-                               id="email"
-                               type="text"/>
+                        <el-input id="email"
+                                  placeholder="Please input"
+                                  v-model="email">
+                        </el-input>
                     </div>
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
                         <label v-if="!validation.firstError('username')"
@@ -136,10 +156,10 @@
                         <label v-else
                                class="block text-red text-sm mb-2"
                                for="username">Please input Username</label>
-                        <input v-model="username"
-                               class="appearance-none border w-full py-2 px-3 text-gray mb-3 leading-tight focus:outline-none"
-                               id="username"
-                               type="text"/>
+                        <el-input id="username"
+                                  placeholder="Please input"
+                                  v-model="username">
+                        </el-input>
                     </div>
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
                         <label v-if="!validation.firstError('password')"
@@ -148,10 +168,10 @@
                         <label v-else
                                class="block text-red text-sm mb-2"
                                for="password">Please input Password</label>
-                        <input v-model="password"
-                               class="appearance-none border w-full py-2 px-3 text-gray mb-3 leading-tight focus:outline-none"
-                               id="password"
-                               type="text"/>
+                        <el-input id="password"
+                                  placeholder="Please input"
+                                  v-model="password">
+                        </el-input>
                     </div>
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
                         <label v-if="!validation.firstError('password2')"
@@ -160,10 +180,10 @@
                         <label v-else
                                class="block text-red text-sm mb-2"
                                for="password2">Please input Password Again</label>
-                        <input v-model="password2"
-                               class="appearance-none border w-full py-2 px-3 text-gray mb-3 leading-tight focus:outline-none"
-                               id="password2"
-                               type="text"/>
+                        <el-input id="password2"
+                                  placeholder="Please input"
+                                  v-model="password2">
+                        </el-input>
                     </div>
                     <div class="flex justify-between sm:px-10 md:px-16 lg:px-16">
                         <div class="mb-4 pr-2 w-1/3">
@@ -199,8 +219,9 @@
             return {
                 firstname: '',
                 lastname: '',
-                address: '',
-                addition: '',
+                sex: '',
+                houseNumber: '',
+                street: '',
                 city: '',
                 postalCode: '',
                 dob: '',
@@ -209,7 +230,25 @@
                 username: '',
                 password: '',
                 password2: '',
-                state: 0
+                state: 0,
+                cityOptions: [
+                    'Baden-Württemberg',
+                    'Bayern',
+                    'Berlin',
+                    'Brandenburg',
+                    'Bremen',
+                    'Hamburg',
+                    'Hessen',
+                    'Niedersachsen',
+                    'Mecklenburg-Vorpommern',
+                    'Nordrhein-Westfalen',
+                    'Rheinland-Pfalz',
+                    'Saarland',
+                    'Sachsen',
+                    'Sachsen-Anhalt',
+                    'Schleswig-Holstein',
+                    'Thüringen'
+                ]
             }
         },
         validators: {
@@ -222,7 +261,15 @@
                     .required("lastname")
                 // .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
             },
-            address(value) {
+            sex(value) {
+                return Validator.value(value)
+                    .required("sex")
+            },
+            houseNumber(value) {
+                return Validator.value(value)
+                    .required("address")
+            },
+            street(value) {
                 return Validator.value(value)
                     .required("address")
             },
@@ -267,11 +314,13 @@
         methods: {
             addState() {
                 if (this.state == 0) {
-                    this.$validate(['firstname', 'lastname', 'address', 'city', 'postalCode', 'dob', 'phone'])
+                    this.$validate(['firstname', 'lastname', 'sex', 'houseNumber', 'street', 'city', 'postalCode', 'dob', 'phone'])
                     if (
                         this.validation.firstError('firstname') == null &&
                         this.validation.firstError('lastname') == null &&
-                        this.validation.firstError('address') == null &&
+                        this.validation.firstError('sex') == null &&
+                        this.validation.firstError('houseNumber') == null &&
+                        this.validation.firstError('street') == null &&
                         this.validation.firstError('city') == null &&
                         this.validation.firstError('postalCode') == null &&
                         this.validation.firstError('dob') == null &&
@@ -312,3 +361,16 @@
         },
     }
 </script>
+
+<style scoped>
+    input {
+        border-radius: 0;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .el-input--suffix .el-input__inner {
+        padding-right: 30px;
+        border-radius: 0px;
+    }
+</style>

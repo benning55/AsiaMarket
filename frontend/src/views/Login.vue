@@ -1,7 +1,7 @@
 <template lang="html">
     <div>
         <ul class="w-full py-6">
-            <li class="inline-block px-5"> </li>
+            <li class="inline-block px-5"></li>
         </ul>
         <div class="auth">
             <form class="mt-16 w-11/12 sm:w-4/5 md:w-3/5 lg:w-3/5 xl:w-3/5 mx-auto bg-white shadow-md px-3 sm:px-3 md:px-5 lg:px-16 xl:px-16 pt-6 pb-8 mb-4"
@@ -14,14 +14,10 @@
                     <label v-else
                            class="block text-red text-sm mb-2"
                            for="username">Please input Username</label>
-                    <input
-                            v-model="username"
-                            v-bind:class="{ 'border-red': validation.firstError('username') }"
-                            class="appearance-none border w-full py-2 px-3 text-gray leading-tight focus:outline-none"
-                            id="username"
-                            type="text"
-                    />
-
+                    <el-input id="username"
+                              placeholder="Please input"
+                              v-model="username">
+                    </el-input>
                 </div>
                 <div class="mb-6 sm:px-10 md:px-16 lg:px-16">
                     <label v-if="!validation.firstError('password')"
@@ -30,11 +26,10 @@
                     <label v-else
                            class="block text-red text-sm mb-2"
                            for="password">Please input Password</label>
-                    <input v-model="password"
-                           v-bind:class="{ 'border-red': validation.firstError('password') }"
-                           class="appearance-none border w-full py-2 px-3 text-gray mb-3 leading-tight focus:outline-none"
-                           id="password"
-                           type="text"/>
+                    <el-input id="password"
+                              placeholder="Please input"
+                              v-model="password">
+                    </el-input>
                 </div>
 
                 <div class="mb-6 sm:px-10 md:px-16 lg:px-16">
@@ -42,7 +37,8 @@
                             class="w-full bg-green text-white py-2 px-20 focus:outline-none"
                             type="button">{{$t('login')}}
                     </button>
-                    <div class="text-center font-l mt-4" style="font-size: 10px">Use Asian market in First time? <span @click="goRegister" class="text-orange">Register Now</span></div>
+                    <div class="text-center font-l mt-4" style="font-size: 10px">Use Asian market in First time? <span
+                            @click="goRegister" class="text-orange">Register Now</span></div>
                 </div>
             </form>
         </div>
@@ -55,8 +51,7 @@
 
     export default {
         name: "Login",
-        comments: {
-        },
+        comments: {},
         data() {
             return {
                 username: '',
@@ -79,10 +74,10 @@
             }
         },
         methods: {
-            goRegister(){
-              this.$router.push({
-                  name:'register'
-              })
+            goRegister() {
+                this.$router.push({
+                    name: 'register'
+                })
             },
             authenticate() {
                 this.$validate(["username", "password"]);

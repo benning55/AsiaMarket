@@ -11,10 +11,12 @@ import i18n from "./plugins/i18n";
 import VueSlickCarousel from 'vue-slick-carousel'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import './assets/css/element-variables.scss'
+import locale from 'element-ui/lib/locale/lang/th'
 import VueDragscroll from 'vue-dragscroll'
 
 Vue.use(VueDragscroll)
-Vue.use(ElementUI);
+Vue.use(ElementUI, {locale});
 
 window.$ = window.jQuery = jQuery;
 import 'popper.js'
