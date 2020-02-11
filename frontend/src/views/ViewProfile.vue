@@ -8,7 +8,7 @@
             <div class="flex justify-between mb-5">
                 <h1 class="text-xl font-l text-gray">Firstname</h1>
                 <div v-if="!isEditFirstname" class="md:flex lg:flex xl:flex">
-                    <h1 class="text-xl text-right">{{mockupData.userData.firstname}}</h1>
+                    <h1 class="text-xl text-right">{{userData.firstname}}</h1>
                     <h1 @click="isEditFirstname = !isEditFirstname"
                         class="text-sm text-right text-orange self-center ml-2">Edit</h1>
                 </div>
@@ -33,7 +33,7 @@
             <div class="flex justify-between mb-5">
                 <h1 class="text-xl font-l text-gray">Lastname</h1>
                 <div v-if="!isEditLastname" class="md:flex lg:flex xl:flex">
-                    <h1 class="text-xl text-right">{{mockupData.userData.lastname}}</h1>
+                    <h1 class="text-xl text-right">{{userData.lastname}}</h1>
                     <h1 @click="isEditLastname = !isEditLastname"
                         class="text-sm text-right text-orange self-center ml-2">Edit</h1>
                 </div>
@@ -58,12 +58,12 @@
 
             <div class="flex justify-between mb-5">
                 <h1 class="text-xl font-l text-gray">Email</h1>
-                <h1 class="text-xl">{{mockupData.userData.email}}</h1>
+                <h1 class="text-xl">{{userData.email}}</h1>
             </div>
             <div class="flex justify-between mb-5">
                 <h1 class="text-xl font-l text-gray">Phone Number</h1>
                 <div v-if="!isEditPhone" class="md:flex lg:flex xl:flex">
-                    <h1 class="text-xl">{{mockupData.userData.phone}}</h1>
+                    <h1 class="text-xl">{{userData.phone}}</h1>
                     <h1 @click="isEditPhone = !isEditPhone" class="text-sm text-right text-orange self-center ml-2">
                         Edit</h1>
                 </div>
@@ -89,7 +89,7 @@
             <div class="flex justify-between mb-5">
                 <h1 class="text-xl font-l text-gray">Date of Birth</h1>
                 <div v-if="!isEditDOB" class="md:flex lg:flex xl:flex">
-                    <h1 class="text-xl">{{mockupData.userData.dob}}</h1>
+                    <h1 class="text-xl">{{userData.dob}}</h1>
                     <h1 @click="isEditDOB = !isEditDOB" class="text-sm text-right text-orange self-center ml-2">
                         Edit</h1>
                 </div>
@@ -112,6 +112,7 @@
                 </div>
             </div>
         </div>
+        {{$store.state.authUser}}
     </div>
 </template>
 
@@ -129,9 +130,7 @@
                 isEditLastname: false,
                 isEditPhone: false,
                 isEditDOB: false,
-                mockupData: {
-                    userData: {}
-                }
+                userData: {}
             }
         },
         validators: {
@@ -161,38 +160,38 @@
         },
         methods: {
             loadUserData() {
-                this.mockupData.userData = {
-                    firstname: 'Anusorn',
+                this.userData = {
+                    firstname: this.$store.state.authUser.user.firstname,
                     lastname: 'mennakred',
-                    email: 'efsef@sefe.com',
+                    email: this.$store.state.authUser.user.email,
                     phone: '0501326252',
                     dob: '12-12-2012'
                 }
                 this.equal()
             },
             equal() {
-                this.newFirstname = this.mockupData.userData.firstname
-                this.newLastname = this.mockupData.userData.lastname
-                this.newPhone = this.mockupData.userData.phone
-                this.newDOB = this.mockupData.userData.dob
+                this.newFirstname = this.userData.firstname
+                this.newLastname = this.userData.lastname
+                this.newPhone = this.userData.phone
+                this.newDOB = this.userData.dob
             },
             editFirstname(firstname) {
-                this.mockupData.userData.firstname = firstname
+                this.userData.firstname = firstname
                 this.equal()
                 this.isEditFirstname = false
             },
             editLastname(lastname) {
-                this.mockupData.userData.lastname = lastname
+                this.userData.lastname = lastname
                 this.equal()
                 this.isEditLastname = false
             },
             editPhone(phone) {
-                this.mockupData.userData.phone = phone
+                this.userData.phone = phone
                 this.equal()
                 this.isEditPhone = false
             },
             editDOB(dob) {
-                this.mockupData.userData.dob = dob
+                this.userData.dob = dob
                 this.equal()
                 this.isEditDOB = false
             }

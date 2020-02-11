@@ -10,12 +10,11 @@
         </VueSlickCarousel>
 
         <section class="mt-3 w-full">
-            <h1 class="my-3 text-xl">Promotion</h1>
+            <h1 class="my-3 text-xl">{{titleCategory.category_name}}</h1>
             <div class="flex flex-wrap">
                 <div v-for="item in items" :key="item.id" class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5">
                     <ProductCard :productData="item"/>
                 </div>
-
             </div>
         </section>
     </div>
@@ -107,7 +106,8 @@
                         {id: 6, title: "friut"},
                     ]
                 },
-                items:[]
+                items: [],
+                titleCategory: ''
             }
         },
         created() {
@@ -116,14 +116,27 @@
         methods: {
             loadCategory() {
                 this.items = []
-                axios.post('http://localhost:8000/api/products/product/', {
-                    "category_id": this.$route.params.id
-                }).then(res=>this.items = res.data.data).catch()
+                if (this.$route.params.id == "new-product") {
+                    console.log("new")
+                    axios.get(this.$store.state.endpoints.newestProduct).then(res => {
+                        console.log(res.data.data)
+                        this.items = res.data.data
+                        this.titleCategory = "New Product"
+                    }).catch()
+                } else {
+                    axios.post('http://localhost:8000/api/products/product/', {
+                        "category_id": this.$route.params.id
+                    }).then(res => {
+                        this.items = res.data.data
+                        this.titleCategory = res.data.data[0]
+                    }).catch()
+                }
+
 
             }
         },
-        watch:{
-            '$route.params.id'(){
+        watch: {
+            '$route.params.id'() {
                 console.log("change")
                 this.loadCategory()
             }

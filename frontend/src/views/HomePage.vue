@@ -12,8 +12,7 @@
         <div v-dragscroll class="overflow-auto">
             <div class="flex mt-3 w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
                 <div class="w-1/4" v-for="category in mockup.categorys" :key="category.id">
-                    <button
-                            class="w-full bg-white  cs-border hover:bg-unHilight text-black py-2 px-4 h-full">
+                    <button @click="goCategory(category)" class="w-full bg-white  cs-border hover:bg-unHilight text-black py-2 px-4 h-full">
                         {{category.type}}
                     </button>
                 </div>
@@ -205,6 +204,8 @@
             }
         },
         created() {
+            console.log(this.$store.state.isAuthenticated)
+            console.log(this.$store.state.authUser)
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                 console.log(res.data.data)
                 this.recommendProduct = res.data.data.slice(0, 8)
@@ -213,6 +214,14 @@
                 console.log(res.data.data)
                 this.newestProduct = res.data.data.slice(0, 8)
             }).catch()
+        },
+        methods:{
+            goCategory(category){
+                this.$router.push({
+                    name:'Category',
+                    params:{id:category.id}
+                })
+            }
         }
     }
 </script>

@@ -9,10 +9,12 @@ import '@/assets/css/tailwind.css'
 import SimpleVueValidation from 'simple-vue-validator';
 import i18n from "./plugins/i18n";
 import VueSlickCarousel from 'vue-slick-carousel'
-
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import VueDragscroll from 'vue-dragscroll'
 
 Vue.use(VueDragscroll)
+Vue.use(ElementUI);
 
 window.$ = window.jQuery = jQuery;
 import 'popper.js'

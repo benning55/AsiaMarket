@@ -35,6 +35,7 @@ export default new Vuex.Store({
     },
     removeToken(state) {
       localStorage.removeItem('token')
+      state.authUser = null
       state.jwt = null
       state.isAuthenticated = false
     }

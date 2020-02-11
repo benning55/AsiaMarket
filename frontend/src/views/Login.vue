@@ -42,7 +42,7 @@
                             class="w-full bg-green text-white py-2 px-20 focus:outline-none"
                             type="button">{{$t('login')}}
                     </button>
-                    <div class="text-center font-l mt-4" style="font-size: 10px">Use Asian market in First time? <span class="text-orange">Register Now</span></div>
+                    <div class="text-center font-l mt-4" style="font-size: 10px">Use Asian market in First time? <span @click="goRegister" class="text-orange">Register Now</span></div>
                 </div>
             </form>
         </div>
@@ -79,6 +79,11 @@
             }
         },
         methods: {
+            goRegister(){
+              this.$router.push({
+                  name:'register'
+              })
+            },
             authenticate() {
                 this.$validate(["username", "password"]);
                 console.log(this.validation.firstError("password"))
@@ -118,8 +123,8 @@
                                     {authUser: response.data, isAuthenticated: true}
                                 );
                                 console.log(this.$store.state.authUser);
-                                console.log(this.$store.state.authUser['profile']);
-                                this.$router.push("/movies")
+                                // console.log(this.$store.state.authUser['profile']);
+                                this.$router.push("/")
                             }).catch((error) => {
                                 console.log(error);
                                 alert(this.$store.state.jwt)

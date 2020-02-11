@@ -37,8 +37,10 @@
                 <ul class="mt-24">
                     <li class="mb-4">Home</li>
                     <li class="mb-1">Promotion</li>
-                    <li class="mb-1">Recomment</li>
-                    <li class="mb-4">New Product</li>
+                    <li class="mb-1 hover:text-green cursor-pointer">Recomment</li>
+                    <li @click="goCategory({id:'new-product'})" class="mb-4 hover:text-green cursor-pointer">New
+                        Product
+                    </li>
                     <li v-for="category in categorys" :key="category.id" class="mb-1 hover:text-green cursor-pointer">
                         <span @click="goCategory(category)">{{category.type}}</span>
                     </li>
@@ -85,24 +87,44 @@
                         <a @click="changeLocale(`en`)">EN </a> | <a
                             @click="changeLocale(`th`)"> TH</a>
                     </div>
-                    <div class="py-3 px-10 text-xl border-bottom hover:bg-unHilight cursor-pointer">
-                        <i @click="mobileDrawer =! mobileDrawer" class="material-icons text-2xl cursor-pointer absolute"
-                           style="top:61px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
-                        Firstname Lastname
+
+                    <!--                    show when not log in-->
+                    <div v-if="!$store.state.isAuthenticated">
+                        <div @click="goLogin" class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
+                            Login
+                        </div>
+                        <div @click="goRegister" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                            Register
+                        </div>
                     </div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Order history
+
+                    <!--                    show when logged in-->
+                    <div v-else>
+                        <div class="py-3 px-10 text-xl border-bottom hover:bg-unHilight cursor-pointer">
+                            <i @click="mobileDrawer =! mobileDrawer"
+                               class="material-icons text-2xl cursor-pointer absolute"
+                               style="top:61px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
+                            Firstname Lastname
+                        </div>
+                        <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Order
+                            history
+                        </div>
+                        <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Personal
+                            Detail
+                        </div>
+                        <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address
+                        </div>
+                        <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">Payment</div>
                     </div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Personal
-                        Detail
-                    </div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address</div>
-                    <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">Payment</div>
+
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg">Product</div>
-                    <div v-for="category in categorys" :key="category.id" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                    <div v-for="category in categorys" :key="category.id"
+                         class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                         <span @click="goCategory(category)">{{category.type}}</span>
                     </div>
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg"></div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
+                    <div v-if="$store.state.isAuthenticated" @click="logout"
+                         class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
                         Log Out
                     </div>
                 </div>
@@ -170,21 +192,36 @@
             <div v-if="accountDrawer" class="inset-y-0 right-0 bg-white fixed z-20 shadow-md">
                 <ul class="w-full py-6">L</ul>
                 <div class="relative h-100 w-70">
-                    <div class="p-3 text-xl border-bottom justify-between flex hover:bg-unHilight cursor-pointer">
-                        Firstname
-                        Lastname
-                        <i @click="accountDrawer = !accountDrawer" class="material-icons text-3xl cursor-pointer">keyboard_arrow_right</i>
+                    <!--                    show when not log in-->
+                    <div v-if="!$store.state.isAuthenticated">
+                        <div @click="goLogin" class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
+                            Login
+                        </div>
+                        <div @click="goRegister" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                            Register
+                        </div>
                     </div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Order history
-                    </div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Personal
-                        Detail
-                    </div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address</div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Payment</div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
-                        Log
-                        Out
+
+                    <!--                    show when logged in-->
+                    <div v-else>
+                        <div class="py-3 px-10 text-xl border-bottom hover:bg-unHilight cursor-pointer">
+                            <i @click="mobileDrawer =! mobileDrawer"
+                               class="material-icons text-2xl cursor-pointer absolute"
+                               style="top:7px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
+                            Firstname Lastname
+                        </div>
+                        <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                            Order history
+                        </div>
+                        <div @click="goProfile" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                            Personal Detail
+                        </div>
+                        <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                            Address
+                        </div>
+                        <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">
+                            Payment
+                        </div>
                     </div>
                 </div>
             </div>
@@ -207,28 +244,48 @@
                 cartDrawer: false,
                 mobileDrawer: false,
                 categorys: [
-                        {id: 1, type: "Fruits and Vegetables", color: "green"},
-                        {id: 2, type: "Dry goods and Seasonings", color: "blue"},
-                        {id: 3, type: "Rice Flour and Noodles", color: "yellow"},
-                        {id: 4, type: "Condiments and Sauces", color: "red"},
-                        {id: 5, type: "Normal and Alcoholic Beverages", color: "black"},
-                        {id: 6, type: "Snack", color: "orange"},
-                        {id: 7, type: "Frozen Products", color: "purple"},
-                        {id: 8, type: "Other", color: "pink"},
-                    ]
+                    {id: 1, type: "Fruits and Vegetables", color: "green"},
+                    {id: 2, type: "Dry goods and Seasonings", color: "blue"},
+                    {id: 3, type: "Rice Flour and Noodles", color: "yellow"},
+                    {id: 4, type: "Condiments and Sauces", color: "red"},
+                    {id: 5, type: "Normal and Alcoholic Beverages", color: "black"},
+                    {id: 6, type: "Snack", color: "orange"},
+                    {id: 7, type: "Frozen Products", color: "purple"},
+                    {id: 8, type: "Other", color: "pink"},
+                ]
             }
         },
         methods: {
-            goHome(){
-              this.$router.push({
-                  name:'HomePage'
-              })
-            },
-            goCategory(category){
+            goHome() {
                 this.$router.push({
-                    name:'Category',
-                    params:{id:category.id}
+                    name: 'HomePage'
                 })
+                this.toggleOpacity()
+            },
+            goLogin(){
+                this.$router.push({
+                    name:"login"
+                })
+                this.toggleOpacity()
+            },
+            goRegister(){
+                this.$router.push({
+                    name:"register"
+                })
+                this.toggleOpacity()
+            },
+            goProfile(){
+                this.$router.push({
+                    name:'ViewProfile'
+                })
+                this.toggleOpacity()
+            },
+            goCategory(category) {
+                this.$router.push({
+                    name: 'Category',
+                    params: {id: category.id}
+                })
+                this.toggleOpacity()
             },
             toggleOpacity() {
                 this.accountDrawer = false
@@ -237,6 +294,12 @@
             },
             changeLocale(locale) {
                 i18n.locale = locale
+                this.toggleOpacity()
+            },
+            logout() {
+                this.$store.commit('removeToken');
+                this.$router.push('/login');
+                this.toggleOpacity()
             }
         }
     }
