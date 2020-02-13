@@ -1,4 +1,4 @@
-from core.models import Category, Product
+from core.models import Category, Product, Cart, Code, CartDetail
 from rest_framework import serializers
 
 
@@ -49,3 +49,34 @@ class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('id', 'pic1', 'pic2', 'pic3')
+
+
+class CodeSerializer(serializers.ModelSerializer):
+    """ serializer for cart """
+
+    class Meta:
+        model = Code
+        fields = '__all__'
+
+
+class CartSerializer(serializers.ModelSerializer):
+    """ serializer for cart """
+
+    class Meta:
+        model = Cart
+        fields = '__all__'
+
+
+class CartDetailSerializer(serializers.ModelSerializer):
+    """ Serializer for cart detail """
+    product = ProductSerializer()
+
+    class Meta:
+        model = CartDetail
+        fields = ('id', 'cart_id', 'quantity', 'price', 'product')
+
+
+class PersonalCartSerializer(serializers.Serializer):
+    cart = CartSerializer(many=True)
+    cart_detail = CartDetailSerializer(many=True)
+    code = CodeSerializer(required=False, many=True)

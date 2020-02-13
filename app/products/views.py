@@ -2,13 +2,16 @@ import random
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from collections import namedtuple
 
-from core.models import Product, Category
+from core.models import Product, Category, Cart, CartDetail, Code
 from products import serializers
+
+Timeline = namedtuple('Timeline', ('cart', 'cart_detail', 'code'))
 
 
 class ProductApiView(APIView):
@@ -78,3 +81,35 @@ def recommend_products(request):
             random_items = random.sample(list(queryset), 10)
             serializer = serializers.ProductSerializer(random_items, many=True)
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+
+class CartApiView(APIView):
+    """
+    Cart api view
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        """ Get all about user cart detail"""
+        user = request.user
+        cart = get_object_or_404(Cart.objects.all(), user_id=user.id)
+        cart_detail = CartDetail.objects.all()
+        cart_detail = cart_detail.filter(cart_id=user.id)
+
+        if cart.code_id is None:
+            timeline = Timeline(
+                cart=Cart.objects.all().filter(user_id=user.id),
+                cart_detail=cart_detail,
+                code=None
+            )
+        else:
+            timeline = Timeline(
+                cart=Cart.objects.all().filter(user_id=user.id),
+                cart_detail=cart_detail,
+                code=Code.objects.all().filter(pk=cart.code_id)
+            )
+        serializer = serializers.PersonalCartSerializer(timeline)
+        return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+
+    

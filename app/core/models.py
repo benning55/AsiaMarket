@@ -1,4 +1,5 @@
 import uuid
+import datetime
 import os
 from urllib.request import urlopen
 from django.db import models
@@ -47,6 +48,9 @@ class UserManager(BaseUserManager):
 
         profile = Profile.objects.create(user_id=user.id)
         profile.save()
+
+        cart = Cart.objects.create(user_id=user.id)
+        cart.save()
         return user
 
 
@@ -147,3 +151,51 @@ class Product(models.Model):
             img_temp.flush()
             self.pic1.save(f"image_{self.pk}.jpg", File(img_temp, 'rb'))
         super(Product, self).save(*args, **kwargs)
+
+
+class Code(models.Model):
+    """code table for adding code"""
+    name = models.CharField(max_length=255)
+    percent = models.DecimalField(max_digits=7, decimal_places=2)
+    start_date = models.DateTimeField(default=datetime.datetime.now)
+    end_date = models.DateTimeField()
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
+
+class Cart(models.Model):
+    """ Cart for each user """
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    code = models.ForeignKey(
+       Code,
+       blank=True,
+       null=True,
+       on_delete=models.CASCADE,
+    )
+    checkout_status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+
+
+class CartDetail(models.Model):
+    cart = models.ForeignKey(
+        Cart,
+        on_delete=models.CASCADE
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE
+    )
+    quantity = models.IntegerField()
+    price = models.DecimalField(max_digits=7, decimal_places=2)
+
+    def __str__(self):
+        carted = Cart.objects.get(pk=self.cart_id)
+        return carted.user.username

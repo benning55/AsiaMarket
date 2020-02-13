@@ -14,7 +14,7 @@ from collections import namedtuple
 
 from accounts.forms import ResetPassword
 from accounts.token import account_activation_token
-from core.models import User, Profile, Address
+from core.models import User, Profile, Address, Cart
 from rest_framework.decorators import api_view, permission_classes
 from accounts import serializers
 
@@ -97,6 +97,10 @@ def register(request):
             )
             new_address.recipient = new_user.last_name
             new_address.save()
+            cart = Cart.objects.create(
+                user_id=new_user.id
+            )
+            cart.save()
             return Response({'data': serializer.data}, status=status.HTTP_200_OK)
         return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
