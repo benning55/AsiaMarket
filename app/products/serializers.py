@@ -69,11 +69,35 @@ class CartSerializer(serializers.ModelSerializer):
 
 class CartDetailSerializer(serializers.ModelSerializer):
     """ Serializer for cart detail """
-    product = ProductSerializer()
+    product = ProductSerializer(read_only=True)
 
     class Meta:
         model = CartDetail
         fields = ('id', 'cart_id', 'quantity', 'price', 'product')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }
+
+
+class CartDetailSaveSerializer(serializers.ModelSerializer):
+    """ Serializer for cart detail """
+
+    class Meta:
+        model = CartDetail
+        fields = '__all__'
+
+    def create(self, validated_data):
+        cart_id = Cart.objects.get(user=validated_data['cart']).user_id
+        product_id = Product.objects.get(title=validated_data['product']).id
+        cart_detail, created = CartDetail.objects.update_or_create(
+            cart_id=cart_id,
+            product_id=product_id,
+            defaults={
+                'quantity': validated_data['quantity'],
+                'price': validated_data['price']
+            }
+        )
+        return cart_detail
 
 
 class PersonalCartSerializer(serializers.Serializer):

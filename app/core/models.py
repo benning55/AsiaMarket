@@ -131,7 +131,7 @@ class Product(models.Model):
         Category,
         on_delete=models.CASCADE
     )
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, unique=True)
     pic1 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
     pic2 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
     pic3 = models.ImageField(upload_to=product_image_path, null=True, blank=True)

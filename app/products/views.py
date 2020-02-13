@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from collections import namedtuple
+import json
 
 from core.models import Product, Category, Cart, CartDetail, Code
 from products import serializers
@@ -112,4 +113,37 @@ class CartApiView(APIView):
         return Response({"data": serializer.data}, status=status.HTTP_200_OK)
 
 
-    
+class CartDetailApiView(APIView):
+    """
+    Cart Detail Api view
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        """ Get user product """
+        user = request.user
+        cart_detail = CartDetail.objects.all()
+        cart_detail = cart_detail.filter(cart_id=user.id)
+        serializer = serializers.CartDetailSerializer(cart_detail, many=True)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        """ Add product to detail """
+        user, data = request.user, request.data
+        product_id, quantity = data['product_id'], data['quantity']
+        product = get_object_or_404(Product.objects.all(), pk=product_id)
+        total_price = product.price * quantity
+        payload = {
+            'cart': user.id,
+            'quantity': quantity,
+            'price': total_price,
+            'product': product_id
+        }
+        serializer = serializers.CartDetailSaveSerializer(data=payload)
+        if serializer.is_valid():
+            detail = serializer.create(serializer.validated_data)
+            detail_json = serializers.CartDetailSerializer(detail)
+            return Response({'data': detail_json.data}, status=status.HTTP_200_OK)
+        else:
+            print(serializer.errors)
+            return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
