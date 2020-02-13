@@ -12,66 +12,45 @@
         <div v-dragscroll class="overflow-auto">
             <div class="flex mt-3 w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
                 <div class="w-1/4" v-for="category in mockup.categorys" :key="category.id">
-                    <button @click="goCategory(category)" class="w-full bg-white  cs-border hover:bg-unHilight text-black py-2 px-4 h-full">
+                    <button @click="goCategory(category)"
+                            class="w-full bg-white  cs-border hover:bg-unHilight text-black py-2 px-4 h-full">
                         {{category.type}}
                     </button>
                 </div>
             </div>
         </div>
 
-        <!--        <section class="mt-3">-->
-        <!--            <h1 class="my-3 text-xl">Promotion</h1>-->
-        <!--            <div v-dragscroll class=" overflow-auto">-->
-        <!--                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
-        <!--                    <div class="w-1/4">-->
-        <!--                        <ProductCard/>-->
-        <!--                    </div>-->
-        <!--                    <div class="w-1/4">-->
-        <!--                        <ProductCard/>-->
-        <!--                    </div>-->
-        <!--                    <div class="w-1/4">-->
-        <!--                        <ProductCard/>-->
-        <!--                    </div>-->
-        <!--                    <div class="w-1/4">-->
-        <!--                        <ProductCard/>-->
-        <!--                    </div>-->
-        <!--                    <div class="w-1/4">-->
-        <!--                        <ProductCard/>-->
-        <!--                    </div>-->
-        <!--                    <div class="w-1/4">-->
-        <!--                        <ProductCard/>-->
-        <!--                    </div>-->
-        <!--                    <div class="w-1/4">-->
-        <!--                        <ProductCard/>-->
-        <!--                    </div>-->
-        <!--                    <div class="w-1/4">-->
-        <!--                        <ProductCard/>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </section>-->
-
         <section class="mt-3">
             <h1 class="my-3 text-xl">Recommend</h1>
-            <div v-dragscroll class="overflow-auto">
-                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
-                    <div v-for="product in recommendProduct" :key="product.key" class="w-1/4">
-                        <ProductCard :productData="product"/>
-                    </div>
-                </div>
-            </div>
+                      <SwiperItem :dataItem="recommendProduct"/>
+<!--            <div class="overflow-auto">-->
+<!--                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
+<!--                    <div v-for="product in recommendProduct" :key="product.key" class="w-1/4">-->
+<!--                        <ProductCard :productData="product"/>-->
+<!--                    </div>-->
+<!--          -->
+<!--                </div>-->
+<!--            </div>-->
         </section>
 
         <section class="mt-3">
             <h1 class="my-3 text-xl">New Product</h1>
-            <div v-dragscroll class=" overflow-auto">
-                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
-                    <div v-for="product in newestProduct" :key="product.key" class="w-1/4">
-                        <ProductCard :productData="product"/>
-                    </div>
-                </div>
-            </div>
+                      <SwiperItem :dataItem="recommendProduct"/>
+<!--            <div v-dragscroll class=" overflow-auto">-->
+            <!--                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
+            <!--                    <div v-for="product in newestProduct" :key="product.key" class="w-1/4">-->
+            <!--                        <ProductCard :productData="product"/>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
         </section>
+<!--        <vuescroll>-->
+<!--            <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
+<!--                <div v-for="product in newestProduct" :key="product.key" class="w-1/4">-->
+<!--                    <ProductCard :productData="product"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </vuescroll>-->
     </div>
 </template>
 
@@ -79,16 +58,18 @@
     import VueSlickCarousel from 'vue-slick-carousel'
     import 'vue-slick-carousel/dist/vue-slick-carousel.css'
     import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
-    import ProductCard from "../components/ProductCard";
-    import {dragscroll} from 'vue-dragscroll'
+    // import ProductCard from "../components/ProductCard";
+    // import {dragscroll} from 'vue-dragscroll'
     import axios from 'axios'
+    // import vuescroll from 'vuescroll';
+    import SwiperItem from "../components/SwiperItem";
 
     export default {
         name: 'MyComponent',
-        directives: {
-            dragscroll
-        },
-        components: {VueSlickCarousel, ProductCard},
+        // directives: {
+        //     dragscroll
+        // },
+        components: {VueSlickCarousel,SwiperItem},
         data() {
             return {
                 setting1: {
@@ -204,22 +185,19 @@
             }
         },
         created() {
-            console.log(this.$store.state.isAuthenticated)
-            console.log(this.$store.state.authUser)
+            console.log(this.$store.state.endpoints.recommendProduct)
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
-                console.log(res.data.data)
                 this.recommendProduct = res.data.data.slice(0, 8)
             }).catch()
             axios.get(this.$store.state.endpoints.newestProduct).then(res => {
-                console.log(res.data.data)
                 this.newestProduct = res.data.data.slice(0, 8)
             }).catch()
         },
-        methods:{
-            goCategory(category){
+        methods: {
+            goCategory(category) {
                 this.$router.push({
-                    name:'Category',
-                    params:{id:category.id}
+                    name: 'Category',
+                    params: {id: category.id}
                 })
             }
         }

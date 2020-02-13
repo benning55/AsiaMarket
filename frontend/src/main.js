@@ -15,6 +15,12 @@ import './assets/css/element-variables.scss'
 import locale from 'element-ui/lib/locale/lang/th'
 import VueDragscroll from 'vue-dragscroll'
 
+
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+
+Vue.use(VueAwesomeSwiper, /* { default global options } */)
+
 Vue.use(VueDragscroll)
 Vue.use(ElementUI, {locale});
 

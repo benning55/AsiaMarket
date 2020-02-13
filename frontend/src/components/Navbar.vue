@@ -24,7 +24,7 @@
                     <div @click="cartDrawer = !cartDrawer, mobileDrawer =false" class="relative">
                         <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
                         <div class="absolute text-white rounded-full h-5 w-5 flex items-center justify-center bg-green count-position3">
-                            2
+                            {{$store.state.inCart.length}}
                         </div>
                     </div>
                 </li>
@@ -58,7 +58,7 @@
                             <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
                             <h1 class="text-lg text-center text-green">229 $</h1>
                             <div class=" text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position">
-                                2
+                                 {{$store.state.inCart.length}}
                             </div>
                         </div>
                         <div @click="accountDrawer = !accountDrawer"
@@ -141,19 +141,14 @@
                     <div class="w-70 p-3 text-xl border-bottom fixed justify-between flex bg-white cursor-pointer">
                         <img class="w-8" src="../assets/icon/supermarket.svg">
                         <div class="text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position2">
-                            2
+                            {{$store.state.inCart.length}}
                         </div>
                         My Cart
                         <i @click="cartDrawer = !cartDrawer" class="material-icons text-3xl cursor-pointer">keyboard_arrow_right</i>
                     </div>
-                    <div class=" w-full">
-                        <ul class="w-full" style="height: 3.5rem">L</ul>
-                        <InCartItem/>
-                        <InCartItem/>
-                        <InCartItem/>
-                        <InCartItem/>
-                        <InCartItem/>
-                        <InCartItem/>
+                    <div class="w-full">
+                        <ul class="w-full" style="height: 3.5rem"></ul>
+                        <InCartItem v-for="item in $store.state.inCart" :key="item.id" :data="item"/>
                         <div class="w-full" style="height: 249px"></div>
                     </div>
                 </div>
@@ -242,6 +237,7 @@
 <script>
     import i18n from "../plugins/i18n";
     import InCartItem from "./InCartItem";
+    import axios from 'axios'
 
     export default {
         name: "Navbar",
@@ -262,8 +258,34 @@
                     {id: 6, type: "Snack", color: "orange"},
                     {id: 7, type: "Frozen Products", color: "purple"},
                     {id: 8, type: "Other", color: "pink"},
-                ]
+                ],
+                itemIncart:[]
             }
+        },
+        created() {
+            const base = {
+                baseURL: `http://${window.location.hostname}:8000`,
+                headers: {
+                    Authorization: `JWT ${this.$store.state.jwt}`,
+                    'Content-Type': 'application/json'
+                },
+                xhrFields: {
+                    withCredentials: true
+                }
+            };
+            const axiosInstance = axios.create(base);
+            axiosInstance({
+                url: "/api/products/cart/",
+                method: "get",
+                params: {}
+            }).then((response) => {
+                // console.log(response)
+                this.itemIncart = response.data.data.cart_detail
+                this.$store.commit("setIncart", this.itemIncart);
+                console.log(this.$store.state.inCart)
+            }).catch((error) => {
+                console.log(error);
+            })
         },
         methods: {
             goHome() {

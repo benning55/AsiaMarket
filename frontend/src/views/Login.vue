@@ -134,7 +134,6 @@
                             })
                         })
                         .catch((error) => {
-
                             console.log(error);
                             console.debug(error);
                             console.dir(error);
