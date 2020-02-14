@@ -282,7 +282,7 @@
                 // console.log(response)
                 this.itemIncart = response.data.data.cart_detail
                 this.$store.commit("setIncart", this.itemIncart);
-                console.log(this.$store.state.inCart)
+                console.log(this.$store.state.inCart.length)
             }).catch((error) => {
                 console.log(error);
             })
