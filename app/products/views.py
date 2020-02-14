@@ -147,3 +147,15 @@ class CartDetailApiView(APIView):
         else:
             print(serializer.errors)
             return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        """ Delete product from cart """
+        user, pk = request.user, self.kwargs.get('pk')
+        cart_id = user.id
+        query = CartDetail.objects.all().filter(cart_id=cart_id, product_id=pk)
+        if len(query) == 0:
+            return Response({'error': 'Data Not Found'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            data = query[0]
+            data.delete()
+            return Response({'success_delete': data.product_id}, status=status.HTTP_200_OK)

@@ -16,5 +16,6 @@ urlpatterns = [
     path('new/', views.new_products),
     path('recommend/', views.recommend_products),
     path('cart/', views.CartApiView.as_view(), name='cart'),
-    path('cart-detail/', views.CartDetailApiView.as_view(), name='cart-detail')
+    path('cart-detail/', views.CartDetailApiView.as_view(), name='cart-detail'),
+    path('cart-detail/<int:pk>/', views.CartDetailApiView.as_view())
 ]
