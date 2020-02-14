@@ -35,20 +35,15 @@ class ProductDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('id', 'category_name', 'title', 'url', 'description', 'price', 'quantity')
-
-    category_name = serializers.SerializerMethodField('get_type_name')
-
-    def get_type_name(self, obj):
-        return obj.category.type
+        fields = ('id', 'title', 'pic1', 'price', 'quantity')
 
 
-class ProductImageSerializer(serializers.ModelSerializer):
+class ProductForCartSerializer(serializers.ModelSerializer):
     """serializer for product model"""
 
     class Meta:
         model = Product
-        fields = ('id', 'pic1', 'pic2', 'pic3')
+        fields = ('id', 'quantity')
 
 
 class CodeSerializer(serializers.ModelSerializer):
@@ -67,9 +62,21 @@ class CartSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CartDetailForAddSerializer(serializers.ModelSerializer):
+    """ Serializer for cart detail """
+    product = ProductForCartSerializer(read_only=True)
+
+    class Meta:
+        model = CartDetail
+        fields = ('id', 'cart_id', 'quantity', 'price', 'product')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }
+
+
 class CartDetailSerializer(serializers.ModelSerializer):
     """ Serializer for cart detail """
-    product = ProductSerializer(read_only=True)
+    product = ProductDataSerializer(read_only=True)
 
     class Meta:
         model = CartDetail

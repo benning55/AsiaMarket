@@ -124,7 +124,7 @@ class CartDetailApiView(APIView):
         user = request.user
         cart_detail = CartDetail.objects.all()
         cart_detail = cart_detail.filter(cart_id=user.id)
-        serializer = serializers.CartDetailSerializer(cart_detail, many=True)
+        serializer = serializers.CartDetailForAddSerializer(cart_detail, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
@@ -142,7 +142,7 @@ class CartDetailApiView(APIView):
         serializer = serializers.CartDetailSaveSerializer(data=payload)
         if serializer.is_valid():
             detail = serializer.create(serializer.validated_data)
-            detail_json = serializers.CartDetailSerializer(detail)
+            detail_json = serializers.CartDetailForAddSerializer(detail)
             return Response({'data': detail_json.data}, status=status.HTTP_200_OK)
         else:
             print(serializer.errors)
