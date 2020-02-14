@@ -17,7 +17,8 @@ export default new Vuex.Store({
             productUrL: `http://${window.location.hostname}:8000/api/products/product/`,
             recommendProduct: `http://${window.location.hostname}:8000/api/products/recommend/`,
             newestProduct: `http://${window.location.hostname}:8000/api/products/new/`,
-            forgotPasswordUrL: `http://${window.location.hostname}:8000/api/accounts/forget-password/`
+            forgotPasswordUrL: `http://${window.location.hostname}:8000/api/accounts/forget-password/`,
+            editInCart:`http://${window.location.hostname}:8000/api/products/cart-detail/`
         },
         inCart: {}
     },

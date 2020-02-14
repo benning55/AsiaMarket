@@ -58,7 +58,7 @@
                             <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
                             <h1 class="text-lg text-center text-green">229 $</h1>
                             <div class=" text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position">
-                                 {{$store.state.inCart.length}}
+                                {{$store.state.inCart.length}}
                             </div>
                         </div>
                         <div @click="accountDrawer = !accountDrawer"
@@ -155,7 +155,7 @@
                 <div class="fixed w-70 bottom-0  border-top p-2 bg-white z-50">
                     <div class="flex justify-between font-l">
                         <div class="">Subtotal</div>
-                        <div>254 $</div>
+                        <div>{{totalPrice}} $</div>
                     </div>
                     <div class="flex justify-between font-l">
                         <div class="">Shipping</div>
@@ -259,7 +259,8 @@
                     {id: 7, type: "Frozen Products", color: "purple"},
                     {id: 8, type: "Other", color: "pink"},
                 ],
-                itemIncart:[]
+                itemIncart: [],
+                totalPrice: 0
             }
         },
         created() {
@@ -279,10 +280,12 @@
                 method: "get",
                 params: {}
             }).then((response) => {
-                // console.log(response)
                 this.itemIncart = response.data.data.cart_detail
                 this.$store.commit("setIncart", this.itemIncart);
                 console.log(this.$store.state.inCart.length)
+                this.$store.state.inCart.forEach(item => {
+                    this.totalPrice += parseInt(item.price)
+                })
             }).catch((error) => {
                 console.log(error);
             })

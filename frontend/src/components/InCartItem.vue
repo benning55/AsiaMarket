@@ -33,12 +33,14 @@
     </div>
 </template>
 <script>
+    import axios from "axios";
+
     export default {
         name: 'InCartItem',
         props: ["data"],
         data() {
             return {
-                value: 0,
+                value: this.data.quantity,
                 quantity: this.data.product.quantity
             }
         },
@@ -55,7 +57,17 @@
                     clearTimeout(this.timeout)
                     this.value++
                     this.timeout = setTimeout(() => {
-                        console.log(this.value)
+                        axios.post(this.$store.state.endpoints.editInCart, {
+                            quantity: this.value,
+                            product_id: this.data.product.id
+                        }, {
+                            headers: {
+                                Authorization: `JWT ${this.$store.state.jwt}`,
+                                'Content-Type': 'application/json'
+                            },
+                        }).then(res => {
+                            console.log(res)
+                        }).catch()
                     }, 2000)
                 }
             },
@@ -64,7 +76,18 @@
                     clearTimeout(this.timeout)
                     this.value--
                     this.timeout = setTimeout(() => {
-                        console.log(this.value)
+                        // console.log(this.value)
+                        axios.post(this.$store.state.endpoints.editInCart, {
+                            quantity: this.value,
+                            product_id: this.data.product.id
+                        }, {
+                            headers: {
+                                Authorization: `JWT ${this.$store.state.jwt}`,
+                                'Content-Type': 'application/json'
+                            },
+                        }).then(res => {
+                            console.log(res)
+                        }).catch()
                     }, 2000)
                 }
             }
