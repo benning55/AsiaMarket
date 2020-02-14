@@ -9,10 +9,10 @@
             <div class="div2">
                 <div class="w-full" style="line-height: 20px;">{{reduceTitle(data.product.title)}}</div>
             </div>
-            <div class="div3">
-                <i class='fas fa-trash-alt m-2 text-lightGray'></i>
+            <div class="div3" style="align-self: flex-start;text-align: right;">
+                <i @click="deleteItem" class='fas fa-trash-alt m-2 text-lightGray'></i>
             </div>
-            <div class="div4" style="padding-top: 9px">
+            <div class="div4">
                 <div class="button-area flex justify-between cursor-pointer">
                     <div @click="decrease" class="button-increase  bg-green">
                         <i class="material-icons">remove</i>
@@ -24,8 +24,8 @@
                 </div>
             </div>
             <div class="div5" style="align-self: end">
-                <div class="text-green">
-                    123 $
+                <div class="text-green" style="text-align: end;margin-right: 8px;">
+                    {{data.price}} $
                 </div>
             </div>
 
@@ -66,17 +66,18 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
-                            console.log(res)
+                            let index = this.$store.state.inCart.findIndex(item => item.id == res.data.data.id)
+                            this.$store.state.inCart[index].quantity = res.data.data.quantity
+                            this.$store.state.inCart[index].price = res.data.data.price
                         }).catch()
                     }, 2000)
                 }
             },
             decrease() {
-                if (this.value != 0) {
+                if (this.value != 1) {
                     clearTimeout(this.timeout)
                     this.value--
                     this.timeout = setTimeout(() => {
-                        // console.log(this.value)
                         axios.post(this.$store.state.endpoints.editInCart, {
                             quantity: this.value,
                             product_id: this.data.product.id
@@ -86,10 +87,24 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
-                            console.log(res)
+                            let index = this.$store.state.inCart.findIndex(item => item.id == res.data.data.id)
+                            this.$store.state.inCart[index].quantity = res.data.data.quantity
+                            this.$store.state.inCart[index].price = res.data.data.price
                         }).catch()
                     }, 2000)
                 }
+            },
+            deleteItem() {
+                axios.delete(this.$store.state.endpoints.editInCart+this.data.product.id+"/", {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).then(() => {
+                    // console.log(res.status)
+                    let index = this.$store.state.inCart.findIndex(item => item.id == this.data.id)
+                    this.$store.state.inCart.splice(index, 1)
+                }).catch()
             }
         }
     }
@@ -101,8 +116,9 @@
     }
 
     .button-area {
+        margin-top: 6px;
         border: 1.5px solid #619F21;
-        width: 70%;
+        width: 90%;
         height: 28px;
     }
 
@@ -145,10 +161,10 @@
     }
 
     .div4 {
-        grid-area: 2 / 2 / 3 / 6;
+        grid-area: 2 / 2 / 3 / 5;
     }
 
     .div5 {
-        grid-area: 2 / 6 / 3 / 7;
+        grid-area: 2 / 5 / 3 / 7;
     }
 </style>

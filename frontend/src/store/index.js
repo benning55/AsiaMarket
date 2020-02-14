@@ -18,7 +18,7 @@ export default new Vuex.Store({
             recommendProduct: `http://${window.location.hostname}:8000/api/products/recommend/`,
             newestProduct: `http://${window.location.hostname}:8000/api/products/new/`,
             forgotPasswordUrL: `http://${window.location.hostname}:8000/api/accounts/forget-password/`,
-            editInCart:`http://${window.location.hostname}:8000/api/products/cart-detail/`
+            editInCart: `http://${window.location.hostname}:8000/api/products/cart-detail/`
         },
         inCart: {}
     },
@@ -43,8 +43,13 @@ export default new Vuex.Store({
             state.jwt = null
             state.isAuthenticated = false
         },
-        setIncart(state, incart){
+        setIncart(state, incart) {
             state.inCart = incart
+        }
+    },
+    getters: {
+        getCount(state) {
+            return state.inCart
         }
     },
     actions: {},

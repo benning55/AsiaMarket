@@ -155,7 +155,7 @@
                 <div class="fixed w-70 bottom-0  border-top p-2 bg-white z-50">
                     <div class="flex justify-between font-l">
                         <div class="">Subtotal</div>
-                        <div>{{totalPrice}} $</div>
+                        <div>{{subTotal}} $</div>
                     </div>
                     <div class="flex justify-between font-l">
                         <div class="">Shipping</div>
@@ -264,31 +264,37 @@
             }
         },
         created() {
-            const base = {
-                baseURL: `http://${window.location.hostname}:8000`,
+            axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
                 headers: {
                     Authorization: `JWT ${this.$store.state.jwt}`,
                     'Content-Type': 'application/json'
                 },
-                xhrFields: {
-                    withCredentials: true
-                }
-            };
-            const axiosInstance = axios.create(base);
-            axiosInstance({
-                url: "/api/products/cart/",
-                method: "get",
-                params: {}
-            }).then((response) => {
-                this.itemIncart = response.data.data.cart_detail
+            }).then(res => {
+                this.itemIncart = res.data.data.cart_detail
                 this.$store.commit("setIncart", this.itemIncart);
-                console.log(this.$store.state.inCart.length)
-                this.$store.state.inCart.forEach(item => {
-                    this.totalPrice += parseInt(item.price)
-                })
-            }).catch((error) => {
-                console.log(error);
-            })
+            }).catch()
+
+            // const base = {
+            //     baseURL: `http://${window.location.hostname}:8000`,
+            //     headers: {
+            //         Authorization: `JWT ${this.$store.state.jwt}`,
+            //         'Content-Type': 'application/json'
+            //     },
+            //     xhrFields: {
+            //         withCredentials: true
+            //     }
+            // };
+            // const axiosInstance = axios.create(base);
+            // axiosInstance({
+            //     url: "/api/products/cart/",
+            //     method: "get",
+            //     params: {}
+            // }).then((response) => {
+            //     this.itemIncart = response.data.data.cart_detail
+            //     this.$store.commit("setIncart", this.itemIncart);
+            // }).catch((error) => {
+            //     console.log(error);
+            // })
         },
         methods: {
             goHome() {
@@ -335,6 +341,14 @@
                 this.$store.commit('removeToken');
                 this.$router.push('/login');
                 this.toggleOpacity()
+            }
+        },
+        computed: {
+            subTotal: function () {
+                let sum = this.$store.state.inCart.reduce(function (accumulate, data) {
+                    return accumulate + Number(data.price);
+                }, 0);
+                return (sum).toFixed(2);
             }
         }
     }
