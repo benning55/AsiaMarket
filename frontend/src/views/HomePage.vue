@@ -185,7 +185,6 @@
             }
         },
         created() {
-            console.log(this.$store.state.endpoints.recommendProduct)
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                 this.recommendProduct = res.data.data.slice(0, 8)
             }).catch()

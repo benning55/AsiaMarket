@@ -3,109 +3,109 @@
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
-        <div class="bg-white w-full border-green-top px-4 sm:h-full lg:px-32 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
+        <div class="bg-white w-full border-green-top px-4 sm:h-full lg:px-20 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
             <div class="text-center text-2xl mb-10 mt-5 font-l">Profile</div>
-            <div class="flex justify-between mb-5">
-                <h1 class="text-xl font-l text-gray">Firstname</h1>
-                <div v-if="!isEditFirstname" class="md:flex lg:flex xl:flex">
-                    <h1 class="text-xl text-right">{{userData.firstname}}</h1>
-                    <h1 @click="isEditFirstname = !isEditFirstname"
-                        class="text-sm text-right text-orange self-center ml-2">Edit</h1>
-                </div>
-                <div v-else class="flex">
-                    <input v-model="newFirstname"
-                           v-bind:class="{ 'border-red': validation.firstError('newFirstname') }"
-                           class="appearance-none border rounded-l-lg w-40 py-1 px-2 text-gray leading-tight focus:outline-none"
-                           id="newFirstname"
-                           type="text"/>
-                    <div v-if="!validation.firstError('newFirstname')" @click="editFirstname(newFirstname)"
-                         class="w-8 bg-green rounded-r-lg" style="padding-left: 7px;padding-top: 7px">
-                        <i class="fas fa-check text-white text-center absolute"></i>
-                    </div>
-                    <div v-else @click="isEditFirstname = !isEditFirstname" class="w-8 bg-red rounded-r-lg"
-                         style="padding-left: 3px ;padding-top: 3px;">
-                        <i class="material-icons text-white text-center absolute">
-                            clear
-                        </i>
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-between mb-5">
-                <h1 class="text-xl font-l text-gray">Lastname</h1>
-                <div v-if="!isEditLastname" class="md:flex lg:flex xl:flex">
-                    <h1 class="text-xl text-right">{{userData.lastname}}</h1>
-                    <h1 @click="isEditLastname = !isEditLastname"
-                        class="text-sm text-right text-orange self-center ml-2">Edit</h1>
-                </div>
-                <div v-else class="flex">
-                    <input v-model="newLastname"
-                           v-bind:class="{ 'border-red': validation.firstError('newLastname') }"
-                           class="appearance-none border rounded-l-lg w-40 py-1 px-2 text-gray leading-tight focus:outline-none"
-                           id="newLastname"
-                           type="text"/>
-                    <div v-if="!validation.firstError('newLastname')" @click="editLastname(newLastname)"
-                         class="w-8 bg-green rounded-r-lg" style="padding-left: 7px;padding-top: 7px">
-                        <i class="fas fa-check text-white text-center absolute"></i>
-                    </div>
-                    <div v-else @click="isEditLastname = !isEditLastname" class="w-8 bg-red rounded-r-lg"
-                         style="padding-left: 3px ;padding-top: 3px;">
-                        <i class="material-icons text-white text-center absolute">
-                            clear
-                        </i>
-                    </div>
-                </div>
-            </div>
 
-            <div class="flex justify-between mb-5">
+            <div class="flex-none sm:flex justify-between mb-5">
                 <h1 class="text-xl font-l text-gray">Email</h1>
-                <h1 class="text-xl">{{userData.email}}</h1>
+                <h1 class="text-xl">{{this.$store.state.authUser.user.email}}</h1>
             </div>
-            <div class="flex justify-between mb-5">
-                <h1 class="text-xl font-l text-gray">Phone Number</h1>
-                <div v-if="!isEditPhone" class="md:flex lg:flex xl:flex">
-                    <h1 class="text-xl">{{userData.phone}}</h1>
-                    <h1 @click="isEditPhone = !isEditPhone" class="text-sm text-right text-orange self-center ml-2">
-                        Edit</h1>
+            <div class="flex-none sm:flex justify-between mb-5">
+                <h1 class="text-xl font-l text-gray">Firstname</h1>
+                <div v-if="!isEditFirstname" class="md:flex lg:flex xl:flex relative">
+                    <h1 class="text-xl">{{this.$store.state.authUser.user.first_name}}</h1>
+                    <h1 @click="isEditFirstname = !isEditFirstname"
+                        class="hidden sm:block text-sm text-right text-orange self-center ml-2">Edit</h1>
+                    <h1 @click="isEditFirstname = !isEditFirstname"
+                        class="block sm:hidden text-sm text-right text-orange self-center ml-2"
+                        style="position: absolute;top: -9px;right: 15px;">Edit</h1>
                 </div>
                 <div v-else class="flex">
-                    <input v-model="newPhone"
-                           v-bind:class="{ 'border-red': validation.firstError('newPhone') }"
-                           class="appearance-none border rounded-l-lg py-1 px-2 text-gray leading-tight focus:outline-none"
-                           id="newPhone"
-                           style="width:7rem"
-                           type="number"/>
-                    <div v-if="!validation.firstError('newPhone')" @click="editPhone(newPhone)"
-                         class="w-8 bg-green rounded-r-lg" style="padding-left: 7px;padding-top: 7px">
-                        <i class="fas fa-check text-white text-center absolute"></i>
+                    <el-input placeholder="Please input" v-model="newFirstname"></el-input>
+                    <div v-if="!validation.firstError('newFirstname')" @click="editFirstname(newFirstname)"
+                         class="w-12 bg-green rounded-lg ml-1 text-center">
+                        <i class="fas fa-check text-white" style="padding: 12px;"></i>
                     </div>
-                    <div v-else @click="isEditPhone = !isEditPhone" class="w-8 bg-red rounded-r-lg"
-                         style="padding-left: 3px ;padding-top: 3px;">
-                        <i class="material-icons text-white text-center absolute">
+                    <div v-else @click="isEditFirstname = !isEditFirstname" class="w-12 bg-red rounded-lg ml-1 text-center">
+                        <i class="material-icons text-white" style="padding: 12px;">clear</i>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-none sm:flex justify-between mb-5">
+                <h1 class="text-xl font-l text-gray">Lastname</h1>
+                <div v-if="!isEditLastname" class="md:flex lg:flex xl:flex relative">
+                    <h1 class="text-xl">{{this.$store.state.authUser.user.last_name}}</h1>
+                    <h1 @click="isEditLastname = !isEditLastname"
+                        class="hidden sm:block text-sm text-right text-orange self-center ml-2">Edit</h1>
+                    <h1 @click="isEditLastname = !isEditLastname"
+                        class="block sm:hidden text-sm text-right text-orange self-center ml-2"
+                        style="position: absolute;top: -9px;right: 15px;">Edit</h1>
+                </div>
+                <div v-else class="flex">
+                    <el-input placeholder="Please input" v-model="newLastname"></el-input>
+                    <div v-if="!validation.firstError('newLastname')" @click="editLastname(newLastname)"
+                         class="w-12 bg-green rounded-lg ml-1 text-center">
+                        <i class="fas fa-check text-white text-center " style="padding: 12px;"></i>
+                    </div>
+                    <div v-else @click="isEditLastname = !isEditLastname" class="w-12 bg-red rounded-lg ml-1 text-center">
+                        <i class="material-icons text-white text-center" style="padding: 12px;">
                             clear
                         </i>
                     </div>
                 </div>
             </div>
-            <div class="flex justify-between mb-5">
-                <h1 class="text-xl font-l text-gray">Date of Birth</h1>
-                <div v-if="!isEditDOB" class="md:flex lg:flex xl:flex">
-                    <h1 class="text-xl">{{userData.dob}}</h1>
-                    <h1 @click="isEditDOB = !isEditDOB" class="text-sm text-right text-orange self-center ml-2">
+            <div class="flex-none sm:flex justify-between mb-5">
+                <h1 class="text-xl font-l text-gray">Phone Number</h1>
+                <div v-if="!isEditPhone" class="md:flex lg:flex xl:flex relative">
+                    <h1 class="text-xl">{{this.$store.state.authUser.profile.tel}}</h1>
+                    <h1 @click="isEditPhone = !isEditPhone"
+                        class="hidden sm:block text-sm text-right text-orange self-center ml-2">
                         Edit</h1>
+                    <h1 @click="isEditPhone = !isEditPhone"
+                        class="block sm:hidden text-sm text-right text-orange self-center ml-2"
+                        style="position: absolute;top: -9px;right: 15px;">Edit</h1>
                 </div>
                 <div v-else class="flex">
-                    <input v-model="newDOB"
-                           v-bind:class="{ 'border-red': validation.firstError('newDOB') }"
-                           class="appearance-none border rounded-l-lg w-32 py-1 px-2 text-gray leading-tight focus:outline-none"
-                           id="newDOB"
-                           type="text"/>
-                    <div v-if="!validation.firstError('newDOB')" @click="editDOB(newDOB)"
-                         class="w-8 bg-green rounded-r-lg" style="padding-left: 7px;padding-top: 7px">
-                        <i class="fas fa-check text-white text-center absolute"></i>
+                    <el-input placeholder="Please input" v-model="newPhone" class="text-3xl"></el-input>
+                    <div v-if="!validation.firstError('newPhone')" @click="editPhone(newPhone)"
+                         class="w-12 bg-green rounded-lg ml-1 text-center">
+                        <i class="fas fa-check text-white" style="padding: 12px;"></i>
                     </div>
-                    <div v-else @click="isEditDOB = !isEditDOB" class="w-8 bg-red rounded-r-lg"
+                    <div v-else @click="isEditPhone = !isEditPhone" class="w-12 bg-red rounded-lg ml-1 text-center">
+                        <i class="material-icons text-white text-center" style="padding: 12px;">
+                            clear
+                        </i>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-none sm:flex justify-between mb-5">
+                <h1 class="text-xl font-l text-gray">Date of Birth</h1>
+                <div v-if="!isEditDOB" class="md:flex lg:flex xl:flex relative">
+                    <h1 class="text-xl">{{this.$store.state.authUser.profile.dob}}</h1>
+                    <h1 @click="isEditDOB = !isEditDOB"
+                        class="hidden sm:block text-sm text-right text-orange self-center ml-2">
+                        Edit</h1>
+                    <h1 @click="isEditDOB = !isEditDOB"
+                        class="block sm:hidden text-sm text-right text-orange self-center ml-2"
+                        style="position: absolute;top: -9px;right: 15px;">Edit</h1>
+                </div>
+                <div v-else class="flex">
+                    <el-date-picker
+                            style="width: 100%;border-radius: 0px"
+                            v-model="newDOB"
+                            type="date"
+                            placeholder="Pick a date"
+                            default-value="2000-01-01"
+                            format="yyyy-MM-dd"
+                            value-format="yyyy-MM-dd">
+                    </el-date-picker>
+                    <div v-if="!validation.firstError('newDOB')" @click="editDOB(newDOB)"
+                         class="w-12 bg-green rounded-lg ml-1 text-center">
+                        <i class="fas fa-check text-white text-center" style="padding: 12px;"></i>
+                    </div>
+                    <div v-else @click="isEditDOB = !isEditDOB" class="w-12 bg-red rounded-lg ml-1 text-center"
                          style="padding-left: 3px ;padding-top: 3px;">
-                        <i class="material-icons text-white text-center absolute">
+                        <i class="material-icons text-white text-center" style="padding: 12px;">
                             clear
                         </i>
                     </div>
@@ -117,6 +117,7 @@
 
 <script>
     import {Validator} from "../main";
+    import axios from "axios";
 
     export default {
         data() {
@@ -163,8 +164,8 @@
                     firstname: this.$store.state.authUser.user.first_name,
                     lastname: this.$store.state.authUser.user.last_name,
                     email: this.$store.state.authUser.user.email,
-                    phone: this.$store.state.authUser.user.email,
-                    dob: this.$store.state.authUser.user.email
+                    phone: this.$store.state.authUser.profile.tel,
+                    dob: this.$store.state.authUser.profile.dob
                 }
                 this.equal()
             },
@@ -185,15 +186,45 @@
                 this.isEditLastname = false
             },
             editPhone(phone) {
-                this.userData.phone = phone
-                this.equal()
-                this.isEditPhone = false
+                axios.put(this.$store.state.endpoints.host + '/api/accounts/profile/', {
+                    user_id: this.$store.state.authUser.user.id,
+                    tel: phone
+                }, {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).then(() => {
+                    this.$store.state.authUser.profile.tel = phone
+                    this.isEditPhone = false
+                }).catch(e => {
+                    console.log(e)
+                    this.isEditPhone = false
+                })
             },
             editDOB(dob) {
-                this.userData.dob = dob
-                this.equal()
-                this.isEditDOB = false
+                axios.put(this.$store.state.endpoints.host + '/api/accounts/profile/', {
+                    user_id: this.$store.state.authUser.user.id,
+                    tel: dob
+                }, {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).then(() => {
+                    this.$store.state.authUser.profile.dob = dob
+                    this.isEditDOB = false
+                }).catch(e => {
+                    console.log(e)
+                    this.isEditDOB = false
+                })
             }
         }
     }
 </script>
+
+<style scoped>
+    .el-input__inner {
+        border-radius: 8px 0px 0px 8px;
+    }
+</style>

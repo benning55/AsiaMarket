@@ -32,8 +32,7 @@
     }
 
     html {
-        {#overflow: scroll;#}
-    {#overflow: hidden;#}
+    {#overflow: scroll;#}{#overflow: hidden;#}
     }
 
     ::-webkit-scrollbar {
@@ -47,6 +46,14 @@
         border: 3px solid transparent;
         border-radius: 9px;
         background-clip: content-box;
+    }
+
+    ::selection {
+        background: #beeb8f; /* WebKit/Blink Browsers */
+    }
+
+    ::-moz-selection {
+        background: #beeb8f; /* Gecko Browsers */
     }
 </style>
 </html>

@@ -56,7 +56,7 @@
                         <div @click="cartDrawer = !cartDrawer"
                              class="w-20 bg-white hover:bg-unHilight py-3 rounded-tl-lg border-bottom cursor-pointer">
                             <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
-                            <h1 class="text-lg text-center text-green">229 $</h1>
+                            <h1 class="text-lg text-center text-green">{{Number(subTotal) + Number(shipping)}} $</h1>
                             <div class=" text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position">
                                 {{$store.state.inCart.length}}
                             </div>
@@ -138,7 +138,7 @@
             <div v-if="cartDrawer" class="inset-y-0 right-0 bg-white fixed z-20 shadow-md">
                 <ul class="w-full py-6">L</ul>
                 <div class="relative h-full w-70 overflow-auto">
-                    <div class="w-70 p-3 text-xl border-bottom fixed justify-between flex bg-white cursor-pointer">
+                    <div class="w-70 p-3 text-xl border-bottom fixed justify-between flex bg-white">
                         <img class="w-8" src="../assets/icon/supermarket.svg">
                         <div class="text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position2">
                             {{$store.state.inCart.length}}
@@ -159,24 +159,47 @@
                     </div>
                     <div class="flex justify-between font-l">
                         <div class="">Shipping</div>
-                        <div>254 $</div>
+                        <div>{{shipping}} $</div>
                     </div>
                     <div class="flex justify-between font-l my-1">
                         <div class="">Coupon Code</div>
                         <div class="flex">
-                            <input class="appearance-none border rounded-l-lg w-24 py-1 px-2 text-gray leading-tight focus:outline-none"
+                            <input v-model="code"
+                                   @input="checkCode"
+                                   class="appearance-none border rounded-l-lg w-24 py-1 px-2 text-gray leading-tight focus:outline-none"
                                    id="username"
                                    type="text"/>
-                            <div class="height1-85 bg-green rounded-r-lg" style="padding: 4px">
+                            <div v-if="codeStatus == 'ok'" class="height1-85 bg-green rounded-r-lg"
+                                 style="padding: 4px">
                                 <i class="fas fa-check text-white"></i>
+                            </div>
+
+                            <div v-else-if="codeStatus == 'loading'" class="height1-85 bg-green rounded-r-lg opacity-50"
+                                 style="padding: 4px">
+                                <img src="../assets/icon/Rolling-1s-24px.svg">
+                            </div>
+
+                            <div v-else-if="codeStatus == 'none'" class="height1-85 bg-green rounded-r-lg opacity-50"
+                                 style="padding: 4px">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+
+                            <div v-else @click="checkCode" class="height1-85 bg-red rounded-r-lg text-center"
+                                 style="padding: 3px">
+                                <i class="fas fa-times text-white"></i>
                             </div>
                         </div>
                     </div>
                     <div class="flex justify-between">
                         <div class="">Total</div>
-                        <div>254 $</div>
+                        <div>{{Number(subTotal) + Number(shipping)}} $</div>
                     </div>
-                    <button class="w-full h-10 bg-orange mt-3 text-white flex justify-center">
+                    <button v-if="subTotal > 0" class="w-full h-10 bg-orange mt-3 text-white flex justify-center">
+                        <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
+                        Process to checkout
+                    </button>
+                    <button v-else
+                            class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
                         <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
                         Process to checkout
                     </button>
@@ -260,7 +283,10 @@
                     {id: 8, type: "Other", color: "pink"},
                 ],
                 itemIncart: [],
-                totalPrice: 0
+                totalPrice: 0,
+                code: '',
+                codeStatus: 'none',
+                shipping: 1
             }
         },
         created() {
@@ -272,29 +298,9 @@
             }).then(res => {
                 this.itemIncart = res.data.data.cart_detail
                 this.$store.commit("setIncart", this.itemIncart);
-            }).catch()
-
-            // const base = {
-            //     baseURL: `http://${window.location.hostname}:8000`,
-            //     headers: {
-            //         Authorization: `JWT ${this.$store.state.jwt}`,
-            //         'Content-Type': 'application/json'
-            //     },
-            //     xhrFields: {
-            //         withCredentials: true
-            //     }
-            // };
-            // const axiosInstance = axios.create(base);
-            // axiosInstance({
-            //     url: "/api/products/cart/",
-            //     method: "get",
-            //     params: {}
-            // }).then((response) => {
-            //     this.itemIncart = response.data.data.cart_detail
-            //     this.$store.commit("setIncart", this.itemIncart);
-            // }).catch((error) => {
-            //     console.log(error);
-            // })
+            }).catch(() => {
+                this.$store.commit("setIncart", []);
+            })
         },
         methods: {
             goHome() {
@@ -337,6 +343,29 @@
                 i18n.locale = locale
                 this.toggleOpacity()
             },
+            checkCode() {
+                clearTimeout(this.timeout)
+                if (this.code.length != 0) {
+                    this.codeStatus = 'loading'
+                    this.timeout = setTimeout(() => {
+                        axios.post(`http://${window.location.hostname}:8000/api/products/code/`, {
+                            code_name: this.code
+                        }, {
+                            headers: {
+                                Authorization: `JWT ${this.$store.state.jwt}`,
+                                'Content-Type': 'application/json'
+                            },
+                        }).then(res => {
+                            this.codeStatus = 'ok'
+                            console.log(res)
+                        }).catch(() => {
+                            this.codeStatus = 'error'
+                        })
+                    }, 1000)
+                } else {
+                    this.codeStatus = 'none'
+                }
+            },
             logout() {
                 this.$store.commit('removeToken');
                 this.$router.push('/login');
@@ -354,9 +383,6 @@
     }
 </script>
 
-<style>
-
-</style>
 <style scoped>
     .border-bottom {
         border-bottom: 1px solid #707070

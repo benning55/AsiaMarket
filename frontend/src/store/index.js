@@ -10,6 +10,7 @@ export default new Vuex.Store({
         isAuthenticated: false,
         jwt: localStorage.getItem('token'),
         endpoints: {
+            host:`http://${window.location.hostname}:8000`,
             obtainJWT: `http://${window.location.hostname}:8000/auth/obtain_token/`,
             refreshJWT: `http://${window.location.hostname}:8000/auth/refresh_token/`,
             baseUrL: `http://${window.location.hostname}:8000/api/accounts/`,
@@ -18,9 +19,10 @@ export default new Vuex.Store({
             recommendProduct: `http://${window.location.hostname}:8000/api/products/recommend/`,
             newestProduct: `http://${window.location.hostname}:8000/api/products/new/`,
             forgotPasswordUrL: `http://${window.location.hostname}:8000/api/accounts/forget-password/`,
-            editInCart: `http://${window.location.hostname}:8000/api/products/cart-detail/`
+            editInCart: `http://${window.location.hostname}:8000/api/products/cart-detail/`,
+            addressUrL: `http://${window.location.hostname}:8000/api/accounts/user/address/`
         },
-        inCart: {}
+        inCart: [],
     },
     mutations: {
         setAuth(state, isAuthenticated) {
@@ -42,6 +44,7 @@ export default new Vuex.Store({
             state.authUser = null
             state.jwt = null
             state.isAuthenticated = false
+            state.inCart = {}
         },
         setIncart(state, incart) {
             state.inCart = incart

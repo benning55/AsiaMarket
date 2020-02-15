@@ -4,7 +4,7 @@
             <li class="inline-block px-5">LOGO</li>
         </ul>
         <section class="bg-white p-5 my-5">
-            <a><span>Home</span> > {{dataProduct.category_name}} > {{dataProduct.title}}</a>
+            <a><span>Home</span> / <span>{{dataProduct.category_name}}</span> / {{dataProduct.title}}</a>
         </section>
         <section class="my-5 mb-10">
             <div class="flex-none sm:flex md:flex lg:flex xl:flex mb-4 bg-white">
@@ -40,24 +40,37 @@
                 </div>
                 <div class="w-full sm:w-4/12 px-10 pt-12">
                     <h1 class="text-4xl">{{dataProduct.price}} $</h1>
+
+                    <!--            loading when start from 0-->
+                    <div v-if="countLoading == true"
+                         class="button-area mx-auto flex justify-between mb-2 bg-green">
+                        <div class="text-xl" style="margin: auto">
+                            <img src="../assets/icon/Rolling-1s-24px.svg">
+                        </div>
+                    </div>
+
+                    <!--            add and remove button show when item exist in cart-->
                     <div @mouseover="hover = true"
                          @mouseleave="hover = false"
-                         v-if="hover"
-                         class="button-area flex justify-between">
-                        <div class="button-increase  bg-green">
+                         v-else-if="hover || count() > 0 || isInCart > -1"
+                         class="button-area mx-auto flex justify-between mb-2">
+                        <div @click="decrease" class="button-increase  bg-green" style="user-select: none">
                             <i class="material-icons">remove</i>
                         </div>
-                        <div class="text-2xl">2</div>
-                        <div class="button-decrease bg-green">
+                        <div class="text-2xl">{{count()}}</div>
+                        <div @click="increase" class="button-decrease bg-green" style="user-select: none">
                             <i class="material-icons">add</i>
                         </div>
                     </div>
+
+                    <!--            show add when item not in cart-->
                     <div @mouseover="hover = true"
                          @mouseleave="hover = false"
-                         v-if="!hover"
-                         class="button-area flex justify-between" style="border: 1.5px solid #707070">
+                         v-else-if="!hover && count() == 0"
+                         class="button-area mx-auto flex justify-between mb-2" style="border: 1.5px solid #707070">
                         <div class="text-xl" style="margin: auto">Add</div>
                     </div>
+
                     <h1 class="text-lightGray my-5">{{dataProduct.quantity}} Left</h1>
                 </div>
             </div>
@@ -166,7 +179,10 @@
                             slidesPerView: 2,
                         }
                     }
-                }
+                },
+                countLoading: false,
+                isInCart: false,
+                value:0
             }
         },
         created() {
@@ -176,6 +192,109 @@
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                 this.recommendProduct = res.data.data.slice(0, 8)
             }).catch()
+            this.isInCart = this.$store.state.inCart.findIndex(item => item.product.id == this.dataProduct.id)
+            if (this.isInCart != -1) {
+                this.value = this.$store.state.inCart[this.isInCart].quantity
+            }
+        },
+        methods: {
+            increase() {
+                if (this.oldQuantity == 0) {               // if start from 0 it not have any list in cart
+                    this.countLoading = true
+                    clearTimeout(this.timeout)
+                    this.value++                          // value is mockup number
+                    this.timeout = setTimeout(() => {
+                        axios.post(this.$store.state.endpoints.editInCart, {
+                            quantity: this.value,
+                            product_id: this.dataProduct.id
+                        }, {
+                            headers: {
+                                Authorization: `JWT ${this.$store.state.jwt}`,
+                                'Content-Type': 'application/json'
+                            },
+                        }).then(() => {
+                            axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
+                                headers: {
+                                    Authorization: `JWT ${this.$store.state.jwt}`,
+                                    'Content-Type': 'application/json'
+                                },
+                            }).then(res => {
+                                this.itemIncart = res.data.data.cart_detail
+                                this.$store.commit("setIncart", this.itemIncart);
+                                this.countLoading = false
+                            }).catch()
+                        }).catch()
+                    }, 2000)
+                } else if (this.count() != this.dataProduct.quantity) {
+                    clearTimeout(this.timeout)
+                    this.$store.state.inCart[this.isInCart].quantity++
+                    this.timeout = setTimeout(() => {
+                        axios.post(this.$store.state.endpoints.editInCart, {
+                            quantity: this.$store.state.inCart[this.isInCart].quantity,
+                            product_id: this.dataProduct.id
+                        }, {
+                            headers: {
+                                Authorization: `JWT ${this.$store.state.jwt}`,
+                                'Content-Type': 'application/json'
+                            },
+                        }).then(res => {
+                            console.log(this.$store.state.inCart[this.isInCart])
+                            this.$store.state.inCart[this.isInCart].quantity = res.data.data.quantity
+                            this.$store.state.inCart[this.isInCart].product.quantity = res.data.data.product.quantity
+                            this.$store.state.inCart[this.isInCart].price = res.data.data.price
+                        }).catch()
+                    }, 2000)
+                }
+            },
+            decrease() {
+                if (this.count() != 1) {
+                    clearTimeout(this.timeout)
+                    this.$store.state.inCart[this.isInCart].quantity--
+                    this.timeout = setTimeout(() => {
+                        axios.post(this.$store.state.endpoints.editInCart, {
+                            quantity: this.count(),
+                            product_id: this.dataProduct.id
+                        }, {
+                            headers: {
+                                Authorization: `JWT ${this.$store.state.jwt}`,
+                                'Content-Type': 'application/json'
+                            },
+                        }).then(res => {
+                            this.$store.state.inCart[this.isInCart].quantity = res.data.data.quantity
+                            this.$store.state.inCart[this.isInCart].price = res.data.data.price
+                        }).catch()
+                    }, 2000)
+                } else if (this.count() == 1) {
+                    clearTimeout(this.timeout)
+                    axios.delete(this.$store.state.endpoints.editInCart + this.dataProduct.id + "/", {
+                        headers: {
+                            Authorization: `JWT ${this.$store.state.jwt}`,
+                            'Content-Type': 'application/json'
+                        },
+                    }).then(() => {
+                        axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
+                            headers: {
+                                Authorization: `JWT ${this.$store.state.jwt}`,
+                                'Content-Type': 'application/json'
+                            },
+                        }).then(res => {
+                            this.itemIncart = res.data.data.cart_detail
+                            this.$store.commit("setIncart", this.itemIncart);
+                            this.value = 0
+                        }).catch()
+                    }).catch()
+                }
+            },
+            count() {
+                this.isInCart = this.$store.state.inCart.findIndex(item => item.product.id == this.dataProduct.id)
+                if (this.isInCart != -1) {
+                    this.oldQuantity = this.$store.getters.getCount[this.isInCart].quantity
+                    return this.$store.getters.getCount[this.isInCart].quantity
+                } else {
+                    this.oldQuantity = 0
+                    return 0
+                }
+            }
         }
     }
 </script>

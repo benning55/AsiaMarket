@@ -1,6 +1,8 @@
 <template>
-    <div class="h-24 p-2 border-bottom">
-        <div class="parent">
+    <div class="h-24 p-2 border-bottom"
+         @focusout="handleFocusOut"
+         tabindex="0">
+        <div v-if="!isWillDelete" class="parent">
             <div class="div1">
                 <div class="" style="width: 90%">
                     <img src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg" alt="">
@@ -10,15 +12,15 @@
                 <div class="w-full" style="line-height: 20px;">{{reduceTitle(data.product.title)}}</div>
             </div>
             <div class="div3" style="align-self: flex-start;text-align: right;">
-                <i @click="deleteItem" class='fas fa-trash-alt m-2 text-lightGray'></i>
+                <i @click="isWillDelete=true" class='fas fa-trash-alt m-2 text-lightGray cursor-pointer'></i>
             </div>
             <div class="div4">
                 <div class="button-area flex justify-between cursor-pointer">
-                    <div @click="decrease" class="button-increase  bg-green">
+                    <div @click="decrease" class="button-increase  bg-green" style="user-select: none">
                         <i class="material-icons">remove</i>
                     </div>
                     <div class="text-lg">{{value}}</div>
-                    <div @click="increase" class="button-decrease bg-green">
+                    <div @click="increase" class="button-decrease bg-green" style="user-select: none">
                         <i class="material-icons">add</i>
                     </div>
                 </div>
@@ -28,7 +30,14 @@
                     {{data.price}} $
                 </div>
             </div>
-
+        </div>
+        <div v-else class="parent2" style="height: fit-content">
+            <div @click="isWillDelete=false" class="div12 text-black text-center w-full h-20 cursor-pointer hover:bg-unHilight">
+                <p>Cancel</p>
+            </div>
+            <div @click="deleteItem" class="div22 bg-red text-white text-center w-full h-20 cursor-pointer">
+                <p>Delete</p>
+            </div>
         </div>
     </div>
 </template>
@@ -41,7 +50,8 @@
         data() {
             return {
                 value: this.data.quantity,
-                quantity: this.data.product.quantity
+                quantity: this.data.product.quantity,
+                isWillDelete: false
             }
         },
         methods: {
@@ -51,6 +61,9 @@
                 } else {
                     return title
                 }
+            },
+            handleFocusOut() {
+                this.isWillDelete = false
             },
             increase() {
                 if (this.value != this.quantity) {
@@ -166,5 +179,23 @@
 
     .div5 {
         grid-area: 2 / 5 / 3 / 7;
+    }
+
+    .parent2 {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+    }
+
+    .div12 {
+        padding: 28px 0px 28px 0px;
+        grid-area: 1 / 1 / 3 / 6;
+    }
+
+    .div22 {
+        padding: 28px 0px 28px 0px;
+        grid-area: 1 / 6 / 3 / 8;
     }
 </style>
