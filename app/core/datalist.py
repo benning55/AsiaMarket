@@ -28,3 +28,13 @@ class AllInfo:
         ('Frozen Products', 'Frozen Products'),
         ('Other', 'Other')
     )
+
+    WAITING = 'W'
+    SHIPPING = 'S'
+    DELIVER = 'D'
+
+    DELIVER_TYPE = (
+        (WAITING, 'Waiting for delivery'),
+        (SHIPPING, 'In the process of shipping'),
+        (DELIVER, 'Delivered')
+    )

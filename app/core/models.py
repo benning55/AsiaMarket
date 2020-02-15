@@ -199,3 +199,41 @@ class CartDetail(models.Model):
     def __str__(self):
         carted = Cart.objects.get(pk=self.cart_id)
         return carted.user.username
+
+
+class Order(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    address = models.ForeignKey(
+        Address,
+        on_delete=models.CASCADE
+    )
+    total_price = models.DecimalField(max_digits=7, decimal_places=2)
+    payment_status = models.BooleanField(default=False)
+    delivery_status = models.CharField(
+        choices=AllInfo.DELIVER_TYPE,
+        max_length=50,
+        default=AllInfo.WAITING
+    )
+    expected_arrive = models.DateField(blank=True, null=True)
+    created = models.DateTimeField(default=datetime.datetime.now, editable=False)
+
+    def __str__(self):
+        return self.user
+
+
+class OrderDetail(models.Model):
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE
+    )
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.order
