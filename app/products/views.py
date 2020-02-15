@@ -159,3 +159,24 @@ class CartDetailApiView(APIView):
             data = query[0]
             data.delete()
             return Response({'success_delete': data.product_id}, status=status.HTTP_200_OK)
+
+
+class CodeToCartApiView(APIView):
+    """
+    Modify code promotion to cart
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        """ Add code promotion to cart """
+        user, code_name = request.user, request.data['code_name']
+        cart = get_object_or_404(Cart.objects.all(), user_id=user.id)
+        if code_name == "":
+            cart.code_id = None
+            cart.save()
+            return Response({'success': 'code is delete'}, status=status.HTTP_200_OK)
+        else:
+            code = get_object_or_404(Code.objects.all(), name=code_name)
+            cart.code_id = code.id
+            cart.save()
+            return Response({'success': 'code add to cart'}, status=status.HTTP_200_OK)
