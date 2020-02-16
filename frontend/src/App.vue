@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-<!--        {{$router.currentRoute.name}}-->
+        <!--        {{$router.currentRoute.name}}-->
         <Navbar/>
         <div class="mx-auto px-0 sm:px-0 md:px-0 lg:px-56 xl:px-64">
             <router-view/>
@@ -16,9 +16,7 @@
             Navbar
         },
         data() {
-            return{
-
-            }
+            return {}
         },
         methods: {
             logOut() {
@@ -36,6 +34,7 @@
     .font-l {
         font-weight: 300;
     }
+
     #app {
         font-family: 'Kanit', sans-serif;
     }
@@ -56,8 +55,13 @@
     body {
         background-color: #e3e4e3;
     }
-    .border-green-top{
+
+    .border-green-top {
         border-top: 6px solid #619F21;
+    }
+
+    .border-bottom {
+        border-bottom: 1px solid #707070
     }
 
 </style>

@@ -22,7 +22,10 @@ export default new Vuex.Store({
             editInCart: `http://${window.location.hostname}:8000/api/products/cart-detail/`,
             addressUrL: `http://${window.location.hostname}:8000/api/accounts/user/address/`
         },
-        inCart: [],
+        inCart: {
+            cart_detail:[]
+        },
+        userAddress:[]
     },
     mutations: {
         setAuth(state, isAuthenticated) {
@@ -48,11 +51,14 @@ export default new Vuex.Store({
         },
         setIncart(state, incart) {
             state.inCart = incart
+        },
+        setUserAddress(state, address) {
+            state.userAddress = address
         }
     },
     getters: {
         getCount(state) {
-            return state.inCart
+            return state.inCart.cart_detail
         }
     },
     actions: {},

@@ -79,9 +79,9 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
-                            let index = this.$store.state.inCart.findIndex(item => item.id == res.data.data.id)
-                            this.$store.state.inCart[index].quantity = res.data.data.quantity
-                            this.$store.state.inCart[index].price = res.data.data.price
+                            let index = this.$store.state.inCart.cart_detail.findIndex(item => item.id == res.data.data.id)
+                            this.$store.state.inCart.cart_detail[index].quantity = res.data.data.quantity
+                            this.$store.state.inCart.cart_detail[index].price = res.data.data.price
                         }).catch()
                     }, 2000)
                 }
@@ -100,9 +100,9 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
-                            let index = this.$store.state.inCart.findIndex(item => item.id == res.data.data.id)
-                            this.$store.state.inCart[index].quantity = res.data.data.quantity
-                            this.$store.state.inCart[index].price = res.data.data.price
+                            let index = this.$store.state.inCart.cart_detail.findIndex(item => item.id == res.data.data.id)
+                            this.$store.state.inCart.cart_detail[index].quantity = res.data.data.quantity
+                            this.$store.state.inCart.cart_detail[index].price = res.data.data.price
                         }).catch()
                     }, 2000)
                 }
@@ -115,8 +115,8 @@
                     },
                 }).then(() => {
                     // console.log(res.status)
-                    let index = this.$store.state.inCart.findIndex(item => item.id == this.data.id)
-                    this.$store.state.inCart.splice(index, 1)
+                    let index = this.$store.state.inCart.cart_detail.findIndex(item => item.id == this.data.id)
+                    this.$store.state.inCart.cart_detail.splice(index, 1)
                 }).catch()
             }
         }

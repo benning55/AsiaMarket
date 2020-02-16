@@ -41,6 +41,7 @@
                 }).then(
                     res => {
                         this.addresses = res.data.address
+                        this.$store.commit("setUserAddress", res.data.address);
                     }
                 ).catch()
             },

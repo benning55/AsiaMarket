@@ -24,7 +24,7 @@
                     <div @click="cartDrawer = !cartDrawer, mobileDrawer =false" class="relative">
                         <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
                         <div class="absolute text-white rounded-full h-5 w-5 flex items-center justify-center bg-green count-position3">
-                            {{$store.state.inCart.length}}
+                            {{$store.state.inCart.cart_detail.length}}
                         </div>
                     </div>
                 </li>
@@ -58,7 +58,7 @@
                             <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
                             <h1 class="text-lg text-center text-green">{{Number(subTotal) + Number(shipping)}} $</h1>
                             <div class=" text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position">
-                                {{$store.state.inCart.length}}
+                                {{$store.state.inCart.cart_detail.length}}
                             </div>
                         </div>
                         <div @click="accountDrawer = !accountDrawer"
@@ -106,7 +106,7 @@
                             <i @click="mobileDrawer =! mobileDrawer"
                                class="material-icons text-2xl cursor-pointer absolute"
                                style="top:61px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
-                            Firstname Lastname
+                            {{firstname_lastname}}
                         </div>
                         <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Order
                             history
@@ -141,14 +141,14 @@
                     <div class="w-70 p-3 text-xl border-bottom fixed justify-between flex bg-white">
                         <img class="w-8" src="../assets/icon/supermarket.svg">
                         <div class="text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position2">
-                            {{$store.state.inCart.length}}
+                            {{$store.state.inCart.cart_detail.length}}
                         </div>
                         My Cart
                         <i @click="cartDrawer = !cartDrawer" class="material-icons text-3xl cursor-pointer">keyboard_arrow_right</i>
                     </div>
                     <div class="w-full">
                         <ul class="w-full" style="height: 3.5rem"></ul>
-                        <InCartItem v-for="item in $store.state.inCart" :key="item.id" :data="item"/>
+                        <InCartItem v-for="item in $store.state.inCart.cart_detail" :key="item.id" :data="item"/>
                         <div class="w-full" style="height: 249px"></div>
                     </div>
                 </div>
@@ -184,7 +184,7 @@
                                 <i class="fas fa-check text-white"></i>
                             </div>
 
-                            <div v-else @click="checkCode" class="height1-85 bg-red rounded-r-lg text-center"
+                            <div v-else class="height1-85 bg-red rounded-r-lg text-center"
                                  style="padding: 3px">
                                 <i class="fas fa-times text-white"></i>
                             </div>
@@ -192,7 +192,7 @@
                     </div>
                     <div class="flex justify-between">
                         <div class="">Total</div>
-                        <div>{{Number(subTotal) + Number(shipping)}} $</div>
+                        <div>{{total}} $</div>
                     </div>
                     <button v-if="subTotal > 0" class="w-full h-10 bg-orange mt-3 text-white flex justify-center">
                         <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
@@ -230,7 +230,7 @@
                             <i @click="accountDrawer =! accountDrawer"
                                class="material-icons text-2xl cursor-pointer absolute"
                                style="top:7px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
-                            Firstname Lastname
+                            {{firstname_lastname}}
                         </div>
                         <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                             Order history
@@ -283,10 +283,10 @@
                     {id: 8, type: "Other", color: "pink"},
                 ],
                 itemIncart: [],
-                totalPrice: 0,
                 code: '',
                 codeStatus: 'none',
-                shipping: 1
+                percent: 0,
+
             }
         },
         created() {
@@ -296,10 +296,12 @@
                     'Content-Type': 'application/json'
                 },
             }).then(res => {
-                this.itemIncart = res.data.data.cart_detail
-                this.$store.commit("setIncart", this.itemIncart);
+                this.itemIncart = res.data.data
+                this.$store.commit("setIncart", res.data.data);
             }).catch(() => {
-                this.$store.commit("setIncart", []);
+                this.$store.commit("setIncart", {
+                    cart_detail: []
+                });
             })
         },
         methods: {
@@ -358,6 +360,16 @@
                         }).then(res => {
                             this.codeStatus = 'ok'
                             console.log(res)
+                            axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
+                                headers: {
+                                    Authorization: `JWT ${this.$store.state.jwt}`,
+                                    'Content-Type': 'application/json'
+                                },
+                            }).then(res => {
+                                this.itemIncart = res.data.data
+                                this.$store.commit("setIncart", this.itemIncart);
+                                this.value = 0
+                            }).catch()
                         }).catch(() => {
                             this.codeStatus = 'error'
                         })
@@ -373,20 +385,71 @@
             }
         },
         computed: {
-            subTotal: function () {
-                let sum = this.$store.state.inCart.reduce(function (accumulate, data) {
+            firstname_lastname() {
+                let name = this.$store.state.authUser.user.first_name + ' ' + this.$store.state.authUser.user.last_name
+                if (name.length > 20) {
+                    return name.substring(0, 20) + '...'
+                } else {
+                    return name
+                }
+            },
+            subTotal() {
+                let sum = this.$store.state.inCart.cart_detail.reduce(function (accumulate, data) {
                     return accumulate + Number(data.price);
                 }, 0);
                 return (sum).toFixed(2);
+            },
+            shipping() {
+                let shipping = 2
+                if (this.subTotal == 0) {
+                    return 0
+                } else {
+                    return shipping
+                }
+            },
+            totalShipping() {
+                return Number(this.subTotal) + Number(this.shipping)
+            },
+            getCode() {
+                if (this.$store.state.inCart.code == null) {
+                    return 0
+                } else {
+                    return this.$store.state.inCart.code[0]
+                }
+            },
+            total() {
+                return (this.totalShipping - ((this.totalShipping / 100) * this.percent)).toFixed(2)
+            }
+        },
+        watch: {
+            getCode: {
+                deep: true,
+                handler: function (code) {
+                    if (code != 0) {
+                        this.percent = Number(code.percent)
+                        this.code = code.name
+                    } else {
+                        this.percent = 0
+                        this.code = ''
+                    }
+                }
+            },
+            code: {
+                deep: true,
+                handler: function (newVal) {
+                    if (newVal.length > 0) {
+                        this.codeStatus = 'ok'
+                    } else {
+                        this.codeStatus = 'none'
+                    }
+                }
             }
         }
     }
 </script>
 
 <style scoped>
-    .border-bottom {
-        border-bottom: 1px solid #707070
-    }
+
 
     .w-70 {
         width: 20rem;

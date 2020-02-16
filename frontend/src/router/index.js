@@ -9,6 +9,7 @@ import ViewAddress from "../views/ViewAddress";
 import ForgetPassword from "../views/ForgetPassword";
 import AddAddress from "../views/AddAddress";
 import EditAddress from "../views/EditAddress";
+import ConfirmOrder from "../views/ConfirmOrder";
 
 Vue.use(VueRouter)
 
@@ -67,6 +68,11 @@ const routes = [
         path: '/address/edit@:id',
         name: 'EditAddress',
         component: EditAddress
+    },
+    {
+        path:'/confirm-order',
+        name:'ConfirmOrder',
+        component:ConfirmOrder
     }
 ]
 

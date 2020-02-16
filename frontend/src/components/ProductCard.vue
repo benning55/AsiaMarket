@@ -111,7 +111,7 @@
                                     'Content-Type': 'application/json'
                                 },
                             }).then(res => {
-                                this.itemIncart = res.data.data.cart_detail
+                                this.itemIncart = res.data.data
                                 this.$store.commit("setIncart", this.itemIncart);
                                 this.countLoading = false
                             }).catch()
@@ -119,10 +119,10 @@
                     }, 2000)
                 } else if (this.count() != this.quantity && this.$store.state.isAuthenticated == true) {
                     clearTimeout(this.timeout)
-                    this.$store.state.inCart[this.isInCart].quantity++
+                    this.$store.state.inCart.cart_detail[this.isInCart].quantity++
                     this.timeout = setTimeout(() => {
                         axios.post(this.$store.state.endpoints.editInCart, {
-                            quantity: this.$store.state.inCart[this.isInCart].quantity,
+                            quantity: this.$store.state.inCart.cart_detail[this.isInCart].quantity,
                             product_id: this.productData.id
                         }, {
                             headers: {
@@ -130,8 +130,8 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
-                            this.$store.state.inCart[this.isInCart].quantity = res.data.data.quantity
-                            this.$store.state.inCart[this.isInCart].price = res.data.data.price
+                            this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
+                            this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch()
                     }, 2000)
                 } else if (this.$store.state.isAuthenticated == false) {
@@ -141,7 +141,7 @@
             decrease() {
                 if (this.count() != 1) {
                     clearTimeout(this.timeout)
-                    this.$store.state.inCart[this.isInCart].quantity--
+                    this.$store.state.inCart.cart_detail[this.isInCart].quantity--
                     this.timeout = setTimeout(() => {
                         axios.post(this.$store.state.endpoints.editInCart, {
                             quantity: this.count(),
@@ -152,8 +152,8 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
-                            this.$store.state.inCart[this.isInCart].quantity = res.data.data.quantity
-                            this.$store.state.inCart[this.isInCart].price = res.data.data.price
+                            this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
+                            this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch()
                     }, 2000)
                 } else if (this.count() == 1) {
@@ -170,7 +170,7 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
-                            this.itemIncart = res.data.data.cart_detail
+                            this.itemIncart = res.data.data
                             this.$store.commit("setIncart", this.itemIncart);
                             this.value = 0
                         }).catch()
@@ -178,12 +178,13 @@
                 }
             },
             count() {
-                this.isInCart = this.$store.state.inCart.findIndex(item => item.product.id == this.productData.id)
+                this.isInCart = this.$store.state.inCart.cart_detail.findIndex(item => item.product.id == this.productData.id)
                 if (this.isInCart != -1) {
                     this.oldQuantity = this.$store.getters.getCount[this.isInCart].quantity
                     return this.$store.getters.getCount[this.isInCart].quantity
                 } else {
                     this.oldQuantity = 0
+                    this.value = 0
                     return 0
                 }
 
