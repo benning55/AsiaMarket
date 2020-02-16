@@ -15,6 +15,7 @@ urlpatterns = [
     path('profile/', views.ProfileApiView.as_view()),
     path('profile/<int:pk>/', views.ProfileApiView.as_view()),
     path('user/address/', views.UserAddressApiView.as_view()),
+    path('user/address/<int:pk>/', views.UserAddressApiView.as_view()),
     path('forget-password/', views.forget_password),
     path('reset-password/(?P<uidb64>[0-9A-Za-z_\\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.reset_password, name='reset')
 ]

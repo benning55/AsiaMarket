@@ -80,7 +80,16 @@ class AddressSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        return Address(**validated_data)
+        address, created = Address.objects.update_or_create(
+            recipient=validated_data['recipient'],
+            house_number=validated_data['house_number'],
+            street=validated_data['post_code'],
+            defaults={
+                'street': validated_data['street'],
+                'city': validated_data['city']
+            }
+        )
+        return address
 
     def update(self, instance, validated_data):
         instance.recipient = validated_data.get('recipient', instance.recipient)

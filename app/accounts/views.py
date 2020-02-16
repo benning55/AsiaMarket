@@ -202,14 +202,38 @@ class UserAddressApiView(APIView):
         else:
             data['user_id'] = user.id
 
-        serializer = serializers.AddressSerializer(data=data)
-
-        if serializer.is_valid():
-            address = serializer.create(validated_data=serializer.validated_data)
-            address.user_id = user.id
-            address.save()
-            return Response({"address": serializer.validated_data}, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        address = Address.objects.all()
+        user_address = address.filter(
+            user_id=user.id,
+            recipient=data['recipient'],
+            house_number=data['house_number'],
+            city=data['city'],
+            post_code=data['post_code'],
+            street__contains=data['street']
+        )
+        if len(user_address) == 0:
+            serializer = serializers.AddressSerializer(data=data)
+            if serializer.is_valid():
+                address_user = Address.objects.create(
+                    user_id=user.id,
+                    recipient=data['recipient'],
+                    house_number=data['house_number'],
+                    street=data['street'],
+                    post_code=data['post_code'],
+                    city=data['city']
+                )
+                address_data = serializers.AddressSerializer(address_user)
+                return Response({"address": address_data.data}, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            current_address = user_address[0]
+            serializer = serializers.AddressSerializer(instance=current_address, data=data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response({"address": serializer.data}, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, *args, **kwargs):
         """
@@ -227,6 +251,16 @@ class UserAddressApiView(APIView):
                 serializer.save()
                 return Response(serializer.data, status.HTTP_200_OK)
             return Response({"updated": "fucked"}, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Delete Address that doesn't want
+        """
+        user = request.user
+        address_id = self.kwargs.get('pk')
+        address = get_object_or_404(Address.objects.all(), pk=address_id)
+        address.delete()
+        return Response({'success': 'delete data'}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST', ])
