@@ -4,7 +4,7 @@
             <li class="inline-block px-5"></li>
         </ul>
         <div class="bg-white w-full border-green-top px-4 sm:h-full sm:px-8 md:px-10 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
-            <div class="text-center text-2xl mb-10 mt-5 font-l">Add new Address</div>
+            <div class="text-center text-2xl mb-10 mt-5 font-l">Edit Address</div>
             {{this.$route.params.id}}
             <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
                 <label v-if="!validation.firstError('recipient')"
@@ -77,7 +77,6 @@
                 </div>
             </div>
 
-
             <div class="flex">
                 <div @click="deleteAddress"
                      class="w-64 mx-auto bg-red text-white text-center mt-10 py-2 px-2 focus:outline-none cursor-pointer">
@@ -96,11 +95,12 @@
 
 <script>
     import {Validator} from "../main";
-    // import axios from "axios";
+    import axios from "axios";
 
     export default {
         data() {
             return {
+                index: '',
                 recipient: '',
                 house_number: '',
                 street: '',
@@ -148,9 +148,38 @@
                     .required("post_code");
             },
         },
-        // created() {
-        //     axios.get
-        // },
+        created() {
+            this.index = this.$store.state.userAddress.findIndex(item => item.id == this.$route.params.id)
+            console.log(this.$store.state.userAddress[this.index])
+            this.recipient = this.$store.state.userAddress[this.index].recipient
+            this.house_number = this.$store.state.userAddress[this.index].house_number
+            this.street = this.$store.state.userAddress[this.index].street
+            this.city = this.$store.state.userAddress[this.index].city
+            this.post_code = this.$store.state.userAddress[this.index].post_code
+        },
+        methods: {
+            editAddress() {
+                axios.put(`http://${window.location.hostname}:8000/api/accounts/user/address/`, {
+                    id: this.$route.params.id,
+                    recipient: this.recipient,
+                    street: this.street,
+                    house_number: this.house_number,
+                    post_code: this.post_code,
+                    city: this.city
+                }, {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).then(() => {
+                    this.$router.push({
+                        name:'ViewAddress'
+                    })
+                }).catch()
+            },
+            deleteAddress() {
+            }
+        }
 
         // methods: {
         //     addAddress() {

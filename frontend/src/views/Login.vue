@@ -128,6 +128,7 @@
                                 console.log(this.$store.state.authUser);
                                 // console.log(this.$store.state.authUser['profile']);
                                 this.$router.push("/")
+                                location.reload();
                             }).catch((error) => {
                                 console.log(error);
                                 alert(this.$store.state.jwt)
@@ -137,10 +138,9 @@
                             console.log(error);
                             console.debug(error);
                             console.dir(error);
-                            alert('Fuck You')
+                            alert('no')
                         })
                 }
-
             }
         }
     }

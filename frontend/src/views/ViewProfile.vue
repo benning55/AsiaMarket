@@ -27,7 +27,7 @@
                         <i class="fas fa-check text-white" style="padding: 12px;"></i>
                     </div>
                     <div v-else @click="isEditFirstname = !isEditFirstname" class="w-12 bg-red rounded-lg ml-1 text-center">
-                        <i class="material-icons text-white" style="padding: 12px;">clear</i>
+                        <i class="material-icons text-white" style="padding: 8px;">clear</i>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                         <i class="fas fa-check text-white text-center " style="padding: 12px;"></i>
                     </div>
                     <div v-else @click="isEditLastname = !isEditLastname" class="w-12 bg-red rounded-lg ml-1 text-center">
-                        <i class="material-icons text-white text-center" style="padding: 12px;">
+                        <i class="material-icons text-white text-center" style="padding: 8px;">
                             clear
                         </i>
                     </div>
@@ -72,7 +72,7 @@
                         <i class="fas fa-check text-white" style="padding: 12px;"></i>
                     </div>
                     <div v-else @click="isEditPhone = !isEditPhone" class="w-12 bg-red rounded-lg ml-1 text-center">
-                        <i class="material-icons text-white text-center" style="padding: 12px;">
+                        <i class="material-icons text-white text-center" style="padding: 8px;">
                             clear
                         </i>
                     </div>
@@ -105,7 +105,7 @@
                     </div>
                     <div v-else @click="isEditDOB = !isEditDOB" class="w-12 bg-red rounded-lg ml-1 text-center"
                          style="padding-left: 3px ;padding-top: 3px;">
-                        <i class="material-icons text-white text-center" style="padding: 12px;">
+                        <i class="material-icons text-white text-center" style="padding: 8px;">
                             clear
                         </i>
                     </div>

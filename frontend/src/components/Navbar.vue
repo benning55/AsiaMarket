@@ -102,7 +102,7 @@
 
                     <!--                    show when logged in-->
                     <div v-else>
-                        <div class="py-3 px-10 text-xl border-bottom hover:bg-unHilight cursor-pointer">
+                        <div class="py-3 px-10 text-xl border-bottom hover:bg-unHilight">
                             <i @click="mobileDrawer =! mobileDrawer"
                                class="material-icons text-2xl cursor-pointer absolute"
                                style="top:61px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
@@ -111,10 +111,10 @@
                         <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Order
                             history
                         </div>
-                        <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Personal
+                        <div @click="goProfile" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Personal
                             Detail
                         </div>
-                        <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address
+                        <div @click="goAddress" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address
                         </div>
                         <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">Payment</div>
                     </div>
@@ -239,7 +239,7 @@
                              class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                             Personal Detail
                         </div>
-                        <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <div @click="goAddress" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                             Address
                         </div>
                         <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">
@@ -326,6 +326,12 @@
             goProfile() {
                 this.$router.push({
                     name: 'ViewProfile'
+                })
+                this.toggleOpacity()
+            },
+            goAddress(){
+                this.$router.push({
+                    name:'ViewAddress'
                 })
                 this.toggleOpacity()
             },

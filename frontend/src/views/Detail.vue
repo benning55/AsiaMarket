@@ -80,8 +80,6 @@
             <h1 class="mb-2 text-xl">You may also like</h1>
             <SwiperItem :dataItem="recommendProduct"/>
         </section>
-
-
     </div>
 </template>
 
@@ -187,14 +185,15 @@
         },
         created() {
             axios.get(this.$store.state.endpoints.productUrL + this.$route.params.id + "/").then(res => {
+                console.log(res.data.data)
                 this.dataProduct = res.data.data
             }).catch()
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                 this.recommendProduct = res.data.data.slice(0, 8)
             }).catch()
-            this.isInCart = this.$store.state.inCart.findIndex(item => item.product.id == this.dataProduct.id)
+            this.isInCart = this.$store.state.inCart.cart_detail.findIndex(item => item.product.id == this.dataProduct.id)
             if (this.isInCart != -1) {
-                this.value = this.$store.state.inCart[this.isInCart].quantity
+                this.value = this.$store.state.inCart.cart_detail[this.isInCart].quantity
             }
         },
         methods: {
@@ -219,7 +218,7 @@
                                     'Content-Type': 'application/json'
                                 },
                             }).then(res => {
-                                this.itemIncart = res.data.data.cart_detail
+                                this.itemIncart = res.data.data
                                 this.$store.commit("setIncart", this.itemIncart);
                                 this.countLoading = false
                             }).catch()
@@ -227,10 +226,10 @@
                     }, 2000)
                 } else if (this.count() != this.dataProduct.quantity) {
                     clearTimeout(this.timeout)
-                    this.$store.state.inCart[this.isInCart].quantity++
+                    this.$store.state.inCart.cart_detail[this.isInCart].quantity++
                     this.timeout = setTimeout(() => {
                         axios.post(this.$store.state.endpoints.editInCart, {
-                            quantity: this.$store.state.inCart[this.isInCart].quantity,
+                            quantity: this.$store.state.inCart.cart_detail[this.isInCart].quantity,
                             product_id: this.dataProduct.id
                         }, {
                             headers: {
@@ -238,10 +237,10 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
-                            console.log(this.$store.state.inCart[this.isInCart])
-                            this.$store.state.inCart[this.isInCart].quantity = res.data.data.quantity
-                            this.$store.state.inCart[this.isInCart].product.quantity = res.data.data.product.quantity
-                            this.$store.state.inCart[this.isInCart].price = res.data.data.price
+                            console.log(this.$store.state.inCart.cart_detail[this.isInCart])
+                            this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
+                            this.$store.state.inCart.cart_detail[this.isInCart].product.quantity = res.data.data.product.quantity
+                            this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch()
                     }, 2000)
                 }
@@ -249,7 +248,7 @@
             decrease() {
                 if (this.count() != 1) {
                     clearTimeout(this.timeout)
-                    this.$store.state.inCart[this.isInCart].quantity--
+                    this.$store.state.inCart.cart_detail[this.isInCart].quantity--
                     this.timeout = setTimeout(() => {
                         axios.post(this.$store.state.endpoints.editInCart, {
                             quantity: this.count(),
@@ -260,8 +259,8 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
-                            this.$store.state.inCart[this.isInCart].quantity = res.data.data.quantity
-                            this.$store.state.inCart[this.isInCart].price = res.data.data.price
+                            this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
+                            this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch()
                     }, 2000)
                 } else if (this.count() == 1) {
@@ -278,7 +277,7 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
-                            this.itemIncart = res.data.data.cart_detail
+                            this.itemIncart = res.data.data
                             this.$store.commit("setIncart", this.itemIncart);
                             this.value = 0
                         }).catch()
@@ -286,7 +285,7 @@
                 }
             },
             count() {
-                this.isInCart = this.$store.state.inCart.findIndex(item => item.product.id == this.dataProduct.id)
+                this.isInCart = this.$store.state.inCart.cart_detail.findIndex(item => item.product.id == this.dataProduct.id)
                 if (this.isInCart != -1) {
                     this.oldQuantity = this.$store.getters.getCount[this.isInCart].quantity
                     return this.$store.getters.getCount[this.isInCart].quantity
