@@ -182,6 +182,6 @@ class CodeToCartApiView(APIView):
                 cart.save()
                 return Response({'error': 'Data not found.'}, status=status.HTTP_404_NOT_FOUND)
             else:
-                cart.code_id = code.id
+                cart.code_id = code[0].id
                 cart.save()
                 return Response({'success': 'code add to cart'}, status=status.HTTP_200_OK)
