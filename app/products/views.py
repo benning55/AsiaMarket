@@ -176,7 +176,12 @@ class CodeToCartApiView(APIView):
             cart.save()
             return Response({'success': 'code is delete'}, status=status.HTTP_200_OK)
         else:
-            code = get_object_or_404(Code.objects.all(), name=code_name)
-            cart.code_id = code.id
-            cart.save()
-            return Response({'success': 'code add to cart'}, status=status.HTTP_200_OK)
+            code = Code.objects.all().filter(name=code_name)
+            if len(code) == 0:
+                cart.code_id = None
+                cart.save()
+                return Response({'error': 'Data not found.'}, status=status.HTTP_404_NOT_FOUND)
+            else:
+                cart.code_id = code.id
+                cart.save()
+                return Response({'success': 'code add to cart'}, status=status.HTTP_200_OK)
