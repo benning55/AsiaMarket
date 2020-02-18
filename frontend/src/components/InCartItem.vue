@@ -27,7 +27,7 @@
             </div>
             <div class="div5" style="align-self: end">
                 <div class="text-green" style="text-align: end;margin-right: 8px;">
-                    {{data.price}} $
+                    {{data.price}} €
                 </div>
             </div>
         </div>

@@ -52,7 +52,7 @@
 
         <div class="flex justify-between px-1 sm:px-0">
             <h1 class="mt-5 py-1 text-xl font-l">Payment Method</h1>
-            <h1 class="mt-5 py-1 text-sm font-l self-end text-gray">Change</h1>
+            <h1  class="mt-5 py-1 text-sm font-l self-end text-gray cursor-pointer">Change</h1>
         </div>
         <div class="bg-white w-full px-1 sm:h-full lg:px-10 xl:px-24 pb-16 mx-auto ">
 
@@ -60,21 +60,21 @@
 
         <div class="flex justify-between px-1 sm:px-0">
             <h1 class="mt-5 py-1 text-xl font-l">Shipping Information</h1>
-            <h1 class="mt-5 py-1 text-sm font-l self-end text-gray">Change</h1>
+            <h1 @click="showModal" class="mt-5 py-1 text-sm font-l self-end text-gray cursor-pointer">Change</h1>
         </div>
         <div class="bg-white w-full px-1 sm:h-full lg:px-10 xl:px-24 mx-auto py-5">
             <div class="px-5 md:px-10 font-l text-lg">
                 <div class="flex justify-between">
                     <h1 class="">Recipient</h1>
-                    <h1 class="text-right">{{this.$store.state.userAddress[0].recipient}}</h1>
+                    <h1 class="text-right">{{this.$store.state.userAddress[$store.state.indexUserAddress].recipient}}</h1>
                 </div>
                 <div class="flex justify-between">
                     <h1>Address</h1>
                     <h1 class="text-right">
-                        {{this.$store.state.userAddress[0].house_number}},
-                        {{this.$store.state.userAddress[0].street}},
-                        {{this.$store.state.userAddress[0].city}}
-                        {{this.$store.state.userAddress[0].post_code}}
+                        {{this.$store.state.userAddress[$store.state.indexUserAddress].house_number}},
+                        {{this.$store.state.userAddress[$store.state.indexUserAddress].street}},
+                        {{this.$store.state.userAddress[$store.state.indexUserAddress].city}}
+                        {{this.$store.state.userAddress[$store.state.indexUserAddress].post_code}}
                     </h1>
                 </div>
             </div>
@@ -87,20 +87,35 @@
         <div class="bg-white w-full px-1 sm:h-full lg:px-10 xl:px-24 pb-16 mx-auto ">
 
         </div>
+
+        <!--        modal-->
+        <modal v-show="isModalVisible" @close="closeModal"/>
     </div>
 </template>
 
 <script>
     import axios from "axios";
+    import Modal from "../components/Modal";
 
     export default {
+        components: {
+            Modal
+        },
         data() {
-            return {}
+            return {
+                isModalVisible: false,
+            }
         },
         created() {
             this.loadAddress()
         },
         methods: {
+            showModal() {
+                this.isModalVisible = true;
+            },
+            closeModal() {
+                this.isModalVisible = false;
+            },
             loadAddress() {
                 axios.get(this.$store.state.endpoints.addressUrL, {
                     headers: {

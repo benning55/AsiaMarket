@@ -25,7 +25,8 @@ export default new Vuex.Store({
         inCart: {
             cart_detail: []
         },
-        userAddress: []
+        userAddress: [],
+        indexUserAddress:0
     },
     mutations: {
         setAuth(state, isAuthenticated) {
@@ -56,6 +57,21 @@ export default new Vuex.Store({
         },
         setUserAddress(state, address) {
             state.userAddress = address
+        },
+        setNewFirstname(state,firstname){
+            state.authUser.user.first_name = firstname
+        },
+        setNewLastname(state,lastname){
+            state.authUser.user.last_name = lastname
+        },
+        setNewTel(state,tel){
+            state.authUser.profile.tel = tel
+        },
+        setNewDOB(state,dob){
+            state.authUser.profile.dob = dob
+        },
+        setIndexUserAddress(state,index){
+            state.indexUserAddress = index
         }
     },
     getters: {

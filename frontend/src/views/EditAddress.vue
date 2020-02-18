@@ -5,7 +5,6 @@
         </ul>
         <div class="bg-white w-full border-green-top px-4 sm:h-full sm:px-8 md:px-10 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
             <div class="text-center text-2xl mb-10 mt-5 font-l">Edit Address</div>
-            {{this.$route.params.id}}
             <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
                 <label v-if="!validation.firstError('recipient')"
                        class="block text-sm mb-2"
@@ -85,7 +84,7 @@
 
                 <div @click="editAddress"
                      class="w-64 mx-auto bg-green text-white text-center mt-10 py-2 px-2 focus:outline-none cursor-pointer">
-                    Add new Address
+                    Edit Address
                 </div>
             </div>
 
@@ -173,42 +172,23 @@
                     },
                 }).then(() => {
                     this.$router.push({
-                        name:'ViewAddress'
+                        name: 'ViewAddress'
                     })
                 }).catch()
             },
             deleteAddress() {
+                axios.delete(`http://${window.location.hostname}:8000/api/accounts/user/address/` + this.$route.params.id+'/', {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).then(() => {
+                    this.$router.push({
+                        name: 'ViewAddress'
+                    })
+                }).catch()
             }
         }
-
-        // methods: {
-        //     addAddress() {
-        //         this.$validate().then(success => {
-        //             if (success) {
-        //                 console.log("add")
-        //                 axios.post(this.$store.state.endpoints.host + '/api/accounts/user/address/',{
-        //                     recipient:this.recipient,
-        //                     house_number:this.house_number,
-        //                     street:this.street,
-        //                     city:this.city,
-        //                     post_code:this.post_code
-        //                 }, {
-        //                     headers: {
-        //                         Authorization: `JWT ${this.$store.state.jwt}`,
-        //                         'Content-Type': 'application/json'
-        //                     },
-        //                 }).then(() => {
-        //                     this.$router.push({
-        //                         name:'ViewAddress'
-        //                     })
-        //                 }).catch((e) => {
-        //                     console.log(e)
-        //                 })
-        //
-        //             }
-        //         })
-        //     }
-        // }
     }
 </script>
 

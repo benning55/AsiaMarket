@@ -1,8 +1,10 @@
 <template>
     <div class="max-w-sm bg-white cs-border cursor-pointer">
         <div v-if="productData.quantity == 0" class="absolute bg-white w-full h-full opacity-50"></div>
-        <div v-if="productData.quantity == 0" class="shadow-lg text-center text-red center absolute opacity-100 bg-white px-1 py-1">Out of Stock</div>
-         <img @click="goDetail(productData.id)" v-if="productData.pic1 == null" class="w-4/6 object-cover mx-auto my-3"
+        <div v-if="productData.quantity == 0"
+             class="shadow-lg text-center text-red center absolute opacity-100 bg-white px-1 py-1">Out of Stock
+        </div>
+        <img @click="goDetail(productData.id)" v-if="productData.pic1 == null" class="w-4/6 object-cover mx-auto my-3"
              src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg"
              alt="Sunset in the mountains">
         <img @click="goDetail(productData.id)" v-else class="w-4/6 object-cover mx-auto my-3"
@@ -17,8 +19,10 @@
                  :style="`color:${productData.category_color}`">
                 {{productData.category_name}}
             </div>
-            <a class="text-2xl ml-2">{{productData.price}} €</a>
-            <a class="text-lightGray ml-2"> /piece</a>
+            <div class="flex justify-between">
+                <a class="text-2xl ml-2">{{productData.price}} €</a>
+                <a class="text-lightGray ml-2 self-center absolute" style="right: 8px"> /piece</a>
+            </div>
 
             <!--            loading when start from 0-->
             <div v-if="countLoading == true"
@@ -40,6 +44,7 @@
                     <i class="material-icons">remove</i>
                 </div>
                 <div class="text-2xl">{{count()}}</div>
+                <!--                <input v-model="tmp" style="width: 50px;font-size: 10px">-->
                 <div @click="increase" class="button-decrease bg-green" style="user-select: none">
                     <i class="material-icons">add</i>
                 </div>
@@ -52,8 +57,6 @@
                  class="button-area mx-auto flex justify-between mb-2" style="border: 1.5px solid #707070">
                 <div class="text-xl" style="margin: auto">Add</div>
             </div>
-
-
         </div>
     </div>
 </template>
@@ -72,7 +75,8 @@
                 quantity: this.productData.quantity,
                 isInCart: false,
                 oldQuantity: 0,
-                countLoading: false
+                countLoading: false,
+                tmp: 0
             }
         },
         created() {
@@ -89,6 +93,7 @@
                     name: 'Detail',
                     params: {id: id}
                 })
+                location.reload();
             },
             increase() {
                 if (this.oldQuantity == 0 && this.$store.state.isAuthenticated == true) {               // if start from 0 it not have any list in cart
@@ -177,17 +182,18 @@
                     }).catch()
                 }
             },
+
             count() {
                 this.isInCart = this.$store.state.inCart.cart_detail.findIndex(item => item.product.id == this.productData.id)
                 if (this.isInCart != -1) {
                     this.oldQuantity = this.$store.getters.getCount[this.isInCart].quantity
+                    this.tmp = this.$store.getters.getCount[this.isInCart].quantity
                     return this.$store.getters.getCount[this.isInCart].quantity
                 } else {
                     this.oldQuantity = 0
                     this.value = 0
                     return 0
                 }
-
             }
         },
     }

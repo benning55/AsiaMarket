@@ -32,23 +32,23 @@
         </nav>
 
         <!--        left menu on screen-->
-        <div class="inset-y-0 left-0 fixed hidden sm:hidden md:hidden lg:block">
-            <div class="container px-5">
-                <ul class="mt-24">
-                    <li @click="goHome" class="mb-4 hover:text-green cursor-pointer">Home</li>
-                    <li class="mb-1 text-gray cursor-pointer">Promotion</li>
-                    <li class="mb-1 text-gray cursor-pointer">Recomment</li>
-                    <li @click="goCategory({id:'new-product'})" class="mb-4 hover:text-green cursor-pointer">New
-                        Product
-                    </li>
-                    <li v-for="category in categorys" :key="category.id" class="mb-1 hover:text-green cursor-pointer">
-                        <span @click="goCategory(category)">{{category.type}}</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <!--        <div class="inset-y-0 left-0 fixed hidden sm:hidden md:hidden lg:block">-->
+        <!--            <div class="container px-5">-->
+        <!--                <ul class="mt-24">-->
+        <!--                    <li @click="goHome" class="mb-4 hover:text-green cursor-pointer">Home</li>-->
+        <!--                    <li class="mb-1 text-gray cursor-pointer">Promotion</li>-->
+        <!--                    <li class="mb-1 text-gray cursor-pointer">Recomment</li>-->
+        <!--                    <li @click="goCategory({id:'new-product'})" class="mb-4 hover:text-green cursor-pointer">New-->
+        <!--                        Product-->
+        <!--                    </li>-->
+        <!--                    <li v-for="category in categorys" :key="category.id" class="mb-1 hover:text-green cursor-pointer">-->
+        <!--                        <span @click="goCategory(category)">{{category.type}}</span>-->
+        <!--                    </li>-->
+        <!--                </ul>-->
+        <!--            </div>-->
+        <!--        </div>-->
 
-        <!--        mini button left screen-->
+        <!--        mini button right screen-->
         <div class="inset-y-0 right-0 fixed hidden sm:hidden md:hidden lg:block">
             <div class="container">
                 <div class="vertical-center">
@@ -56,7 +56,7 @@
                         <div @click="cartDrawer = !cartDrawer"
                              class="w-20 bg-white hover:bg-unHilight py-3 rounded-tl-lg border-bottom cursor-pointer">
                             <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
-                            <h1 class="text-lg text-center text-green">{{Number(subTotal) + Number(shipping)}} $</h1>
+                            <h1 class="text-lg text-center text-green">{{total}} €</h1>
                             <div class=" text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position">
                                 {{$store.state.inCart.cart_detail.length}}
                             </div>
@@ -65,6 +65,21 @@
                              class="w-20 bg-white hover:bg-unHilight py-3 rounded-bl-lg cursor-pointer">
                             <img class="w-8 mx-auto " src="../assets/icon/user.svg">
                             <h1 class="text-md text-center">Account</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--        mini button left screen-->
+        <div class="inset-y-0 left-0 fixed hidden sm:hidden md:hidden lg:block">
+            <div class="container">
+                <div class="vertical-center-left">
+                    <div class="shadow-md">
+                        <div @click="mobileDrawer = !mobileDrawer"
+                             class="w-20 bg-white hover:bg-unHilight py-3 rounded-r-lg cursor-pointer">
+                            <img class="w-8 mx-auto " src="../assets/icon/next.svg">
+                            <h1 class="text-md text-center">Category</h1>
                         </div>
                     </div>
                 </div>
@@ -80,10 +95,10 @@
         <!--left screen mobile version-->
         <transition name="slide-left">
             <div v-if="mobileDrawer"
-                 class="inset-y-0 left-0 fixed bg-white fixed z-20 shadow-md w-70  overflow-auto h-screen">
+                 class="inset-y-0 left-0 fixed bg-gray_bg fixed z-20 shadow-md w-70  overflow-auto h-screen">
                 <ul class="w-full py-6">L</ul>
-                <div class="relative h-100 w-70">
-                    <div class="py-3 px-10 text-xl text-center border-bottom font-l bg-gray_bg cursor-pointer">
+                <div class="relative h-100 w-70 bg-white">
+                    <div class="py-3 px-10 text-xl text-center border-bottom font-l bg-gray_bg cursor-pointer block lg:hidden">
                         <a @click="changeLocale(`en`)">EN </a> | <a
                             @click="changeLocale(`th`)"> TH</a>
                     </div>
@@ -101,7 +116,7 @@
                     </div>
 
                     <!--                    show when logged in-->
-                    <div v-else>
+                    <div v-else class="block lg:hidden">
                         <div class="py-3 px-10 text-xl border-bottom hover:bg-unHilight">
                             <i @click="mobileDrawer =! mobileDrawer"
                                class="material-icons text-2xl cursor-pointer absolute"
@@ -111,12 +126,25 @@
                         <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Order
                             history
                         </div>
-                        <div @click="goProfile" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Personal
+                        <div @click="goProfile"
+                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Personal
                             Detail
                         </div>
-                        <div @click="goAddress" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address
+                        <div @click="goAddress"
+                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address
                         </div>
                         <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">Payment</div>
+                        <div class="pb-3 pt-5 px-5 text-xl bg-gray_bg"></div>
+                    </div>
+
+                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <span>Promotion</span>
+                    </div>
+                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <span>Recommend</span>
+                    </div>
+                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <span @click="goCategory({id:'new-product'})">New Product</span>
                     </div>
 
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg">Product</div>
@@ -126,7 +154,7 @@
                     </div>
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg"></div>
                     <div v-if="$store.state.isAuthenticated" @click="logout"
-                         class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
+                         class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer block lg:hidden">
                         Log Out
                     </div>
                 </div>
@@ -155,11 +183,11 @@
                 <div class="fixed w-70 bottom-0  border-top p-2 bg-white z-50">
                     <div class="flex justify-between font-l">
                         <div class="">Subtotal</div>
-                        <div>{{subTotal}} $</div>
+                        <div>{{subTotal}} €</div>
                     </div>
                     <div class="flex justify-between font-l">
                         <div class="">Shipping</div>
-                        <div>{{shipping}} $</div>
+                        <div>{{shipping}} €</div>
                     </div>
                     <div class="flex justify-between font-l my-1">
                         <div class="">Coupon Code</div>
@@ -192,9 +220,10 @@
                     </div>
                     <div class="flex justify-between">
                         <div class="">Total</div>
-                        <div>{{total}} $</div>
+                        <div>{{total}} €</div>
                     </div>
-                    <button v-if="subTotal > 0" class="w-full h-10 bg-orange mt-3 text-white flex justify-center">
+                    <button v-if="subTotal > 0" @click="goCheckOut"
+                            class="w-full h-10 bg-orange mt-3 text-white flex justify-center">
                         <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
                         Process to checkout
                     </button>
@@ -209,9 +238,9 @@
 
         <!--right screen-->
         <transition name="slide">
-            <div v-if="accountDrawer" class="inset-y-0 right-0 bg-white fixed z-20 shadow-md">
+            <div v-if="accountDrawer" class="inset-y-0 right-0 bg-gray_bg fixed z-20 shadow-md">
                 <ul class="w-full py-6">L</ul>
-                <div class="relative h-100 w-70">
+                <div class="relative h-100 w-70 bg-white">
                     <!--                    show when not log in-->
                     <div v-if="!$store.state.isAuthenticated">
                         <div @click="goLogin"
@@ -239,7 +268,8 @@
                              class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                             Personal Detail
                         </div>
-                        <div @click="goAddress" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <div @click="goAddress"
+                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                             Address
                         </div>
                         <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">
@@ -329,9 +359,9 @@
                 })
                 this.toggleOpacity()
             },
-            goAddress(){
+            goAddress() {
                 this.$router.push({
-                    name:'ViewAddress'
+                    name: 'ViewAddress'
                 })
                 this.toggleOpacity()
             },
@@ -353,36 +383,44 @@
             },
             checkCode() {
                 clearTimeout(this.timeout)
-                if (this.code.length != 0) {
-                    this.codeStatus = 'loading'
-                    this.timeout = setTimeout(() => {
-                        axios.post(`http://${window.location.hostname}:8000/api/products/code/`, {
-                            code_name: this.code
-                        }, {
+                this.codeStatus = 'loading'
+
+                this.timeout = setTimeout(() => {
+                    axios.post(`http://${window.location.hostname}:8000/api/products/code/`, {
+                        code_name: this.code
+                    }, {
+                        headers: {
+                            Authorization: `JWT ${this.$store.state.jwt}`,
+                            'Content-Type': 'application/json'
+                        },
+                    }).then(res => {
+                        if (res.data.success == "code is delete") {
+                            this.codeStatus = 'none'
+                        } else {
+                            this.codeStatus = 'ok'
+                        }
+                        console.log(res)
+                        axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
                             headers: {
                                 Authorization: `JWT ${this.$store.state.jwt}`,
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
-                            this.codeStatus = 'ok'
-                            console.log(res)
-                            axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
-                                headers: {
-                                    Authorization: `JWT ${this.$store.state.jwt}`,
-                                    'Content-Type': 'application/json'
-                                },
-                            }).then(res => {
-                                this.itemIncart = res.data.data
-                                this.$store.commit("setIncart", this.itemIncart);
-                                this.value = 0
-                            }).catch()
-                        }).catch(() => {
-                            this.codeStatus = 'error'
-                        })
-                    }, 1000)
-                } else {
-                    this.codeStatus = 'none'
-                }
+                            this.itemIncart = res.data.data
+                            this.$store.commit("setIncart", this.itemIncart);
+                            this.value = 0
+                        }).catch()
+                    }).catch(() => {
+                        this.codeStatus = 'error'
+                    })
+                }, 1000)
+
+            },
+            goCheckOut() {
+                this.$router.push({
+                    name: "ConfirmOrder"
+                })
+                this.toggleOpacity()
             },
             logout() {
                 this.$store.commit('removeToken');
@@ -424,7 +462,11 @@
                 }
             },
             total() {
-                return (this.totalShipping - ((this.totalShipping / 100) * this.percent)).toFixed(2)
+                if (this.codeStatus == 'error') {
+                    return this.totalShipping
+                } else {
+                    return (this.totalShipping - ((this.totalShipping / 100) * this.percent)).toFixed(2)
+                }
             }
         },
         watch: {
@@ -443,7 +485,9 @@
             code: {
                 deep: true,
                 handler: function (newVal) {
-                    if (newVal.length > 0) {
+                    if (this.codeStatus == 'loading') {
+                        this.codeStatus = 'loading'
+                    } else if (newVal.length > 0) {
                         this.codeStatus = 'ok'
                     } else {
                         this.codeStatus = 'none'
@@ -472,6 +516,15 @@
         position: absolute;
         top: 50%;
         right: 0;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    .vertical-center-left {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 0;
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
     }

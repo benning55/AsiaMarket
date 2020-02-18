@@ -144,7 +144,7 @@
             },
             newPhone(value) {
                 return Validator.value(value)
-                    .required("กรุณาใส่รหัสผ่าน")
+                    .required("กรุณาใส่รหัสผ่าน").digit().length(12)
             },
             newDOB(value) {
                 return Validator.value(value)
@@ -195,7 +195,7 @@
                         'Content-Type': 'application/json'
                     },
                 }).then(() => {
-                    this.$store.state.authUser.profile.tel = phone
+                    this.$store.commit("setNewTel", phone);
                     this.isEditPhone = false
                 }).catch(e => {
                     console.log(e)
@@ -212,7 +212,7 @@
                         'Content-Type': 'application/json'
                     },
                 }).then(() => {
-                    this.$store.state.authUser.profile.dob = dob
+                    this.$store.commit("setNewDOB", dob);
                     this.isEditDOB = false
                 }).catch(e => {
                     console.log(e)

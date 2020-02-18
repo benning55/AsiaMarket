@@ -4,7 +4,7 @@
             <li class="inline-block px-5">LOGO</li>
         </ul>
         <section class="bg-white p-5 my-5">
-            <a><span>Home</span> / <span>{{dataProduct.category_name}}</span> / {{dataProduct.title}}</a>
+            <a><span @click="goHome" class="hover:text-green cursor-pointer">Home</span> / <span @click="goCategory(dataProduct.category_id)" class="hover:text-green cursor-pointer">{{dataProduct.category_name}}</span> / {{dataProduct.title}}</a>
         </section>
         <section class="my-5 mb-10">
             <div class="flex-none sm:flex md:flex lg:flex xl:flex mb-4 bg-white">
@@ -197,6 +197,17 @@
             }
         },
         methods: {
+            goHome() {
+                this.$router.push({
+                    name: 'HomePage'
+                })
+            },
+            goCategory(id) {
+                this.$router.push({
+                    name: 'Category',
+                    params: {id: id}
+                })
+            },
             increase() {
                 if (this.oldQuantity == 0) {               // if start from 0 it not have any list in cart
                     this.countLoading = true
