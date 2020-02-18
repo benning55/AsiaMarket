@@ -29,12 +29,17 @@ class AllInfo:
         ('Other', 'Other')
     )
 
-    WAITING = 'W'
-    SHIPPING = 'S'
-    DELIVER = 'D'
+    WAITING = 'Waiting'
+    SHIPPING = 'Shipping'
+    DELIVER = 'Delivered'
 
     DELIVER_TYPE = (
         (WAITING, 'Waiting for delivery'),
         (SHIPPING, 'In the process of shipping'),
         (DELIVER, 'Delivered')
+    )
+
+    PAYMENT_TYPE = (
+        ('PayPal', 'PayPal'),
+        ('BankTransfer', 'BankTransfer'),
     )

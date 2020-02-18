@@ -115,7 +115,7 @@ class Address(models.Model):
     def __str__(self):
         user = User.objects.get(pk=self.user_id)
         name = user.username
-        return name
+        return name + " " + str(self.id)
 
 
 class Category(models.Model):
@@ -211,6 +211,10 @@ class Order(models.Model):
         on_delete=models.CASCADE
     )
     total_price = models.DecimalField(max_digits=7, decimal_places=2)
+    payment_type = models.CharField(
+        choices=AllInfo.PAYMENT_TYPE,
+        max_length=50
+    )
     payment_status = models.BooleanField(default=False)
     delivery_status = models.CharField(
         choices=AllInfo.DELIVER_TYPE,
@@ -221,7 +225,9 @@ class Order(models.Model):
     created = models.DateTimeField(default=datetime.datetime.now, editable=False)
 
     def __str__(self):
-        return self.user
+        user = User.objects.get(pk=self.user_id)
+        name = user.username
+        return name + " " + str(self.id)
 
 
 class OrderDetail(models.Model):
@@ -236,4 +242,6 @@ class OrderDetail(models.Model):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return self.order
+        order = Order.objects.get(pk=self.order_id)
+        product = Product.objects.get(pk=self.product_id)
+        return product.title + " " + str(order.id)
