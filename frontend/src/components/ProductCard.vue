@@ -4,10 +4,10 @@
         <div v-if="productData.quantity == 0"
              class="shadow-lg text-center text-red center absolute opacity-100 bg-white px-1 py-1">Out of Stock
         </div>
-        <img @click="goDetail(productData.id)" v-if="productData.pic1 == null" class="w-4/6 object-cover mx-auto my-3"
-             src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg"
+        <img @click="goDetail(productData.id)" v-if="productData.pic1 == null" class="w-4/6 object-contain mx-auto my-3"
+             src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg" style="height: 155px"
              alt="Sunset in the mountains">
-        <img @click="goDetail(productData.id)" v-else class="w-4/6 object-cover mx-auto my-3"
+        <img @click="goDetail(productData.id)" v-else class="w-4/6 object-contain mx-auto my-3" style="height: 155px"
              :src="this.$store.state.endpoints.host+productData.pic1"
              alt="Sunset in the mountains">
 
