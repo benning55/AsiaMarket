@@ -4,7 +4,7 @@
             <li class="inline-block px-5"></li>
         </ul>
         <div class="auth">
-            <form class="mt-16 w-11/12 sm:w-4/5 md:w-3/5 lg:w-3/5 xl:w-3/5 mx-auto bg-white shadow-md px-3 sm:px-3 md:px-5 lg:px-16 xl:px-16 pt-6 pb-8 mb-4"
+            <form class="mt-16 w-11/12 sm:w-4/5 md:w-3/5 lg:w-4/5 xl:w-full mx-auto bg-white shadow-md px-3 sm:px-3 md:px-5 lg:px-16 xl:px-16 pt-6 pb-8 mb-4"
                   style="border-top: 6px solid #619F21;">
                 <div class="text-center text-2xl mb-10 mt-5 font-l">Login</div>
                 <div class="mb-4 sm:px-10 md:px-16 lg:px-16">
