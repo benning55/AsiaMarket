@@ -105,7 +105,7 @@ def register(request):
         return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'DELETE', ])
+@api_view(['GET', 'DELETE', 'PUT', ])
 @permission_classes([IsAuthenticated, ])
 def user_view(request):
     """
@@ -122,6 +122,31 @@ def user_view(request):
             "user": serializer.data,
             "profile": profile_serializer.data
         }, status.HTTP_200_OK)
+    elif request.method == 'PUT':
+        """
+        UPDATE USER INFORMATION
+        """
+        user = request.user
+        data = request.data
+        profile = get_object_or_404(Profile.objects.all(), pk=user.id)
+        profile_data = {
+            'tel': data['tel'],
+            'dob': data['dob']
+        }
+        user_data = {
+            'email': data['email'],
+            'first_name': data['first_name'],
+            'last_name': data['last_name']
+        }
+        serializer = serializers.ProfileSerializer(instance=profile, data=profile_data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            current_user = User.objects.get(pk=user.id)
+            current_user.email = data['email']
+            current_user.first_name = data['first_name']
+            current_user.last_name = data['last_name']
+            current_user.save()
+            profile_save = serializer.save()
+        return Response({'data': 'finish update data'}, status=status.HTTP_200_OK)
     elif request.method == 'DELETE':
         """
         Delete Request User
@@ -334,5 +359,3 @@ def reset_password(request, uidb64, token):
         form = ResetPassword()
 
     return render(request, 'reset_password.html', {'form': form})
-
-
