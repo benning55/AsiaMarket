@@ -19,6 +19,9 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 from django.conf.urls.static import static
 from django.conf import settings
 
+admin.site.site_header = 'Thai Express Dashboard'
+admin.site.index_title = 'Thai Express Administration'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/obtain_token/', obtain_jwt_token),
