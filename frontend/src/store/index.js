@@ -48,6 +48,7 @@ export default new Vuex.Store({
             state.authUser = null
             state.jwt = null
             state.isAuthenticated = false
+            state.indexUserAddress = 0
             state.inCart = {
                 cart_detail: []
             }

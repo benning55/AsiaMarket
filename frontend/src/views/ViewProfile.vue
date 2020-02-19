@@ -26,7 +26,8 @@
                          class="w-12 bg-green rounded-lg ml-1 text-center">
                         <i class="fas fa-check text-white" style="padding: 12px;"></i>
                     </div>
-                    <div v-else @click="isEditFirstname = !isEditFirstname" class="w-12 bg-red rounded-lg ml-1 text-center">
+                    <div v-else @click="isEditFirstname = !isEditFirstname"
+                         class="w-12 bg-red rounded-lg ml-1 text-center">
                         <i class="material-icons text-white" style="padding: 8px;">clear</i>
                     </div>
                 </div>
@@ -47,7 +48,8 @@
                          class="w-12 bg-green rounded-lg ml-1 text-center">
                         <i class="fas fa-check text-white text-center " style="padding: 12px;"></i>
                     </div>
-                    <div v-else @click="isEditLastname = !isEditLastname" class="w-12 bg-red rounded-lg ml-1 text-center">
+                    <div v-else @click="isEditLastname = !isEditLastname"
+                         class="w-12 bg-red rounded-lg ml-1 text-center">
                         <i class="material-icons text-white text-center" style="padding: 8px;">
                             clear
                         </i>
@@ -176,14 +178,48 @@
                 this.newDOB = this.userData.dob
             },
             editFirstname(firstname) {
-                this.userData.firstname = firstname
-                this.equal()
-                this.isEditFirstname = false
+                axios.put(this.$store.state.endpoints.host + '/api/accounts/user/', {
+                    tel: this.$store.state.authUser.profile.tel,
+                    dob: this.$store.state.authUser.profile.dob,
+                    email: this.$store.state.authUser.profile.email,
+                    first_name: firstname,
+                    last_name: this.$store.state.authUser.profile.last_name
+                }, {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).then(() => {
+                    this.$store.commit("setNewFirstname", firstname);
+                    this.isEditFirstname = false
+                }).catch(e => {
+                    console.log(e)
+                    this.isEditFirstname = false
+                })
             },
             editLastname(lastname) {
                 this.userData.lastname = lastname
                 this.equal()
                 this.isEditLastname = false
+
+                 axios.put(this.$store.state.endpoints.host + '/api/accounts/user/', {
+                    tel: this.$store.state.authUser.profile.tel,
+                    dob: this.$store.state.authUser.profile.dob,
+                    email: this.$store.state.authUser.profile.email,
+                    first_name: this.$store.state.authUser.user.first_name,
+                    last_name: lastname
+                }, {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).then(() => {
+                    this.$store.commit("setNewLastname", lastname);
+                    this.isEditLastname = false
+                }).catch(e => {
+                    console.log(e)
+                    this.isEditLastname = false
+                })
             },
             editPhone(phone) {
                 axios.put(this.$store.state.endpoints.host + '/api/accounts/profile/', {

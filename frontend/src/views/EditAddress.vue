@@ -84,10 +84,9 @@
 
                 <div @click="editAddress"
                      class="w-64 mx-auto bg-green text-white text-center mt-10 py-2 px-2 focus:outline-none cursor-pointer">
-                    Edit Address
+                    Save
                 </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -177,16 +176,21 @@
                 }).catch()
             },
             deleteAddress() {
-                axios.delete(`http://${window.location.hostname}:8000/api/accounts/user/address/` + this.$route.params.id+'/', {
-                    headers: {
-                        Authorization: `JWT ${this.$store.state.jwt}`,
-                        'Content-Type': 'application/json'
-                    },
-                }).then(() => {
-                    this.$router.push({
-                        name: 'ViewAddress'
-                    })
-                }).catch()
+                if (this.$store.state.userAddress.length == 1) {
+                    alert("can not delete")
+                } else if (this.$store.state.userAddress[this.$store.state.indexUserAddress].id == this.$route.params.id) {
+                    this.$store.commit("setIndexUserAddress", this.$store.state.indexUserAddress - 1);
+                    axios.delete(`http://${window.location.hostname}:8000/api/accounts/user/address/` + this.$route.params.id + '/', {
+                        headers: {
+                            Authorization: `JWT ${this.$store.state.jwt}`,
+                            'Content-Type': 'application/json'
+                        },
+                    }).then(() => {
+                        this.$router.push({
+                            name: 'ViewAddress'
+                        })
+                    }).catch()
+                }
             }
         }
     }
