@@ -28,7 +28,7 @@ class OrderDetailSerializer(serializers.ModelSerializer):
     product = ProductDataSerializer(read_only=True)
 
     class Meta:
-        model = Order
+        model = OrderDetail
         fields = ('id', 'order', 'product', 'quantity')
         extra_kwargs = {
             'id': {'read_only': True}

@@ -23,8 +23,24 @@ class OrderApiView(APIView):
         """
         Get All of user order
         """
+        pk = self.kwargs.get("pk")
         user = request.user
-        return Response({'data': f'Hello {user.first_name}'}, status=status.HTTP_200_OK)
+        if pk is None:
+            order_query = Order.objects.all().filter(user_id=user.id).order_by('-id')
+            serializer = serializers.OrderSerializer(order_query, many=True)
+            return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+        else:
+            order = get_object_or_404(Order.objects.all(), pk=pk)
+            if order.user_id != user.id:
+                return Response({'error': 'You dont have permission to look'}, status=status.HTTP_403_FORBIDDEN)
+            else:
+                order_detail = OrderDetail.objects.all().filter(order_id=order.id)
+                timeline = Timeline(
+                    order=Order.objects.all().filter(pk=pk),
+                    order_detail=order_detail
+                )
+                serializer = serializers.ShowOrderData(timeline)
+                return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
         """
@@ -45,17 +61,17 @@ class OrderApiView(APIView):
         if serializer.is_valid():
             if len(cart_detail) != 0:
                 order = serializer.create(serializer.validated_data)
-                for cart_product in cart_detail:
-                    product_obj = Product.objects.get(pk=cart_product.product.id)
-                    quantity_left = product_obj.quantity - cart_product.quantity
-                    product_obj.quantity = quantity_left
-                    product_obj.save()
-                    OrderDetail.objects.create(
+                for pro_in_cart in cart_detail:
+                    product = Product.objects.get(pk=pro_in_cart.product.id)
+                    quantity_left = product.quantity - pro_in_cart.quantity
+                    product.quantity = quantity_left
+                    product.save()
+                    order_details = OrderDetail.objects.create(
                         order_id=order.id,
-                        product_id=cart_product.id,
-                        quantity=cart_product.quantity
+                        product_id=product.id,
+                        quantity=pro_in_cart.quantity
                     )
-                    cart_product.delete()
+                    pro_in_cart.delete()
                 if cart.code is not None:
                     code = Code.objects.get(pk=cart.code.id)
                     code.quantity = code.quantity - 1

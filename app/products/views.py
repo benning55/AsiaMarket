@@ -1,4 +1,6 @@
 import random
+import datetime
+from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
@@ -182,6 +184,12 @@ class CodeToCartApiView(APIView):
                 cart.save()
                 return Response({'error': 'Data not found.'}, status=status.HTTP_404_NOT_FOUND)
             else:
-                cart.code_id = code[0].id
-                cart.save()
-                return Response({'success': 'code add to cart'}, status=status.HTTP_200_OK)
+                end_date = code[0].end_date
+                now = timezone.now()
+                if now < end_date:
+                    cart.code_id = code[0].id
+                    cart.save()
+                    return Response({'success': 'code add to cart'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'error': 'The code is out of date'}, status=status.HTTP_400_BAD_REQUEST)
+
