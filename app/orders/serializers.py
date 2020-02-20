@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from core.models import Order, OrderDetail
+
+from core.models import Order, OrderDetail, PaymentBill
 from products.serializers import ProductDataSerializer
 
 
@@ -23,6 +24,24 @@ class OrderSerializer(serializers.ModelSerializer):
         return order
 
 
+class OrderForUseSerializer(serializers.ModelSerializer):
+    """ Validate data for Order object """
+    pic1 = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ('id', 'user', 'address', 'total_price', 'payment_type', 'payment_status', 'delivery_status', 'created', 'pic1')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }
+
+    def get_pic1(self, obj):
+        order_id = obj.id
+        queryset = OrderDetail.objects.all().filter(order_id=order_id)
+        product_pic = str(queryset[1].product.pic1)
+        return product_pic
+
+
 class OrderDetailSerializer(serializers.ModelSerializer):
     """ Validate data for OrderDetail object """
     product = ProductDataSerializer(read_only=True)
@@ -38,3 +57,21 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 class ShowOrderData(serializers.Serializer):
     order = OrderSerializer(many=True)
     order_detail = OrderDetailSerializer(many=True)
+
+
+class PaymentBillSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PaymentBill
+        fields = ('id', 'order', 'pic', 'time_transfer')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }
+
+    def create(self, validated_data):
+        obj = PaymentBill.objects.create(
+            order=validated_data['order'],
+            pic=validated_data['pic'],
+            time_transfer=validated_data['time_transfer']
+        )
+        return obj

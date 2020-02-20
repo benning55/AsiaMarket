@@ -9,7 +9,6 @@ from django.contrib.auth.models import BaseUserManager
 from core.datalist import AllInfo
 from django.core.files import File
 from tempfile import NamedTemporaryFile
-from app.settings import MEDIA_ROOT
 
 
 def product_image_path(instance, filename):
@@ -18,6 +17,14 @@ def product_image_path(instance, filename):
     filename = f'{uuid.uuid4()}.{ext}'
 
     return os.path.join('uploads/products/', filename)
+
+
+def bill_payment_image(instance, filename):
+    """Generate file path for bill"""
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return os.path.join('uploads/bill/', filename)
 
 
 class UserManager(BaseUserManager):
@@ -173,10 +180,10 @@ class Cart(models.Model):
         primary_key=True,
     )
     code = models.ForeignKey(
-       Code,
-       blank=True,
-       null=True,
-       on_delete=models.CASCADE,
+        Code,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
     )
     checkout_status = models.BooleanField(default=False)
 
@@ -242,3 +249,26 @@ class OrderDetail(models.Model):
         order = Order.objects.get(pk=self.order_id)
         product = Product.objects.get(pk=self.product_id)
         return product.title + " " + str(order.id)
+
+
+class PaymentBill(models.Model):
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE
+    )
+    pic = models.ImageField(upload_to=bill_payment_image, null=True, blank=True)
+    time_transfer = models.DateTimeField()
+    approve_status = models.BooleanField(default=False)
+    created = models.DateTimeField(default=datetime.datetime.now, editable=False)
+
+    def save(self, *args, **kwargs):
+        """ change state of some order """
+        if self.approve_status:
+            order_data = self.order
+            order_data.payment_status = True
+            order_data.save()
+        else:
+            order_data = self.order
+            order_data.payment_status = False
+            order_data.save()
+        super(PaymentBill, self).save(*args, **kwargs)
