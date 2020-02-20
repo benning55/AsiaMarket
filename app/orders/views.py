@@ -1,7 +1,9 @@
 import random
 from django.shortcuts import get_object_or_404
-from rest_framework import generics
+from rest_framework.parsers import MultiPartParser
+from rest_framework import viewsets
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.generics import ListAPIView, ListCreateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -9,7 +11,7 @@ from rest_framework import status
 from collections import namedtuple
 import json
 
-from core.models import Product, Category, Cart, CartDetail, Code, Order, OrderDetail
+from core.models import Product, Category, Cart, CartDetail, Code, Order, OrderDetail, PaymentBill
 from orders import serializers
 
 Timeline = namedtuple('Timeline', ('order', 'order_detail'))
@@ -27,7 +29,7 @@ class OrderApiView(APIView):
         user = request.user
         if pk is None:
             order_query = Order.objects.all().filter(user_id=user.id).order_by('-id')
-            serializer = serializers.OrderSerializer(order_query, many=True)
+            serializer = serializers.OrderForUseSerializer(order_query, many=True)
             return Response({'data': serializer.data}, status=status.HTTP_200_OK)
         else:
             order = get_object_or_404(Order.objects.all(), pk=pk)
@@ -83,3 +85,21 @@ class OrderApiView(APIView):
                 return Response({'data': 'There is no product in cart.'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PaymentBillUpload(APIView):
+    """ Get bill from banktransfer """
+    parser_classes = (MultiPartParser,)
+    permission_classes = [AllowAny]
+
+    def post(self, request, format=None):
+        print(request.data)
+        print(request.FILES['pic'])
+
+        # serializer = serializers.PaymentBillSerializer(data=request.data)
+        #
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response(serializer.data, status=status.HTTP_200_OK)
+        # else:
+        return Response({'data': 'test'}, status=status.HTTP_200_OK)

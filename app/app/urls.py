@@ -19,8 +19,8 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 from django.conf.urls.static import static
 from django.conf import settings
 
-admin.site.site_header = 'Thai Express Dashboard'
-admin.site.index_title = 'Thai Express Administration'
+admin.site.site_header = 'Thai Market Express Dashboard'
+admin.site.index_title = 'Thai Market Express Administration'
 
 urlpatterns = [
     path('admin/', admin.site.urls),

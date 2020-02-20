@@ -20,6 +20,14 @@ def product_image_path(instance, filename):
     return os.path.join('uploads/products/', filename)
 
 
+def bill_payment_image(instance, filename):
+    """Generate file path for bill"""
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return os.path.join('uploads/bill/', filename)
+
+
 class UserManager(BaseUserManager):
     """Manager for user profiles"""
 
@@ -242,3 +250,14 @@ class OrderDetail(models.Model):
         order = Order.objects.get(pk=self.order_id)
         product = Product.objects.get(pk=self.product_id)
         return product.title + " " + str(order.id)
+
+
+class PaymentBill(models.Model):
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE
+    )
+    pic = models.ImageField(upload_to=bill_payment_image, null=True, blank=True)
+    time_transfer = models.DateTimeField()
+    approve_status = models.BooleanField(default=False)
+    created = models.DateTimeField(default=datetime.datetime.now, editable=False)
