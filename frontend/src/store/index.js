@@ -26,7 +26,8 @@ export default new Vuex.Store({
             cart_detail: []
         },
         userAddress: [],
-        indexUserAddress:0
+        indexUserAddress:0,
+        allOrder:[]
     },
     mutations: {
         setAuth(state, isAuthenticated) {
@@ -73,6 +74,9 @@ export default new Vuex.Store({
         },
         setIndexUserAddress(state,index){
             state.indexUserAddress = index
+        },
+        setAllOrder(state,allOrder){
+            state.allOrder = allOrder
         }
     },
     getters: {

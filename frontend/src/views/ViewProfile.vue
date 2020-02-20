@@ -181,9 +181,9 @@
                 axios.put(this.$store.state.endpoints.host + '/api/accounts/user/', {
                     tel: this.$store.state.authUser.profile.tel,
                     dob: this.$store.state.authUser.profile.dob,
-                    email: this.$store.state.authUser.profile.email,
+                    email: this.$store.state.authUser.user.email,
                     first_name: firstname,
-                    last_name: this.$store.state.authUser.profile.last_name
+                    last_name: this.$store.state.authUser.user.last_name
                 }, {
                     headers: {
                         Authorization: `JWT ${this.$store.state.jwt}`,
@@ -205,7 +205,7 @@
                  axios.put(this.$store.state.endpoints.host + '/api/accounts/user/', {
                     tel: this.$store.state.authUser.profile.tel,
                     dob: this.$store.state.authUser.profile.dob,
-                    email: this.$store.state.authUser.profile.email,
+                    email: this.$store.state.authUser.user.email,
                     first_name: this.$store.state.authUser.user.first_name,
                     last_name: lastname
                 }, {

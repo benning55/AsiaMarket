@@ -19,6 +19,10 @@ import VueDragscroll from 'vue-dragscroll'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 
+import ImageUploader from 'vue-image-upload-resize'
+Vue.use(ImageUploader);
+
+
 Vue.use(VueAwesomeSwiper, /* { default global options } */)
 
 Vue.use(VueDragscroll)
