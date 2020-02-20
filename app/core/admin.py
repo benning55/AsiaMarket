@@ -5,6 +5,14 @@ from django.contrib.admin import DateFieldListFilter
 from core import models
 
 
+class OrderInLine(admin.TabularInline):
+    model = models.Order
+    extra = 0
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+
 class OrderDetailInLine(admin.TabularInline):
     model = models.OrderDetail
     extra = 0
@@ -123,6 +131,14 @@ class CodeAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
+class PaymentBill(admin.ModelAdmin):
+    list_display = ['order', 'pic', 'time_transfer', 'approve_status', 'created']
+    list_editable = ['approve_status']
+    list_filter = ['approve_status', ('created', DateFieldListFilter)]
+
+    ordering = ['-created']
+
+
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Profile, ProfileAdmin)
 admin.site.register(models.Address, AddressAdmin)
@@ -133,4 +149,4 @@ admin.site.register(models.Cart, CartAdmin)
 admin.site.register(models.CartDetail, CartDetailAdmin)
 admin.site.register(models.Order, OrderAdmin)
 admin.site.register(models.OrderDetail)
-admin.site.register(models.PaymentBill)
+admin.site.register(models.PaymentBill, PaymentBill)

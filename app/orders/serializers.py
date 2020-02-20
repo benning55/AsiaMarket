@@ -59,8 +59,19 @@ class ShowOrderData(serializers.Serializer):
     order_detail = OrderDetailSerializer(many=True)
 
 
-class PaymentBillSerializer(serializers.Serializer):
+class PaymentBillSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PaymentBill
-        fields = '__all__'
+        fields = ('id', 'order', 'pic', 'time_transfer')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }
+
+    def create(self, validated_data):
+        obj = PaymentBill.objects.create(
+            order=validated_data['order'],
+            pic=validated_data['pic'],
+            time_transfer=validated_data['time_transfer']
+        )
+        return obj

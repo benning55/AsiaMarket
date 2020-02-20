@@ -80,7 +80,8 @@ class OrderApiView(APIView):
                     code.save()
                     cart.code = None
                     cart.save()
-                return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+                order_serialize = serializers.OrderSerializer(order)
+                return Response({'data': order_serialize.data}, status=status.HTTP_200_OK)
             else:
                 return Response({'data': 'There is no product in cart.'}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -90,16 +91,19 @@ class OrderApiView(APIView):
 class PaymentBillUpload(APIView):
     """ Get bill from banktransfer """
     parser_classes = (MultiPartParser,)
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, format=None):
-        print(request.data)
-        print(request.FILES['pic'])
+        data = {
+            'order': request.data['order'],
+            'pic': request.FILES['pic'],
+            'time_transfer': request.data['time_transfer'],
+        }
+        serializer = serializers.PaymentBillSerializer(data=data)
 
-        # serializer = serializers.PaymentBillSerializer(data=request.data)
-        #
-        # if serializer.is_valid():
-        #     serializer.save()
-        #     return Response(serializer.data, status=status.HTTP_200_OK)
-        # else:
-        return Response({'data': 'test'}, status=status.HTTP_200_OK)
+        if serializer.is_valid():
+            obj = serializer.create(serializer.validated_data)
+            obj_serialize = serializers.PaymentBillSerializer(obj)
+            return Response(obj_serialize.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_200_OK)
