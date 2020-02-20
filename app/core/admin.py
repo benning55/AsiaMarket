@@ -49,11 +49,15 @@ class CartAdmin(admin.ModelAdmin):
     inlines = [CartDetailInLine]
 
 
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['id', 'category', 'title', 'pic1', 'description', 'price', 'quantity']
+
+
 admin.site.register(models.User)
 admin.site.register(models.Profile)
 admin.site.register(models.Address)
 admin.site.register(models.Category)
-admin.site.register(models.Product)
+admin.site.register(models.Product, ProductAdmin)
 admin.site.register(models.Code)
 admin.site.register(models.Cart, CartAdmin)
 admin.site.register(models.CartDetail)
