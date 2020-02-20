@@ -94,16 +94,20 @@ class PaymentBillUpload(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, format=None):
-        data = {
-            'order': request.data['order'],
-            'pic': request.FILES['pic'],
-            'time_transfer': request.data['time_transfer'],
-        }
-        serializer = serializers.PaymentBillSerializer(data=data)
-
-        if serializer.is_valid():
-            obj = serializer.create(serializer.validated_data)
-            obj_serialize = serializers.PaymentBillSerializer(obj)
-            return Response(obj_serialize.data, status=status.HTTP_200_OK)
+        order = get_object_or_404(Order.objects.all(), pk=request.data['order'])
+        if order.payment_type == "PayPal":
+            return Response({'error': 'This type of order is paypal.'})
         else:
-            return Response(serializer.errors, status=status.HTTP_200_OK)
+            data = {
+                'order': request.data['order'],
+                'pic': request.FILES['pic'],
+                'time_transfer': request.data['time_transfer'],
+            }
+            serializer = serializers.PaymentBillSerializer(data=data)
+
+            if serializer.is_valid():
+                obj = serializer.create(serializer.validated_data)
+                obj_serialize = serializers.PaymentBillSerializer(obj)
+                return Response(obj_serialize.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_200_OK)
