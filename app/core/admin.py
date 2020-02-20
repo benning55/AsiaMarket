@@ -131,12 +131,16 @@ class CodeAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
-class PaymentBill(admin.ModelAdmin):
+class PaymentBillAdmin(admin.ModelAdmin):
     list_display = ['order', 'pic', 'time_transfer', 'approve_status', 'created']
     list_editable = ['approve_status']
     list_filter = ['approve_status', ('created', DateFieldListFilter)]
 
     ordering = ['-created']
+
+
+class OrderDetailAdmin(admin.ModelAdmin):
+    list_display = ['order', 'product', 'quantity']
 
 
 admin.site.register(models.User, UserAdmin)
@@ -148,5 +152,5 @@ admin.site.register(models.Code, CodeAdmin)
 admin.site.register(models.Cart, CartAdmin)
 admin.site.register(models.CartDetail, CartDetailAdmin)
 admin.site.register(models.Order, OrderAdmin)
-admin.site.register(models.OrderDetail)
-admin.site.register(models.PaymentBill, PaymentBill)
+admin.site.register(models.OrderDetail, OrderDetailAdmin)
+admin.site.register(models.PaymentBill, PaymentBillAdmin)

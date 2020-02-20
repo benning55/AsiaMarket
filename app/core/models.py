@@ -9,7 +9,6 @@ from django.contrib.auth.models import BaseUserManager
 from core.datalist import AllInfo
 from django.core.files import File
 from tempfile import NamedTemporaryFile
-from app.settings import MEDIA_ROOT
 
 
 def product_image_path(instance, filename):
