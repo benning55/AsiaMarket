@@ -181,10 +181,10 @@ class Cart(models.Model):
         primary_key=True,
     )
     code = models.ForeignKey(
-       Code,
-       blank=True,
-       null=True,
-       on_delete=models.CASCADE,
+        Code,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
     )
     checkout_status = models.BooleanField(default=False)
 
@@ -261,3 +261,15 @@ class PaymentBill(models.Model):
     time_transfer = models.DateTimeField()
     approve_status = models.BooleanField(default=False)
     created = models.DateTimeField(default=datetime.datetime.now, editable=False)
+
+    def save(self, *args, **kwargs):
+        """ change state of some order """
+        if self.approve_status:
+            order_data = self.order
+            order_data.payment_status = True
+            order_data.save()
+        else:
+            order_data = self.order
+            order_data.payment_status = False
+            order_data.save()
+        super(PaymentBill, self).save(*args, **kwargs)
