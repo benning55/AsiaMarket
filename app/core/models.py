@@ -217,7 +217,9 @@ class Order(models.Model):
     total_price = models.DecimalField(max_digits=7, decimal_places=2)
     payment_type = models.CharField(
         choices=AllInfo.PAYMENT_TYPE,
-        max_length=50
+        max_length=50,
+        blank=True,
+        null=True
     )
     payment_status = models.BooleanField(default=False)
     delivery_status = models.CharField(

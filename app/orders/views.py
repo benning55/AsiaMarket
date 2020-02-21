@@ -82,6 +82,19 @@ class OrderApiView(APIView):
         else:
             return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
+    def put(self, request, *args, **kwargs):
+        """ Update order object """
+        user = request.user
+        data = request.data
+        order = get_object_or_404(Order.objects.all(), pk=data['id'])
+        if order.user_id != user.id:
+            return Response({'error': 'You dont have permission'}, status=status.HTTP_401_UNAUTHORIZED)
+        serializer = serializers.OrderSerializer(instance=order, data=data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            order_updated = serializer.save()
+            print(order_updated)
+        return Response({"updated": serializer.data}, status=status.HTTP_200_OK)
+
 
 class PaymentBillUpload(APIView):
     """ Get bill from banktransfer """

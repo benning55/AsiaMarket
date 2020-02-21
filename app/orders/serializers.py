@@ -23,6 +23,12 @@ class OrderSerializer(serializers.ModelSerializer):
         )
         return order
 
+    def update(self, instance, validated_data):
+        instance.payment_type = validated_data.get('payment_type', instance.payment_type)
+        instance.payment_status = validated_data.get('payment_status', instance.payment_status)
+        instance.save()
+        return instance
+
 
 class OrderForUseSerializer(serializers.ModelSerializer):
     """ Validate data for Order object """
