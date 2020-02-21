@@ -53,14 +53,16 @@
                                 placeholder="input time"
                                 :readonly="true">
                         </el-time-picker>
+                        <div @click="sendSlip" class="bg-green p-2">Send</div>
                     </div>
+                    {{time}}
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-    // import axios from 'axios'
+    import axios from 'axios'
     import {Validator} from "../main";
 
 
@@ -78,7 +80,7 @@
                 imageURL: null,
                 imageData: null,
                 last4digit: '',
-                time: Date.now()
+                time: Date.now(),
             };
         },
         validators: {
@@ -96,6 +98,7 @@
             previewImage(event) {
                 this.imageData = event.target.files[0]
                 this.profileImageURL = URL.createObjectURL(this.imageData)
+                console.log(event.target.files[0])
             },
             setLoaded: function () {
                 this.loaded = true;
@@ -155,6 +158,20 @@
                         }
                     })
                     .render('#paypal-button-container');
+            },
+            sendSlip() {
+                let formData = new FormData();
+                formData.append('pic', this.imageData);
+                formData.append('order', this.$route.params.id);
+                formData.append('time_transfer', "2020-02-20T10:30:03.818655+07:00");
+                console.log(formData)
+
+                axios.post(`http://${window.location.hostname}:8000/api/orders/payment-bill/`, formData, {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    }
+                }).then(res => console.log(res)).catch()
             },
 
         },

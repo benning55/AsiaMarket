@@ -5,7 +5,6 @@
         </ul>
         <div class="bg-white w-full border-green-top px-4 sm:h-full lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
             <ListOrder v-for="order in orders" :key="order.id" :orderdata="order"/>
-
         </div>
     </div>
 </template>
