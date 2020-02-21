@@ -132,7 +132,7 @@ class CodeAdmin(admin.ModelAdmin):
 
 
 class PaymentBillAdmin(admin.ModelAdmin):
-    list_display = ['order', 'pic', 'time_transfer', 'approve_status', 'created']
+    list_display = ['order', 'get_total_price', 'pic', 'time_transfer', 'approve_status', 'created']
     list_editable = ['approve_status']
     list_filter = ['approve_status', ('created', DateFieldListFilter)]
 

@@ -274,3 +274,9 @@ class PaymentBill(models.Model):
             order_data.payment_status = False
             order_data.save()
         super(PaymentBill, self).save(*args, **kwargs)
+
+    def get_total_price(self):
+        """ Get total price """
+        order_price = self.order.total_price
+        return order_price
+    get_total_price.short_description = 'Total Price'
