@@ -19,5 +19,6 @@ urlpatterns = [
     path('cart/', views.CartApiView.as_view(), name='cart'),
     path('cart-detail/', views.CartDetailApiView.as_view(), name='cart-detail'),
     path('cart-detail/<int:pk>/', views.CartDetailApiView.as_view()),
-    path('code/', views.CodeToCartApiView.as_view())
+    path('code/', views.CodeToCartApiView.as_view()),
+    path('upload-csv/', views.csv_upload, name="product_upload")
 ]

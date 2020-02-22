@@ -1,7 +1,10 @@
 import random
-import datetime
+import csv
+import io
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.utils import timezone
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from rest_framework import generics
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -193,3 +196,38 @@ class CodeToCartApiView(APIView):
                 else:
                     return Response({'error': 'The code is out of date'}, status=status.HTTP_400_BAD_REQUEST)
 
+
+@staff_member_required
+def csv_upload(request):
+    """ Read csv file for add data """
+    template = 'csv_upload.html'
+
+    prompt = {
+        'order': 'Order of CSV should be category_id, title, url, description, price, quantity'
+    }
+
+    if request.method == "GET":
+        return render(request, template, prompt)
+
+    csv_file = request.FILES['file']
+
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request, 'This is not a csv file')
+
+    data_set = csv_file.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string, delimiter=','):
+        product, created = Product.objects.update_or_create(
+            category_id=column[0],
+            title=column[1],
+            description=column[3],
+            price=column[4],
+            quantity=column[5]
+        )
+        product.url = column[2]
+        product.save()
+        print(product.price)
+
+    context = {}
+    return render(request, template, context)
