@@ -203,7 +203,7 @@ def csv_upload(request):
     template = 'csv_upload.html'
 
     prompt = {
-        'order': 'Order of CSV should be category_id, title, url, description, price, quantity'
+        'order': 'Order of CSV should be category_id, title, url(must be shorten link), description, price, quantity'
     }
 
     if request.method == "GET":
@@ -227,7 +227,6 @@ def csv_upload(request):
         )
         product.url = column[2]
         product.save()
-        print(product.price)
 
     context = {}
     return render(request, template, context)
