@@ -3,7 +3,10 @@
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
-        <div class="bg-white w-full border-green-top px-4 sm:h-full sm:px-8 md:px-10 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
+        <div v-if="!$store.state.isAuthenticated" class="bg-white h-64 w-full border-green-top px-4 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16 relative">
+            <NoLoginText/>
+        </div>
+        <div v-else class="bg-white w-full border-green-top px-4 sm:h-full sm:px-8 md:px-10 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
             <div class="text-center text-2xl mb-10 mt-5 font-l">Add new Address</div>
             <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
                 <label v-if="!validation.firstError('recipient')"
@@ -89,8 +92,12 @@
 <script>
     import {Validator} from "../main";
     import axios from "axios";
+    import NoLoginText from "../components/NoLoginText";
 
     export default {
+        components:{
+            NoLoginText
+        },
         data() {
             return {
                 recipient: '',

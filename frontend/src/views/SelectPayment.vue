@@ -1,61 +1,56 @@
 <template>
-    <div class="sm:mx-0 md:mx-24 lg:mx-0 xl:mx-0">
-        <ul class="w-full py-6">
-            <li class="inline-block px-5"></li>
-        </ul>
-        <div class="bg-white w-full border-green-top px-4 sm:h-full lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
-            <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">
-                <div class="px-2 bg-green" ref="paypal"></div>
-                <div style="z-index: 1" id="paypal-button-container"></div>
-                <div>or</div>
 
-                <div class="col-12 upload-section">
-                    <div class="upload-btn-wrapper w-full">
-                        <div class="">
-                            <div class="image-cropper border-2 border-dashed border-black text-center">
-                                <img
-                                        v-if="imageData!=null"
-                                        :src="profileImageURL"
-                                        alt="avatar"
-                                        class="profile-pic"
-                                />
-                                <h1 v-else class="center-y">No image selected</h1>
-                            </div>
+    <div class="bg-white w-full px-4 sm:h-full lg:px-24 pb-16 mx-auto pt-5">
+        PayPal, Debit or Credit Card
+        <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">
+            <div class="px-2 bg-green" ref="paypal"></div>
+            <div id="paypal-button-container"></div>
+        </div>
+        <hr class="bg-lightGray text-white mb-5">
+        Bank Transfer
+        <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">
+            <div class="col-12 upload-section">
+                <div class="upload-btn-wrapper w-full">
+                    <div class="">
+                        <div class="image-cropper border-2 border-dashed border-black text-center">
+                            <img
+                                    v-if="imageData!=null"
+                                    :src="profileImageURL"
+                                    alt="avatar"
+                                    class="profile-pic"
+                            />
+                            <h1 v-else class="center-y">Upload your slip here</h1>
                         </div>
-                        <input type="file" @change="previewImage" accept="image/*"/>
                     </div>
+                    <input type="file" @change="previewImage" accept="image/*"/>
                 </div>
-                <div class="mb-4">
-                    <div>
-                        <label v-if="!validation.firstError('last4digit')"
-                               class="block text-sm mb-2"
-                               for="last4digit">Last 4 digit in your bank account</label>
-                        <label v-else
-                               class="block text-red text-sm mb-2"
-                               for="last4digit">Please input Username</label>
-                        <el-input id="last4digit"
-                                  type="number"
-                                  placeholder="Please input"
-                                  v-model="last4digit">
-                        </el-input>
-                    </div>
+            </div>
+            <div class="mb-4">
+                <div>
+                    <label v-if="!validation.firstError('date')"
+                           class="block text-sm mb-2">Transfer Time (approx).</label>
+                    <label v-else
+                           class="block text-red text-sm mb-2">Please input Username</label>
+                    <el-date-picker
+                            v-model="date"
+                            type="date"
+                            placeholder="Pick a day"
+                            format="dd MMMM yyyy"
+                            value-format="yyyy-MM-dd"
+                            :picker-options="pickerOptions">
+                    </el-date-picker>
 
-                    <div>
-                        <label v-if="!validation.firstError('last4digit')"
-                               class="block text-sm mb-2"
-                               for="last4digit">Transfer Time (approx).</label>
-                        <label v-else
-                               class="block text-red text-sm mb-2"
-                               for="last4digit">Please input Username</label>
-                        <el-time-picker
-                                v-model="time"
-                                format="HH:mm"
-                                placeholder="input time"
-                                :readonly="true">
-                        </el-time-picker>
-                        <div @click="sendSlip" class="bg-green p-2">Send</div>
-                    </div>
-                    {{time}}
+                    <label v-if="!validation.firstError('time')"
+                           class="block text-sm mb-2 mt-3">Transfer Date</label>
+                    <label v-else
+                           class="block text-red text-sm mb-2 mt-3">Please input Username</label>
+                    <el-time-picker
+                            v-model="time"
+                            placeholder="Arbitrary time"
+                            format="HH:mm"
+                            value-format="HH:mm">
+                    </el-time-picker>
+                    <div @click="sendSlip" class="bg-green text-white text-center p-2 mt-8">Send</div>
                 </div>
             </div>
         </div>
@@ -64,9 +59,11 @@
 <script>
     import axios from 'axios'
     import {Validator} from "../main";
+    import moment from 'moment'
 
 
     export default {
+        props: ["id", "order"],
         data: function () {
             return {
                 loaded: false,
@@ -80,25 +77,30 @@
                 imageURL: null,
                 imageData: null,
                 last4digit: '',
-                time: Date.now(),
+                date: '',
+                time: '',
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() > Date.now();
+                    },
+                }
+
             };
         },
         validators: {
-            last4digit(value) {
+            date(value) {
                 return Validator.value(value)
-                    .required("last4digit");
+                    .required("date");
             },
-            // password(value) {
-            //     return Validator.value(value)
-            //         .required("password")
-            //     // .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
-            // }
+            time(value) {
+                return Validator.value(value)
+                    .required("time");
+            },
         },
         methods: {
             previewImage(event) {
                 this.imageData = event.target.files[0]
                 this.profileImageURL = URL.createObjectURL(this.imageData)
-                console.log(event.target.files[0])
             },
             setLoaded: function () {
                 this.loaded = true;
@@ -120,14 +122,14 @@
                                     {
                                         amount: {
                                             currency_code: "EUR",
-                                            value: "15.00"
+                                            value: this.order.total_price
                                         },
                                     }
                                 ],
                                 payer: {
                                     name: {
-                                        given_name: "PayPal",
-                                        surname: "Customer"
+                                        given_name: this.$store.state.authUser.user.first_name,
+                                        surname: this.$store.state.authUser.user.last_name
                                     },
                                     address: {
                                         address_line_1: "123 ABC Street",
@@ -137,11 +139,11 @@
                                         postal_code: "95121",
                                         country_code: "US"
                                     },
-                                    email_address: "customer@domain.com",
+                                    email_address: this.$store.state.authUser.user.email,
                                     phone: {
                                         phone_type: "MOBILE",
                                         phone_number: {
-                                            national_number: "14082508100"
+                                            national_number: this.$store.state.authUser.profile.tel
                                         }
                                     }
                                 }
@@ -152,6 +154,22 @@
                             this.data;
                             this.paidFor = true;
                             console.log(order);
+                            if (order.status == "COMPLETED") {
+                                console.log('complete')
+                                axios.put(`http://${window.location.hostname}:8000/api/orders/order/`, {
+                                    id: this.id,
+                                    payment_type: "PayPal",
+                                    payment_status: true
+                                }, {
+                                    headers: {
+                                        Authorization: `JWT ${this.$store.state.jwt}`,
+                                        'Content-Type': 'application/json'
+                                    }
+                                }).then(res => {
+                                    console.log(res)
+                                }).catch()
+                            }
+
                         },
                         onError: err => {
                             console.log(err);
@@ -163,15 +181,15 @@
                 let formData = new FormData();
                 formData.append('pic', this.imageData);
                 formData.append('order', this.$route.params.id);
-                formData.append('time_transfer', "2020-02-20T10:30:03.818655+07:00");
-                console.log(formData)
+                formData.append('time_transfer', moment(this.date + ' ' + this.time).format());
 
                 axios.post(`http://${window.location.hostname}:8000/api/orders/payment-bill/`, formData, {
                     headers: {
                         Authorization: `JWT ${this.$store.state.jwt}`,
                         'Content-Type': 'application/json'
                     }
-                }).then(res => console.log(res)).catch()
+                }).then(res => console.log(res)).catch(e => console.log(e))
+
             },
 
         },
@@ -186,6 +204,10 @@
 </script>
 
 <style scoped>
+    .el-date-editor.el-input, .el-date-editor.el-input__inner {
+        width: 100%;
+    }
+
     .uneditable- input:focus {
         border-color: #36622b;
         box-shadow: none;

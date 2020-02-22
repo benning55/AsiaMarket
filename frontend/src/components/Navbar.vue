@@ -1,19 +1,20 @@
 <template>
     <div>
         <!--        navbar desktop version-->
-        <nav class="hidden sm:hidden md:hidden lg:block shadow-lg flex items-center justify-between flex-wrap bg-white py-6 fixed w-full z-50">
+        <nav class="hidden sm:hidden md:hidden lg:block shadow-lg flex items-center justify-between flex-wrap bg-white py-6 fixed w-full z-110">
             <ul class="w-full">
                 <li @click="goHome" class="hidden sm:hidden md:hidden lg:inline-block px-5 cursor-pointer">LOGO</li>
-                <li class="float-right px-5 flex-grow"><a @click="changeLocale(`en`)">EN </a> | <a
-                        @click="changeLocale(`th`)"> TH</a>
+                <li class="float-right px-5 flex-grow">
+                    <a @click="changeLocale(`en`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'en'}">EN </a> |
+                    <a @click="changeLocale(`th`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'th'}"> TH</a>
                 </li>
             </ul>
         </nav>
 
 
         <!--        navbar mobile version-->
-        <nav class="block sm:block md:block lg:hidden shadow-lg flex items-center justify-between flex-wrap bg-white py-5 fixed w-full z-50"
-             style="height: 72px">
+        <nav class="block sm:block md:block lg:hidden shadow-lg flex items-center justify-between flex-wrap bg-white py-5 fixed w-full z-110"
+             style="height: 72px;">
             <ul class="w-full flex justify-between">
                 <li @click="mobileDrawer = !mobileDrawer,cartDrawer = false"
                     class="inline-block sm:inline-block md:inline-block lg:hidden px-5 "><i
@@ -49,7 +50,7 @@
         <!--        </div>-->
 
         <!--        mini button right screen-->
-        <div class="inset-y-0 right-0 fixed hidden sm:hidden md:hidden lg:block">
+        <div class="inset-y-0 right-0 fixed hidden sm:hidden md:hidden lg:block z-105">
             <div class="container">
                 <div class="vertical-center">
                     <div class="shadow-md">
@@ -72,7 +73,7 @@
         </div>
 
         <!--        mini button left screen-->
-        <div class="inset-y-0 left-0 fixed hidden sm:hidden md:hidden lg:block">
+        <div class="inset-y-0 left-0 fixed hidden sm:hidden md:hidden lg:block z-105">
             <div class="container">
                 <div class="vertical-center-left">
                     <div class="shadow-md">
@@ -89,30 +90,31 @@
         <!--        opacity background -->
         <transition name="fade">
             <div v-if="accountDrawer || mobileDrawer || cartDrawer" @click="toggleOpacity"
-                 class="w-full h-screen fixed z-10 bg-black opacity-50"></div>
+                 class="w-full h-screen fixed bg-black opacity-50 z-105"></div>
         </transition>
 
         <!--left screen mobile version-->
         <transition name="slide-left">
             <div v-if="mobileDrawer"
-                 class="inset-y-0 left-0 fixed bg-gray_bg fixed z-20 shadow-md w-70  overflow-auto h-screen">
+                 class="inset-y-0 left-0 fixed bg-gray_bg fixed z-20 shadow-md w-70  overflow-auto h-screen z-105">
                 <ul class="w-full py-6">L</ul>
                 <div class="relative h-100 w-70 bg-white">
                     <div class="py-3 px-10 text-xl text-center border-bottom font-l bg-gray_bg cursor-pointer block lg:hidden">
-                        <a @click="changeLocale(`en`)">EN </a> | <a
-                            @click="changeLocale(`th`)"> TH</a>
+                        <a @click="changeLocale(`en`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'en'}">EN </a> | <a
+                            @click="changeLocale(`th`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'th'}"> TH</a>
                     </div>
 
                     <!--                    show when not log in-->
-                    <div v-if="!$store.state.isAuthenticated">
+                    <div v-if="!$store.state.isAuthenticated" class="block lg:hidden">
                         <div @click="goLogin"
                              class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
                             Login
                         </div>
                         <div @click="goRegister"
-                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                             class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">
                             Register
                         </div>
+                        <div class="pb-3 pt-5 px-5 text-xl bg-gray_bg"></div>
                     </div>
 
                     <!--                    show when logged in-->
@@ -123,7 +125,8 @@
                                style="top:61px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
                             {{firstname_lastname}}
                         </div>
-                        <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Order
+                        <div @click="goOrder"
+                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Order
                             history
                         </div>
                         <div @click="goProfile"
@@ -163,7 +166,7 @@
 
         <!--cart screen-->
         <transition name="slide">
-            <div v-if="cartDrawer" class="inset-y-0 right-0 bg-white fixed z-20 shadow-md">
+            <div v-if="cartDrawer" class="inset-y-0 right-0 bg-white fixed z-20 shadow-md z-105">
                 <ul class="w-full py-6">L</ul>
                 <div class="relative h-full w-70 overflow-auto">
                     <div class="w-70 p-3 text-xl border-bottom fixed justify-between flex bg-white">
@@ -238,7 +241,7 @@
 
         <!--right screen-->
         <transition name="slide">
-            <div v-if="accountDrawer" class="inset-y-0 right-0 bg-gray_bg fixed z-20 shadow-md">
+            <div v-if="accountDrawer" class="inset-y-0 right-0 bg-gray_bg fixed z-20 shadow-md z-105">
                 <ul class="w-full py-6">L</ul>
                 <div class="relative h-100 w-70 bg-white">
                     <!--                    show when not log in-->
@@ -261,7 +264,8 @@
                                style="top:7px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
                             {{firstname_lastname}}
                         </div>
-                        <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <div @click="goOrder"
+                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                             Order history
                         </div>
                         <div @click="goProfile"
@@ -356,6 +360,12 @@
             goProfile() {
                 this.$router.push({
                     name: 'ViewProfile'
+                })
+                this.toggleOpacity()
+            },
+            goOrder() {
+                this.$router.push({
+                    name: 'ViewOrderHistory'
                 })
                 this.toggleOpacity()
             },
@@ -499,7 +509,13 @@
 </script>
 
 <style scoped>
+    .z-105 {
+        z-index: 105
+    }
 
+    .z-110 {
+        z-index: 110
+    }
 
     .w-70 {
         width: 20rem;

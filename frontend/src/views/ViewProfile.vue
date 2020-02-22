@@ -3,9 +3,11 @@
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
-        <div class="bg-white w-full border-green-top px-4 sm:h-full lg:px-20 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
+        <div v-if="!$store.state.isAuthenticated" class="bg-white w-full border-green-top px-4 lg:px-20 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16 h-64 relative">
+            <NoLoginText/>
+        </div>
+        <div v-else class="bg-white w-full border-green-top px-4 sm:h-full lg:px-20 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
             <div class="text-center text-2xl mb-10 mt-5 font-l">Profile</div>
-
             <div class="flex-none sm:flex justify-between mb-5">
                 <h1 class="text-xl font-l text-gray">Email</h1>
                 <h1 class="text-xl">{{this.$store.state.authUser.user.email}}</h1>
@@ -120,8 +122,12 @@
 <script>
     import {Validator} from "../main";
     import axios from "axios";
+    import NoLoginText from "../components/NoLoginText";
 
     export default {
+        components:{
+            NoLoginText
+        },
         data() {
             return {
                 newFirstname: '',

@@ -101,7 +101,9 @@
         </div>
 
         <!--        modal-->
-        <modal v-show="isModalVisible" @close="closeModal"/>
+        <modal :type="typeModal" :total="total" v-show="isModalVisible" @close="closeModal"/>
+
+        <!--        <modal type="check_confirm" v-show="isConfirmModalVisible" @close="closeConfirmModal"/>-->
     </div>
 </template>
 
@@ -116,18 +118,21 @@
         data() {
             return {
                 isModalVisible: false,
+                isConfirmModalVisible: false,
+                typeModal: ''
             }
         },
         created() {
             this.loadAddress()
         },
         methods: {
-            goHome(){
+            goHome() {
                 this.$router.push({
-                    name:'HomePage'
+                    name: 'HomePage'
                 })
             },
             showModal() {
+                this.typeModal = 'address'
                 this.isModalVisible = true;
             },
             closeModal() {
@@ -147,24 +152,13 @@
                 ).catch()
             },
             goPayment() {
-                axios.post(`http://${window.location.hostname}:8000/api/orders/order/`, {
-                    address: this.$store.state.userAddress[this.$store.state.indexUserAddress].recipient + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].house_number + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].street + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].city + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].post_code,
-                    total_price: this.total,
-                    payment_type: "",
-                    payment_status: false
+                this.typeModal = 'check_confirm'
+                this.isModalVisible = true
 
-                }, {
-                    headers: {
-                        Authorization: `JWT ${this.$store.state.jwt}`,
-                        'Content-Type': 'application/json'
-                    }
-                }).then(res => {
-                    console.log(res.data.data.id)
-                    this.$router.push({
-                        name:'SelectPayment',
-                        params:{id:res.data.data.id}
-                    })
-                }).catch(e => console.log(e))
+            },
+            confirmOrder() {
+                console.log('save')
+
             }
         },
         computed: {

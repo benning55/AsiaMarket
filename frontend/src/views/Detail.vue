@@ -4,7 +4,9 @@
             <li class="inline-block px-5">LOGO</li>
         </ul>
         <section class="bg-white p-5 my-5">
-            <a><span @click="goHome" class="hover:text-green cursor-pointer">Home</span> / <span @click="goCategory(dataProduct.category_id)" class="hover:text-green cursor-pointer">{{dataProduct.category_name}}</span> / {{dataProduct.title}}</a>
+            <a><span @click="goHome" class="hover:text-green cursor-pointer">Home</span> / <span
+                    @click="goCategory(dataProduct.category_id)" class="hover:text-green cursor-pointer">{{dataProduct.category_name}}</span>
+                / {{nameTranslate(dataProduct.title)}}</a>
         </section>
         <section class="my-5 mb-10">
             <div class="flex-none sm:flex md:flex lg:flex xl:flex mb-4 bg-white">
@@ -34,7 +36,7 @@
                     </div>
                 </div>
                 <div class="w-full sm:w-5/12 md:5/12 lg:md:5/12 px-10 pt-12">
-                    <h1 class="text-3xl">{{dataProduct.title}}</h1>
+                    <h1 class="text-3xl">{{nameTranslate(dataProduct.title)}}</h1>
                     <h1 class="text-lightGray">unit</h1>
                     <p class="mt-10"> {{dataProduct.description}}</p>
                 </div>
@@ -180,7 +182,7 @@
                 },
                 countLoading: false,
                 isInCart: false,
-                value:0
+                value: 0
             }
         },
         created() {
@@ -197,6 +199,18 @@
             }
         },
         methods: {
+            nameTranslate(text) {
+                let list = text.split(')').join('(').split('(')
+                if (list.length == 1) {
+                    return text
+                } else {
+                    if (this.$i18n.locale == 'th') {
+                        return list[1]
+                    } else {
+                        return list[0]
+                    }
+                }
+            },
             goHome() {
                 this.$router.push({
                     name: 'HomePage'
@@ -209,7 +223,7 @@
                 })
             },
             increase() {
-                if (this.oldQuantity == 0) {               // if start from 0 it not have any list in cart
+                if (this.oldQuantity == 0 && this.$store.state.isAuthenticated == true) {               // if start from 0 it not have any list in cart
                     this.countLoading = true
                     clearTimeout(this.timeout)
                     this.value++                          // value is mockup number
@@ -235,7 +249,7 @@
                             }).catch()
                         }).catch()
                     }, 2000)
-                } else if (this.count() != this.dataProduct.quantity) {
+                } else if (this.count() != this.dataProduct.quantity && this.$store.state.isAuthenticated == true) {
                     clearTimeout(this.timeout)
                     this.$store.state.inCart.cart_detail[this.isInCart].quantity++
                     this.timeout = setTimeout(() => {
@@ -254,6 +268,18 @@
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch()
                     }, 2000)
+                } else if (this.$store.state.isAuthenticated == false) {
+                    console.log("please login")
+                    this.$alert('If you want to add Product. Please Login', 'Please Login', {
+                        confirmButtonText: 'Login',
+                        callback: action => {
+                            if (action == 'confirm') {
+                                this.$router.push({
+                                    name: 'login'
+                                })
+                            }
+                        }
+                    });
                 }
             },
             decrease() {

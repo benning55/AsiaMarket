@@ -3,8 +3,19 @@
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
-        <div class="bg-white w-full border-green-top px-4 sm:h-full lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
+
+        <h1 class="sm:mt-16 lg:mt-16 xl:mt-16 py-1 text-xl font-l">Order History</h1>
+        <div v-if="orders.length > 0" class="bg-white w-full px-4 sm:h-full lg:px-24 pb-5 mx-auto">
             <ListOrder v-for="order in orders" :key="order.id" :orderdata="order"/>
+        </div>
+        <div v-else-if="!$store.state.isAuthenticated" class="bg-white w-full px-4 h-64 lg:px-24 pb-5 mx-auto relative">
+            <NoLoginText/>
+        </div>
+        <div v-else class="bg-white w-full px-4 h-64 lg:px-24 pb-5 mx-auto relative">
+            <div class="center-y w-full">
+                <h1 class="text-2xl text-center">You don't have any purchase orders</h1>
+                <h1 @click="goHome" class="text-center text-orange cursor-pointer">Go back to Homepage</h1>
+            </div>
         </div>
     </div>
 </template>
@@ -12,14 +23,15 @@
 <script>
     import axios from "axios";
     import ListOrder from "../components/ListOrder";
+    import NoLoginText from "../components/NoLoginText";
 
     export default {
         components: {
-            ListOrder
+            ListOrder,NoLoginText
         },
         data() {
             return {
-                orders:[]
+                orders: []
             }
         },
         created() {
@@ -38,6 +50,16 @@
                         this.orders = res.data.data
                     })
                     .catch(e => console.log(e))
+            },
+            goHome(){
+                this.$router.push({
+                    name:'Homepage'
+                })
+            },
+            goLogin(){
+                this.$router.push({
+                    name:'login'
+                })
             }
         }
     }

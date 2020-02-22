@@ -10,8 +10,9 @@ import ForgetPassword from "../views/ForgetPassword";
 import AddAddress from "../views/AddAddress";
 import EditAddress from "../views/EditAddress";
 import ConfirmOrder from "../views/ConfirmOrder";
-import SelectPayment from "../views/SelectPayment";
+// import SelectPayment from "../views/SelectPayment";
 import ViewOrderHistory from "../views/ViewOrderHistory";
+import ViewEachOrder from "../views/ViewEachOrder";
 
 Vue.use(VueRouter)
 
@@ -76,15 +77,20 @@ const routes = [
         name: 'ConfirmOrder',
         component: ConfirmOrder
     },
-    {
-        path: '/select-payment/:id',
-        name: 'SelectPayment',
-        component: SelectPayment
-    },
+    // {
+    //     path: '/select-payment/:id',
+    //     name: 'SelectPayment',
+    //     component: SelectPayment,
+    // },
     {
         path:'/orders',
         name:'ViewOrderHistory',
         component: ViewOrderHistory
+    },
+    {
+        path:'/orders/:id',
+        name:'ViewEachOrder',
+        component:ViewEachOrder
     }
 ]
 

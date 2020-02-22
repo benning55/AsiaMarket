@@ -4,18 +4,18 @@
             <li class="inline-block px-5">LOGO</li>
         </ul>
         <div class="auth">
-            <form class="mt-16 w-11/12 sm:w-4/5 md:w-2/3 lg:w-2/3 xl:w-2/3 mx-auto bg-white shadow-md px-8 pt-6 pb-8 mb-4"
+            <form class="mt-16 w-11/12 sm:w-4/5 md:w-3/5 lg:w-4/5 xl:w-2/3 mx-auto bg-white shadow-md px-8 pt-6 pb-8 mb-4"
                   style="border-top: 6px solid #619F21;">
                 <h1 class="text-3xl font-hairline text-center mb-5">Register</h1>
                 <div v-if="state == 0">
-                    <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-16">
+                    <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-8">
                         <div class="mb-4 pr-2 w-1/2">
                             <label v-if="!validation.firstError('firstname')"
                                    class="block text-sm mb-2"
                                    for="firstname"> Firstname</label>
                             <label v-else
                                    class="block text-red text-sm mb-2"
-                                   for="firstname">Please input Firstname</label>
+                                   for="firstname">{{validation.firstError('firstname')}}</label>
                             <el-input id="firstname"
                                       placeholder="Please input"
                                       v-model="firstname">
@@ -26,7 +26,7 @@
                                    class="block text-sm mb-2"
                                    for="lastname">Lastname</label>
                             <label v-else class="block text-red text-sm mb-2"
-                                   for="lastname">Please input Lastname</label>
+                                   for="lastname">{{validation.firstError('lastname')}}</label>
                             <el-input id="lastname"
                                       placeholder="Please input"
                                       v-model="lastname">
@@ -40,41 +40,41 @@
                                for="sex">Select Gender</label>
                         <label v-else
                                class="block text-red text-sm mb-2 text-left"
-                               for="sex">Please Select Gender</label>
+                               for="sex">{{validation.firstError('sex')}}</label>
                         <el-radio-group id="sex" v-model="sex" style="border-radius: 0px">
                             <el-radio-button label="Male">Male</el-radio-button>
                             <el-radio-button label="Female">Female</el-radio-button>
                         </el-radio-group>
                     </div>
-                    <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
+                    <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
                         <label v-if="!validation.firstError('houseNumber')"
                                class="block text-sm mb-2"
                                for="houseNumber">House Number</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
-                               for="houseNumber">Please input House Number</label>
+                               for="houseNumber">{{validation.firstError('houseNumber')}}</label>
                         <el-input id="houseNumber"
                                   placeholder="Please input"
                                   v-model="houseNumber">
                         </el-input>
                     </div>
-                    <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
+                    <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
                         <label v-if="!validation.firstError('street')"
                                class="block text-sm mb-2"
                                for="houseNumber">Street</label>
                         <label v-else class="block text-sm mb-2 text-red"
-                               for="street">Please input Street</label>
+                               for="street">{{validation.firstError('street')}}</label>
                         <el-input id="street"
                                   placeholder="Please input"
                                   v-model="street">
                         </el-input>
                     </div>
-                    <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-16">
+                    <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-8">
                         <div class="mb-4 pr-2 w-1/2">
                             <label v-if="!validation.firstError('city')"
                                    class="block text-sm mb-2"> City</label>
                             <label v-else
-                                   class="block text-red text-sm mb-2">Please input City</label>
+                                   class="block text-red text-sm mb-2">{{validation.firstError('city')}}</label>
                             <el-select v-model="city" placeholder="Select">
                                 <el-option
                                         v-for="item in cityOptions"
@@ -90,7 +90,7 @@
                                    for="postal">Postal</label>
                             <label v-else
                                    class="block text-red text-sm mb-2"
-                                   for="postal">Please input Postal</label>
+                                   for="postal">{{validation.firstError('postalCode')}}</label>
                             <el-input id="postal"
                                       placeholder="Please input"
                                       type="number"
@@ -98,18 +98,18 @@
                             </el-input>
                         </div>
                     </div>
-                    <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-16">
+                    <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-8">
                         <div class="mb-4 pr-2 w-1/2">
                             <label v-if="!validation.firstError('dob')"
                                    class="block text-sm mb-2">Date of Birth</label>
                             <label v-else
-                                   class="block text-red text-sm mb-2">Please input Date of Birth</label>
+                                   class="block text-red text-sm mb-2">{{validation.firstError('dob')}}</label>
                             <el-date-picker
                                     style="width: 100%;border-radius: 0px"
                                     v-model="dob"
                                     type="date"
                                     placeholder="Pick a date"
-                                    default-value="2000-01-01"
+                                    :picker-options="pickerOptions"
                                     format="yyyy-MM-dd"
                                     value-format="yyyy-MM-dd">
                             </el-date-picker>
@@ -120,7 +120,7 @@
                                    for="phone">Phone Number</label>
                             <label v-else
                                    class="block text-red text-sm mb-2"
-                                   for="phone">Please input Phone Number</label>
+                                   for="phone">{{validation.firstError('phone')}}</label>
                             <el-input id="phone"
                                       placeholder="Please input"
                                       type="number"
@@ -128,69 +128,74 @@
                             </el-input>
                         </div>
                     </div>
-                    <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-16">
+                    <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-8">
                         <div class="mb-4 w-1/2">
                         </div>
                         <div class="mb-6 pl-2 w-1/2">
                             <button @click="addState()"
-                                    class="w-full bg-green text-white py-2 px-20 focus:outline-none"
+                                    class="w-full bg-green text-white text-center py-2 focus:outline-none"
                                     type="button">Next
                             </button>
                         </div>
                     </div>
                 </div>
                 <div v-if="state == 1">
-                    <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
+                    <div class="mb-4 sm:px-10 md:px-16 lg:px-8 w-full">
+                        <el-alert v-if="error" type="error" show-icon @close="closeError">
+                            {{error}}
+                        </el-alert>
+                    </div>
+                    <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
                         <label v-if="!validation.firstError('email')"
                                class="block text-sm mb-2"
                                for="email">Email</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
-                               for="email">Please input Email</label>
+                               for="email">{{validation.firstError('email')}}</label>
                         <el-input id="email"
                                   placeholder="Please input"
                                   v-model="email">
                         </el-input>
                     </div>
-                    <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
+                    <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
                         <label v-if="!validation.firstError('username')"
                                class="block text-sm mb-2"
                                for="username">Username</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
-                               for="username">Please input Username</label>
+                               for="username">{{validation.firstError('username')}}</label>
                         <el-input id="username"
                                   placeholder="Please input"
                                   v-model="username">
                         </el-input>
                     </div>
-                    <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
+                    <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
                         <label v-if="!validation.firstError('password')"
                                class="block text-sm mb-2"
                                for="password">Password</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
-                               for="password">Please input Password</label>
+                               for="password">{{validation.firstError('password')}}</label>
                         <el-input id="password"
                                   placeholder="Please input"
                                   v-model="password"
                                   show-password>
                         </el-input>
                     </div>
-                    <div class="mb-6 sm:px-10 md:px-16 lg:px-16 w-full">
+                    <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
                         <label v-if="!validation.firstError('password2')"
                                class="block text-sm mb-2"
                                for="password2">Password Again</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
-                               for="password2">Please input Password Again</label>
+                               for="password2">{{validation.firstError('password2')}}</label>
                         <el-input id="password2"
                                   placeholder="Please input"
                                   v-model="password2"
                                   show-password>
                         </el-input>
                     </div>
-                    <div class="flex justify-between sm:px-10 md:px-16 lg:px-16">
+                    <div class="flex justify-between sm:px-10 md:px-8 lg:px-8">
                         <div class="mb-4 pr-2 w-1/3">
                             <button @click="state--"
                                     class="w-full bg-white text-black_p py-2 focus:outline-none flex justify-start"
@@ -202,8 +207,8 @@
                         </div>
                         <div class="mb-6 pl-2 w-1/2">
                             <button @click="addState()"
-                                    class="w-full bg-green text-white py-2 px-20 focus:outline-none "
-                                    type="button">Login
+                                    class="w-full bg-green text-white text-center py-2 focus:outline-none "
+                                    type="button">Register
                             </button>
                         </div>
                     </div>
@@ -252,67 +257,72 @@
                     'Sachsen-Anhalt',
                     'Schleswig-Holstein',
                     'Thüringen'
-                ]
+                ],
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() > Date.now();
+                    },
+                },
+                error: ''
             }
         },
         validators: {
             firstname(value) {
                 return Validator.value(value)
-                    .required("firstname");
+                    .required("please input firstname");
             },
             lastname(value) {
                 return Validator.value(value)
-                    .required("lastname")
-                // .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
+                    .required("please input lastname")
             },
             sex(value) {
                 return Validator.value(value)
-                    .required("sex")
+                    .required("please select gender")
             },
             houseNumber(value) {
                 return Validator.value(value)
-                    .required("address")
+                    .required("please input address")
             },
             street(value) {
                 return Validator.value(value)
-                    .required("address")
+                    .required("please input address")
             },
             city(value) {
                 return Validator.value(value)
-                    .required("city")
+                    .required("please input city")
             },
             postalCode(value) {
                 return Validator.value(value)
-                    .required("postalCode")
+                    .required("please input postal code")
+                    .length(5, "Invalid Postal Code")
             },
             dob(value) {
                 return Validator.value(value)
-                    .required("dob")
+                    .required("please input date of birth")
             },
             phone(value) {
                 return Validator.value(value)
-                    .required("phone")
-                // .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
+                    .required("please input phone").length(12, 'Invalid phone')
             },
             email(value) {
                 return Validator.value(value)
-                    .required("email")
-                    .email('invalid')
+                    .required("please input email")
+                    .email('invalid email')
             },
             username(value) {
                 return Validator.value(value)
-                    .required("username")
-                // .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
+                    .required("please input username")
+                    .minLength(4, "username length must more 4 letter");
             },
             password(value) {
                 return Validator.value(value)
-                    .required("password")
-                // .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
+                    .required("please input password")
+                    .minLength(6, "username length must more 6 letter");
             },
             password2(value) {
                 return Validator.value(value)
-                    .required("password2")
-                    .match(this.password, 'รหัสผ่านไม่ตรงกัน')
+                    .required("please input password again")
+                    .match(this.password, 'password not match')
             }
         },
         methods: {
@@ -387,10 +397,24 @@
                         })
                     })
                     .catch((error) => {
-                        console.log(error);
-                        alert(error.message);
+                        console.log(error.response.status)
+                        if (error.response.status == 400) {
+                            if (error.response.data.error.user.password) {
+                                this.error = 'password is easy too'
+                            } else if (error.response.data.error.user.email) {
+                                this.error = error.response.data.error.user.email[0]
+                            } else if (error.response.data.error.user.username) {
+                                this.error = error.response.data.error.user.username[0]
+                            }
+                        } else {
+                            this.error = 'Something is wrong. Try again later'
+                        }
+
                     })
-            }
+            },
+            closeError() {
+                this.error = ''
+            },
         },
     }
 </script>

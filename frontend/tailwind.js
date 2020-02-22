@@ -16,7 +16,8 @@ module.exports = {
             orange: '#EF6C00',
             gray: '#707070', // textfield
             gray_bg: '#e3e4e3',
-            unHilight: '#f5f5f5'
+            unHilight: '#f5f5f5',
+            key_column:'#53656e'
         },
         fontFamily: {
             display: ['Kanit', 'sans-serif'],

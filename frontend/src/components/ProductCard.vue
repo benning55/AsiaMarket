@@ -6,14 +6,14 @@
         </div>
         <img @click="goDetail(productData.id)" v-if="productData.pic1 == null" class="w-4/6 object-contain mx-auto my-3"
              src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg" style="height: 155px"
-             alt="Sunset in the mountains">
+             :alt="productData.title">
         <img @click="goDetail(productData.id)" v-else class="w-4/6 object-contain mx-auto my-3" style="height: 155px"
              :src="this.$store.state.endpoints.host+productData.pic1"
-             alt="Sunset in the mountains">
+             :alt="productData.title">
 
         <div class="px-2 py-2">
             <div @click="goDetail(productData.id)" class="w-full text-left bg-white text-black py-2 h-24">
-                {{productData.title}}
+                {{nameTranslate(productData.title)}}
             </div>
             <div @click="goDetail(productData.id)" class="text-left text-md title text-green h-12"
                  :style="`color:${productData.category_color}`">
@@ -88,6 +88,18 @@
             // }
         },
         methods: {
+            nameTranslate(text) {
+                let list = text.split(')').join('(').split('(')
+                if (list.length == 1) {
+                    return text
+                } else {
+                    if (this.$i18n.locale == 'th') {
+                        return list[1]
+                    } else {
+                        return list[0]
+                    }
+                }
+            },
             goDetail(id) {
                 this.$router.push({
                     name: 'Detail',
@@ -141,6 +153,16 @@
                     }, 2000)
                 } else if (this.$store.state.isAuthenticated == false) {
                     console.log("please login")
+                    this.$alert('If you want to add Product. Please Login', 'Please Login', {
+                        confirmButtonText: 'Login',
+                        callback: action => {
+                            if (action == 'confirm') {
+                                this.$router.push({
+                                    name: 'login'
+                                })
+                            }
+                        }
+                    });
                 }
             },
             decrease() {

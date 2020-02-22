@@ -3,7 +3,10 @@
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
-        <div class="bg-white w-full border-green-top px-4 sm:h-full lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
+        <div v-if="!$store.state.isAuthenticated" class="bg-white h-64 w-full border-green-top px-4 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16 relative">
+            <NoLoginText/>
+        </div>
+        <div v-else class="bg-white w-full border-green-top px-4 sm:h-full lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
             <div class="text-center text-2xl mb-10 mt-5 font-l">My Address</div>
             <div v-for="(address,index) in addresses" :key='address.id'>
                 <ListAddress :address="address"/>
@@ -18,10 +21,12 @@
 <script>
     import axios from 'axios'
     import ListAddress from "../components/ListAddress";
+    import NoLoginText from "../components/NoLoginText";
 
     export default {
         components: {
-            ListAddress
+            ListAddress,
+            NoLoginText
         },
         data() {
             return {

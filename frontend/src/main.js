@@ -14,12 +14,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/element-variables.scss'
 import locale from 'element-ui/lib/locale/lang/th'
 import VueDragscroll from 'vue-dragscroll'
-
-
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 
 import ImageUploader from 'vue-image-upload-resize'
+
 Vue.use(ImageUploader);
 
 

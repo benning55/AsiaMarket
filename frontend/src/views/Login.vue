@@ -6,8 +6,11 @@
         <div class="auth">
             <form class="mt-16 w-11/12 sm:w-4/5 md:w-3/5 lg:w-4/5 xl:w-full mx-auto bg-white shadow-md px-3 sm:px-3 md:px-5 lg:px-16 xl:px-16 pt-6 pb-8 mb-4"
                   style="border-top: 6px solid #619F21;">
+                <el-alert v-if="error" type="error" show-icon @close="closeError">
+                    {{error}}
+                </el-alert>
                 <div class="text-center text-2xl mb-10 mt-5 font-l">Login</div>
-                <div class="mb-4 sm:px-10 md:px-16 lg:px-16">
+                <div class="mb-4 sm:px-10 md:px-16 lg:px-10">
                     <label v-if="!validation.firstError('username')"
                            class="block text-sm mb-2"
                            for="username"> {{$t('username')}}</label>
@@ -19,7 +22,7 @@
                               v-model="username">
                     </el-input>
                 </div>
-                <div class="mb-6 sm:px-10 md:px-16 lg:px-16">
+                <div class="mb-6 sm:px-10 md:px-16 lg:px-10">
                     <label v-if="!validation.firstError('password')"
                            class="block text-sm mb-2"
                            for="password">{{$t('password')}}</label>
@@ -33,7 +36,7 @@
                     </el-input>
                 </div>
 
-                <div class="mb-6 sm:px-10 md:px-16 lg:px-16">
+                <div class="mb-6 sm:px-10 md:px-16 lg:px-10">
                     <button @click="authenticate()"
                             class="w-full bg-green text-white py-2 px-20 focus:outline-none"
                             type="button">{{$t('login')}}
@@ -62,7 +65,8 @@
                 LoginForm: {
                     username: '',
                     password: ''
-                }
+                },
+                error: ''
             }
         },
         validators: {
@@ -82,6 +86,10 @@
                     name: 'register'
                 })
             },
+            closeError(){
+                console.log('close')
+                this.error = ''
+            },
             goForgetPassword() {
                 this.$router.push({
                     name: 'ForgetPassword'
@@ -89,7 +97,6 @@
             },
             authenticate() {
                 this.$validate(["username", "password"]);
-                console.log(this.validation.firstError("password"))
                 if (
                     this.validation.firstError("username") == null &&
                     this.validation.firstError("password") == null
@@ -113,20 +120,16 @@
                                     withCredentials: true
                                 }
                             };
-                            //Even though the authentication returned a user object that can be
-                            //decoded, we fetch it again. This way we aren't super dependant on
-                            //JWT and can plug in something else.
                             const axiosInstance = axios.create(base);
                             axiosInstance({
                                 url: "/user/",
                                 method: "get",
                                 params: {}
                             }).then((response) => {
+                                console.log(response)
                                 this.$store.commit("setAuthUser",
                                     {authUser: response.data, isAuthenticated: true}
                                 );
-                                console.log(this.$store.state.authUser);
-                                // console.log(this.$store.state.authUser['profile']);
                                 this.$router.push("/")
                                 location.reload();
                             }).catch((error) => {
@@ -135,10 +138,12 @@
                             })
                         })
                         .catch((error) => {
-                            console.log(error);
-                            console.debug(error);
-                            console.dir(error);
-                            alert('no')
+                            console.log(error.response);
+                            if(error.status == '400'){
+                                this.error = 'Username or Password incorrect'
+                            } else {
+                                this.error = 'Something is wrong. Try again later'
+                            }
                         })
                 }
             }
