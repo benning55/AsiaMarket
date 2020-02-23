@@ -16,22 +16,38 @@
                             :asNavFor="$refs.c2"
                             :focusOnSelect="true"
                             :dots="false"
-                            :arrows="false">
-                        <div v-for="img in mockup.detail.data.image" :key="img.id" class="w-full p-10 md:p-5">
-                            <img :src="img" alt="s">
+                            :arrows="false"
+                            :infinite="false">
+
+                        <div class="w-full p-10 md:p-5">
+                            <img class="height220" :src="$store.state.endpoints.host+dataProduct.pic1" alt="sa">
                         </div>
-                        <div v-for="img in mockup.detail.data.image" :key="img.id"><img :src="img"/></div>
+                        <div v-if="dataProduct.pic2 != null" class="w-full p-10 md:p-5">
+                            <img class="height220" :src="$store.state.endpoints.host+dataProduct.pic2" alt="s">
+                        </div>
+                        <div v-if="dataProduct.pic3 != null" class="w-full p-10 md:p-5">
+                            <img class="height220" :src="$store.state.endpoints.host+dataProduct.pic3" alt="s">
+                        </div>
                     </VueSlickCarousel>
                     <div class="px-5">
-                        <VueSlickCarousel
-                                ref="c2"
-                                :asNavFor="$refs.c1"
-                                :slidesToShow="3"
-                                :focusOnSelect="true"
-                                :arrows="true">
-                            <div v-for="img in mockup.detail.data.image" :key="img.id" class="11/12 p-2">
-                                <img :src="img" alt="s">
+                        <VueSlickCarousel ref="c2"
+                                          :asNavFor="$refs.c1"
+                                          :focusOnSelect="true"
+                                          :arrows="true"
+                                          :slidesToShow="3"
+                                          :infinite="false">
+                            <div class="w-full p-2 md:p-2">
+                                <img class="height80" :src="$store.state.endpoints.host+dataProduct.pic1" alt="s">
                             </div>
+                            <div class="w-full p-2 md:p-2">
+                                <img class="height80" v-if="dataProduct.pic2 != null"
+                                     :src="$store.state.endpoints.host+dataProduct.pic2"
+                                     alt="s">
+                            </div>
+                            <!--                            <div v-if="dataProduct.pic1 != null" class="w-full p-2 md:p-2">-->
+                            <!--                                <img class="height80" v-if="dataProduct.pic3 != null" :src="$store.state.endpoints.host+dataProduct.pic3"-->
+                            <!--                                     alt="s">-->
+                            <!--                            </div>-->
                         </VueSlickCarousel>
                     </div>
                 </div>
@@ -125,7 +141,7 @@
                     "infinite": false,
                     "initialSlide": 3,
                     "speed": 500,
-                    "slidesToShow": 5,
+                    "slidesToShow": 3,
                     "slidesToScroll": 1,
                     "arrows": false,
                     "swipeToSlide": true,
@@ -133,13 +149,13 @@
                         {
                             "breakpoint": 1400,
                             "settings": {
-                                "slidesToShow": 4,
+                                "slidesToShow": 3,
                             }
                         },
                         {
                             "breakpoint": 1024,
                             "settings": {
-                                "slidesToShow": 4,
+                                "slidesToShow": 3,
                             }
                         },
                         {
@@ -186,13 +202,16 @@
             }
         },
         created() {
+            // get detail of product
             axios.get(this.$store.state.endpoints.productUrL + this.$route.params.id + "/").then(res => {
-                console.log(res.data.data)
                 this.dataProduct = res.data.data
             }).catch()
+
+            // get recommend product
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                 this.recommendProduct = res.data.data.slice(0, 8)
             }).catch()
+
             this.isInCart = this.$store.state.inCart.cart_detail.findIndex(item => item.product.id == this.dataProduct.id)
             if (this.isInCart != -1) {
                 this.value = this.$store.state.inCart.cart_detail[this.isInCart].quantity
@@ -336,6 +355,22 @@
 </script>
 
 <style scoped>
+    .slick-slide.slick-active.slick-cloned {
+        display: none;
+    }
+
+    .height220 {
+        height: 220px;
+        margin: auto;
+        object-fit: contain;
+    }
+
+    .height80 {
+        height: 80px;
+        margin: auto;
+        object-fit: contain;
+    }
+
     .button-area {
         border: 1.5px solid #619F21;
         width: 100%;

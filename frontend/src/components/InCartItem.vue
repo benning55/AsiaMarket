@@ -2,10 +2,11 @@
     <div class="h-24 p-2 border-bottom"
          @focusout="handleFocusOut"
          tabindex="0">
-        <div v-if="!isWillDelete" class="parent">
-            <div class="div1">
+        <div v-if="!isWillDelete && value > 0" class="parent">
+            <div class="div1 self-center">
                 <div class="" style="width: 90%">
-                    <img src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg" alt="">
+                    <img :src="$store.state.endpoints.host+data.product.pic1" alt=""
+                         style="max-height: 80px;margin: auto">
                 </div>
             </div>
             <div class="div2">
@@ -31,8 +32,42 @@
                 </div>
             </div>
         </div>
+
+        <div v-else-if="!isWillDelete && value == 0" class="parent opacity-50">
+            <div class="div1 self-center">
+                <div class="" style="width: 90%">
+                    <img :src="$store.state.endpoints.host+data.product.pic1" alt=""
+                         style="max-height: 80px;margin: auto">
+                </div>
+            </div>
+            <div class="div2">
+                <div class="w-full" style="line-height: 20px;">{{reduceTitle(data.product.title)}}</div>
+            </div>
+            <div class="div3" style="align-self: flex-start;text-align: right;">
+                <i @click="isWillDelete=true" class='fas fa-trash-alt m-2 text-lightGray cursor-pointer'></i>
+            </div>
+            <div class="div4">
+                <div class="button-area flex justify-between cursor-pointer">
+                    <div @click="decrease" class="button-increase  bg-green" style="user-select: none">
+                        <i class="material-icons">remove</i>
+                    </div>
+                    <div class="text-lg">{{value}}</div>
+                    <div @click="increase" class="button-decrease bg-green" style="user-select: none">
+                        <i class="material-icons">add</i>
+                    </div>
+                </div>
+            </div>
+            <div class="div5" style="align-self: end">
+                <div class="text-green" style="text-align: end;margin-right: 8px;">
+                    {{data.price}} €
+                </div>
+            </div>
+        </div>
+
+
         <div v-else class="parent2" style="height: fit-content">
-            <div @click="isWillDelete=false" class="div12 text-black text-center w-full h-20 cursor-pointer hover:bg-unHilight">
+            <div @click="isWillDelete=false"
+                 class="div12 text-black text-center w-full h-20 cursor-pointer hover:bg-unHilight">
                 <p>Cancel</p>
             </div>
             <div @click="deleteItem" class="div22 bg-red text-white text-center w-full h-20 cursor-pointer">
@@ -66,7 +101,7 @@
                 this.isWillDelete = false
             },
             increase() {
-                if (this.value != this.quantity) {
+                if (this.value < this.quantity) {
                     clearTimeout(this.timeout)
                     this.value++
                     this.timeout = setTimeout(() => {
@@ -79,15 +114,19 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
+                            console.log(res.data.data.product.quantity)
+                            this.quantity = res.data.data.product.quantity
                             let index = this.$store.state.inCart.cart_detail.findIndex(item => item.id == res.data.data.id)
                             this.$store.state.inCart.cart_detail[index].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[index].price = res.data.data.price
                         }).catch()
                     }, 2000)
+                } else {
+                    this.value = this.quantity
                 }
             },
             decrease() {
-                if (this.value != 1) {
+                if (this.value >= 1) {
                     clearTimeout(this.timeout)
                     this.value--
                     this.timeout = setTimeout(() => {
@@ -108,7 +147,7 @@
                 }
             },
             deleteItem() {
-                axios.delete(this.$store.state.endpoints.editInCart+this.data.product.id+"/", {
+                axios.delete(this.$store.state.endpoints.editInCart + this.data.product.id + "/", {
                     headers: {
                         Authorization: `JWT ${this.$store.state.jwt}`,
                         'Content-Type': 'application/json'
