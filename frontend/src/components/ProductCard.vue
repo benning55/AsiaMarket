@@ -221,6 +221,7 @@
     }
 </script>
 <style scoped>
+
     .title {
         line-height: 1.5em;
         overflow: hidden;

@@ -152,4 +152,8 @@
 </script>
 
 <style lang="css">
+    .auth{
+        max-width: 42rem;
+        margin: auto;
+    }
 </style>

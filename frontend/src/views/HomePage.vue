@@ -9,34 +9,46 @@
                  alt="Promotion">
         </VueSlickCarousel>
 
-        <div v-dragscroll class="overflow-auto">
-            <div class="flex mt-3 w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">
-                <div class="w-1/4" v-for="category in mockup.categorys" :key="category.id">
+        <div class="mt-3 w-full">
+            <swiper :options="swiperOption">
+                <swiper-slide v-for="category in mockup.categorys" :key="category.key">
                     <button @click="goCategory(category)"
-                            class="w-full bg-white  cs-border hover:bg-unHilight text-black py-2 px-4 h-full">
+                            class="w-full bg-white cs-border-2 hover:bg-unHilight text-black py-2 h-full text-center" style="height: 48px">
                         {{category.type}}
                     </button>
-                </div>
-            </div>
+                </swiper-slide>
+            </swiper>
         </div>
+
+
+        <!--        <div v-dragscroll class="overflow-auto">-->
+        <!--            <div class="flex mt-3 w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
+        <!--                <div class="w-1/4" v-for="category in mockup.categorys" :key="category.id">-->
+        <!--                    <button @click="goCategory(category)"-->
+        <!--                            class="w-full bg-white  cs-border hover:bg-unHilight text-black py-2 px-4 h-full">-->
+        <!--                        {{category.type}}-->
+        <!--                    </button>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
 
         <section class="mt-3">
             <h1 class="my-3 text-xl">Recommend</h1>
-                      <SwiperItem :dataItem="recommendProduct"/>
-<!--            <div class="overflow-auto">-->
-<!--                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
-<!--                    <div v-for="product in recommendProduct" :key="product.key" class="w-1/4">-->
-<!--                        <ProductCard :productData="product"/>-->
-<!--                    </div>-->
-<!--          -->
-<!--                </div>-->
-<!--            </div>-->
+            <SwiperItem :dataItem="recommendProduct"/>
+            <!--            <div class="overflow-auto">-->
+            <!--                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
+            <!--                    <div v-for="product in recommendProduct" :key="product.key" class="w-1/4">-->
+            <!--                        <ProductCard :productData="product"/>-->
+            <!--                    </div>-->
+            <!--          -->
+            <!--                </div>-->
+            <!--            </div>-->
         </section>
 
         <section class="mt-3">
             <h1 class="my-3 text-xl">New Product</h1>
-                      <SwiperItem :dataItem="recommendProduct"/>
-<!--            <div v-dragscroll class=" overflow-auto">-->
+            <SwiperItem :dataItem="newestProduct"/>
+            <!--            <div v-dragscroll class=" overflow-auto">-->
             <!--                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
             <!--                    <div v-for="product in newestProduct" :key="product.key" class="w-1/4">-->
             <!--                        <ProductCard :productData="product"/>-->
@@ -44,13 +56,13 @@
             <!--                </div>-->
             <!--            </div>-->
         </section>
-<!--        <vuescroll>-->
-<!--            <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
-<!--                <div v-for="product in newestProduct" :key="product.key" class="w-1/4">-->
-<!--                    <ProductCard :productData="product"/>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </vuescroll>-->
+        <!--        <vuescroll>-->
+        <!--            <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
+        <!--                <div v-for="product in newestProduct" :key="product.key" class="w-1/4">-->
+        <!--                    <ProductCard :productData="product"/>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </vuescroll>-->
     </div>
 </template>
 
@@ -69,9 +81,30 @@
         // directives: {
         //     dragscroll
         // },
-        components: {VueSlickCarousel,SwiperItem},
+        components: {VueSlickCarousel, SwiperItem},
         data() {
             return {
+                swiperOption: {
+                    slidesPerView: 5,
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true
+                    },
+                    breakpoints: {
+                        1400: {
+                            slidesPerView: 4,
+                        },
+                        1024: {
+                            slidesPerView: 4,
+                        },
+                        640: {
+                            slidesPerView: 3,
+                        },
+                        480: {
+                            slidesPerView: 2,
+                        }
+                    }
+                },
                 setting1: {
                     "dots": true,
                     "dotsClass": "slick-dots custom-dot-class",
@@ -85,74 +118,6 @@
                     "pauseOnDotsHover": true,
                     "pauseOnFocus": true,
                     "pauseOnHover": true
-                },
-                setting2: {
-                    "dots": false,
-                    "infinite": false,
-                    "initialSlide": 0,
-                    "speed": 500,
-                    "slidesToShow": 5,
-                    "slidesToScroll": 1,
-                    "arrows": false,
-                    "swipeToSlide": true,
-
-                    "responsive": [
-                        {
-                            "breakpoint": 1024,
-                            "settings": {
-                                "slidesToShow": 5,
-                            }
-                        },
-                        {
-                            "breakpoint": 640,
-                            "settings": {
-                                "slidesToShow": 4,
-                            }
-                        },
-                        {
-                            "breakpoint": 480,
-                            "settings": {
-                                "slidesToShow": 3,
-                            }
-                        }
-                    ]
-                },
-                setting3: {
-                    "dots": false,
-                    "infinite": false,
-                    "initialSlide": 0,
-                    "speed": 500,
-                    "slidesToShow": 5,
-                    "slidesToScroll": 1,
-                    "arrows": false,
-                    "swipeToSlide": true,
-                    "touchThreshold": 4,
-                    "responsive": [
-                        {
-                            "breakpoint": 1400,
-                            "settings": {
-                                "slidesToShow": 4,
-                            }
-                        },
-                        {
-                            "breakpoint": 1024,
-                            "settings": {
-                                "slidesToShow": 4,
-                            }
-                        },
-                        {
-                            "breakpoint": 640,
-                            "settings": {
-                                "slidesToShow": 3,
-                            }
-                        },
-                        {
-                            "breakpoint": 480,
-                            "settings": {
-                                "slidesToShow": 2,
-                            }
-                        }
-                    ]
                 },
                 mockup: {
                     showCarousel: [
@@ -234,9 +199,12 @@
         z-index: 3;
     }
 
-    .cs-border {
-        border: 3px solid #e3e4e3;
-        border-style: none solid none none
+    .cs-border-2 {
+        /*border: 3px solid #e3e4e3;*/
+        /*border-style: none solid none none*/
+        -webkit-box-shadow: inset -1.5px 0px 0px 0px #e3e4e3;
+        -moz-box-shadow: inset -1.5px 0px 0px 0px #e3e4e3;
+        box-shadow: inset -1.5px 0px 0px 0px #e3e4e3;
     }
 
     .w-25-per {

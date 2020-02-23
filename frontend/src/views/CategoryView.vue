@@ -40,7 +40,7 @@
                     "dots": true,
                     "dotsClass": "slick-dots custom-dot-class",
                     "edgeFriction": 0.35,
-                    "infinite": true,
+                    "infinite": false,
                     "speed": 500,
                     "slidesToShow": 1,
                     "slidesToScroll": 1,

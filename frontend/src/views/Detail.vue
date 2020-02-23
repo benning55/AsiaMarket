@@ -39,8 +39,8 @@
                             <div class="w-full p-2 md:p-2">
                                 <img class="height80" :src="$store.state.endpoints.host+dataProduct.pic1" alt="s">
                             </div>
-                            <div class="w-full p-2 md:p-2">
-                                <img class="height80" v-if="dataProduct.pic2 != null"
+                            <div v-if="dataProduct.pic2 != null" class="w-full p-2 md:p-2">
+                                <img class="height80"
                                      :src="$store.state.endpoints.host+dataProduct.pic2"
                                      alt="s">
                             </div>
@@ -228,11 +228,14 @@
             nameTranslate(text) {
                 let list = text.split(')').join('(').split('(')
                 if (list.length == 1) {
+                    document.title = text
                     return text
                 } else {
                     if (this.$i18n.locale == 'th') {
+                        document.title = list[1]
                         return list[1]
                     } else {
+                        document.title = list[0]
                         return list[0]
                     }
                 }
