@@ -70,7 +70,7 @@
                     <!--            add and remove button show when item exist in cart-->
                     <div @mouseover="hover = true"
                          @mouseleave="hover = false"
-                         v-else-if="hover || count() > 0 || isInCart > -1"
+                         v-else-if="(hover || count() > 0 || isInCart > -1) && dataProduct.quantity > 0"
                          class="button-area mx-auto flex justify-between mb-2">
                         <div @click="decrease" class="button-increase  bg-green" style="user-select: none">
                             <i class="material-icons">remove</i>
@@ -84,12 +84,19 @@
                     <!--            show add when item not in cart-->
                     <div @mouseover="hover = true"
                          @mouseleave="hover = false"
-                         v-else-if="!hover && count() == 0"
+                         v-else-if="!hover && count() == 0 && dataProduct.quantity > 0"
                          class="button-area mx-auto flex justify-between mb-2" style="border: 1.5px solid #707070">
                         <div class="text-xl" style="margin: auto">Add</div>
                     </div>
 
-                    <h1 class="text-lightGray my-5">{{dataProduct.quantity}} Left</h1>
+                    <!--            show add when no item not in cart-->
+                    <div v-else-if="!hover && count() == 0"
+                         class="button-area mx-auto flex justify-between mb-2" style="border: 1.5px solid #707070">
+                        <div class="text-xl text-red" style="margin: auto">Out of Stock</div>
+                    </div>
+
+                    <h1 v-if="dataProduct.quantity > 0" class="text-lightGray my-5">{{dataProduct.quantity}} Left</h1>
+                    <h1 v-else class="text-red my-5">{{dataProduct.quantity}} Left</h1>
                 </div>
             </div>
         </section>

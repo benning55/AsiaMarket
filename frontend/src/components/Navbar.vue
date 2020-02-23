@@ -5,8 +5,10 @@
             <ul class="w-full">
                 <li @click="goHome" class="hidden sm:hidden md:hidden lg:inline-block px-5 cursor-pointer">LOGO</li>
                 <li class="float-right px-5 flex-grow">
-                    <a @click="changeLocale(`en`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'en'}">EN </a> |
-                    <a @click="changeLocale(`th`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'th'}"> TH</a>
+                    <a @click="changeLocale(`en`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'en'}">EN </a>
+                    |
+                    <a @click="changeLocale(`th`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'th'}">
+                        TH</a>
                 </li>
             </ul>
         </nav>
@@ -100,8 +102,10 @@
                 <ul class="w-full py-6">L</ul>
                 <div class="relative h-100 w-70 bg-white">
                     <div class="py-3 px-10 text-xl text-center border-bottom font-l bg-gray_bg cursor-pointer block lg:hidden">
-                        <a @click="changeLocale(`en`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'en'}">EN </a> | <a
-                            @click="changeLocale(`th`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'th'}"> TH</a>
+                        <a @click="changeLocale(`en`)" class="cursor-pointer"
+                           :class="{'text-green':$i18n.locale == 'en'}">EN </a> | <a
+                            @click="changeLocale(`th`)" class="cursor-pointer"
+                            :class="{'text-green':$i18n.locale == 'th'}"> TH</a>
                     </div>
 
                     <!--                    show when not log in-->
@@ -324,21 +328,45 @@
             }
         },
         created() {
-            axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
-                headers: {
-                    Authorization: `JWT ${this.$store.state.jwt}`,
-                    'Content-Type': 'application/json'
-                },
-            }).then(res => {
-                this.itemIncart = res.data.data
-                this.$store.commit("setIncart", res.data.data);
-            }).catch(() => {
-                this.$store.commit("setIncart", {
-                    cart_detail: []
-                });
-            })
+            this.updateCart()
         },
         methods: {
+            updateCart() {
+                axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).then(res => {
+                    for (let i = 0; i < res.data.data.cart_detail.length; i++) {
+                        console.log(res.data.data.cart_detail[i])
+                        if (res.data.data.cart_detail[i].quantity > res.data.data.cart_detail[i].product.quantity) {
+                            res.data.data.cart_detail[i].quantity = res.data.data.cart_detail[i].product.quantity
+                            axios.post(this.$store.state.endpoints.editInCart, {
+                                quantity: res.data.data.cart_detail[i].quantity,
+                                product_id: res.data.data.cart_detail[i].product.id
+                            }, {
+                                headers: {
+                                    Authorization: `JWT ${this.$store.state.jwt}`,
+                                    'Content-Type': 'application/json'
+                                },
+                            }).then((res) => {
+                                console.log(res)
+                                // console.log(res.data.data.product.quantity)
+                                // this.quantity = res.data.data.product.quantity
+                                // let index = this.$store.state.inCart.cart_detail.findIndex(item => item.id == res.data.data.cart_detail[i].id)
+                                // this.$store.state.inCart.cart_detail[index].quantity = res.data.data.quantity
+                                // this.$store.state.inCart.cart_detail[index].price = res.data.data.price
+                            }).catch()
+                        }
+                    }
+                    this.$store.commit("setIncart", res.data.data);
+                }).catch(() => {
+                    this.$store.commit("setIncart", {
+                        cart_detail: []
+                    });
+                })
+            },
             goHome() {
                 this.$router.push({
                     name: 'HomePage'

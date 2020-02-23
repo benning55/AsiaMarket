@@ -2,7 +2,7 @@
     <div class="h-24 p-2 border-bottom"
          @focusout="handleFocusOut"
          tabindex="0">
-        <div v-if="!isWillDelete && value > 0" class="parent">
+        <div v-if="!isWillDelete && value > 0" class="parent" style="height: 80px">
             <div class="div1 self-center">
                 <div class="" style="width: 90%">
                     <img :src="$store.state.endpoints.host+data.product.pic1" alt=""
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div v-else-if="!isWillDelete && value == 0" class="parent opacity-50">
+        <div v-else-if="!isWillDelete && value == 0" class="parent" style="height: 80px">
             <div class="div1 self-center">
                 <div class="" style="width: 90%">
                     <img :src="$store.state.endpoints.host+data.product.pic1" alt=""
@@ -47,15 +47,15 @@
                 <i @click="isWillDelete=true" class='fas fa-trash-alt m-2 text-lightGray cursor-pointer'></i>
             </div>
             <div class="div4">
-                <div class="button-area flex justify-between cursor-pointer">
-                    <div @click="decrease" class="button-increase  bg-green" style="user-select: none">
-                        <i class="material-icons">remove</i>
-                    </div>
-                    <div class="text-lg">{{value}}</div>
-                    <div @click="increase" class="button-decrease bg-green" style="user-select: none">
-                        <i class="material-icons">add</i>
-                    </div>
-                </div>
+<!--                <div class="button-area flex justify-between cursor-pointer">-->
+<!--                    <div @click="decrease" class="button-increase  bg-green" style="user-select: none">-->
+<!--                        <i class="material-icons">remove</i>-->
+<!--                    </div>-->
+                    <div class="text-lg text-red">Out of stock</div>
+<!--                    <div @click="increase" class="button-decrease bg-green" style="user-select: none">-->
+<!--                        <i class="material-icons">add</i>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
             <div class="div5" style="align-self: end">
                 <div class="text-green" style="text-align: end;margin-right: 8px;">
@@ -163,6 +163,13 @@
 </script>
 
 <style scoped>
+    .center {
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
     .border-bottom {
         border-bottom: 1px solid #707070
     }
