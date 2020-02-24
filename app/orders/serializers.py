@@ -8,7 +8,7 @@ class OrderSerializer(serializers.ModelSerializer):
     """ Validate data for Order object """
     class Meta:
         model = Order
-        fields = ('id', 'user', 'address', 'price', 'total_price', 'payment_type', 'payment_status', 'code')
+        fields = ('id', 'user', 'address', 'price', 'shipping_fee', 'total_price', 'payment_type', 'payment_status', 'code')
         extra_kwargs = {
             'id': {'read_only': True},
             'code': {'read_only': True}
