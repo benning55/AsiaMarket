@@ -119,6 +119,9 @@ class PaymentBillUpload(APIView):
 
             if serializer.is_valid():
                 obj = serializer.create(serializer.validated_data)
+                order = Order.objects.get(pk=obj.order.id)
+                order.payment_type = 'BankTransfer'
+                order.save()
                 obj_serialize = serializers.PaymentBillSerializer(obj)
                 return Response(obj_serialize.data, status=status.HTTP_200_OK)
             else:
