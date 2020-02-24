@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
@@ -6,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from collections import namedtuple
 
-from core.models import Product, Category, Cart, CartDetail, Code, Order, OrderDetail, PaymentBill
+from core.models import Product, Category, Cart, CartDetail, Code, Order, OrderDetail, PaymentBill, ShippingRate
 from orders import serializers
 
 Timeline = namedtuple('Timeline', ('order', 'order_detail'))
@@ -126,3 +127,20 @@ class PaymentBillUpload(APIView):
                 return Response(obj_serialize.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', ])
+@permission_classes([IsAuthenticated, ])
+def Shipping_Fee(request):
+    """
+    New 10 Product in system
+    """
+    if request.method == 'GET':
+        queryset = ShippingRate.objects.all()
+        if len(queryset) == 0:
+            return Response({'price': '2',
+                             'post_code': ''}, status=status.HTTP_200_OK)
+        else:
+            shipping = queryset[0]
+            # serializer = serializers.ShippingRateSerializer(shipping)
+            return Response({"price": shipping.price}, status=status.HTTP_200_OK)

@@ -84,3 +84,13 @@ class PaymentBillSerializer(serializers.ModelSerializer):
             time_transfer=validated_data['time_transfer']
         )
         return obj
+
+
+class ShippingRateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PaymentBill
+        fields = ('id', 'price', 'post_code')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }

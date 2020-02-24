@@ -12,5 +12,6 @@ router.register('payment-bill', views.PaymentBillUpload.as_view(), base_name='pa
 urlpatterns = [
     path('order/', views.OrderApiView.as_view(), name='order'),
     path('order/<int:pk>/', views.OrderApiView.as_view()),
-    path('payment-bill/', views.PaymentBillUpload.as_view(), name='payment-bill')
+    path('payment-bill/', views.PaymentBillUpload.as_view(), name='payment-bill'),
+    path('shipping-fee/', views.Shipping_Fee)
 ]
