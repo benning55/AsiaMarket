@@ -214,6 +214,8 @@ class Order(models.Model):
         on_delete=models.CASCADE
     )
     address = models.TextField()
+    price = models.DecimalField(max_digits=7, decimal_places=2)
+    shipping_fee = models.DecimalField(max_digits=7, decimal_places=2)
     total_price = models.DecimalField(max_digits=7, decimal_places=2)
     payment_type = models.CharField(
         choices=AllInfo.PAYMENT_TYPE,
@@ -227,6 +229,7 @@ class Order(models.Model):
         max_length=50,
         default=AllInfo.WAITING
     )
+    code = models.CharField(max_length=255, blank=True, null=True)
     expected_arrive = models.DateField(blank=True, null=True)
     created = models.DateTimeField(default=datetime.datetime.now, editable=False)
 
@@ -280,3 +283,9 @@ class PaymentBill(models.Model):
         order_price = self.order.total_price
         return order_price
     get_total_price.short_description = 'Total Price'
+
+
+class ShippingRate(models.Model):
+    """ The price for shipping """
+    price = models.DecimalField(max_digits=7, decimal_places=2)
+    post_code = models.CharField(max_length=255, blank=True, null=True)

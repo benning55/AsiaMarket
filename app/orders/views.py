@@ -51,6 +51,8 @@ class OrderApiView(APIView):
             "user": user.id,
             "address": address,
             "total_price": data['total_price'],
+            "price": data['price'],
+            "shipping_fee": data['shipping_fee'],
             "payment_type": data['payment_type'],
             "payment_status": data['payment_status']
         }
@@ -73,6 +75,8 @@ class OrderApiView(APIView):
                     code = Code.objects.get(pk=cart.code.id)
                     code.quantity = code.quantity - 1
                     code.save()
+                    order.code = code.name
+                    order.save()
                     cart.code = None
                     cart.save()
                 order_serialize = serializers.OrderSerializer(order)

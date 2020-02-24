@@ -143,6 +143,10 @@ class OrderDetailAdmin(admin.ModelAdmin):
     list_display = ['order', 'product', 'quantity']
 
 
+class ShippingRateAdmin(admin.ModelAdmin):
+    list_display = ['price', 'post_code']
+
+
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Profile, ProfileAdmin)
 admin.site.register(models.Address, AddressAdmin)
@@ -154,3 +158,4 @@ admin.site.register(models.CartDetail, CartDetailAdmin)
 admin.site.register(models.Order, OrderAdmin)
 admin.site.register(models.OrderDetail, OrderDetailAdmin)
 admin.site.register(models.PaymentBill, PaymentBillAdmin)
+admin.site.register(models.ShippingRate, ShippingRateAdmin)

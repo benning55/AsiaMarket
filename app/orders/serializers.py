@@ -8,15 +8,18 @@ class OrderSerializer(serializers.ModelSerializer):
     """ Validate data for Order object """
     class Meta:
         model = Order
-        fields = ('id', 'user', 'address', 'total_price', 'payment_type', 'payment_status')
+        fields = ('id', 'user', 'address', 'price', 'total_price', 'payment_type', 'payment_status', 'code')
         extra_kwargs = {
-            'id': {'read_only': True}
+            'id': {'read_only': True},
+            'code': {'read_only': True}
         }
 
     def create(self, validated_data):
         order = Order.objects.create(
             user=validated_data['user'],
             address=validated_data['address'],
+            price=validated_data['price'],
+            shipping_fee=validated_data['shipping_fee'],
             total_price=validated_data['total_price'],
             payment_type=validated_data['payment_type'],
             payment_status=validated_data['payment_status']
