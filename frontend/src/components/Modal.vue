@@ -93,7 +93,9 @@
                     address: this.$store.state.userAddress[this.$store.state.indexUserAddress].recipient + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].house_number + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].street + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].city + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].post_code,
                     total_price: this.total,
                     payment_type: "",
-                    payment_status: false
+                    payment_status: false,
+                    shipping_fee:"2",
+                    price:13.10
 
                 }, {
                     headers: {
@@ -105,7 +107,7 @@
                     this.id = res.data.data.id
                     // this.$router.push({
                     //     name:'ViewEachOrder',
-                    //     params:{id:res.data.data.id}
+                    //     params:{id:res.data.data.id}o
                     // })
                 }).catch(e => console.log(e))
             },
