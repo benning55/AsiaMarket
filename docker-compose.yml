@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   app:
+    container_name: quering-app
     user: $UID:$GID
     build:
       context: ./app
@@ -21,6 +22,7 @@ services:
       - db
 
   db:
+    container_name: quering-db
     image: postgres:11-alpine
     ports:
       - 5433:5432
@@ -33,6 +35,7 @@ services:
       - ./docker_volumes/pg_data:/var/lib/postgresql/data
 
   frontend:
+    container_name: quering-frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -42,3 +45,12 @@ services:
       - ./frontend:/frontend:Z
     command: >
       sh -c "tail -f /dev/null"
+
+  nginx:
+    container_name: quering-nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
