@@ -188,7 +188,29 @@
                         Authorization: `JWT ${this.$store.state.jwt}`,
                         'Content-Type': 'application/json'
                     }
-                }).then(res => console.log(res)).catch(e => console.log(e))
+                }).then(() => {
+                    this.$alert('Upload Complete', 'Upload slip', {
+                        confirmButtonText: 'Ok',
+                        callback: action => {
+                            if (action == 'confirm') {
+                                // this.$router.push({
+                                //     name: 'login'
+                                // })
+                            }
+                        }
+                    });
+                }).catch(e => {
+                    this.$alert('Error : '+e.response, 'Upload slip', {
+                        confirmButtonText: 'Ok',
+                        callback: action => {
+                            if (action == 'confirm') {
+                                // this.$router.push({
+                                //     name: 'login'
+                                // })
+                            }
+                        }
+                    });
+                })
 
             },
 

@@ -302,7 +302,7 @@
             },
             phone(value) {
                 return Validator.value(value)
-                    .required("please input phone").length(12, 'Invalid phone')
+                    .required("please input phone").length(10, 'Invalid phone')
             },
             email(value) {
                 return Validator.value(value)

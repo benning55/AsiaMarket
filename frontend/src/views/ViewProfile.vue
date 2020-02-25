@@ -152,7 +152,7 @@
             },
             newPhone(value) {
                 return Validator.value(value)
-                    .required("กรุณาใส่รหัสผ่าน").digit().length(12)
+                    .required("กรุณาใส่รหัสผ่าน").digit().minLength(10,'must more than 10 digit').maxLength(12,'must less than 13 digit')
             },
             newDOB(value) {
                 return Validator.value(value)
