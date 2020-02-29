@@ -31,8 +31,9 @@
                     <tbody>
                     <tr v-for="item in $store.state.inCart.cart_detail" :key="item.id" class="border-bottom">
                         <td class="px-2 py-2">
-                            <img class="w-full mx-auto" style="max-width: 120px;"
-                                 src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg"
+
+                            <img class="w-full mx-auto" style="max-width: 120px;height: 120px; object-fit: contain"
+                                 :src="$store.state.endpoints.host + item.product.pic1"
                                  alt="">
                         </td>
                         <td class="px-2 py-2">{{item.product.title}}</td>
