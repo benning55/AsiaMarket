@@ -2,7 +2,31 @@
     <div class="h-24 p-2 border-bottom"
          @focusout="handleFocusOut"
          tabindex="0">
-        <div v-if="this.data.quantity > this.data.product.quantity" >sssss</div>
+
+        <div v-if="this.data.overStatus" class="parent" style="height: 80px">
+            <div class="div1 self-center">
+                <div class="relative" style="width: 90%">
+                    <img :src="$store.state.endpoints.host+data.product.pic1" alt=""
+                         style="max-height: 80px;margin: auto;opacity: .5">
+                    <a class="center text-red text-center absolute">Not Enough</a>
+                </div>
+            </div>
+            <div class="div2">
+                <div class="w-full" style="line-height: 20px;">{{reduceTitle(data.product.title)}}</div>
+            </div>
+            <div class="div3" style="align-self: flex-start;text-align: right;">
+                <i @click="isWillDelete=true" class='fas fa-trash-alt m-2 text-lightGray cursor-pointer'></i>
+            </div>
+            <div class="div4">
+                    <div class="text-lg text-red">Not Enough</div>
+            </div>
+            <div class="div5" style="align-self: end">
+                <div class="text-green" style="text-align: end;margin-right: 8px;">
+                    {{data.price}} €
+                </div>
+            </div>
+        </div>
+
         <div v-else-if="!isWillDelete && value > 0" class="parent" style="height: 80px">
             <div class="div1 self-center">
                 <div class="" style="width: 90%">

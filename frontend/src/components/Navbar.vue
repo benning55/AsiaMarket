@@ -25,10 +25,13 @@
                 <li @click="goHome" class="inline-block cursor-pointer">Logo</li>
                 <li class="float-right px-5">
                     <div @click="cartDrawer = !cartDrawer, mobileDrawer =false" class="relative">
-                        <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
-                        <div class="absolute text-white rounded-full h-5 w-5 flex items-center justify-center bg-green count-position3">
-                            {{$store.state.inCart.cart_detail.length}}
-                        </div>
+                        <el-badge :value="$store.state.inCart.cart_detail.length" class="item" type="primary">
+                            <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
+                        </el-badge>
+                        <!--                        <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">-->
+                        <!--                        <div class="absolute text-white rounded-full h-5 w-5 flex items-center justify-center bg-green count-position3">-->
+                        <!--                            {{$store.state.inCart.cart_detail.length}}-->
+                        <!--                        </div>-->
                     </div>
                 </li>
             </ul>
@@ -174,10 +177,13 @@
                 <ul class="w-full py-6">L</ul>
                 <div class="relative h-full w-70 overflow-auto">
                     <div class="w-70 p-3 text-xl border-bottom fixed justify-between flex bg-white">
-                        <img class="w-8" src="../assets/icon/supermarket.svg">
-                        <div class="text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position2">
-                            {{$store.state.inCart.cart_detail.length}}
-                        </div>
+<!--                        <img class="w-8" src="../assets/icon/supermarket.svg">-->
+<!--                        <div class="text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position2">-->
+<!--                            {{$store.state.inCart.cart_detail.length}}-->
+<!--                        </div>-->
+                        <el-badge :value="$store.state.inCart.cart_detail.length" class="item" type="primary">
+                            <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
+                        </el-badge>
                         My Cart
                         <i @click="cartDrawer = !cartDrawer" class="material-icons text-3xl cursor-pointer">keyboard_arrow_right</i>
                     </div>
@@ -338,23 +344,25 @@
                         'Content-Type': 'application/json'
                     },
                 }).then(res => {
-                    // for (let i = 0; i < res.data.data.cart_detail.length; i++) {
-                    //     console.log(res.data.data.cart_detail[i])
-                    //     if (res.data.data.cart_detail[i].quantity > res.data.data.cart_detail[i].product.quantity) {
-                    //         res.data.data.cart_detail[i].quantity = res.data.data.cart_detail[i].product.quantity
-                    //         axios.post(this.$store.state.endpoints.editInCart, {
-                    //             quantity: res.data.data.cart_detail[i].quantity,
-                    //             product_id: res.data.data.cart_detail[i].product.id
-                    //         }, {
-                    //             headers: {
-                    //                 Authorization: `JWT ${this.$store.state.jwt}`,
-                    //                 'Content-Type': 'application/json'
-                    //             },
-                    //         }).then((res) => {
-                    //             console.log(res)
-                    //         }).catch()
-                    //     }
-                    // }
+                    for (let i = 0; i < res.data.data.cart_detail.length; i++) {
+                        // console.log(res.data.data.cart_detail[i])
+                        if (res.data.data.cart_detail[i].quantity > res.data.data.cart_detail[i].product.quantity) {
+                            res.data.data.cart_detail[i].overStatus = true
+                            // res.data.data.cart_detail[i].price = 0
+                            res.data.data.cart_detail[i].quantity = res.data.data.cart_detail[i].product.quantity
+                            // axios.post(this.$store.state.endpoints.editInCart, {
+                            //     quantity: res.data.data.cart_detail[i].quantity,
+                            //     product_id: res.data.data.cart_detail[i].product.id
+                            // }, {
+                            //     headers: {
+                            //         Authorization: `JWT ${this.$store.state.jwt}`,
+                            //         'Content-Type': 'application/json'
+                            //     },
+                            // }).then((res) => {
+                            //     console.log(res)
+                            // }).catch()
+                        }
+                    }
                     this.$store.commit("setIncart", res.data.data);
                 }).catch(() => {
                     this.$store.commit("setIncart", {
@@ -472,6 +480,9 @@
             },
             subTotal() {
                 let sum = this.$store.state.inCart.cart_detail.reduce(function (accumulate, data) {
+                    if (data.overStatus == true) {
+                        console.log("kkkkk")
+                    }
                     return accumulate + Number(data.price);
                 }, 0);
                 return (sum).toFixed(2);
