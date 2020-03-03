@@ -2,7 +2,8 @@
     <div class="h-24 p-2 border-bottom"
          @focusout="handleFocusOut"
          tabindex="0">
-        <div v-if="!isWillDelete && value > 0" class="parent" style="height: 80px">
+        <div v-if="this.data.quantity > this.data.product.quantity" >sssss</div>
+        <div v-else-if="!isWillDelete && value > 0" class="parent" style="height: 80px">
             <div class="div1 self-center">
                 <div class="" style="width: 90%">
                     <img :src="$store.state.endpoints.host+data.product.pic1" alt=""
@@ -47,15 +48,7 @@
                 <i @click="isWillDelete=true" class='fas fa-trash-alt m-2 text-lightGray cursor-pointer'></i>
             </div>
             <div class="div4">
-<!--                <div class="button-area flex justify-between cursor-pointer">-->
-<!--                    <div @click="decrease" class="button-increase  bg-green" style="user-select: none">-->
-<!--                        <i class="material-icons">remove</i>-->
-<!--                    </div>-->
                     <div class="text-lg text-red">Out of stock</div>
-<!--                    <div @click="increase" class="button-decrease bg-green" style="user-select: none">-->
-<!--                        <i class="material-icons">add</i>-->
-<!--                    </div>-->
-<!--                </div>-->
             </div>
             <div class="div5" style="align-self: end">
                 <div class="text-green" style="text-align: end;margin-right: 8px;">
@@ -86,7 +79,8 @@
             return {
                 value: this.data.quantity,
                 quantity: this.data.product.quantity,
-                isWillDelete: false
+                isWillDelete: false,
+                itemStatus:'ok'
             }
         },
         methods: {
@@ -158,6 +152,11 @@
                     this.$store.state.inCart.cart_detail.splice(index, 1)
                 }).catch()
             }
+        },
+        computed:{
+            // isOver(){
+            //     if(this.data.quantity > this.data.product.quantity){}
+            // }
         }
     }
 </script>

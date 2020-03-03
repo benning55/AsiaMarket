@@ -18,6 +18,9 @@
                            class="block text-red text-sm mb-2"
                            for="username">Please input Username</label>
                     <el-input id="username"
+                              @keyup.enter.native="$refs.password.focus"
+                              ref="username"
+                              type="text"
                               placeholder="Please input"
                               v-model="username">
                     </el-input>
@@ -30,6 +33,8 @@
                            class="block text-red text-sm mb-2"
                            for="password">Please input Password</label>
                     <el-input id="password"
+                              ref="password"
+                              @keyup.enter.native="authenticate"
                               placeholder="Please input"
                               v-model="password"
                               show-password>
@@ -80,13 +85,19 @@
                 // .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
             }
         },
+        mounted() {
+            this.focusInput();
+        },
         methods: {
+            focusInput() {
+                this.$refs.username.focus();
+            },
             goRegister() {
                 this.$router.push({
                     name: 'register'
                 })
             },
-            closeError(){
+            closeError() {
                 console.log('close')
                 this.error = ''
             },
@@ -139,7 +150,7 @@
                         })
                         .catch((error) => {
                             console.log(error.response);
-                            if(error.status == '400'){
+                            if (error.status == '400') {
                                 this.error = 'Username or Password incorrect'
                             } else {
                                 this.error = 'Something is wrong. Try again later'
@@ -152,7 +163,7 @@
 </script>
 
 <style lang="css">
-    .auth{
+    .auth {
         max-width: 42rem;
         margin: auto;
     }

@@ -338,28 +338,23 @@
                         'Content-Type': 'application/json'
                     },
                 }).then(res => {
-                    for (let i = 0; i < res.data.data.cart_detail.length; i++) {
-                        console.log(res.data.data.cart_detail[i])
-                        if (res.data.data.cart_detail[i].quantity > res.data.data.cart_detail[i].product.quantity) {
-                            res.data.data.cart_detail[i].quantity = res.data.data.cart_detail[i].product.quantity
-                            axios.post(this.$store.state.endpoints.editInCart, {
-                                quantity: res.data.data.cart_detail[i].quantity,
-                                product_id: res.data.data.cart_detail[i].product.id
-                            }, {
-                                headers: {
-                                    Authorization: `JWT ${this.$store.state.jwt}`,
-                                    'Content-Type': 'application/json'
-                                },
-                            }).then((res) => {
-                                console.log(res)
-                                // console.log(res.data.data.product.quantity)
-                                // this.quantity = res.data.data.product.quantity
-                                // let index = this.$store.state.inCart.cart_detail.findIndex(item => item.id == res.data.data.cart_detail[i].id)
-                                // this.$store.state.inCart.cart_detail[index].quantity = res.data.data.quantity
-                                // this.$store.state.inCart.cart_detail[index].price = res.data.data.price
-                            }).catch()
-                        }
-                    }
+                    // for (let i = 0; i < res.data.data.cart_detail.length; i++) {
+                    //     console.log(res.data.data.cart_detail[i])
+                    //     if (res.data.data.cart_detail[i].quantity > res.data.data.cart_detail[i].product.quantity) {
+                    //         res.data.data.cart_detail[i].quantity = res.data.data.cart_detail[i].product.quantity
+                    //         axios.post(this.$store.state.endpoints.editInCart, {
+                    //             quantity: res.data.data.cart_detail[i].quantity,
+                    //             product_id: res.data.data.cart_detail[i].product.id
+                    //         }, {
+                    //             headers: {
+                    //                 Authorization: `JWT ${this.$store.state.jwt}`,
+                    //                 'Content-Type': 'application/json'
+                    //             },
+                    //         }).then((res) => {
+                    //             console.log(res)
+                    //         }).catch()
+                    //     }
+                    // }
                     this.$store.commit("setIncart", res.data.data);
                 }).catch(() => {
                     this.$store.commit("setIncart", {

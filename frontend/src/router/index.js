@@ -13,6 +13,7 @@ import ConfirmOrder from "../views/ConfirmOrder";
 // import SelectPayment from "../views/SelectPayment";
 import ViewOrderHistory from "../views/ViewOrderHistory";
 import ViewEachOrder from "../views/ViewEachOrder";
+import PageNotFound from "../views/PageNotFound";
 
 Vue.use(VueRouter)
 
@@ -20,7 +21,10 @@ const routes = [
     {
         path: '/',
         name: 'HomePage',
-        component: HomePage
+        component: HomePage,
+        meta: {
+            title: 'AsiaMarket'
+        }
     },
     {
         path: '/about',
@@ -77,20 +81,19 @@ const routes = [
         name: 'ConfirmOrder',
         component: ConfirmOrder
     },
-    // {
-    //     path: '/select-payment/:id',
-    //     name: 'SelectPayment',
-    //     component: SelectPayment,
-    // },
     {
-        path:'/orders',
-        name:'ViewOrderHistory',
+        path: '/orders',
+        name: 'ViewOrderHistory',
         component: ViewOrderHistory
     },
     {
-        path:'/orders/:id',
-        name:'ViewEachOrder',
-        component:ViewEachOrder
+        path: '/orders/:id',
+        name: 'ViewEachOrder',
+        component: ViewEachOrder
+    },
+    {
+        path: "*",
+        component: PageNotFound
     }
 ]
 

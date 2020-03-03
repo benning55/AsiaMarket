@@ -212,7 +212,9 @@
             // get detail of product
             axios.get(this.$store.state.endpoints.productUrL + this.$route.params.id + "/").then(res => {
                 this.dataProduct = res.data.data
-            }).catch()
+            }).catch(e=>{
+                console.log(e.response.status)
+            })
 
             // get recommend product
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
