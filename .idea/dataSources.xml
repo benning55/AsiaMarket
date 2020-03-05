@@ -7,11 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5433/asiamarket</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="asiamarket@35.198.243.220" uuid="d6ae0ebb-3c1c-4098-8362-4e4ec6ff2522">
+    <data-source source="LOCAL" name="asiamarket@159.65.129.72" uuid="e9f1570c-2c71-40bb-aa83-18a4836e28f8">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://35.198.243.220:5433/asiamarket</jdbc-url>
+      <jdbc-url>jdbc:postgresql://159.65.129.72:5433/asiamarket</jdbc-url>
     </data-source>
   </component>
 </project>
