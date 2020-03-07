@@ -6,9 +6,10 @@ from products.serializers import ProductDataSerializer
 
 class OrderSerializer(serializers.ModelSerializer):
     """ Validate data for Order object """
+    receipt = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Order
-        fields = ('id', 'user', 'address', 'price', 'shipping_fee', 'total_price', 'payment_type', 'payment_status', 'code')
+        fields = ('id', 'user', 'address', 'price', 'shipping_fee', 'total_price', 'payment_type', 'payment_status', 'code', 'receipt')
         extra_kwargs = {
             'id': {'read_only': True},
             'code': {'read_only': True}
@@ -32,14 +33,24 @@ class OrderSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+    def get_receipt(self, obj):
+        order_id = obj.id
+        queryset = PaymentBill.objects.all()
+        queryset = queryset.filter(order_id=order_id)
+        if len(queryset) == 0:
+            return False
+        else:
+            return True
+
 
 class OrderForUseSerializer(serializers.ModelSerializer):
     """ Validate data for Order object """
     pic1 = serializers.SerializerMethodField(read_only=True)
+    receipt = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Order
-        fields = ('id', 'user', 'address', 'total_price', 'payment_type', 'payment_status', 'delivery_status', 'created', 'pic1')
+        fields = ('id', 'user', 'address', 'total_price', 'payment_type', 'payment_status', 'delivery_status', 'created', 'pic1', 'receipt')
         extra_kwargs = {
             'id': {'read_only': True}
         }
@@ -47,8 +58,17 @@ class OrderForUseSerializer(serializers.ModelSerializer):
     def get_pic1(self, obj):
         order_id = obj.id
         queryset = OrderDetail.objects.all().filter(order_id=order_id)
-        product_pic = str(queryset[1].product.pic1)
+        product_pic = str(queryset.first().product.pic1)
         return product_pic
+
+    def get_receipt(self, obj):
+        order_id = obj.id
+        queryset = PaymentBill.objects.all()
+        queryset = queryset.filter(order_id=order_id)
+        if len(queryset) == 0:
+            return False
+        else:
+            return True
 
 
 class OrderDetailSerializer(serializers.ModelSerializer):
