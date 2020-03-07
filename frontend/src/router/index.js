@@ -1,19 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '../views/Home.vue'
-import HomePage from "../views/HomePage";
-import Detail from "../views/Detail";
-import CategoryView from "../views/CategoryView";
-import ViewProfile from "../views/ViewProfile";
-import ViewAddress from "../views/ViewAddress";
-import ForgetPassword from "../views/ForgetPassword";
-import AddAddress from "../views/AddAddress";
-import EditAddress from "../views/EditAddress";
-import ConfirmOrder from "../views/ConfirmOrder";
+
+const HomePage = () => import('../views/HomePage')
+const Login = () => import('../views/Login')
+const Register = () => import('../views/Register')
+// import HomePage from "../views/HomePage";
+const Detail = () => import("../views/Detail");
+const CategoryView = () => import("../views/CategoryView");
+const ViewProfile = () => import("../views/ViewProfile");
+const ViewAddress = () => import("../views/ViewAddress");
+const ForgetPassword = () => import("../views/ForgetPassword");
+const AddAddress = () => import("../views/AddAddress");
+const EditAddress = () => import("../views/EditAddress");
+const ConfirmOrder = () => import("../views/ConfirmOrder");
 // import SelectPayment from "../views/SelectPayment";
-import ViewOrderHistory from "../views/ViewOrderHistory";
-import ViewEachOrder from "../views/ViewEachOrder";
-import PageNotFound from "../views/PageNotFound";
+const ViewOrderHistory = () => import("../views/ViewOrderHistory");
+const ViewEachOrder = () => import("../views/ViewEachOrder");
+const PageNotFound = () => import("../views/PageNotFound");
 
 Vue.use(VueRouter)
 
@@ -27,19 +30,14 @@ const routes = [
         }
     },
     {
-        path: '/about',
-        name: 'about',
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-    },
-    {
         path: '/login',
         name: 'login',
-        component: () => import('../views/Login')
+        component: Login
     },
     {
         path: '/register',
         name: 'register',
-        component: () => import('../views/Register')
+        component: Register
     },
     {
         path: '/category=:id',

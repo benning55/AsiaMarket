@@ -94,6 +94,7 @@
                         <i class="material-icons">keyboard_arrow_left</i><span>Previous</span>
                     </p>
                 </button>
+                {{checkPass}}
                 <div @click="goPayment"
                      class="w-64 bg-green text-white text-center py-2 px-2 focus:outline-none cursor-pointer">
                     Confirm Order and Payment
@@ -102,7 +103,7 @@
         </div>
 
         <!--        modal-->
-        <modal :type="typeModal" :total="total" v-show="isModalVisible" @close="closeModal"/>
+        <modal :type="typeModal" :total="[subTotal,shipping,getCode.name,total]" v-show="isModalVisible" @close="closeModal"/>
 
         <!--        <modal type="check_confirm" v-show="isConfirmModalVisible" @close="closeConfirmModal"/>-->
     </div>
@@ -120,7 +121,8 @@
             return {
                 isModalVisible: false,
                 isConfirmModalVisible: false,
-                typeModal: ''
+                typeModal: '',
+                isPass:false
             }
         },
         created() {
@@ -163,9 +165,24 @@
             }
         },
         computed: {
+            checkPass(){
+                let p = []
+                this.$store.state.inCart.cart_detail.reduce(function (accumulate, data) {
+                    if (data.overStatus == true || data.product.quantity == 0) {
+                        return p.push('4')
+                    }
+                }, 0);
+                return p
+            },
+
             subTotal() {
+
                 let sum = this.$store.state.inCart.cart_detail.reduce(function (accumulate, data) {
-                    return accumulate + Number(data.price);
+                    if (data.overStatus == true || data.product.quantity == 0) {
+                        return accumulate + 0;
+                    } else {
+                        return accumulate + Number(data.price);
+                    }
                 }, 0);
                 return (sum).toFixed(2);
             },

@@ -5,11 +5,17 @@
         </ul>
         <div v-if="$store.state.isAuthenticated" class="px-3 pt-4 md:px-0">
             <a href="#payment">
-                <el-alert v-if="!order.payment_status"
+                <el-alert v-if="!order.payment_status && !order.receipt"
                           type="warning"
                           show-icon
                           :closable="false">
                     <h1 class="text-lg">Not Paid</h1>
+                </el-alert>
+                <el-alert v-if="!order.payment_status && order.receipt"
+                          type="warning"
+                          show-icon
+                          :closable="false">
+                    <h1 class="text-lg">Sent Slip. Please wait checked from Admin</h1>
                 </el-alert>
             </a>
 
@@ -44,26 +50,27 @@
                         <td class="px-2 py-2">{{item.product.title}}</td>
                         <td class="px-2 py-2 text-center text-green">{{item.product.price}}</td>
                         <td class="px-2 py-2 text-center">{{item.quantity}}</td>
-                        <td class="px-2 py-2 text-center text-green">{{item.product.price*item.quantity}}</td>
+                        <td class="px-2 py-2 text-center text-green">{{(item.product.price*item.quantity).toFixed(2)}}</td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="px-5 md:px-10 font-l mt-5 text-xl">
                     <div class="flex justify-between">
                         <h1 class="">SubTotal</h1>
-                        <h1 class="text-green">subTotal €</h1>
+                        <h1 class="text-green">{{order.total_price}} €</h1>
                     </div>
                     <div class="flex justify-between">
                         <h1 class="">Shipping</h1>
-                        <h1 class="">shipping €</h1>
+                        <h1 class="">{{order.shipping_fee}} €</h1>
                     </div>
                     <div class="flex justify-between">
                         <h1 class="">Coupon Code</h1>
-                        <h1 class="">getCode.name</h1>
+                        <h1 v-if="order.code != null" class="">{{order.code}}</h1>
+                        <h1 v-else>No Code</h1>
                     </div>
                     <div class="flex justify-between">
                         <h1 class="">Total</h1>
-                        <h1 class="text-green">{{order.total_price}} €</h1>
+                        <h1 class="text-green">{{order.price}} €</h1>
                     </div>
                 </div>
             </div>
@@ -85,7 +92,12 @@
             <div id="payment" class="flex justify-between px-1 sm:px-0">
                 <h1 class="mt-5 py-1 text-xl font-l">Payment</h1>
             </div>
-            <SelectPayment v-if="!order.payment_status" :id="$route.params.id" :order="order"/>
+            <SelectPayment v-if="!order.payment_status && !order.receipt" :id="$route.params.id" :order="order"/>
+            <div v-else-if="!order.payment_status && order.receipt" class="bg-white w-full px-1 sm:h-full lg:px-10 xl:px-24 mx-auto py-5">
+                <div class="px-5 md:px-10 font-l text-lg">
+                    Sent Slip. Please wait checked from Admin
+                </div>
+            </div>
             <div v-else class="bg-white w-full px-1 sm:h-full lg:px-10 xl:px-24 mx-auto py-5">
                 <div class="px-5 md:px-10 font-l text-lg">
                     Payment Success
@@ -101,6 +113,7 @@
                     </p>
                 </button>
             </div>
+            {{order}}
         </div>
     </div>
 </template>

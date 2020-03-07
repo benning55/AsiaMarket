@@ -91,11 +91,11 @@
                 this.isOrderComplete = true
                 axios.post(`http://${window.location.hostname}:8000/api/orders/order/`, {
                     address: this.$store.state.userAddress[this.$store.state.indexUserAddress].recipient + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].house_number + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].street + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].city + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].post_code,
-                    total_price: this.total,
+                    total_price: this.total[0],
                     payment_type: "",
                     payment_status: false,
-                    shipping_fee:"2",
-                    price:13.10
+                    shipping_fee:this.total[1],
+                    price:this.total[3]
 
                 }, {
                     headers: {

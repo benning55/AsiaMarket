@@ -16,10 +16,21 @@ import locale from 'element-ui/lib/locale/lang/th'
 import VueDragscroll from 'vue-dragscroll'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
-
+import 'popper.js'
+import 'bootstrap'
+import VueSession from "vue-session/index.esm";
+import './assets/app.scss'
 import ImageUploader from 'vue-image-upload-resize'
+import VueLazyload from 'vue-lazyload'
 
 Vue.use(ImageUploader);
+
+Vue.use(VueLazyload, {
+  preLoad: 10.3,
+  error: './assets/icon/Rolling-1s-44px.svg',
+  loading: 'public/favicon.ico',
+  attempt: 1
+})
 
 
 Vue.use(VueAwesomeSwiper, /* { default global options } */)
@@ -28,10 +39,6 @@ Vue.use(VueDragscroll)
 Vue.use(ElementUI, {locale});
 
 window.$ = window.jQuery = jQuery;
-import 'popper.js'
-import 'bootstrap'
-import VueSession from "vue-session/index.esm";
-import './assets/app.scss'
 
 Vue.use(VueSession)
 Vue.use(VueAxios, axios)

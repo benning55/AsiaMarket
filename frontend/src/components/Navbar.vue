@@ -174,13 +174,9 @@
         <!--cart screen-->
         <transition name="slide">
             <div v-if="cartDrawer" class="inset-y-0 right-0 bg-white fixed z-20 shadow-md z-105">
-                <ul class="w-full py-6">L</ul>
+                <ul class="w-full py-6">I</ul>
                 <div class="relative h-full w-70 overflow-auto">
                     <div class="w-70 p-3 text-xl border-bottom fixed justify-between flex bg-white">
-<!--                        <img class="w-8" src="../assets/icon/supermarket.svg">-->
-<!--                        <div class="text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position2">-->
-<!--                            {{$store.state.inCart.cart_detail.length}}-->
-<!--                        </div>-->
                         <el-badge :value="$store.state.inCart.cart_detail.length" class="item" type="primary">
                             <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
                         </el-badge>
@@ -193,7 +189,7 @@
                         <div class="w-full" style="height: 249px"></div>
                     </div>
                 </div>
-                <div class="fixed w-70 bottom-0  border-top p-2 bg-white z-50">
+                <div class="fixed-b w-70 bottom-0  border-top p-2 bg-white z-50 appearance-none">
                     <div class="flex justify-between font-l">
                         <div class="">Subtotal</div>
                         <div>{{subTotal}} €</div>
@@ -235,13 +231,28 @@
                         <div class="">Total</div>
                         <div>{{total}} €</div>
                     </div>
-                    <button v-if="subTotal > 0" @click="goCheckOut"
-                            class="w-full h-10 bg-orange mt-3 text-white flex justify-center">
+
+                    <el-popover
+                            v-if="checkPass.length > 0"
+                            placement="top"
+                            title="Product Incorrect"
+                            width="300"
+                            trigger="click"
+                            content="Some Product maybe out of stock or not enough please edit and try again">
+                        <button
+                                slot="reference"
+                                class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
+                            <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
+                            Process to checkout
+                        </button>
+                    </el-popover>
+                    <button v-else-if="subTotal == 0"
+                            class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
                         <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
                         Process to checkout
                     </button>
-                    <button v-else
-                            class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
+                    <button v-else  @click="goCheckOut"
+                            class="w-full h-10 bg-orange mt-3 text-white flex justify-center">
                         <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
                         Process to checkout
                     </button>
@@ -346,21 +357,14 @@
                 }).then(res => {
                     for (let i = 0; i < res.data.data.cart_detail.length; i++) {
                         // console.log(res.data.data.cart_detail[i])
-                        if (res.data.data.cart_detail[i].quantity > res.data.data.cart_detail[i].product.quantity) {
+                        if (res.data.data.cart_detail[i].quantity == 0) {
+                            res.data.data.cart_detail[i].overStatus = false
+                            res.data.data.cart_detail[i].quantity = 1
+                        } else if (res.data.data.cart_detail[i].quantity > res.data.data.cart_detail[i].product.quantity) {
                             res.data.data.cart_detail[i].overStatus = true
-                            // res.data.data.cart_detail[i].price = 0
-                            res.data.data.cart_detail[i].quantity = res.data.data.cart_detail[i].product.quantity
-                            // axios.post(this.$store.state.endpoints.editInCart, {
-                            //     quantity: res.data.data.cart_detail[i].quantity,
-                            //     product_id: res.data.data.cart_detail[i].product.id
-                            // }, {
-                            //     headers: {
-                            //         Authorization: `JWT ${this.$store.state.jwt}`,
-                            //         'Content-Type': 'application/json'
-                            //     },
-                            // }).then((res) => {
-                            //     console.log(res)
-                            // }).catch()
+                            res.data.data.cart_detail[i].quantity = 0
+                        } else {
+                            res.data.data.cart_detail[i].overStatus = false
                         }
                     }
                     this.$store.commit("setIncart", res.data.data);
@@ -440,19 +444,20 @@
                         } else {
                             this.codeStatus = 'ok'
                         }
-                        console.log(res)
-                        axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
-                            headers: {
-                                Authorization: `JWT ${this.$store.state.jwt}`,
-                                'Content-Type': 'application/json'
-                            },
-                        }).then(res => {
-                            this.itemIncart = res.data.data
-                            this.$store.commit("setIncart", this.itemIncart);
-                            this.value = 0
-                        }).catch()
+                        this.updateCart()
+                        // axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
+                        //     headers: {
+                        //         Authorization: `JWT ${this.$store.state.jwt}`,
+                        //         'Content-Type': 'application/json'
+                        //     },
+                        // }).then(res => {
+                        //     this.itemIncart = res.data.data
+                        //     this.$store.commit("setIncart", this.itemIncart);
+                        //     this.value = 0
+                        // }).catch()
                     }).catch(() => {
                         this.codeStatus = 'error'
+                        this.$store.state.inCart.code = null
                     })
                 }, 1000)
 
@@ -478,12 +483,22 @@
                     return name
                 }
             },
+            checkPass() {
+                let p = []
+                this.$store.state.inCart.cart_detail.reduce(function (accumulate, data) {
+                    if (data.overStatus == true || data.product.quantity == 0) {
+                        return p.push('4')
+                    }
+                }, 0);
+                return p
+            },
             subTotal() {
                 let sum = this.$store.state.inCart.cart_detail.reduce(function (accumulate, data) {
-                    if (data.overStatus == true) {
-                        console.log("kkkkk")
+                    if (data.overStatus == true || data.product.quantity == 0) {
+                        return accumulate + 0;
+                    } else {
+                        return accumulate + Number(data.price);
                     }
-                    return accumulate + Number(data.price);
                 }, 0);
                 return (sum).toFixed(2);
             },
@@ -543,6 +558,11 @@
 </script>
 
 <style scoped>
+    .fixed-b {
+        position: -webkit-sticky; /* Safari */
+        position: fixed;
+    }
+
     .z-105 {
         z-index: 105
     }
