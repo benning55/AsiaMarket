@@ -1,9 +1,12 @@
-FROM node:13.7.0
+FROM node:13.7.0 as builder
 MAINTAINER Benning
 
-RUN mkdir /frontend
 WORKDIR /frontend
-COPY ./package.json /frontend
+COPY ./package.json .index
 RUN npm install
-COPY . /frontend
+COPY . .
+RUN npm run build
 
+FROM nginx
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /frontend/dist /usr/share/nginx/html

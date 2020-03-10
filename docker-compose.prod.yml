@@ -12,7 +12,7 @@ services:
     volumes:
       - ./app:/app:Z
     command: >
-      sh -c "pip install -r requirements.txt && tail -f /dev/null"
+      sh -c "pip install -r requirements.txt && gunicorn app.wsgi:application --bind 0.0.0.0:8000"
     environment:
       - DB_HOST=db
       - DB_NAME=asiamarket
@@ -38,22 +38,30 @@ services:
     container_name: quering-frontend
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
+
+  nginx-ssl:
+    image: valian/docker-nginx-auto-ssl
+    restart: on-failure
+    ports:
+      - 80:80
+      - 443:443
     volumes:
-      - ./frontend:/frontend:Z
-    command: >
-      sh -c "tail -f /dev/null"
+      - ssl_data:/etc/resty-auto-ssl
+    environment:
+      ALLOWED_DOMAINS: 'demo.benning.website'
+      SITES: 'demo.benning.website=nginx:80'
 
   nginx:
     container_name: quering-nginx
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    ports:
-      - "80:80"
-      - "443:443"
     depends_on:
       - frontend
       - app
+
+volumes:
+  ssl_data:

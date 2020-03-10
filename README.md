@@ -23,3 +23,9 @@ database_name: asiamarket
 user: adminmarket
 password: postgres15
 ```
+
+# Run Production
+```docker-compose -f docker-compose.prod.yml up -d```
+
+# get static files
+```docker-compose exec app sh -c "python manage.py collectstatic"```
