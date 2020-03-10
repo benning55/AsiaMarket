@@ -20,6 +20,7 @@
             </a>
 
         </div>
+
         <h1 v-if="$store.state.isAuthenticated" class="py-1 text-xl font-l">Product</h1>
 
         <div v-if="!$store.state.isAuthenticated" class="bg-white w-full px-1 h-64 lg:px-10 xl:px-24 pb-10 mx-auto relative mt-10">
@@ -60,6 +61,9 @@
                         <h1 class="text-green">{{order.total_price}} €</h1>
                     </div>
                     <div class="flex justify-between">
+
+
+
                         <h1 class="">Shipping</h1>
                         <h1 class="">{{order.shipping_fee}} €</h1>
                     </div>

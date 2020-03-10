@@ -7,7 +7,6 @@
             <div id="paypal-button-container"></div>
         </div>
         <el-divider> Or </el-divider>
-        <hr class="bg-lightGray text-white mb-5">
         Bank Transfer
         <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">
             <div class="col-12 upload-section">

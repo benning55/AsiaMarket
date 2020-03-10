@@ -3,10 +3,12 @@
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
-        <div v-if="!$store.state.isAuthenticated" class="bg-white h-64 w-full border-green-top px-4 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16 relative">
+        <div v-if="!$store.state.isAuthenticated"
+             class="bg-white h-64 w-full border-green-top px-4 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16 relative">
             <NoLoginText/>
         </div>
-        <div v-else class="bg-white w-full border-green-top px-4 sm:h-full sm:px-8 md:px-10 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
+        <div v-else
+             class="bg-white w-full border-green-top px-4 sm:h-full sm:px-8 md:px-10 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
             <div class="text-center text-2xl mb-10 mt-5 font-l">Edit Address</div>
             <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
                 <label v-if="!validation.firstError('recipient')"
@@ -80,7 +82,14 @@
             </div>
 
             <div class="flex">
-                <div @click="deleteAddress"
+                <!--                case the uer address length = 1-->
+                <div v-if="$store.state.userAddress.length == 1"
+                     class="w-64 mx-auto bg-red text-white text-center mt-10 py-2 px-2 focus:outline-none cursor-not-allowed opacity-50">
+                    Delete Address
+                </div>
+
+                <!--                case user address > 1-->
+                <div v-else @click="deleteAddress"
                      class="w-64 mx-auto bg-red text-white text-center mt-10 py-2 px-2 focus:outline-none cursor-pointer">
                     Delete Address
                 </div>
@@ -100,7 +109,7 @@
     import NoLoginText from "../components/NoLoginText";
 
     export default {
-        components:{
+        components: {
             NoLoginText
         },
         data() {

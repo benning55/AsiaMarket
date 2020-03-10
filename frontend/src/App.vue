@@ -5,15 +5,18 @@
         <div class="mx-auto px-0 sm:px-0 md:px-0 lg:px-56 xl:px-64">
             <router-view/>
         </div>
+        <Footer/>
     </div>
 </template>
 
 <script>
     import Navbar from "./components/Navbar";
+    import Footer from "./components/Footer";
 
     export default {
         components: {
-            Navbar
+            Navbar,
+            Footer
         },
         data() {
             return {}

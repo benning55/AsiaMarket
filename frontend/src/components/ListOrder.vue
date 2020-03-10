@@ -2,7 +2,8 @@
     <div>
         <div class="flex justify-between" @click="goEachOrder(orderdata.id)">
             <img style="max-width: 130px;" class="my-3 w-1/3 sm:w-1/3 mx-auto object-contain"
-                 src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg">
+                 :src="$store.state.endpoints.host +'/media/'+orderdata.pic1">
+
             <div class=" my-3 ml-2 w-2/3 self-center">
                 <div class="flex justify-between">
                     <h1 class="text-key_column">Order Number</h1>
