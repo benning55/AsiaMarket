@@ -51,8 +51,8 @@ services:
     volumes:
       - ssl_data:/etc/resty-auto-ssl
     environment:
-      ALLOWED_DOMAINS: 'demo.benning.website'
-      SITES: 'demo.benning.website=nginx:80'
+      ALLOWED_DOMAINS: 'test.benning.website'
+      SITES: 'test.benning.website=nginx:80'
 
   nginx:
     container_name: quering-nginx

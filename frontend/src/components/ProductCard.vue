@@ -169,7 +169,7 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(() => {
-                            axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
+                            axios.get(this.$store.state.endpoints.cartAPI, {
                                 headers: {
                                     Authorization: `JWT ${this.$store.state.jwt}`,
                                     'Content-Type': 'application/json'
@@ -238,7 +238,7 @@
                             'Content-Type': 'application/json'
                         },
                     }).then(() => {
-                        axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
+                        axios.get(this.$store.state.endpoints.cartAPI, {
                             headers: {
                                 Authorization: `JWT ${this.$store.state.jwt}`,
                                 'Content-Type': 'application/json'

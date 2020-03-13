@@ -20,7 +20,8 @@ export default new Vuex.Store({
             newestProduct: `https://${window.location.hostname}/api/products/new/`,
             forgotPasswordUrL: `https://${window.location.hostname}/api/accounts/forget-password/`,
             editInCart: `https://${window.location.hostname}/api/products/cart-detail/`,
-            addressUrL: `https://${window.location.hostname}/api/accounts/user/address/`
+            addressUrL: `https://${window.location.hostname}/api/accounts/user/address/`,
+            cartAPI: `https://${window.location.hostname}/api/products/cart/`
         },
         inCart: {
             cart_detail: []
