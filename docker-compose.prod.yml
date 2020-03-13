@@ -12,7 +12,7 @@ services:
     volumes:
       - ./app:/app:Z
     command: >
-      sh -c "pip install -r requirements.txt && yes | python manage.py collectstatic && gunicorn app.wsgi:application --bind 0.0.0.0:8000"
+      sh -c "pip install -r requirements.txt && yes | python manage.py collectstatic && python manage.py makemigrations && python manage.py migrate && python manage.py initdb && gunicorn app.wsgi:application --bind 0.0.0.0:8000"
     environment:
       - DB_HOST=db
       - DB_NAME=asiamarket
