@@ -5,6 +5,7 @@ WORKDIR /frontend
 COPY ./package.json .index
 RUN npm install
 COPY . .
+RUN npm install
 RUN npm run build
 
 FROM nginx
