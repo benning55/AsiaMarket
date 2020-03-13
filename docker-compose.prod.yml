@@ -41,8 +41,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    command: >
-      sh -c "tail -f /dev/null"
 
   nginx-ssl:
     image: valian/docker-nginx-auto-ssl
