@@ -89,7 +89,7 @@
             },
             confirmOrder() {
                 this.isOrderComplete = true
-                axios.post(`http://${window.location.hostname}:8000/api/orders/order/`, {
+                axios.post(`${this.$store.state.endpoints.host}/api/orders/order/`, {
                     address: this.$store.state.userAddress[this.$store.state.indexUserAddress].recipient + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].house_number + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].street + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].city + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].post_code,
                     total_price: this.total[0],
                     payment_type: "",

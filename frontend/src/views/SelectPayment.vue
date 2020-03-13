@@ -156,7 +156,7 @@
                             console.log(order);
                             if (order.status == "COMPLETED") {
                                 console.log('complete')
-                                axios.put(`http://${window.location.hostname}:8000/api/orders/order/`, {
+                                axios.put(`${this.$store.state.endpoints.host}/api/orders/order/`, {
                                     id: this.id,
                                     payment_type: "PayPal",
                                     payment_status: true
@@ -183,7 +183,7 @@
                 formData.append('order', this.$route.params.id);
                 formData.append('time_transfer', moment(this.date + ' ' + this.time).format());
 
-                axios.post(`http://${window.location.hostname}:8000/api/orders/payment-bill/`, formData, {
+                axios.post(`${this.$store.state.endpoints.host}/api/orders/payment-bill/`, formData, {
                     headers: {
                         Authorization: `JWT ${this.$store.state.jwt}`,
                         'Content-Type': 'application/json'

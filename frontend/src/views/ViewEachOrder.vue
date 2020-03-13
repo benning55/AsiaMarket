@@ -144,7 +144,7 @@
             }
         },
         created() {
-            axios.get(`http://${window.location.hostname}:8000/api/orders/order/` + this.$route.params.id + '/', {
+            axios.get(`${this.$store.state.endpoints.host}/api/orders/order/` + this.$route.params.id + '/', {
                 headers: {
                     Authorization: `JWT ${this.$store.state.jwt}`,
                     'Content-Type': 'application/json'

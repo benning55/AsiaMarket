@@ -173,7 +173,7 @@
         },
         methods: {
             editAddress() {
-                axios.put(`http://${window.location.hostname}:8000/api/accounts/user/address/`, {
+                axios.put(`${this.$store.state.endpoints.host}/api/accounts/user/address/`, {
                     id: this.$route.params.id,
                     recipient: this.recipient,
                     street: this.street,

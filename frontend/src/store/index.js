@@ -13,15 +13,15 @@ export default new Vuex.Store({
             host: `https://${window.location.hostname}`,
             obtainJWT: `https://${window.location.hostname}/auth/obtain_token/`,
             refreshJWT: `https://${window.location.hostname}/auth/refresh_token/`,
-            baseUrL: `https://${window.location.hostname}/api/accounts/`,
-            registerUrL: `https://${window.location.hostname}/api/accounts/register/`,
-            productUrL: `https://${window.location.hostname}/api/products/product/`,
-            recommendProduct: `https://${window.location.hostname}/api/products/recommend/`,
-            newestProduct: `https://${window.location.hostname}/api/products/new/`,
-            forgotPasswordUrL: `https://${window.location.hostname}/api/accounts/forget-password/`,
-            editInCart: `https://${window.location.hostname}/api/products/cart-detail/`,
+            cartAPI: `https://${window.location.hostname}/api/products/cart/`,
             addressUrL: `https://${window.location.hostname}/api/accounts/user/address/`,
-            cartAPI: `https://${window.location.hostname}/api/products/cart/`
+            editInCart: `https://${window.location.hostname}/api/products/cart-detail/`,
+            forgotPasswordUrL: `https://${window.location.hostname}/api/accounts/forget-password/`,
+            newestProduct: `https://${window.location.hostname}/api/products/new/`,
+            recommendProduct: `https://${window.location.hostname}/api/products/recommend/`,
+            productUrL: `https://${window.location.hostname}/api/products/product/`,
+            registerUrL: `https://${window.location.hostname}/api/accounts/register/`,
+            baseUrL: `https://${window.location.hostname}/api/accounts/`,
         },
         inCart: {
             cart_detail: []

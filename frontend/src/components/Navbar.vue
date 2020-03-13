@@ -1,10 +1,17 @@
 <template>
     <div>
+        <!--        banner-->
+        <div class="h-2 w-full bg-orange fixed"></div>
+
         <!--        navbar desktop version-->
-        <nav class="hidden sm:hidden md:hidden lg:block shadow-lg flex items-center justify-between flex-wrap bg-white py-6 fixed w-full z-110">
+        <nav class="hidden sm:hidden md:hidden lg:block shadow-lg flex items-center justify-between flex-wrap bg-white  fixed w-full z-110">
+
             <ul class="w-full">
-                <li @click="goHome" class="hidden sm:hidden md:hidden lg:inline-block px-5 cursor-pointer">LOGO</li>
-                <li class="float-right px-5 flex-grow">
+                <li @click="goHome" class="hidden sm:hidden md:hidden lg:inline-block px-5 cursor-pointer">
+                    <h1 style="font-size: 24px;margin-top: 16px">ThaiMarket Express</h1>
+<!--                    <img src="../assets/Logo/logo.jpg">-->
+                </li>
+                <li class="float-right px-5 flex-grow  py-6">
                     <a @click="changeLocale(`en`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'en'}">EN </a>
                     |
                     <a @click="changeLocale(`th`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'th'}">
@@ -12,7 +19,6 @@
                 </li>
             </ul>
         </nav>
-
 
         <!--        navbar mobile version-->
         <nav class="block sm:block md:block lg:hidden shadow-lg flex items-center justify-between flex-wrap bg-white py-5 fixed w-full z-110"
@@ -22,7 +28,9 @@
                     class="inline-block sm:inline-block md:inline-block lg:hidden px-5 "><i
                         class="material-icons text-3xl">menu</i>
                 </li>
-                <li @click="goHome" class="inline-block cursor-pointer">Logo</li>
+                <li @click="goHome" class="inline-block cursor-pointer">
+                    <h1 style="font-size: 19px;">ThaiMarket Express</h1>
+                </li>
                 <li class="float-right px-5">
                     <div @click="cartDrawer = !cartDrawer, mobileDrawer =false" class="relative">
                         <el-badge :value="$store.state.inCart.cart_detail.length" class="item" type="primary">
@@ -36,23 +44,6 @@
                 </li>
             </ul>
         </nav>
-
-        <!--        left menu on screen-->
-        <!--        <div class="inset-y-0 left-0 fixed hidden sm:hidden md:hidden lg:block">-->
-        <!--            <div class="container px-5">-->
-        <!--                <ul class="mt-24">-->
-        <!--                    <li @click="goHome" class="mb-4 hover:text-green cursor-pointer">Home</li>-->
-        <!--                    <li class="mb-1 text-gray cursor-pointer">Promotion</li>-->
-        <!--                    <li class="mb-1 text-gray cursor-pointer">Recomment</li>-->
-        <!--                    <li @click="goCategory({id:'new-product'})" class="mb-4 hover:text-green cursor-pointer">New-->
-        <!--                        Product-->
-        <!--                    </li>-->
-        <!--                    <li v-for="category in categorys" :key="category.id" class="mb-1 hover:text-green cursor-pointer">-->
-        <!--                        <span @click="goCategory(category)">{{category.type}}</span>-->
-        <!--                    </li>-->
-        <!--                </ul>-->
-        <!--            </div>-->
-        <!--        </div>-->
 
         <!--        mini button right screen-->
         <div class="inset-y-0 right-0 fixed hidden sm:hidden md:hidden lg:block z-105">
@@ -143,13 +134,9 @@
                         <div @click="goAddress"
                              class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address
                         </div>
-                        <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">Payment</div>
                         <div class="pb-3 pt-5 px-5 text-xl bg-gray_bg"></div>
                     </div>
 
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
-                        <span>Promotion</span>
-                    </div>
                     <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                         <span>Recommend</span>
                     </div>
@@ -251,7 +238,7 @@
                         <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
                         Process to checkout
                     </button>
-                    <button v-else  @click="goCheckOut"
+                    <button v-else @click="goCheckOut"
                             class="w-full h-10 bg-orange mt-3 text-white flex justify-center">
                         <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
                         Process to checkout
@@ -297,9 +284,9 @@
                              class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                             Address
                         </div>
-                        <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">
-                            Payment
-                        </div>
+<!--                        <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">-->
+<!--                            Payment-->
+<!--                        </div>-->
                         <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg"></div>
                         <div v-if="$store.state.isAuthenticated" @click="logout"
                              class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
@@ -341,6 +328,7 @@
                 code: '',
                 codeStatus: 'none',
                 percent: 0,
+                shipping_fee:0
 
             }
         },
@@ -349,7 +337,7 @@
         },
         methods: {
             updateCart() {
-                axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
+                axios.get(`${this.$store.state.endpoints.host}/api/products/cart/`, {
                     headers: {
                         Authorization: `JWT ${this.$store.state.jwt}`,
                         'Content-Type': 'application/json'
@@ -373,6 +361,8 @@
                         cart_detail: []
                     });
                 })
+
+
             },
             goHome() {
                 this.$router.push({
@@ -431,7 +421,7 @@
                 this.codeStatus = 'loading'
 
                 this.timeout = setTimeout(() => {
-                    axios.post(`http://${window.location.hostname}:8000/api/products/code/`, {
+                    axios.post(`${this.$store.state.endpoints.host}/api/products/code/`, {
                         code_name: this.code
                     }, {
                         headers: {
@@ -445,16 +435,6 @@
                             this.codeStatus = 'ok'
                         }
                         this.updateCart()
-                        // axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
-                        //     headers: {
-                        //         Authorization: `JWT ${this.$store.state.jwt}`,
-                        //         'Content-Type': 'application/json'
-                        //     },
-                        // }).then(res => {
-                        //     this.itemIncart = res.data.data
-                        //     this.$store.commit("setIncart", this.itemIncart);
-                        //     this.value = 0
-                        // }).catch()
                     }).catch(() => {
                         this.codeStatus = 'error'
                         this.$store.state.inCart.code = null
@@ -559,7 +539,7 @@
 
 <style scoped>
     .fixed-b {
-        position: -webkit-sticky; /* Safari */
+        /*position: -webkit-sticky; !* Safari *!*/
         position: fixed;
     }
 

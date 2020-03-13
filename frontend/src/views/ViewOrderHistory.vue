@@ -39,7 +39,7 @@
         },
         methods: {
             getOrder() {
-                axios.get(`http://${window.location.hostname}:8000/api/orders/order/`, {
+                axios.get(`${this.$store.state.endpoints.host}/api/orders/order/`, {
                     headers: {
                         Authorization: `JWT ${this.$store.state.jwt}`,
                         'Content-Type': 'application/json'

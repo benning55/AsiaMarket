@@ -25,7 +25,7 @@ password: postgres15
 ```
 
 # Run Production
-```docker-compose -f docker-compose.prod.yml up -d```
+```docker-compose -f docker-compose.prod.yml up -d --build```
 
 # get static files
 ```docker-compose exec app sh -c "python manage.py collectstatic"```
