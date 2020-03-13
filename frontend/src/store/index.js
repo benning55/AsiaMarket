@@ -10,17 +10,17 @@ export default new Vuex.Store({
         isAuthenticated: false,
         jwt: localStorage.getItem('token'),
         endpoints: {
-            host: `https://${window.location.hostname}:8000`,
-            obtainJWT: `https://${window.location.hostname}:8000/auth/obtain_token/`,
-            refreshJWT: `https://${window.location.hostname}:8000/auth/refresh_token/`,
-            baseUrL: `https://${window.location.hostname}:8000/api/accounts/`,
-            registerUrL: `https://${window.location.hostname}:8000/api/accounts/register/`,
-            productUrL: `https://${window.location.hostname}:8000/api/products/product/`,
-            recommendProduct: `https://${window.location.hostname}:8000/api/products/recommend/`,
-            newestProduct: `https://${window.location.hostname}:8000/api/products/new/`,
-            forgotPasswordUrL: `https://${window.location.hostname}:8000/api/accounts/forget-password/`,
-            editInCart: `https://${window.location.hostname}:8000/api/products/cart-detail/`,
-            addressUrL: `https://${window.location.hostname}:8000/api/accounts/user/address/`
+            host: `http://${window.location.hostname}:8000`,
+            obtainJWT: `http://${window.location.hostname}:8000/auth/obtain_token/`,
+            refreshJWT: `http://${window.location.hostname}:8000/auth/refresh_token/`,
+            baseUrL: `http://${window.location.hostname}:8000/api/accounts/`,
+            registerUrL: `http://${window.location.hostname}:8000/api/accounts/register/`,
+            productUrL: `http://${window.location.hostname}:8000/api/products/product/`,
+            recommendProduct: `http://${window.location.hostname}:8000/api/products/recommend/`,
+            newestProduct: `http://${window.location.hostname}:8000/api/products/new/`,
+            forgotPasswordUrL: `http://${window.location.hostname}:8000/api/accounts/forget-password/`,
+            editInCart: `http://${window.location.hostname}:8000/api/products/cart-detail/`,
+            addressUrL: `http://${window.location.hostname}:8000/api/accounts/user/address/`
         },
         inCart: {
             cart_detail: []
