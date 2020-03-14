@@ -117,7 +117,6 @@
                     </p>
                 </button>
             </div>
-            {{order}}
         </div>
     </div>
 </template>
@@ -152,7 +151,9 @@
             }).then(res => {
                 this.order = res.data.data.order[0]
                 this.orderDetail = res.data.data.order_detail
-            }).catch()
+            }).catch(e => {
+                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at Load this Order');
+                        })
         }
     }
 </script>

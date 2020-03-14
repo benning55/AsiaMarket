@@ -339,7 +339,7 @@
             password(value) {
                 return Validator.value(value)
                     .required("please input password")
-                    .minLength(6, "username length must more 6 letter");
+                    .minLength(6, "password length must more 6 letter");
             },
             password2(value) {
                 return Validator.value(value)
@@ -393,24 +393,6 @@
                         postalCode: this.postalCode
                     }
                 };
-                const payloa = {
-                    email: "60050@kmitl.ac.th",
-                    password: "ning123456",
-                    username: "ningNongz",
-                    firstname: "woranan",
-                    lastname: "buathong",
-                    phone: "0895652189",
-                    dob: "2012-12-12",
-                    sex: "Male",
-                    address: {
-                        house_number: "45/9 village 1",
-                        street: "xxx road, green building",
-                        city: "Berlin",
-                        postalCode: "12021"
-                    }
-                };
-                console.log(payloa)
-                console.log(payload)
                 axios.post(this.$store.state.endpoints.registerUrL, payload)
                     .then((response) => {
                         console.log(response.data);
@@ -419,7 +401,6 @@
                         })
                     })
                     .catch((error) => {
-                        console.log(error.response.status)
                         if (error.response.status == 400) {
                             if (error.response.data.error.user.password) {
                                 this.error = 'password is easy too'

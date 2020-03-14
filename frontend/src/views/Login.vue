@@ -16,7 +16,7 @@
                            for="username"> {{$t('username')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2"
-                           for="username">Please input Username</label>
+                           for="username">{{validation.firstError('username')}}</label>
                     <el-input id="username"
                               @keyup.enter.native="$refs.password.focus"
                               ref="username"
@@ -31,7 +31,7 @@
                            for="password">{{$t('password')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2"
-                           for="password">Please input Password</label>
+                           for="password">{{validation.firstError('password')}}</label>
                     <el-input id="password"
                               ref="password"
                               @keyup.enter.native="authenticate"
@@ -82,7 +82,7 @@
             password(value) {
                 return Validator.value(value)
                     .required("password")
-                // .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
+                    .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
             }
         },
         mounted() {
@@ -137,15 +137,13 @@
                                 method: "get",
                                 params: {}
                             }).then((response) => {
-                                console.log(response)
                                 this.$store.commit("setAuthUser",
                                     {authUser: response.data, isAuthenticated: true}
                                 );
                                 this.$router.push("/")
-                                location.reload();
-                            }).catch((error) => {
-                                console.log(error);
-                                alert(this.$store.state.jwt)
+                                // location.reload();
+                            }).catch(e => {
+                                this.$message.error('Oops, Something is Error. code ' + e.status + ', at Login');
                             })
                         })
                         .catch((error) => {

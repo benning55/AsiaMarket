@@ -18,7 +18,8 @@
                 <i @click="isWillDelete=true" class='fas fa-trash-alt m-2 text-lightGray cursor-pointer'></i>
             </div>
             <div class="div4">
-                <div @click="changeOverState()" class="button-change cursor-pointer bg-lightGray text-center">Change</div>
+                <div @click="changeOverState()" class="button-change cursor-pointer bg-lightGray text-center">Change
+                </div>
             </div>
             <div class="div5" style="align-self: end">
                 <div class="text-green" style="text-align: end;margin-right: 8px;">
@@ -137,7 +138,9 @@
                             let index = this.$store.state.inCart.cart_detail.findIndex(item => item.id == res.data.data.id)
                             this.$store.state.inCart.cart_detail[index].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[index].price = res.data.data.price
-                        }).catch()
+                        }).catch(e => {
+                            this.$message.error('Oops, Something is Error. code ' + e.status);
+                        })
                     }, 2000)
                 } else {
                     this.value = this.quantity
@@ -160,7 +163,9 @@
                             let index = this.$store.state.inCart.cart_detail.findIndex(item => item.id == res.data.data.id)
                             this.$store.state.inCart.cart_detail[index].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[index].price = res.data.data.price
-                        }).catch()
+                        }).catch(e => {
+                            this.$message.error('Oops, Something is Error. code ' + e.status + 'at decrease product');
+                        })
                     }, 2000)
                 }
             },
@@ -170,17 +175,21 @@
                 this.$store.state.inCart.cart_detail[isInCart].quantity = 1
                 this.value = 1
                 axios.post(this.$store.state.endpoints.editInCart, {
-                            quantity: this.$store.state.inCart.cart_detail[isInCart].quantity,
-                            product_id: this.data.product.id
-                        }, {
-                            headers: {
-                                Authorization: `JWT ${this.$store.state.jwt}`,
-                                'Content-Type': 'application/json'
-                            },
-                        }).then(res => {
-                            this.$store.state.inCart.cart_detail[isInCart].quantity = res.data.data.quantity
-                            this.$store.state.inCart.cart_detail[isInCart].price = res.data.data.price
-                        }).catch()
+                    quantity: this.$store.state.inCart.cart_detail[isInCart].quantity,
+                    product_id: this.data.product.id
+                }, {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).then(res => {
+                    this.$store.state.inCart.cart_detail[isInCart].quantity = res.data.data.quantity
+                    this.$store.state.inCart.cart_detail[isInCart].price = res.data.data.price
+                }).catch(
+                    e => {
+                            this.$message.error('Oops, Something is Error. code ' + e.status + 'at change state');
+                        }
+                )
                 this.overState = false
             },
             deleteItem() {
@@ -193,7 +202,9 @@
                     // console.log(res.status)
                     let index = this.$store.state.inCart.cart_detail.findIndex(item => item.id == this.data.id)
                     this.$store.state.inCart.cart_detail.splice(index, 1)
-                }).catch()
+                }).catch(e => {
+                            this.$message.error('Oops, Something is Error. code ' + e.status + 'at delete product');
+                        })
             }
         },
         computed: {

@@ -27,7 +27,7 @@
 
     export default {
         components: {
-            ListOrder,NoLoginText
+            ListOrder, NoLoginText
         },
         data() {
             return {
@@ -49,16 +49,18 @@
                         console.log(res.data.data)
                         this.orders = res.data.data
                     })
-                    .catch(e => console.log(e))
+                    .catch(e => {
+                        this.$message.error('Oops, Something is Error. code ' + e.status + ', at Load Order');
+                    })
             },
-            goHome(){
+            goHome() {
                 this.$router.push({
-                    name:'Homepage'
+                    name: 'Homepage'
                 })
             },
-            goLogin(){
+            goLogin() {
                 this.$router.push({
-                    name:'login'
+                    name: 'login'
                 })
             }
         }

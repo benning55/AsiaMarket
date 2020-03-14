@@ -48,7 +48,6 @@
         methods: {
             sentEmail() {
                 this.$validate(["email"]);
-                console.log(this.validation.firstError("email"))
                 if (this.validation.firstError("email") == null) {
                     axios.post(this.$store.state.endpoints.forgotPasswordUrL, {
                         "email": this.email

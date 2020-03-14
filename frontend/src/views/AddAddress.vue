@@ -3,10 +3,12 @@
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
-        <div v-if="!$store.state.isAuthenticated" class="bg-white h-64 w-full border-green-top px-4 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16 relative">
+        <div v-if="!$store.state.isAuthenticated"
+             class="bg-white h-64 w-full border-green-top px-4 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16 relative">
             <NoLoginText/>
         </div>
-        <div v-else class="bg-white w-full border-green-top px-4 sm:h-full sm:px-8 md:px-10 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
+        <div v-else
+             class="bg-white w-full border-green-top px-4 sm:h-full sm:px-8 md:px-10 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
             <div class="text-center text-2xl mb-10 mt-5 font-l">Add new Address</div>
             <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
                 <label v-if="!validation.firstError('recipient')"
@@ -14,7 +16,7 @@
                        for="recipient">Firstname and Lastname of Recipient</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
-                       for="recipient">Please input Firstname and Lastname of Recipient</label>
+                       for="recipient">{{validation.firstError('recipient')}}</label>
                 <el-input id="recipient"
                           placeholder="Please input"
                           v-model="recipient">
@@ -28,7 +30,7 @@
                        for="house_number">House number</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
-                       for="house_number">Please input House number</label>
+                       for="house_number">{{validation.firstError('house_number')}}</label>
                 <el-input id="house_number"
                           placeholder="Please input"
                           v-model="house_number">
@@ -42,7 +44,7 @@
                        for="street">Street</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
-                       for="street">Please input Street</label>
+                       for="street">{{validation.firstError('street')}}</label>
                 <el-input id="street"
                           placeholder="Please input"
                           v-model="street">
@@ -55,7 +57,7 @@
                     <label v-if="!validation.firstError('city')"
                            class="block text-sm mb-2">City</label>
                     <label v-else
-                           class="block text-red text-sm mb-2">Please input City</label>
+                           class="block text-red text-sm mb-2">{{validation.firstError('city')}}</label>
                     <el-select v-model="city" placeholder="Select">
                         <el-option
                                 v-for="item in cityOptions"
@@ -71,9 +73,10 @@
                            for="post_code">Postal Code</label>
                     <label v-else
                            class="block text-red text-sm mb-2"
-                           for="post_code">Please input Postal Code</label>
+                           for="post_code">{{validation.firstError('post_code')}}</label>
                     <el-input id="post_code"
                               placeholder="Please input"
+                              type="number"
                               v-model="post_code">
                     </el-input>
                 </div>
@@ -95,7 +98,7 @@
     import NoLoginText from "../components/NoLoginText";
 
     export default {
-        components:{
+        components: {
             NoLoginText
         },
         data() {
@@ -128,36 +131,36 @@
         validators: {
             recipient(value) {
                 return Validator.value(value)
-                    .required("recipient");
+                    .required("please input recipient");
             },
             house_number(value) {
                 return Validator.value(value)
-                    .required("house_number");
+                    .required("please input house_number");
             },
             street(value) {
                 return Validator.value(value)
-                    .required("street");
+                    .required("please input street");
             },
             city(value) {
                 return Validator.value(value)
-                    .required("city");
+                    .required("please input city");
             },
             post_code(value) {
                 return Validator.value(value)
-                    .required("post_code");
+                    .required("please input postal code")
+                    .length(5, "Invalid Postal Code")
             },
         },
         methods: {
             addAddress() {
                 this.$validate().then(success => {
                     if (success) {
-                        console.log("add")
-                        axios.post(this.$store.state.endpoints.host + '/api/accounts/user/address/',{
-                            recipient:this.recipient,
-                            house_number:this.house_number,
-                            street:this.street,
-                            city:this.city,
-                            post_code:this.post_code
+                        axios.post(this.$store.state.endpoints.host + '/api/accounts/user/address/', {
+                            recipient: this.recipient,
+                            house_number: this.house_number,
+                            street: this.street,
+                            city: this.city,
+                            post_code: this.post_code
                         }, {
                             headers: {
                                 Authorization: `JWT ${this.$store.state.jwt}`,
@@ -165,10 +168,10 @@
                             },
                         }).then(() => {
                             this.$router.push({
-                                name:'ViewAddress'
+                                name: 'ViewAddress'
                             })
-                        }).catch((e) => {
-                            console.log(e)
+                        }).catch(e => {
+                            this.$message.error('Oops, Something is Error. code ' + e.status+', at add address');
                         })
 
                     }

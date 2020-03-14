@@ -3,10 +3,12 @@
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
-        <div v-if="!$store.state.isAuthenticated" class="bg-white w-full border-green-top px-4 lg:px-20 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16 h-64 relative">
+        <div v-if="!$store.state.isAuthenticated"
+             class="bg-white w-full border-green-top px-4 lg:px-20 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16 h-64 relative">
             <NoLoginText/>
         </div>
-        <div v-else class="bg-white w-full border-green-top px-4 sm:h-full lg:px-20 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
+        <div v-else
+             class="bg-white w-full border-green-top px-4 sm:h-full lg:px-20 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
             <div class="text-center text-2xl mb-10 mt-5 font-l">Profile</div>
             <div class="flex-none sm:flex justify-between mb-5">
                 <h1 class="text-xl font-l text-gray">Email</h1>
@@ -125,7 +127,7 @@
     import NoLoginText from "../components/NoLoginText";
 
     export default {
-        components:{
+        components: {
             NoLoginText
         },
         data() {
@@ -152,7 +154,7 @@
             },
             newPhone(value) {
                 return Validator.value(value)
-                    .required("กรุณาใส่รหัสผ่าน").digit().minLength(10,'must more than 10 digit').maxLength(12,'must less than 13 digit')
+                    .required("กรุณาใส่รหัสผ่าน").digit().minLength(10, 'must more than 10 digit').maxLength(12, 'must less than 13 digit')
             },
             newDOB(value) {
                 return Validator.value(value)
@@ -199,7 +201,7 @@
                     this.$store.commit("setNewFirstname", firstname);
                     this.isEditFirstname = false
                 }).catch(e => {
-                    console.log(e)
+                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at edit Edit Firstname');
                     this.isEditFirstname = false
                 })
             },
@@ -208,7 +210,7 @@
                 this.equal()
                 this.isEditLastname = false
 
-                 axios.put(this.$store.state.endpoints.host + '/api/accounts/user/', {
+                axios.put(this.$store.state.endpoints.host + '/api/accounts/user/', {
                     tel: this.$store.state.authUser.profile.tel,
                     dob: this.$store.state.authUser.profile.dob,
                     email: this.$store.state.authUser.user.email,
@@ -223,7 +225,7 @@
                     this.$store.commit("setNewLastname", lastname);
                     this.isEditLastname = false
                 }).catch(e => {
-                    console.log(e)
+                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at edit lastname');
                     this.isEditLastname = false
                 })
             },
@@ -240,7 +242,7 @@
                     this.$store.commit("setNewTel", phone);
                     this.isEditPhone = false
                 }).catch(e => {
-                    console.log(e)
+                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at edit phone');
                     this.isEditPhone = false
                 })
             },
@@ -257,7 +259,7 @@
                     this.$store.commit("setNewDOB", dob);
                     this.isEditDOB = false
                 }).catch(e => {
-                    console.log(e)
+                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at edit Date of Barth');
                     this.isEditDOB = false
                 })
             }

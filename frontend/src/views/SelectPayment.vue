@@ -6,7 +6,7 @@
             <div class="px-2 bg-green" ref="paypal"></div>
             <div id="paypal-button-container"></div>
         </div>
-        <el-divider> Or </el-divider>
+        <el-divider> Or</el-divider>
         Bank Transfer
         <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">
             <div class="col-12 upload-section">
@@ -30,7 +30,7 @@
                     <label v-if="!validation.firstError('date')"
                            class="block text-sm mb-2">Transfer Time (approx).</label>
                     <label v-else
-                           class="block text-red text-sm mb-2">Please input Username</label>
+                           class="block text-red text-sm mb-2">{{validation.firstError('date')}}</label>
                     <el-date-picker
                             v-model="date"
                             type="date"
@@ -43,7 +43,7 @@
                     <label v-if="!validation.firstError('time')"
                            class="block text-sm mb-2 mt-3">Transfer Date</label>
                     <label v-else
-                           class="block text-red text-sm mb-2 mt-3">Please input Username</label>
+                           class="block text-red text-sm mb-2 mt-3">{{validation.firstError('time')}}</label>
                     <el-time-picker
                             v-model="time"
                             placeholder="Arbitrary time"
@@ -153,9 +153,7 @@
                             const order = await actions.order.capture();
                             this.data;
                             this.paidFor = true;
-                            console.log(order);
                             if (order.status == "COMPLETED") {
-                                console.log('complete')
                                 axios.put(`${this.$store.state.endpoints.host}/api/orders/order/`, {
                                     id: this.id,
                                     payment_type: "PayPal",
@@ -167,12 +165,24 @@
                                     }
                                 }).then(res => {
                                     console.log(res)
-                                }).catch()
+                                    this.$alert('Payment success', 'Success', {
+                                        confirmButtonText: 'OK',
+                                    });
+                                }).catch(e => {
+                                    // this.$message.error('Oops, Something is Error. code ' + e.status + ', at cart');
+                                    this.$alert("Can't save Data, But payment success", 'Error', {
+                                        confirmButtonText: 'OK',
+
+                                    });
+                                })
                             }
 
                         },
-                        onError: err => {
-                            console.log(err);
+                        onError: e => {
+                            // this.$message.error('Oops, Something is Error. code ' + e.status + ', at paypal');
+                            this.$alert("Can't save Data, But payment success", 'Error', {
+                                confirmButtonText: 'OK',
+                            });
                         }
                     })
                     .render('#paypal-button-container');
@@ -193,20 +203,14 @@
                         confirmButtonText: 'Ok',
                         callback: action => {
                             if (action == 'confirm') {
-                                // this.$router.push({
-                                //     name: 'login'
-                                // })
                             }
                         }
                     });
                 }).catch(e => {
-                    this.$alert('Error : '+e.response, 'Upload slip', {
+                    this.$alert('Error : ' + e.response, 'Upload slip', {
                         confirmButtonText: 'Ok',
                         callback: action => {
                             if (action == 'confirm') {
-                                // this.$router.push({
-                                //     name: 'login'
-                                // })
                             }
                         }
                     });

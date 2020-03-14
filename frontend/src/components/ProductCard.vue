@@ -107,11 +107,6 @@
         },
         created() {
             this.count()
-            // console.log(this.$store.state.inCart[0])
-            // this.isInCart = this.$store.state.inCart.findIndex(item => item.product.id == this.productData.id)
-            // if (this.isInCart != -1) {
-            //     this.value = this.$store.state.inCart[this.isInCart].quantity
-            // }
         },
         methods: {
             nameTranslate(text) {
@@ -130,21 +125,24 @@
                 this.$store.state.inCart.cart_detail[this.isInCart].overStatus = false
                 this.$store.state.inCart.cart_detail[this.isInCart].quantity = 1
                 axios.post(this.$store.state.endpoints.editInCart, {
-                            quantity: this.$store.state.inCart.cart_detail[this.isInCart].quantity,
-                            product_id: this.productData.id
-                        }, {
-                            headers: {
-                                Authorization: `JWT ${this.$store.state.jwt}`,
-                                'Content-Type': 'application/json'
-                            },
-                        }).then(res => {
-                            this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
-                            this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
-                        }).catch()
+                    quantity: this.$store.state.inCart.cart_detail[this.isInCart].quantity,
+                    product_id: this.productData.id
+                }, {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).then(res => {
+                    this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
+                    this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
+                }).catch(
+                    e => {
+                        this.$message.error('Oops, Something is Error. code ' + e.status);
+                    }
+                )
                 this.overState = false
             },
             goDetail(id) {
-                console.log(this.$route.name)
                 if (this.$route.name == 'Detail') {
                     location.reload();
                 } else {
@@ -178,8 +176,15 @@
                                 this.itemIncart = res.data.data
                                 this.$store.commit("setIncart", this.itemIncart);
                                 this.countLoading = false
-                            }).catch()
-                        }).catch()
+                            }).catch(e => {
+                                this.$message.error('Oops, Something is Error. code ' + e.status+', at increase product c1');
+                            }
+                            )
+                        }).catch(
+                            e => {
+                                this.$message.error('Oops, Something is Error. code ' + e.status+', at increase product c1');
+                            }
+                        )
                     }, 2000)
                 } else if (this.count() != this.quantity && this.$store.state.isAuthenticated == true) {
                     clearTimeout(this.timeout)
@@ -196,10 +201,13 @@
                         }).then(res => {
                             this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
-                        }).catch()
+                        }).catch(
+                            e => {
+                                this.$message.error('Oops, Something is Error. code ' + e.status+', at increase product c2');
+                            }
+                        )
                     }, 2000)
                 } else if (this.$store.state.isAuthenticated == false) {
-                    console.log("please login")
                     this.$alert('If you want to add Product. Please Login', 'Please Login', {
                         confirmButtonText: 'Login',
                         callback: action => {
@@ -228,7 +236,10 @@
                         }).then(res => {
                             this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
-                        }).catch()
+                        }).catch(e => {
+                                this.$message.error('Oops, Something is Error. code ' + e.status+', at decrease product c1');
+                            })
+
                     }, 2000)
                 } else if (this.count() == 1) {
                     clearTimeout(this.timeout)
@@ -247,15 +258,18 @@
                             this.itemIncart = res.data.data
                             this.$store.commit("setIncart", this.itemIncart);
                             this.value = 0
-                        }).catch()
-                    }).catch()
+                        }).catch(e => {
+                                this.$message.error('Oops, Something is Error. code ' + e.status+', at increase product c2');
+                            })
+                    }).catch(e => {
+                                this.$message.error('Oops, Something is Error. code ' + e.status+', at increase delete product c2');
+                            })
                 }
             },
 
             count() {
                 this.isInCart = this.$store.state.inCart.cart_detail.findIndex(item => item.product.id == this.productData.id)
                 if (this.isInCart != -1) {
-                    console.log(this.$store.getters.getCount[this.isInCart].overStatus)
                     if (this.$store.state.inCart.cart_detail[this.isInCart].overStatus) {
                         this.overState = true
                         return 1
@@ -271,9 +285,8 @@
                     this.value = 0
                     return 0
                 }
-            }
-            ,
-            overStatee(){
+            },
+            overStatee() {
                 this.isInCart = this.$store.state.inCart.cart_detail.findIndex(item => item.product.id == this.productData.id)
                 if (this.isInCart != -1) {
                     if (this.$store.state.inCart.cart_detail[this.isInCart].overStatus) {

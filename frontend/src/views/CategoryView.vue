@@ -50,62 +50,6 @@
                     "pauseOnFocus": true,
                     "pauseOnHover": true
                 },
-                setting2: {
-                    "dots": false,
-                    "infinite": false,
-                    "initialSlide": 0,
-                    "speed": 500,
-                    "slidesToShow": 5,
-                    "slidesToScroll": 1,
-                    "arrows": false,
-                    "swipeToSlide": true,
-
-                    "responsive": [
-                        {
-                            "breakpoint": 1024,
-                            "settings": {
-                                "slidesToShow": 5,
-                            }
-                        },
-                        {
-                            "breakpoint": 600,
-                            "settings": {
-                                "slidesToShow": 4,
-                            }
-                        },
-                        {
-                            "breakpoint": 480,
-                            "settings": {
-                                "slidesToShow": 3,
-                            }
-                        }
-                    ]
-                },
-                mockup: {
-                    showCarousel: [
-                        {
-                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                        },
-                        {
-                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                        },
-                        {
-                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                        },
-                        {
-                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                        }
-                    ],
-                    categorys: [
-                        {id: 0, title: "friut"},
-                        {id: 1, title: "friut"},
-                        {id: 2, title: "friut"},
-                        {id: 3, title: "friut"},
-                        {id: 4, title: "friut"},
-                        {id: 5, title: "friut"},
-                        {id: 6, title: "friut"},
-                    ]
-                },
                 items: [],
                 titleCategory: ''
             }
@@ -117,19 +61,28 @@
             loadCategory() {
                 this.items = []
                 if (this.$route.params.id == "new-product") {
-                    console.log("new")
                     axios.get(this.$store.state.endpoints.newestProduct).then(res => {
-                        console.log(res.data.data)
                         this.items = res.data.data
                         this.titleCategory = "New Product"
-                    }).catch()
+                    }).catch(e => {
+                        this.$message.error('Oops, Something is Error. code ' + e.status + ', at load new product');
+                    })
+                } else if (this.$route.params.id == "recommend") {
+                    axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
+                        this.items = res.data.data
+                        this.titleCategory = "Recommend Product"
+                    }).catch(e => {
+                        this.$message.error('Oops, Something is Error. code ' + e.status + ', at load recommend product');
+                    })
                 } else {
                     axios.post(this.$store.state.endpoints.productUrL, {
                         "category_id": this.$route.params.id
                     }).then(res => {
                         this.items = res.data.data
                         this.titleCategory = res.data.data[0]
-                    }).catch()
+                    }).catch(e => {
+                        this.$message.error('Oops, Something is Error. code ' + e.status + ', at load caategory ' + this.$route.params.id);
+                    })
                 }
 
 
@@ -137,7 +90,6 @@
         },
         watch: {
             '$route.params.id'() {
-                console.log("change")
                 this.loadCategory()
             }
         }

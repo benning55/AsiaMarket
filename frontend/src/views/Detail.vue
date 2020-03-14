@@ -44,10 +44,6 @@
                                      :src="$store.state.endpoints.host+dataProduct.pic2"
                                      alt="s">
                             </div>
-                            <!--                            <div v-if="dataProduct.pic1 != null" class="w-full p-2 md:p-2">-->
-                            <!--                                <img class="height80" v-if="dataProduct.pic3 != null" :src="$store.state.endpoints.host+dataProduct.pic3"-->
-                            <!--                                     alt="s">-->
-                            <!--                            </div>-->
                         </VueSlickCarousel>
                     </div>
                 </div>
@@ -59,8 +55,20 @@
                 <div class="w-full sm:w-4/12 px-10 pt-12">
                     <h1 class="text-4xl">{{dataProduct.price}} $</h1>
 
+                    <!--            show this when over-->
+                    <div v-if="overStatee() == true && dataProduct.quantity > 0"
+                         class="button-option mx-auto flex justify-between mb-2">
+                        <div class="button-delete  bg-red" style="user-select: none;margin-right: 5px">
+                            <i class='fas fa-trash-alt text-white text-sm'></i>
+                        </div>
+                        <div @click="changeOverState()" class="text-3xl bg-lightGray button-change"
+                             style="margin: auto">
+                            Change
+                        </div>
+                    </div>
+
                     <!--            loading when start from 0-->
-                    <div v-if="countLoading == true"
+                    <div v-else-if="countLoading == true"
                          class="button-area mx-auto flex justify-between mb-2 bg-green">
                         <div class="text-xl" style="margin: auto">
                             <img src="../assets/icon/Rolling-1s-24px.svg">
@@ -90,7 +98,7 @@
                     </div>
 
                     <!--            show add when no item not in cart-->
-                    <div v-else-if="!hover && count() == 0"
+                    <div v-else-if="!hover && dataProduct.quantity == 0"
                          class="button-area mx-auto flex justify-between mb-2" style="border: 1.5px solid #707070">
                         <div class="text-xl text-red" style="margin: auto">Out of Stock</div>
                     </div>
@@ -125,24 +133,6 @@
         },
         data() {
             return {
-                mockup: {
-                    detail: {
-                        data: {
-                            "id": 0,
-                            "category_id": 0,
-                            "title": "apple",
-                            "image": [
-                                "https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg",
-                                "https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg",
-                                "https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg",
-                                "https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg"
-                            ],
-                            "description": "this is apple",
-                            "price": "10.00",
-                            "quantity": 12
-                        }
-                    }
-                },
                 setting3: {
                     "dots": false,
                     "infinite": false,
@@ -205,21 +195,24 @@
                 },
                 countLoading: false,
                 isInCart: false,
-                value: 0
+                value: 0,
+                overState: false
             }
         },
         created() {
             // get detail of product
             axios.get(this.$store.state.endpoints.productUrL + this.$route.params.id + "/").then(res => {
                 this.dataProduct = res.data.data
-            }).catch(e=>{
-                console.log(e.response.status)
+            }).catch(e => {
+                this.$message.error('Oops, Something is Error. code ' + e.status);
             })
 
             // get recommend product
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                 this.recommendProduct = res.data.data.slice(0, 8)
-            }).catch()
+            }).catch(e => {
+                this.$message.error('Oops, Something is Error. code ' + e.status);
+            })
 
             this.isInCart = this.$store.state.inCart.cart_detail.findIndex(item => item.product.id == this.dataProduct.id)
             if (this.isInCart != -1) {
@@ -241,6 +234,27 @@
                         return list[0]
                     }
                 }
+            },
+            changeOverState() {
+                this.$store.state.inCart.cart_detail[this.isInCart].overStatus = false
+                this.$store.state.inCart.cart_detail[this.isInCart].quantity = 1
+                axios.post(this.$store.state.endpoints.editInCart, {
+                    quantity: this.$store.state.inCart.cart_detail[this.isInCart].quantity,
+                    product_id: this.dataProduct.id
+                }, {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).then(res => {
+                    this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
+                    this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
+                }).catch(
+                    e => {
+                        this.$message.error('Oops, Something is Error. code ' + e.status);
+                    }
+                )
+                this.overState = false
             },
             goHome() {
                 this.$router.push({
@@ -268,7 +282,7 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(() => {
-                            axios.get(`http://${window.location.hostname}:8000/api/products/cart/`, {
+                            axios.get(`${this.$store.state.endpoints.host}/api/products/cart/`, {
                                 headers: {
                                     Authorization: `JWT ${this.$store.state.jwt}`,
                                     'Content-Type': 'application/json'
@@ -277,8 +291,12 @@
                                 this.itemIncart = res.data.data
                                 this.$store.commit("setIncart", this.itemIncart);
                                 this.countLoading = false
-                            }).catch()
-                        }).catch()
+                            }).catch(e => {
+                                this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase c1');
+                            })
+                        }).catch(e => {
+                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase c1');
+                        })
                     }, 2000)
                 } else if (this.count() != this.dataProduct.quantity && this.$store.state.isAuthenticated == true) {
                     clearTimeout(this.timeout)
@@ -293,14 +311,14 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(res => {
-                            console.log(this.$store.state.inCart.cart_detail[this.isInCart])
                             this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[this.isInCart].product.quantity = res.data.data.product.quantity
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
-                        }).catch()
+                        }).catch(e => {
+                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase c2');
+                        })
                     }, 2000)
                 } else if (this.$store.state.isAuthenticated == false) {
-                    console.log("please login")
                     this.$alert('If you want to add Product. Please Login', 'Please Login', {
                         confirmButtonText: 'Login',
                         callback: action => {
@@ -329,7 +347,9 @@
                         }).then(res => {
                             this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
-                        }).catch()
+                        }).catch(e => {
+                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at decrease c1');
+                        })
                     }, 2000)
                 } else if (this.count() == 1) {
                     clearTimeout(this.timeout)
@@ -348,21 +368,49 @@
                             this.itemIncart = res.data.data
                             this.$store.commit("setIncart", this.itemIncart);
                             this.value = 0
-                        }).catch()
-                    }).catch()
+                        }).catch(e => {
+                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at decrease c2');
+                        })
+                    }).catch(e => {
+                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at decrease c2');
+                        }
+                    )
                 }
             },
             count() {
                 this.isInCart = this.$store.state.inCart.cart_detail.findIndex(item => item.product.id == this.dataProduct.id)
                 if (this.isInCart != -1) {
-                    this.oldQuantity = this.$store.getters.getCount[this.isInCart].quantity
-                    return this.$store.getters.getCount[this.isInCart].quantity
+                    if (this.$store.state.inCart.cart_detail[this.isInCart].overStatus) {
+                        this.overState = true
+                        return 1
+                    } else {
+                        this.overState = false
+                        this.oldQuantity = this.$store.getters.getCount[this.isInCart].quantity
+                        this.tmp = this.$store.getters.getCount[this.isInCart].quantity
+                        return this.$store.getters.getCount[this.isInCart].quantity
+                    }
                 } else {
                     this.oldQuantity = 0
+                    this.value = 0
                     return 0
                 }
+            },
+
+            overStatee() {
+                this.isInCart = this.$store.state.inCart.cart_detail.findIndex(item => item.product.id == this.dataProduct.id)
+                if (this.isInCart != -1) {
+                    if (this.$store.state.inCart.cart_detail[this.isInCart].overStatus) {
+                        this.overState = true
+                        return this.$store.state.inCart.cart_detail[this.isInCart].overStatus
+                    } else {
+                        this.overState = false
+                        return false
+                    }
+                } else {
+                    return false
+                }
             }
-        }
+        },
     }
 </script>
 
@@ -404,6 +452,23 @@
         text-align: center;
         width: 36px;
         height: 37px;
+        padding-top: 5px;
+    }
+
+    .button-change {
+        font-size: 18px;
+        text-align: center;
+        width: 100%;
+        height: 40px;
+        padding-top: 5px;
+    }
+
+    .button-delete {
+        color: white;
+        font-size: 23px;
+        text-align: center;
+        width: 50px;
+        height: 40px;
         padding-top: 5px;
     }
 

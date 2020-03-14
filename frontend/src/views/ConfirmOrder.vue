@@ -97,13 +97,14 @@
                 {{checkPass}}
                 <div @click="goPayment"
                      class="w-64 bg-green text-white text-center py-2 px-2 focus:outline-none cursor-pointer">
-                    Confirm Order and Payment
+                    Confirm Order and Go Payment
                 </div>
             </div>
         </div>
 
         <!--        modal-->
-        <modal :type="typeModal" :total="[subTotal,shipping,getCode.name,total]" v-show="isModalVisible" @close="closeModal"/>
+        <modal :type="typeModal" :total="[subTotal,shipping,getCode.name,total]" v-show="isModalVisible"
+               @close="closeModal"/>
 
         <!--        <modal type="check_confirm" v-show="isConfirmModalVisible" @close="closeConfirmModal"/>-->
     </div>
@@ -122,7 +123,7 @@
                 isModalVisible: false,
                 isConfirmModalVisible: false,
                 typeModal: '',
-                isPass:false
+                isPass: false
             }
         },
         created() {
@@ -152,7 +153,9 @@
                         // this.addresses = res.data.address
                         this.$store.commit("setUserAddress", res.data.address);
                     }
-                ).catch()
+                ).catch(e => {
+                    this.$message.error('Oops, Something is Error. code ' + e.status + ', add load address');
+                })
             },
             goPayment() {
                 this.typeModal = 'check_confirm'
@@ -165,7 +168,7 @@
             }
         },
         computed: {
-            checkPass(){
+            checkPass() {
                 let p = []
                 this.$store.state.inCart.cart_detail.reduce(function (accumulate, data) {
                     if (data.overStatus == true || data.product.quantity == 0) {

@@ -48,7 +48,9 @@
                         this.addresses = res.data.address
                         this.$store.commit("setUserAddress", res.data.address);
                     }
-                ).catch()
+                ).catch(e => {
+                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at Load address');
+                        })
             },
             goAddAddress(){
                 this.$router.push({

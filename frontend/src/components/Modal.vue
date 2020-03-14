@@ -39,7 +39,9 @@
                                     class="far fa-check-circle"></i></div>
                             <p class="pb-5">You Order Complete. You will pay now?</p>
                             <div class="flex justify-between w-full">
-                                <div @click="goHome" class="bg-red py-2  px-4 text-white cursor-pointer">Back to HomePage</div>
+                                <div @click="goHome" class="bg-red py-2  px-4 text-white cursor-pointer">Back to
+                                    HomePage
+                                </div>
                                 <div @click="goEachOrder" class="bg-green py-2 px-4 text-white cursor-pointer">
                                     Go Payment
                                 </div>
@@ -94,8 +96,8 @@
                     total_price: this.total[0],
                     payment_type: "",
                     payment_status: false,
-                    shipping_fee:this.total[1],
-                    price:this.total[3]
+                    shipping_fee: this.total[1],
+                    price: this.total[3]
 
                 }, {
                     headers: {
@@ -103,13 +105,10 @@
                         'Content-Type': 'application/json'
                     }
                 }).then(res => {
-                    console.log(res.data.data.id)
                     this.id = res.data.data.id
-                    // this.$router.push({
-                    //     name:'ViewEachOrder',
-                    //     params:{id:res.data.data.id}o
-                    // })
-                }).catch(e => console.log(e))
+                }).catch(e => {
+                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at confirm order');
+                })
             },
             goEachOrder() {
                 this.$router.push({
@@ -117,7 +116,7 @@
                     params: {id: this.id}
                 })
             },
-            goHome(){
+            goHome() {
                 this.$router.push("/")
                 location.reload();
             }

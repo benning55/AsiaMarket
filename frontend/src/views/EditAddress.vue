@@ -16,7 +16,7 @@
                        for="recipient">Firstname and Lastname of Recipient</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
-                       for="recipient">Please input Firstname and Lastname of Recipient</label>
+                       for="recipient">{{validation.firstError('recipient')}}</label>
                 <el-input id="recipient"
                           placeholder="Please input"
                           v-model="recipient">
@@ -30,7 +30,7 @@
                        for="house_number">House number</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
-                       for="house_number">Please input House number</label>
+                       for="house_number">{{validation.firstError('house_number')}}</label>
                 <el-input id="house_number"
                           placeholder="Please input"
                           v-model="house_number">
@@ -44,7 +44,7 @@
                        for="street">Street</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
-                       for="street">Please input Street</label>
+                       for="street">{{validation.firstError('street')}}</label>
                 <el-input id="street"
                           placeholder="Please input"
                           v-model="street">
@@ -57,7 +57,7 @@
                     <label v-if="!validation.firstError('city')"
                            class="block text-sm mb-2">City</label>
                     <label v-else
-                           class="block text-red text-sm mb-2">Please input City</label>
+                           class="block text-red text-sm mb-2">{{validation.firstError('city')}}</label>
                     <el-select v-model="city" placeholder="Select">
                         <el-option
                                 v-for="item in cityOptions"
@@ -73,9 +73,10 @@
                            for="post_code">Postal Code</label>
                     <label v-else
                            class="block text-red text-sm mb-2"
-                           for="post_code">Please input Postal Code</label>
+                           for="post_code">{{validation.firstError('post_code')}}</label>
                     <el-input id="post_code"
                               placeholder="Please input"
+                              type="number"
                               v-model="post_code">
                     </el-input>
                 </div>
@@ -143,28 +144,28 @@
         validators: {
             recipient(value) {
                 return Validator.value(value)
-                    .required("recipient");
+                    .required("please input recipient");
             },
             house_number(value) {
                 return Validator.value(value)
-                    .required("house_number");
+                    .required("please input housenumber");
             },
             street(value) {
                 return Validator.value(value)
-                    .required("street");
+                    .required("please input street");
             },
             city(value) {
                 return Validator.value(value)
-                    .required("city");
+                    .required("please input city");
             },
             post_code(value) {
                 return Validator.value(value)
-                    .required("post_code");
+                    .required("please input postal code")
+                    .length(5, "Invalid Postal Code")
             },
         },
         created() {
             this.index = this.$store.state.userAddress.findIndex(item => item.id == this.$route.params.id)
-            console.log(this.$store.state.userAddress[this.index])
             this.recipient = this.$store.state.userAddress[this.index].recipient
             this.house_number = this.$store.state.userAddress[this.index].house_number
             this.street = this.$store.state.userAddress[this.index].street
@@ -189,7 +190,9 @@
                     this.$router.push({
                         name: 'ViewAddress'
                     })
-                }).catch()
+                }).catch(e => {
+                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at edit address');
+                })
             },
             deleteAddress() {
                 if (this.$store.state.userAddress.length == 1) {
@@ -205,7 +208,9 @@
                         this.$router.push({
                             name: 'ViewAddress'
                         })
-                    }).catch()
+                    }).catch(e => {
+                        this.$message.error('Oops, Something is Error. code ' + e.status + ', at delete address');
+                    })
                 }
             }
         }

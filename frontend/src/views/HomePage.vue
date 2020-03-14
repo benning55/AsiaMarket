@@ -13,7 +13,8 @@
             <swiper :options="swiperOption">
                 <swiper-slide v-for="category in mockup.categorys" :key="category.key">
                     <button @click="goCategory(category)"
-                            class="w-full bg-white cs-border-2 hover:bg-unHilight text-black py-2 h-full text-center" style="height: 48px">
+                            class="w-full bg-white cs-border-2 hover:bg-unHilight text-black py-2 h-full text-center"
+                            style="height: 48px">
                         {{category.type}}
                     </button>
                 </swiper-slide>
@@ -119,32 +120,6 @@
                     "pauseOnFocus": true,
                     "pauseOnHover": true
                 },
-                mockup: {
-                    showCarousel: [
-                        {
-                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                        },
-                        {
-                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                        },
-                        {
-                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                        },
-                        {
-                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                        }
-                    ],
-                    categorys: [
-                        {id: 1, type: "Fruits and Vegetables", color: "green"},
-                        {id: 2, type: "Dry goods and Seasonings", color: "blue"},
-                        {id: 3, type: "Rice Flour and Noodles", color: "yellow"},
-                        {id: 4, type: "Condiments and Sauces", color: "red"},
-                        {id: 5, type: "Normal and Alcoholic Beverages", color: "black"},
-                        {id: 6, type: "Snack", color: "orange"},
-                        {id: 7, type: "Frozen Products", color: "purple"},
-                        {id: 8, type: "Other", color: "pink"},
-                    ]
-                },
                 recommendProduct: [],
                 newestProduct: []
             }
@@ -152,10 +127,14 @@
         created() {
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                 this.recommendProduct = res.data.data.slice(0, 8)
-            }).catch()
+            }).catch(e => {
+                this.$message.error('Oops, Something is Error. code ' + e.status + ', at load recommend');
+            })
             axios.get(this.$store.state.endpoints.newestProduct).then(res => {
                 this.newestProduct = res.data.data.slice(0, 8)
-            }).catch()
+            }).catch(e => {
+                this.$message.error('Oops, Something is Error. code ' + e.status + ', at load new Product');
+            })
         },
         methods: {
             goCategory(category) {
