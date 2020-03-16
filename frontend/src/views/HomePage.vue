@@ -21,49 +21,15 @@
             </swiper>
         </div>
 
-
-        <!--        <div v-dragscroll class="overflow-auto">-->
-        <!--            <div class="flex mt-3 w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
-        <!--                <div class="w-1/4" v-for="category in mockup.categorys" :key="category.id">-->
-        <!--                    <button @click="goCategory(category)"-->
-        <!--                            class="w-full bg-white  cs-border hover:bg-unHilight text-black py-2 px-4 h-full">-->
-        <!--                        {{category.type}}-->
-        <!--                    </button>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
-
         <section class="mt-3">
             <h1 class="my-3 text-xl">Recommend</h1>
             <SwiperItem :dataItem="recommendProduct"/>
-            <!--            <div class="overflow-auto">-->
-            <!--                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
-            <!--                    <div v-for="product in recommendProduct" :key="product.key" class="w-1/4">-->
-            <!--                        <ProductCard :productData="product"/>-->
-            <!--                    </div>-->
-            <!--          -->
-            <!--                </div>-->
-            <!--            </div>-->
         </section>
 
         <section class="mt-3">
             <h1 class="my-3 text-xl">New Product</h1>
             <SwiperItem :dataItem="newestProduct"/>
-            <!--            <div v-dragscroll class=" overflow-auto">-->
-            <!--                <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
-            <!--                    <div v-for="product in newestProduct" :key="product.key" class="w-1/4">-->
-            <!--                        <ProductCard :productData="product"/>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
         </section>
-        <!--        <vuescroll>-->
-        <!--            <div class="flex w-4/1 sm:w-2/1 sc-480:w-266per sc-1400:w-16/10">-->
-        <!--                <div v-for="product in newestProduct" :key="product.key" class="w-1/4">-->
-        <!--                    <ProductCard :productData="product"/>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </vuescroll>-->
     </div>
 </template>
 
@@ -119,6 +85,32 @@
                     "pauseOnDotsHover": true,
                     "pauseOnFocus": true,
                     "pauseOnHover": true
+                },
+                mockup: {
+                    showCarousel: [
+                        {
+                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
+                        },
+                        {
+                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
+                        },
+                        {
+                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
+                        },
+                        {
+                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
+                        }
+                    ],
+                    categorys: [
+                        {id: 1, type: "Fruits and Vegetables", color: "green"},
+                        {id: 2, type: "Dry goods and Seasonings", color: "blue"},
+                        {id: 3, type: "Rice Flour and Noodles", color: "yellow"},
+                        {id: 4, type: "Condiments and Sauces", color: "red"},
+                        {id: 5, type: "Normal and Alcoholic Beverages", color: "black"},
+                        {id: 6, type: "Snack", color: "orange"},
+                        {id: 7, type: "Frozen Products", color: "purple"},
+                        {id: 8, type: "Other", color: "pink"},
+                    ]
                 },
                 recommendProduct: [],
                 newestProduct: []

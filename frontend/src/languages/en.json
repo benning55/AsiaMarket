@@ -96,5 +96,19 @@
   "transfer_date": "Transfer Date",
   "send": "Send",
   "error_payment_date": "",
-  "error_payment_time": ""
+  "error_payment_time": "",
+  "my_address": "My Address",
+  "not_paid": "Not Paid",
+  "sent_slip": "Sent Slip. Please wait checked from Admin",
+  "no_code": "No Code",
+  "payment_success": "Payment Success",
+  "You_dont_have_any_orders": "You don't have any purchase orders",
+  "profile": "Profile",
+  "edit": "Edit",
+  "contact_us": "Contact Us",
+  "help": "Help",
+  "how_to_order": "How to Order",
+  "how_to_payment": "How to Payment",
+  "how_to_manage_address": "How to Manage Address"
+
 }

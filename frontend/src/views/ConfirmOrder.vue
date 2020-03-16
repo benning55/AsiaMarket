@@ -94,7 +94,6 @@
                         <i class="material-icons">keyboard_arrow_left</i><span>Previous</span>
                     </p>
                 </button>
-                {{checkPass}}
                 <div @click="goPayment"
                      class="w-64 bg-green text-white text-center py-2 px-2 focus:outline-none cursor-pointer">
                     Confirm Order and Go Payment

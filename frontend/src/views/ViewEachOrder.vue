@@ -61,9 +61,6 @@
                         <h1 class="text-green">{{order.total_price}} €</h1>
                     </div>
                     <div class="flex justify-between">
-
-
-
                         <h1 class="">Shipping</h1>
                         <h1 class="">{{order.shipping_fee}} €</h1>
                     </div>

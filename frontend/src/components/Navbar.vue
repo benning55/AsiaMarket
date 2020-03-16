@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--        banner-->
-        <div class="h-2 w-full bg-orange fixed"></div>
+        <div class="h-2 w-full bg-orange fixed">a</div>
 
         <!--        navbar desktop version-->
         <nav class="hidden sm:hidden md:hidden lg:block shadow-lg flex items-center justify-between flex-wrap bg-white  fixed w-full z-110">
@@ -9,7 +9,7 @@
             <ul class="w-full">
                 <li @click="goHome" class="hidden sm:hidden md:hidden lg:inline-block px-5 cursor-pointer">
                     <h1 style="font-size: 24px;margin-top: 16px">ThaiMarket Express</h1>
-<!--                    <img src="../assets/Logo/logo.jpg">-->
+                    <!--                    <img src="../assets/Logo/logo.jpg">-->
                 </li>
                 <li class="float-right px-5 flex-grow  py-6">
                     <a @click="changeLocale(`en`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'en'}">EN </a>
@@ -284,9 +284,9 @@
                              class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                             Address
                         </div>
-<!--                        <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">-->
-<!--                            Payment-->
-<!--                        </div>-->
+                        <!--                        <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">-->
+                        <!--                            Payment-->
+                        <!--                        </div>-->
                         <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg"></div>
                         <div v-if="$store.state.isAuthenticated" @click="logout"
                              class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
@@ -328,12 +328,12 @@
                 code: '',
                 codeStatus: 'none',
                 percent: 0,
-                shipping_fee:0
-
+                shipping_fee: 0
             }
         },
         created() {
             this.updateCart()
+            this.updateShipping()
         },
         methods: {
             updateCart() {
@@ -344,7 +344,6 @@
                     },
                 }).then(res => {
                     for (let i = 0; i < res.data.data.cart_detail.length; i++) {
-                        // console.log(res.data.data.cart_detail[i])
                         if (res.data.data.cart_detail[i].quantity == 0) {
                             res.data.data.cart_detail[i].overStatus = false
                             res.data.data.cart_detail[i].quantity = 1
@@ -361,8 +360,18 @@
                         cart_detail: []
                     });
                 })
-
-
+            },
+            updateShipping() {
+                axios.get(`${this.$store.state.endpoints.host}/api/orders/shipping-fee/`, {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    },
+                }).then(res => {
+                        this.shipping_fee = Number(res.data.price)
+                        this.$store.commit("setShippingFee", this.shipping_fee)
+                    }
+                ).catch()
             },
             goHome() {
                 this.$router.push({
@@ -483,12 +492,13 @@
                 return (sum).toFixed(2);
             },
             shipping() {
-                let shipping = 2
                 if (this.subTotal == 0) {
                     return 0
                 } else {
-                    return shipping
+                    console.log(this.shipping_fee)
+                    return this.shipping_fee
                 }
+                return 0
             },
             totalShipping() {
                 return Number(this.subTotal) + Number(this.shipping)

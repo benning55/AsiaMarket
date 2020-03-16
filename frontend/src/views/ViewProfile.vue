@@ -159,10 +159,6 @@
             newDOB(value) {
                 return Validator.value(value)
                     .required("กรุณาใส่รหัสผ่าน")
-            },
-            mockupData(value) {
-                return Validator.value(value)
-                    .required("กรุณาใส่รหัสผ่าน")
             }
         },
         created() {

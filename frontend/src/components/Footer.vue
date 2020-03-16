@@ -17,8 +17,8 @@
             </svg>
         </div>
         <div class="bg-white flex flex-wrap mx-auto px-10 sm:px-16 md:px-40 lg:px-56 xl:px-64 pb-10">
-            <div class=" w-full sm:w-1/2 lg:w-1/4 pb-5 ">
-                <div class="">LOGO</div>
+            <div class=" w-full sm:w-1/2 lg:w-1/4 pb-5 relative">
+                <div class="center">ThaiMarket Express</div>
             </div>
             <div class=" w-full sm:w-1/2 lg:w-1/4 pb-5 ">
                 <div class="">
@@ -38,9 +38,9 @@
             <div class=" w-full sm:w-1/2 lg:w-1/4 ">
                 <div class="">
                     <h1 class="text-xl mb-3">Help</h1>
-                    <p>0545516165</p>
-                    <p>0545516165</p>
-                    <p>0545516165</p>
+                    <p>How to Order</p>
+                    <p>How to Payment</p>
+                    <p>How to Manage Address</p>
                 </div>
             </div>
         </div>
@@ -77,5 +77,14 @@
         left: 50%;
         -ms-transform: translateX(-50%);
         transform: translateX(-50%);
+    }
+
+    .center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
     }
 </style>

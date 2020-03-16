@@ -28,7 +28,8 @@ export default new Vuex.Store({
         },
         userAddress: [],
         indexUserAddress:0,
-        allOrder:[]
+        allOrder:[],
+        shippingFee:0
     },
     mutations: {
         setAuth(state, isAuthenticated) {
@@ -78,6 +79,9 @@ export default new Vuex.Store({
         },
         setAllOrder(state,allOrder){
             state.allOrder = allOrder
+        },
+        setShippingFee(state,shippingFee){
+            state.shippingFee = shippingFee
         }
     },
     getters: {
