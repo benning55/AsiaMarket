@@ -294,3 +294,10 @@ class ShippingRate(models.Model):
 class CarouselImage(models.Model):
     """Carousel Image"""
     picture = models.ImageField(upload_to=product_image_path, null=True, blank=True)
+
+
+class FooterData(models.Model):
+    """Add data in footer"""
+    phone = models.CharField(max_length=12, blank=True)
+    email = models.EmailField(max_length=255, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)

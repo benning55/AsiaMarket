@@ -14,7 +14,7 @@ from rest_framework import status
 from collections import namedtuple
 import json
 
-from core.models import Product, Category, Cart, CartDetail, Code, CarouselImage
+from core.models import Product, Category, Cart, CartDetail, Code, CarouselImage, FooterData
 from products import serializers
 
 Timeline = namedtuple('Timeline', ('cart', 'cart_detail', 'code'))
@@ -246,3 +246,17 @@ def get_carousel(request):
             serializer = serializers.CarouselImageSerializer(queryset, many=True)
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)
 
+
+@api_view(['GET', ])
+@permission_classes([AllowAny, ])
+def get_footer(request):
+    """
+    Get Footer Data
+    """
+    if request.method == 'GET':
+        queryset = FooterData.objects.all()
+        if len(queryset) == 0:
+            return Response({"error": 'Data not enough'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer = serializers.FooterDataSerializer(queryset, many=True)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)

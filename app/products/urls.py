@@ -21,5 +21,5 @@ urlpatterns = [
     path('cart-detail/<int:pk>/', views.CartDetailApiView.as_view()),
     path('code/', views.CodeToCartApiView.as_view()),
     path('upload-csv/', views.csv_upload, name="product_upload"),
-    path('carousel/', views.get_carousel)
+    path('carousel/', views.get_carousel),
 ]

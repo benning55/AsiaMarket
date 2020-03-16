@@ -151,6 +151,10 @@ class CarouselImageAdmin(admin.ModelAdmin):
     list_display = ['id', 'picture']
 
 
+class FooterDataAdmin(admin.ModelAdmin):
+    list_display = ['id', 'phone', 'email', 'address']
+
+
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Profile, ProfileAdmin)
 admin.site.register(models.Address, AddressAdmin)
@@ -164,3 +168,4 @@ admin.site.register(models.OrderDetail, OrderDetailAdmin)
 admin.site.register(models.PaymentBill, PaymentBillAdmin)
 admin.site.register(models.ShippingRate, ShippingRateAdmin)
 admin.site.register(models.CarouselImage, CarouselImageAdmin)
+admin.site.register(models.FooterData, FooterDataAdmin)

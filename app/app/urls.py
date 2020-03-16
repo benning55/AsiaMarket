@@ -18,6 +18,7 @@ from django.urls import path, include
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 from django.conf.urls.static import static
 from django.conf import settings
+from products import views
 
 admin.site.site_header = 'Thai Market Express Dashboard'
 admin.site.index_title = 'Thai Market Express Administration'
@@ -26,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/obtain_token/', obtain_jwt_token),
     path('auth/refresh_token/', refresh_jwt_token),
+    path('api/footer/', views.get_footer),
     path('api/accounts/', include('accounts.urls')),
     path('api/products/', include('products.urls')),
     path('api/orders/', include('orders.urls'))
