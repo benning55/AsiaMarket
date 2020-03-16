@@ -147,6 +147,10 @@ class ShippingRateAdmin(admin.ModelAdmin):
     list_display = ['price', 'post_code']
 
 
+class CarouselImageAdmin(admin.ModelAdmin):
+    list_display = ['id', 'picture']
+
+
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Profile, ProfileAdmin)
 admin.site.register(models.Address, AddressAdmin)
@@ -159,3 +163,4 @@ admin.site.register(models.Order, OrderAdmin)
 admin.site.register(models.OrderDetail, OrderDetailAdmin)
 admin.site.register(models.PaymentBill, PaymentBillAdmin)
 admin.site.register(models.ShippingRate, ShippingRateAdmin)
+admin.site.register(models.CarouselImage, CarouselImageAdmin)

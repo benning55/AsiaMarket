@@ -14,7 +14,7 @@ from rest_framework import status
 from collections import namedtuple
 import json
 
-from core.models import Product, Category, Cart, CartDetail, Code
+from core.models import Product, Category, Cart, CartDetail, Code, CarouselImage
 from products import serializers
 
 Timeline = namedtuple('Timeline', ('cart', 'cart_detail', 'code'))
@@ -230,3 +230,19 @@ def csv_upload(request):
 
     context = {}
     return render(request, template, context)
+
+
+@api_view(['GET', ])
+@permission_classes([AllowAny, ])
+def get_carousel(request):
+    """
+    Get Carousel Picture
+    """
+    if request.method == 'GET':
+        queryset = CarouselImage.objects.all()
+        if len(queryset) == 0:
+            return Response({"error": 'Data not enough'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer = serializers.CarouselImageSerializer(queryset, many=True)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+

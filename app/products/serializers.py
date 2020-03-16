@@ -1,4 +1,4 @@
-from core.models import Category, Product, Cart, Code, CartDetail
+from core.models import Category, Product, Cart, Code, CartDetail, CarouselImage
 from rest_framework import serializers
 
 
@@ -115,3 +115,12 @@ class PersonalCartSerializer(serializers.Serializer):
     cart = CartSerializer(many=True)
     cart_detail = CartDetailSerializer(many=True)
     code = CodeSerializer(required=False, many=True)
+
+
+class CarouselImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarouselImage
+        fields = ('id', 'picture')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }

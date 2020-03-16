@@ -289,3 +289,8 @@ class ShippingRate(models.Model):
     """ The price for shipping """
     price = models.DecimalField(max_digits=7, decimal_places=2)
     post_code = models.CharField(max_length=255, blank=True, null=True)
+
+
+class CarouselImage(models.Model):
+    """Carousel Image"""
+    picture = models.ImageField(upload_to=product_image_path, null=True, blank=True)
