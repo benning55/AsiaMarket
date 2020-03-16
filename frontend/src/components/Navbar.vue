@@ -137,17 +137,17 @@
                         <div class="pb-3 pt-5 px-5 text-xl bg-gray_bg"></div>
                     </div>
 
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                    <div @click="goCategory({id:'recommend'})" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                         <span>Recommend</span>
                     </div>
-                    <div class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
-                        <span @click="goCategory({id:'new-product'})">New Product</span>
+                    <div @click="goCategory({id:'new-product'})" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <span>New Product</span>
                     </div>
 
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg">Product</div>
-                    <div v-for="category in categorys" :key="category.id"
+                    <div v-for="category in categorys" :key="category.id" @click="goCategory(category)"
                          class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
-                        <span @click="goCategory(category)">{{category.type}}</span>
+                        <span >{{category.type}}</span>
                     </div>
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg"></div>
                     <div v-if="$store.state.isAuthenticated" @click="logout"

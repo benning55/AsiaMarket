@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Loader v-if="isLoading"/>
         <ul class="w-full py-6">
             <li class="inline-block px-5">LOGO</li>
         </ul>
@@ -27,12 +28,14 @@
     import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
     import ProductCard from "../components/ProductCard";
     import axios from 'axios'
+    import Loader from "../components/Loader";
 
     export default {
         name: 'CategoryView',
         components: {
             VueSlickCarousel,
-            ProductCard
+            ProductCard,
+            Loader
         },
         data() {
             return {
@@ -67,27 +70,34 @@
                     ]
                 },
                 items: [],
-                titleCategory: ''
+                titleCategory: '',
+                isLoading: false
             }
         },
         created() {
+            this.isLoading = true
             this.loadCategory()
         },
         methods: {
             loadCategory() {
+                this.isLoading = true
                 this.items = []
                 if (this.$route.params.id == "new-product") {
                     axios.get(this.$store.state.endpoints.newestProduct).then(res => {
                         this.items = res.data.data
                         this.titleCategory = "New Product"
+                        this.isLoading = false
                     }).catch(e => {
+                        this.isLoading = false
                         this.$message.error('Oops, Something is Error. code ' + e.status + ', at load new product');
                     })
                 } else if (this.$route.params.id == "recommend") {
                     axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                         this.items = res.data.data
                         this.titleCategory = "Recommend Product"
+                        this.isLoading = false
                     }).catch(e => {
+                        this.isLoading = false
                         this.$message.error('Oops, Something is Error. code ' + e.status + ', at load recommend product');
                     })
                 } else {
@@ -96,7 +106,9 @@
                     }).then(res => {
                         this.items = res.data.data
                         this.titleCategory = res.data.data[0]
+                        this.isLoading = false
                     }).catch(e => {
+                        this.isLoading = false
                         this.$message.error('Oops, Something is Error. code ' + e.status + ', at load caategory ' + this.$route.params.id);
                     })
                 }

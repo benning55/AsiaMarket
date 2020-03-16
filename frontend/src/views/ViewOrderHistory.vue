@@ -1,5 +1,6 @@
 <template>
     <div class="sm:mx-0 md:mx-24 lg:mx-0 xl:mx-0">
+        <Loader v-if="isLoading"/>
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
@@ -24,14 +25,16 @@
     import axios from "axios";
     import ListOrder from "../components/ListOrder";
     import NoLoginText from "../components/NoLoginText";
+    import Loader from "../components/Loader";
 
     export default {
         components: {
-            ListOrder, NoLoginText
+            ListOrder, NoLoginText, Loader
         },
         data() {
             return {
-                orders: []
+                orders: [],
+                isLoading:false
             }
         },
         created() {
@@ -39,6 +42,7 @@
         },
         methods: {
             getOrder() {
+                this.isLoading = true
                 axios.get(`${this.$store.state.endpoints.host}/api/orders/order/`, {
                     headers: {
                         Authorization: `JWT ${this.$store.state.jwt}`,
@@ -46,10 +50,11 @@
                     }
                 })
                     .then(res => {
-                        console.log(res.data.data)
+                        this.isLoading = false
                         this.orders = res.data.data
                     })
                     .catch(e => {
+                        this.isLoading = false
                         this.$message.error('Oops, Something is Error. code ' + e.status + ', at Load Order');
                     })
             },

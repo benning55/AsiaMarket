@@ -1,5 +1,6 @@
 <template>
     <div class="sm:mx-0 md:mx-24 lg:mx-0 xl:mx-0">
+        <Loader v-if="isLoading"/>
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
@@ -112,17 +113,20 @@
 <script>
     import axios from "axios";
     import Modal from "../components/Modal";
+    import Loader from "../components/Loader";
 
     export default {
         components: {
-            Modal
+            Modal,
+            Loader
         },
         data() {
             return {
                 isModalVisible: false,
                 isConfirmModalVisible: false,
                 typeModal: '',
-                isPass: false
+                isPass: false,
+                isLoading:false
             }
         },
         created() {
@@ -142,6 +146,7 @@
                 this.isModalVisible = false;
             },
             loadAddress() {
+                this.isLoading = true
                 axios.get(this.$store.state.endpoints.addressUrL, {
                     headers: {
                         Authorization: `JWT ${this.$store.state.jwt}`,
@@ -149,21 +154,17 @@
                     }
                 }).then(
                     res => {
-                        // this.addresses = res.data.address
                         this.$store.commit("setUserAddress", res.data.address);
+                        this.isLoading = false
                     }
                 ).catch(e => {
+                    this.isLoading = false
                     this.$message.error('Oops, Something is Error. code ' + e.status + ', add load address');
                 })
             },
             goPayment() {
                 this.typeModal = 'check_confirm'
                 this.isModalVisible = true
-
-            },
-            confirmOrder() {
-                console.log('save')
-
             }
         },
         computed: {

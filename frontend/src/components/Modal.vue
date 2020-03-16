@@ -143,6 +143,7 @@
 
     .opacity-bg {
         background-color: rgba(38, 50, 56, .5);
+        z-index: 5;
     }
 
     .modal {

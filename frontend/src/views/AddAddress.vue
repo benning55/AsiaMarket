@@ -1,5 +1,6 @@
 <template>
     <div class="sm:mx-0 md:mx-24 lg:mx-0 xl:mx-0">
+        <Loader v-if="isLoading"/>
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
@@ -96,10 +97,12 @@
     import {Validator} from "../main";
     import axios from "axios";
     import NoLoginText from "../components/NoLoginText";
+    import Loader from "../components/Loader";
 
     export default {
         components: {
-            NoLoginText
+            NoLoginText,
+            Loader
         },
         data() {
             return {
@@ -125,7 +128,8 @@
                     'Sachsen-Anhalt',
                     'Schleswig-Holstein',
                     'Thüringen'
-                ]
+                ],
+                isLoading:false
             }
         },
         validators: {
@@ -155,6 +159,7 @@
             addAddress() {
                 this.$validate().then(success => {
                     if (success) {
+                        this.isLoading = true
                         axios.post(this.$store.state.endpoints.host + '/api/accounts/user/address/', {
                             recipient: this.recipient,
                             house_number: this.house_number,
@@ -167,10 +172,12 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(() => {
+                            this.isLoading = false
                             this.$router.push({
                                 name: 'ViewAddress'
                             })
                         }).catch(e => {
+                            this.isLoading = false
                             this.$message.error('Oops, Something is Error. code ' + e.status+', at add address');
                         })
 

@@ -18,21 +18,21 @@
         </div>
         <div class="bg-white flex flex-wrap mx-auto px-10 sm:px-16 md:px-40 lg:px-56 xl:px-64 pb-10">
             <div class=" w-full sm:w-1/2 lg:w-1/4 pb-5 relative">
-                <div class="center">ThaiMarket Express</div>
+                <div class="center" style="font-size: 22px">ThaiMarket Express</div>
             </div>
             <div class=" w-full sm:w-1/2 lg:w-1/4 pb-5 ">
                 <div class="">
                     <h1 class="text-xl mb-3">Contact Us</h1>
-                    <p><i class="fas fa-phone-alt"></i>05455161</p>
-                    <p><i class="fas fa-phone-alt"></i>0545516165fefe</p>
-                    <p><i class="fas fa-envelope"></i>0545516165</p>
-                    <p><i class="fas fa-envelope"></i>0545516165fe</p>
+                    <p><i class="fas fa-phone-alt"></i>{{footerData.phone}}</p>
+<!--                    <p><i class="fas fa-phone-alt"></i>0545516165fefe</p>-->
+                    <p><i class="fas fa-envelope"></i>{{footerData.email}}</p>
+<!--                    <p><i class="fas fa-envelope"></i>0545516165fe</p>-->
                 </div>
             </div>
             <div class=" w-full sm:w-1/2 lg:w-1/4 " style="padding-top: 40px">
                 <div class="flex pr-2 ">
                     <i class="fas fa-map-marker-alt"></i>
-                    <p>0545516165 rgrdg rgdr rdgdrg dgrdg</p>
+                    <p>{{footerData.address}}</p>
                 </div>
             </div>
             <div class=" w-full sm:w-1/2 lg:w-1/4 ">
@@ -49,10 +49,26 @@
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
         data() {
             return {
-                data: ''
+                footerData: {}
+            }
+        },
+        created() {
+            this.getFooterData()
+        },
+        methods: {
+            getFooterData() {
+                axios.get(`${this.$store.state.endpoints.host}/api/footer/`).then(res => {
+                    this.footerData = res.data.data[0]
+                    console.log(this.footerData)
+                    this.isLoading = false
+                }).catch(e => {
+                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at load recommend');
+                })
             }
         }
     }

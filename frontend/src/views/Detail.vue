@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Loader v-if="isLoading" />
         <ul class="w-full py-6">
             <li class="inline-block px-5">LOGO</li>
         </ul>
@@ -120,15 +121,15 @@
     import VueSlickCarousel from 'vue-slick-carousel'
     import 'vue-slick-carousel/dist/vue-slick-carousel.css'
     import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
-    // import ProductCard from "../components/ProductCard";
     import axios from "axios";
     import SwiperItem from "../components/SwiperItem";
+    import Loader from "../components/Loader";
 
     export default {
         name: 'Detail',
         components: {
             VueSlickCarousel,
-            // ProductCard,
+            Loader,
             SwiperItem
         },
         data() {
@@ -196,21 +197,27 @@
                 countLoading: false,
                 isInCart: false,
                 value: 0,
-                overState: false
+                overState: false,
+                isLoading:false
             }
         },
         created() {
+            this.isLoading = true
             // get detail of product
             axios.get(this.$store.state.endpoints.productUrL + this.$route.params.id + "/").then(res => {
                 this.dataProduct = res.data.data
+                this.isLoading = false
             }).catch(e => {
+                this.isLoading = false
                 this.$message.error('Oops, Something is Error. code ' + e.status);
             })
 
             // get recommend product
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                 this.recommendProduct = res.data.data.slice(0, 8)
+                this.isLoading = false
             }).catch(e => {
+                this.isLoading = false
                 this.$message.error('Oops, Something is Error. code ' + e.status);
             })
 

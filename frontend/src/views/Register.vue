@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Loader v-if="isLoading"/>
         <ul class="w-full py-6">
             <li class="inline-block px-5">LOGO</li>
         </ul>
@@ -243,9 +244,13 @@
 <script>
     import axios from 'axios'
     import {Validator} from "../main";
+    import Loader from "../components/Loader";
 
     export default {
         name: 'Register',
+        components:{
+          Loader
+        },
         data() {
             return {
                 firstname: '',
@@ -285,7 +290,8 @@
                         return time.getTime() > Date.now();
                     },
                 },
-                error: ''
+                error: '',
+                isLoading:false
             }
         },
         validators: {
@@ -377,6 +383,7 @@
                 }
             },
             registered() {
+                this.isLoading = true
                 const payload = {
                     email: this.email,
                     password: this.password,
@@ -394,13 +401,14 @@
                     }
                 };
                 axios.post(this.$store.state.endpoints.registerUrL, payload)
-                    .then((response) => {
-                        console.log(response.data);
+                    .then(() => {
+                        this.isLoading = false
                         this.$router.push({
                             name: "login"
                         })
                     })
                     .catch((error) => {
+                        this.isLoading = false
                         if (error.response.status == 400) {
                             if (error.response.data.error.user.password) {
                                 this.error = 'password is easy too'

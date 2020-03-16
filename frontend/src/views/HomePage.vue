@@ -1,11 +1,13 @@
 <template>
     <div>
+        <Loader v-if="isLoading" />
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
-        <VueSlickCarousel v-bind="setting1">
-            <img v-for="image in mockup.showCarousel" :key="image.id" class="object-cover w-full h-56"
-                 :src="image.image"
+
+        <VueSlickCarousel v-bind="setting1" v-if="carousel">
+            <img v-for="image in carousel" :key="image.id" class="object-cover w-full h-56"
+                 :src="image.picture"
                  alt="Promotion">
         </VueSlickCarousel>
 
@@ -37,18 +39,13 @@
     import VueSlickCarousel from 'vue-slick-carousel'
     import 'vue-slick-carousel/dist/vue-slick-carousel.css'
     import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
-    // import ProductCard from "../components/ProductCard";
-    // import {dragscroll} from 'vue-dragscroll'
     import axios from 'axios'
-    // import vuescroll from 'vuescroll';
     import SwiperItem from "../components/SwiperItem";
+    import Loader from "../components/Loader";
 
     export default {
         name: 'MyComponent',
-        // directives: {
-        //     dragscroll
-        // },
-        components: {VueSlickCarousel, SwiperItem},
+        components: {VueSlickCarousel, SwiperItem,Loader},
         data() {
             return {
                 swiperOption: {
@@ -113,17 +110,27 @@
                     ]
                 },
                 recommendProduct: [],
-                newestProduct: []
+                newestProduct: [],
+                isLoading:true,
+                carousel:''
             }
         },
         created() {
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                 this.recommendProduct = res.data.data.slice(0, 8)
+                this.isLoading = false
             }).catch(e => {
                 this.$message.error('Oops, Something is Error. code ' + e.status + ', at load recommend');
             })
             axios.get(this.$store.state.endpoints.newestProduct).then(res => {
                 this.newestProduct = res.data.data.slice(0, 8)
+                this.isLoading = false
+            }).catch(e => {
+                this.$message.error('Oops, Something is Error. code ' + e.status + ', at load new Product');
+            })
+            axios.get(`${this.$store.state.endpoints.host}/api/products/carousel/`).then(res => {
+                this.carousel = res.data.data
+                this.isLoading = false
             }).catch(e => {
                 this.$message.error('Oops, Something is Error. code ' + e.status + ', at load new Product');
             })

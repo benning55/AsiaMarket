@@ -1,5 +1,6 @@
 <template lang="html">
     <div>
+        <Loader v-if="isLoading"/>
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
@@ -59,10 +60,13 @@
 <script>
     import axios from 'axios'
     import {Validator} from "../main";
+    import Loader from "../components/Loader";
 
     export default {
         name: "Login",
-        comments: {},
+        components:{
+            Loader
+        },
         data() {
             return {
                 username: '',
@@ -71,7 +75,8 @@
                     username: '',
                     password: ''
                 },
-                error: ''
+                error: '',
+                isLoading: false
             }
         },
         validators: {
@@ -112,10 +117,8 @@
                     this.validation.firstError("username") == null &&
                     this.validation.firstError("password") == null
                 ) {
-                    const payload = {
-                        username: this.username,
-                        password: this.password
-                    };
+                    const payload = {username: this.username, password: this.password};
+                    this.isLoading = true
                     axios.post(this.$store.state.endpoints.obtainJWT, payload)
                         .then((response) => {
                             this.$store.commit('updateToken', response.data.token);
@@ -140,14 +143,16 @@
                                 this.$store.commit("setAuthUser",
                                     {authUser: response.data, isAuthenticated: true}
                                 );
+                                this.isLoading = false
                                 this.$router.push("/")
                                 // location.reload();
                             }).catch(e => {
+                                this.isLoading = false
                                 this.$message.error('Oops, Something is Error. code ' + e.status + ', at Login');
                             })
                         })
                         .catch((error) => {
-                            console.log(error.response);
+                            this.isLoading = false
                             if (error.status == '400') {
                                 this.error = 'Username or Password incorrect'
                             } else {

@@ -1,5 +1,6 @@
 <template>
     <div class="sm:mx-0 md:mx-24 lg:mx-0 xl:mx-0">
+        <Loader v-if="isLoading" />
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
@@ -108,10 +109,12 @@
     import {Validator} from "../main";
     import axios from "axios";
     import NoLoginText from "../components/NoLoginText";
+    import Loader from "../components/Loader";
 
     export default {
         components: {
-            NoLoginText
+            NoLoginText,
+            Loader
         },
         data() {
             return {
@@ -138,7 +141,8 @@
                     'Sachsen-Anhalt',
                     'Schleswig-Holstein',
                     'Thüringen'
-                ]
+                ],
+                isLoading:false
             }
         },
         validators: {
@@ -174,6 +178,7 @@
         },
         methods: {
             editAddress() {
+                this.isLoading = true
                 axios.put(`${this.$store.state.endpoints.host}/api/accounts/user/address/`, {
                     id: this.$route.params.id,
                     recipient: this.recipient,
@@ -187,15 +192,19 @@
                         'Content-Type': 'application/json'
                     },
                 }).then(() => {
+                    this.isLoading = false
                     this.$router.push({
                         name: 'ViewAddress'
                     })
                 }).catch(e => {
+                    this.isLoading = false
                     this.$message.error('Oops, Something is Error. code ' + e.status + ', at edit address');
                 })
             },
             deleteAddress() {
+                this.isLoading = true
                 if (this.$store.state.userAddress.length == 1) {
+                    this.isLoading = false
                     alert("can not delete")
                 } else if (this.$store.state.userAddress[this.$store.state.indexUserAddress].id == this.$route.params.id) {
                     this.$store.commit("setIndexUserAddress", this.$store.state.indexUserAddress - 1);
@@ -205,10 +214,12 @@
                             'Content-Type': 'application/json'
                         },
                     }).then(() => {
+                        this.isLoading = false
                         this.$router.push({
                             name: 'ViewAddress'
                         })
                     }).catch(e => {
+                        this.isLoading = false
                         this.$message.error('Oops, Something is Error. code ' + e.status + ', at delete address');
                     })
                 }

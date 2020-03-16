@@ -1,5 +1,6 @@
 <template>
     <div class="md:mx-24 sm:mx-0 lg:mx-0 xl:mx-0">
+        <Loader v-if="isLoading" />
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
@@ -8,6 +9,9 @@
             <div class="mb-3">
                 <el-alert v-if="error" type="error" show-icon @close="closeError">
                     {{error}}
+                </el-alert>
+                <el-alert v-else-if="success" type="success" show-icon @close="closeError">
+                    You email has been sent
                 </el-alert>
             </div>
             <label v-if="validation.firstError('email')"
@@ -30,12 +34,18 @@
 <script>
     import axios from 'axios'
     import {Validator} from "../main";
+    import Loader from "../components/Loader";
 
     export default {
+        components:{
+            Loader
+        },
         data() {
             return {
                 email: '',
-                error: ''
+                error: '',
+                success: false,
+                isLoading:false
             }
         },
         validators: {
@@ -47,20 +57,25 @@
         },
         methods: {
             sentEmail() {
+                this.isLoading = true
                 this.$validate(["email"]);
                 if (this.validation.firstError("email") == null) {
                     axios.post(this.$store.state.endpoints.forgotPasswordUrL, {
                         "email": this.email
                     }).then(res => {
-                        console.log(res)
+                        this.isLoading = false
+                        this.success = true
+                        this.error = ""
                     }).catch(e => {
-                        console.log(e.response)
+                        this.isLoading = false
                         if (e.response.status == 404) {
                             this.error = 'Email not found'
                         } else {
                             this.error = 'Something is wrong. Try again later'
                         }
                     })
+                } else {
+                    this.isLoading = false
                 }
 
             },

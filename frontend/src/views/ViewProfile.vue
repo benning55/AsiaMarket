@@ -1,5 +1,6 @@
 <template>
     <div class="md:mx-24 sm:mx-0 lg:mx-0 xl:mx-0">
+        <Loader v-if="isLoading" />
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
@@ -125,10 +126,12 @@
     import {Validator} from "../main";
     import axios from "axios";
     import NoLoginText from "../components/NoLoginText";
+    import Loader from "../components/Loader";
 
     export default {
         components: {
-            NoLoginText
+            NoLoginText,
+            Loader
         },
         data() {
             return {
@@ -140,7 +143,8 @@
                 isEditLastname: false,
                 isEditPhone: false,
                 isEditDOB: false,
-                userData: {}
+                userData: {},
+                isLoading:false
             }
         },
         validators: {
