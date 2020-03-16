@@ -12,7 +12,7 @@ services:
     volumes:
       - ./app:/app:Z
     command: >
-      sh -c "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py makemigrations && python manage.py migrate && python manage.py initdb && gunicorn app.wsgi:application --timeout 120 --bind 0.0.0.0:8000"
+      sh -c "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py makemigrations && python manage.py migrate && python manage.py initdb && gunicorn app.wsgi:application --timeout 800 --bind 0.0.0.0:8000"
     environment:
       - DB_HOST=db
       - DB_NAME=asiamarket
@@ -51,8 +51,8 @@ services:
     volumes:
       - ssl_data:/etc/resty-auto-ssl
     environment:
-      ALLOWED_DOMAINS: 'localhost'
-      SITES: 'localhost=nginx:80'
+      ALLOWED_DOMAINS: 'demo.benning.website'
+      SITES: 'demo.benning.website=nginx:80'
 
   nginx:
     container_name: quering-nginx
