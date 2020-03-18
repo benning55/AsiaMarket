@@ -1,9 +1,7 @@
 <template>
     <div class="sm:mx-0 md:mx-24 lg:mx-0 xl:mx-0">
         <Loader v-if="isLoading"/>
-        <ul class="w-full py-6">
-            <li class="inline-block px-5"></li>
-        </ul>
+        <NavbarSpace/>
         <h1 class="mt-10 py-1 text-xl font-l">{{$t('product')}}</h1>
 
         <!--        show this when no item in cart-->
@@ -116,11 +114,13 @@
     import axios from "axios";
     import Modal from "../components/Modal";
     import Loader from "../components/Loader";
+    import NavbarSpace from "../components/NavbarSpace";
 
     export default {
         components: {
             Modal,
-            Loader
+            Loader,
+            NavbarSpace
         },
         data() {
             return {
@@ -161,7 +161,7 @@
                     }
                 ).catch(e => {
                     this.isLoading = false
-                    this.$message.error(this.$t('error_Oops_') + e.status + ', add load address');
+                    this.$message.error(this.$t('error_Oops_') + e.response.status + ', add load address');
                 })
             },
             goPayment() {
@@ -192,11 +192,10 @@
                 return (sum).toFixed(2);
             },
             shipping() {
-                let shipping = 2
                 if (this.subTotal == 0) {
                     return 0
                 } else {
-                    return shipping
+                    return this.$store.state.shippingFee
                 }
             },
             totalShipping() {

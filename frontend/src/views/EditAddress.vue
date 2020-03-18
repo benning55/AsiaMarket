@@ -1,9 +1,7 @@
 <template>
     <div class="sm:mx-0 md:mx-24 lg:mx-0 xl:mx-0">
         <Loader v-if="isLoading"/>
-        <ul class="w-full py-6">
-            <li class="inline-block px-5"></li>
-        </ul>
+        <NavbarSpace/>
         <div v-if="!$store.state.isAuthenticated"
              class="bg-white h-64 w-full border-green-top px-4 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16 relative">
             <NoLoginText/>
@@ -110,11 +108,13 @@
     import axios from "axios";
     import NoLoginText from "../components/NoLoginText";
     import Loader from "../components/Loader";
+    import NavbarSpace from "../components/NavbarSpace";
 
     export default {
         components: {
             NoLoginText,
-            Loader
+            Loader,
+            NavbarSpace
         },
         data() {
             return {
@@ -198,7 +198,7 @@
                     })
                 }).catch(e => {
                     this.isLoading = false
-                    this.$message.error(this.$t('error_Oops_') + e.status + ', at edit address');
+                    this.$message.error(this.$t('error_Oops_') + e.response.status + ', at edit address');
                 })
             },
             deleteAddress() {
@@ -220,7 +220,7 @@
                         })
                     }).catch(e => {
                         this.isLoading = false
-                        this.$message.error(this.$t('error_Oops_') + e.status + ', at delete address');
+                        this.$message.error(this.$t('error_Oops_') + e.response.status + ', at delete address');
                     })
                 }
             }

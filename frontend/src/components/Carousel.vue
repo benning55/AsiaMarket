@@ -1,7 +1,7 @@
 <template>
     <swiper class="swiper" :options="swiperCarousel">
         <swiper-slide v-for="image in carousel" :key="image.id">
-            <img class="object-cover w-full h-64"
+            <img class="object-cover w-full h-80"
                  :src="image.picture"
                  alt="Promotion">
         </swiper-slide>
@@ -19,8 +19,6 @@
             return {
                 swiperCarousel: {
                     slidesPerView: 1,
-                    spaceBetween: 30,
-
                     loop: true,
                     autoplay: {
                         delay: 5000,
@@ -49,7 +47,7 @@
                 axios.get(`${this.$store.state.endpoints.host}/api/products/carousel/`).then(res => {
                     this.carousel = res.data.data
                 }).catch(e => {
-                    this.$message.error(this.$t('error_Oops_') + e.status + ', at load new Product');
+                    this.$message.error(this.$t('error_Oops_') + e.response.status + ', at load new Product');
                 })
             }
         }
@@ -57,6 +55,9 @@
 </script>
 
 <style>
+    .h-80{
+        height: 20rem;
+    }
 
     .swiper-pagination2 {
         text-align: center;
@@ -66,6 +67,7 @@
         -webkit-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
         z-index: 10;
+        padding-top: 10px;
     }
 
     .swiper-pagination-bullet-custom {
@@ -98,26 +100,24 @@
 
     .swiper-button-next {
         position: absolute;
-        top: 50%;
         width: 27px;
         height: 44px;
         margin-top: -22px;
         z-index: 10;
         cursor: pointer;
-        background-size: 27px 44px;
+        background-size: 17px 44px;
         background-position: center;
         background-repeat: no-repeat;
     }
 
     .swiper-button-prev {
         position: absolute;
-        top: 50%;
         width: 27px;
         height: 44px;
         margin-top: -22px;
         z-index: 10;
         cursor: pointer;
-        background-size: 27px 44px;
+        background-size: 17px 44px;
         background-position: center;
         background-repeat: no-repeat;
     }

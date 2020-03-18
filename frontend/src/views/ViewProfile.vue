@@ -1,9 +1,7 @@
 <template>
     <div class="md:mx-24 sm:mx-0 lg:mx-0 xl:mx-0">
-        <Loader v-if="isLoading" />
-        <ul class="w-full py-6">
-            <li class="inline-block px-5"></li>
-        </ul>
+        <Loader v-if="isLoading"/>
+        <NavbarSpace/>
         <div v-if="!$store.state.isAuthenticated"
              class="bg-white w-full border-green-top px-4 lg:px-20 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16 h-64 relative">
             <NoLoginText/>
@@ -88,7 +86,7 @@
             <div class="flex-none sm:flex justify-between mb-5">
                 <h1 class="text-xl font-l text-gray">{{$t('date_of_birth')}}</h1>
                 <div v-if="!isEditDOB" class="md:flex lg:flex xl:flex relative">
-                    <h1 class="text-xl">{{this.$store.state.authUser.profile.dob}}</h1>
+                    <h1 class="text-xl">{{dateFormat(this.$store.state.authUser.profile.dob)}}</h1>
                     <h1 @click="isEditDOB = !isEditDOB"
                         class="hidden sm:block text-sm text-right text-orange self-center ml-2">
                         {{$t('edit')}}</h1>
@@ -103,7 +101,8 @@
                             type="date"
                             placeholder="Pick a date"
                             default-value="2000-01-01"
-                            format="yyyy-MM-dd"
+                            :editable="false"
+                            format="dd MMMM yyyy"
                             value-format="yyyy-MM-dd">
                     </el-date-picker>
                     <div v-if="!validation.firstError('newDOB')" @click="editDOB(newDOB)"
@@ -127,11 +126,14 @@
     import axios from "axios";
     import NoLoginText from "../components/NoLoginText";
     import Loader from "../components/Loader";
+    import NavbarSpace from "../components/NavbarSpace";
+    import moment from 'moment'
 
     export default {
         components: {
             NoLoginText,
-            Loader
+            Loader,
+            NavbarSpace
         },
         data() {
             return {
@@ -144,7 +146,7 @@
                 isEditPhone: false,
                 isEditDOB: false,
                 userData: {},
-                isLoading:false
+                isLoading: false
             }
         },
         validators: {
@@ -169,6 +171,10 @@
             this.loadUserData()
         },
         methods: {
+            dateFormat(time) {
+                moment.locale(this.$i18n.locale);
+                return moment(time).format('LL')
+            },
             loadUserData() {
                 this.userData = {
                     firstname: this.$store.state.authUser.user.first_name,

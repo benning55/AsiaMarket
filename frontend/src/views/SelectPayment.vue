@@ -1,13 +1,13 @@
 <template>
 
     <div class="bg-white w-full px-4 sm:h-full lg:px-24 pb-16 mx-auto pt-5">
-        {{$t('')}}PayPal, Debit or Credit Card
+        {{$t('paypal_debit_or_credit_card')}}
         <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">
             <div class="px-2 bg-green" ref="paypal"></div>
             <div id="paypal-button-container"></div>
         </div>
-        <el-divider> {{$t('')}}Or</el-divider>
-        {{$t('')}}Bank Transfer
+        <el-divider> {{$t('or')}}</el-divider>
+        {{$t('bank_transfer')}}
         <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">
             <div class="col-12 upload-section">
                 <div class="upload-btn-wrapper w-full">
@@ -19,7 +19,7 @@
                                     alt="avatar"
                                     class="profile-pic"
                             />
-                            <h1 v-else class="center-y">{{$t('')}}Upload your slip here</h1>
+                            <p v-else class="center-y">{{$t('upload_your_slip_here')}}</p>
                         </div>
                     </div>
                     <input type="file" @change="previewImage" accept="image/*"/>
@@ -28,7 +28,7 @@
             <div class="mb-4">
                 <div>
                     <label v-if="!validation.firstError('date')"
-                           class="block text-sm mb-2">{{$t('')}}Transfer Time (approx).</label>
+                           class="block text-sm mb-2">{{$t('transfer_time')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2">{{validation.firstError('date')}}</label>
                     <el-date-picker
@@ -37,20 +37,22 @@
                             placeholder="Pick a day"
                             format="dd MMMM yyyy"
                             value-format="yyyy-MM-dd"
+                            :editable="false"
                             :picker-options="pickerOptions">
                     </el-date-picker>
 
                     <label v-if="!validation.firstError('time')"
-                           class="block text-sm mb-2 mt-3">{{$t('')}}Transfer Date</label>
+                           class="block text-sm mb-2 mt-3">{{$t('transfer_date')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2 mt-3">{{validation.firstError('time')}}</label>
                     <el-time-picker
                             v-model="time"
                             placeholder="Arbitrary time"
                             format="HH:mm"
+                            :editable="false"
                             value-format="HH:mm">
                     </el-time-picker>
-                    <div @click="sendSlip" class="bg-green text-white text-center p-2 mt-8">{{$t('')}}Send</div>
+                    <div @click="sendSlip" class="bg-green text-white text-center p-2 mt-8">{{$t('send')}}</div>
                 </div>
             </div>
         </div>
@@ -64,6 +66,7 @@
 
     export default {
         props: ["id", "order"],
+
         data: function () {
             return {
                 loaded: false,
@@ -131,14 +134,14 @@
                                         given_name: this.$store.state.authUser.user.first_name,
                                         surname: this.$store.state.authUser.user.last_name
                                     },
-                                    address: {
-                                        address_line_1: "123 ABC Street",
-                                        address_line_2: "Apt 2",
-                                        admin_area_2: "San Jose",
-                                        admin_area_1: "CA",
-                                        postal_code: "95121",
-                                        country_code: "US"
-                                    },
+                                    // address: {
+                                    //     address_line_1: "123 ABC Street",
+                                    //     address_line_2: "Apt 2",
+                                    //     admin_area_2: "San Jose",
+                                    //     admin_area_1: "CA",
+                                    //     postal_code: "95121",
+                                    //     country_code: "US"
+                                    // },
                                     email_address: this.$store.state.authUser.user.email,
                                     phone: {
                                         phone_type: "MOBILE",

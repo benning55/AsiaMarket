@@ -85,7 +85,12 @@
                 setTimeout(() => {
                     this.isOrderComplete = false
                 }, 500);
-                this.$emit('close');
+                if(this.isOrderComplete){
+                    location.reload()
+                } else {
+                    this.$emit('close');
+                }
+
             },
             swapIndex(index) {
                 this.$store.commit("setIndexUserAddress", index);
@@ -108,7 +113,7 @@
                 }).then(res => {
                     this.id = res.data.data.id
                 }).catch(e => {
-                    this.$message.error(this.$t('error_Oops_') + e.status + ', at confirm order');
+                    this.$message.error(this.$t('error_Oops_') + e.response.status + ', at confirm order');
                 })
             },
             goEachOrder() {

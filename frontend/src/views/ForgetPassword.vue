@@ -1,9 +1,7 @@
 <template>
     <div class="md:mx-24 sm:mx-0 lg:mx-0 xl:mx-0">
         <Loader v-if="isLoading" />
-        <ul class="w-full py-6">
-            <li class="inline-block px-5"></li>
-        </ul>
+        <NavbarSpace/>
         <div class="bg-white w-full border-green-top px-4 sm:h-full lg:px-64 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
             <div class="text-center text-2xl mb-10 mt-5 font-l">{{$t('please_input_your_email')}}</div>
             <div class="mb-3">
@@ -35,10 +33,12 @@
     import axios from 'axios'
     import {Validator} from "../main";
     import Loader from "../components/Loader";
+    import NavbarSpace from "../components/NavbarSpace";
 
     export default {
         components:{
-            Loader
+            Loader,
+            NavbarSpace
         },
         data() {
             return {

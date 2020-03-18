@@ -36,7 +36,7 @@
             <div v-if="!(overStatee() == true && productData.quantity > 0)" @click="goDetail(productData.id)"
                  class="text-left text-md title text-green h-12"
                  :style="`color:${productData.category_color}`">
-                {{productData.category_name}}
+                {{nameTranslate(productData.category_name)}}
             </div>
 
             <div v-else @click="goDetail(productData.id)" class="text-center text-xl title text-red h-12">
@@ -81,12 +81,16 @@
                 <div v-if="count() > 0" @click="decrease" class="button-increase  bg-green" style="user-select: none">
                     <i class="material-icons">remove</i>
                 </div>
-                <div v-else class="button-increase  bg-green" style="user-select: none;opacity: .5">
+                <div v-else class="button-increase bg-green cursor-not-allowed" style="user-select: none;opacity: .5">
                     <i class="material-icons">remove</i>
                 </div>
                 <div class="text-2xl">{{count()}}</div>
                 <!--                <input v-model="tmp" style="width: 50px;font-size: 10px">-->
-                <div @click="increase" class="button-decrease bg-green" style="user-select: none">
+                <div v-if="count() < this.quantity" @click="increase" class="button-decrease bg-green" style="user-select: none">
+                    <i class="material-icons">add</i>
+                </div>
+
+                <div v-else class="button-decrease bg-green cursor-not-allowed" style="user-select: none;opacity: .5">
                     <i class="material-icons">add</i>
                 </div>
             </div>
@@ -164,7 +168,7 @@
                     this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                 }).catch(
                     e => {
-                        this.$message.error(this.$t('error_Oops_') + e.status);
+                        this.$message.error(this.$t('error_Oops_') + e.response.status);
                     }
                 )
                 this.overState = false
@@ -208,12 +212,12 @@
                                 this.$store.commit("setIncart", this.itemIncart);
                                 this.countLoading = false
                             }).catch(e => {
-                                    this.$message.error(this.$t('error_Oops_') + e.status + ', at increase product c1');
+                                    this.$message.error(this.$t('error_Oops_') + e.response.status + ', at increase product c1');
                                 }
                             )
                         }).catch(
                             e => {
-                                this.$message.error(this.$t('error_Oops_') + e.status + ', at increase product c1');
+                                this.$message.error(this.$t('error_Oops_') + e.response.status + ', at increase product c1');
                             }
                         )
                     }, 2000)
@@ -234,7 +238,7 @@
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch(
                             e => {
-                                this.$message.error(this.$t('error_Oops_') + e.status + ', at increase product c2');
+                                this.$message.error(this.$t('error_Oops_') + e.response.status + ', at increase product c2');
                             }
                         )
                     }, 2000)
@@ -268,7 +272,7 @@
                             this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch(e => {
-                            this.$message.error(this.$t('error_Oops_') + e.status + ', at decrease product c1');
+                            this.$message.error(this.$t('error_Oops_') + e.response.status + ', at decrease product c1');
                         })
 
                     }, 2000)
@@ -290,10 +294,10 @@
                             this.$store.commit("setIncart", this.itemIncart);
                             this.value = 0
                         }).catch(e => {
-                            this.$message.error(this.$t('error_Oops_') + e.status + ', at increase product c2');
+                            this.$message.error(this.$t('error_Oops_') + e.response.status + ', at increase product c2');
                         })
                     }).catch(e => {
-                        this.$message.error(this.$t('error_Oops_') + e.status + ', at increase delete product c2');
+                        this.$message.error(this.$t('error_Oops_') + e.response.status + ', at increase delete product c2');
                     })
                 }
             },
@@ -384,7 +388,6 @@
         font-size: 23px;
         text-align: center;
         width: 36px;
-        height: 100%;
         padding-top: 5px;
     }
 
@@ -393,7 +396,6 @@
         font-size: 23px;
         text-align: center;
         width: 36px;
-        height: 100%;
         padding-top: 5px;
     }
 

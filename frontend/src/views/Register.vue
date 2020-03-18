@@ -1,9 +1,7 @@
 <template>
     <div>
         <Loader v-if="isLoading"/>
-        <ul class="w-full py-6">
-            <li class="inline-block px-5">|</li>
-        </ul>
+        <NavbarSpace/>
         <div class="auth">
             <form class="mt-16 w-11/12 sm:w-4/5 md:w-3/5 lg:w-4/5 xl:w-2/3 mx-auto bg-white shadow-md px-8 pt-6 pb-8 mb-4"
                   style="border-top: 6px solid #619F21;">
@@ -124,7 +122,8 @@
                                     type="date"
                                     placeholder="Pick a date"
                                     :picker-options="pickerOptions"
-                                    format="yyyy-MM-dd"
+                                    :editable="false"
+                                    format="dd MMMM yyyy"
                                     value-format="yyyy-MM-dd">
                             </el-date-picker>
                         </div>
@@ -246,11 +245,13 @@
     import axios from 'axios'
     import {Validator} from "../main";
     import Loader from "../components/Loader";
+    import NavbarSpace from "../components/NavbarSpace";
 
     export default {
         name: 'Register',
-        components:{
-          Loader
+        components: {
+            Loader,
+            NavbarSpace
         },
         data() {
             return {
@@ -292,7 +293,7 @@
                     },
                 },
                 error: '',
-                isLoading:false
+                isLoading: false
             }
         },
         validators: {

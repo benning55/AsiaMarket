@@ -44,11 +44,17 @@
             </div>
             <div class="div4">
                 <div class="button-area flex justify-between cursor-pointer">
-                    <div @click="decrease" class="button-increase  bg-green" style="user-select: none">
+                    <div v-if="value > 1" @click="decrease" class="button-increase  bg-green" style="user-select: none">
+                        <i class="material-icons">remove</i>
+                    </div>
+                    <div v-else class="button-increase bg-green cursor-not-allowed" style="user-select: none;opacity: .5">
                         <i class="material-icons">remove</i>
                     </div>
                     <div class="text-lg">{{value}}</div>
-                    <div @click="increase" class="button-decrease bg-green" style="user-select: none">
+                    <div v-if="value < quantity" @click="increase" class="button-decrease bg-green" style="user-select: none">
+                        <i class="material-icons">add</i>
+                    </div>
+                    <div v-else class="button-decrease bg-green cursor-not-allowed" style="user-select: none;opacity: .5">
                         <i class="material-icons">add</i>
                     </div>
                 </div>
@@ -140,7 +146,7 @@
                             this.$store.state.inCart.cart_detail[index].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[index].price = res.data.data.price
                         }).catch(e => {
-                            this.$message.error(this.$t('error_Oops_') + e.status);
+                            this.$message.error(this.$t('error_Oops_') + e.response.status);
                         })
                     }, 2000)
                 } else {
@@ -165,7 +171,7 @@
                             this.$store.state.inCart.cart_detail[index].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[index].price = res.data.data.price
                         }).catch(e => {
-                            this.$message.error(this.$t('error_Oops_') + e.status + 'at decrease product');
+                            this.$message.error(this.$t('error_Oops_') + e.response.status + 'at decrease product');
                         })
                     }, 2000)
                 }
@@ -188,7 +194,7 @@
                     this.$store.state.inCart.cart_detail[isInCart].price = res.data.data.price
                 }).catch(
                     e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.status + 'at change state');
+                            this.$message.error('Oops, Something is Error. code ' + e.response.status + 'at change state');
                         }
                 )
                 this.overState = false
@@ -204,7 +210,7 @@
                     let index = this.$store.state.inCart.cart_detail.findIndex(item => item.id == this.data.id)
                     this.$store.state.inCart.cart_detail.splice(index, 1)
                 }).catch(e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.status + 'at delete product');
+                            this.$message.error('Oops, Something is Error. code ' + e.response.status + 'at delete product');
                         })
             }
         },

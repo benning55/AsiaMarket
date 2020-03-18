@@ -22,8 +22,12 @@ const messages = {
     'en': e,
     'th': t,
 }
+
+console.log(localStorage.getItem("setLocalLanguage"))
+
 const i18n = new VueI18n({
-    locale: 'en', // set locale
+
+    locale: localStorage.getItem("setLocalLanguage") === null ? "en" : localStorage.getItem("setLocalLanguage"), // set locale
     fallbackLocale: 'th', // set fallback locale
     messages //set locale messages
 })

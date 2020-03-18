@@ -1,45 +1,54 @@
 <template>
     <div>
-        <!--        banner-->
-        <div class="h-2 w-full bg-orange fixed">|</div>
-
         <!--        navbar desktop version-->
-        <nav class="hidden sm:hidden md:hidden lg:block shadow-lg flex items-center justify-between flex-wrap bg-white  fixed w-full z-110">
+        <div class="fixed w-full z-110  bg-white shadow-lg">
+            <div class="hidden sm:hidden md:hidden lg:block h-6 w-full bg-orange text-center text-white">Type ABD to
+                reduce 10%
+            </div>
+            <nav class="hidden sm:hidden md:hidden lg:block  flex items-center justify-between flex-wrap">
+                <ul class="w-full">
+                    <li @click="goHome" class="hidden sm:hidden md:hidden lg:inline-block px-5 cursor-pointer">
+                        <h1 style="font-size: 24px;margin-top: 16px">ThaiMarket Express</h1>
+                        <!--                    <img src="../assets/Logo/logo.jpg">-->
+                    </li>
+                    <li class="float-right px-5 flex-grow  py-6">
+                        <a @click="changeLocale(`en`)" class="cursor-pointer"
+                           :class="{'text-green':$i18n.locale == 'en'}">EN </a>
+                        |
+                        <a @click="changeLocale(`th`)" class="cursor-pointer"
+                           :class="{'text-green':$i18n.locale == 'th'}">
+                            TH</a>
+                    </li>
+                </ul>
+            </nav>
 
-            <ul class="w-full">
-                <li @click="goHome" class="hidden sm:hidden md:hidden lg:inline-block px-5 cursor-pointer">
-                    <h1 style="font-size: 24px;margin-top: 16px">ThaiMarket Express</h1>
-                    <!--                    <img src="../assets/Logo/logo.jpg">-->
-                </li>
-                <li class="float-right px-5 flex-grow  py-6">
-                    <a @click="changeLocale(`en`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'en'}">EN </a>
-                    |
-                    <a @click="changeLocale(`th`)" class="cursor-pointer" :class="{'text-green':$i18n.locale == 'th'}">
-                        TH</a>
-                </li>
-            </ul>
-        </nav>
+        </div>
 
         <!--        navbar mobile version-->
-        <nav class="block sm:block md:block lg:hidden shadow-lg flex items-center justify-between flex-wrap bg-white py-5 fixed w-full z-110"
-             style="height: 72px;">
-            <ul class="w-full flex justify-between">
-                <li @click="mobileDrawer = !mobileDrawer,cartDrawer = false"
-                    class="inline-block sm:inline-block md:inline-block lg:hidden px-5 "><i
-                        class="material-icons text-3xl">menu</i>
-                </li>
-                <li @click="goHome" class="inline-block cursor-pointer">
-                    <h1 style="font-size: 19px;">ThaiMarket Express</h1>
-                </li>
-                <li class="float-right px-5">
-                    <div @click="cartDrawer = !cartDrawer, mobileDrawer =false" class="relative">
-                        <el-badge :value="$store.state.inCart.cart_detail.length" class="item" type="primary">
-                            <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
-                        </el-badge>
-                    </div>
-                </li>
-            </ul>
-        </nav>
+        <div class="fixed w-full z-110 bg-white shadow-lg">
+            <div class="block sm:block md:block lg:hidden h-6 w-full bg-orange text-center text-white">Type ABD to
+                reduce 10%
+            </div>
+            <nav class="block sm:block md:block lg:hidden  flex items-center justify-between flex-wrap  py-5 "
+                 style="height: 72px;">
+                <ul class="w-full flex justify-between">
+                    <li @click="mobileDrawer = !mobileDrawer,cartDrawer = false"
+                        class="inline-block sm:inline-block md:inline-block lg:hidden px-5 "><i
+                            class="material-icons text-3xl">menu</i>
+                    </li>
+                    <li @click="goHome" class="inline-block cursor-pointer">
+                        <h1 style="font-size: 19px;">ThaiMarket Express</h1>
+                    </li>
+                    <li class="float-right px-5">
+                        <div @click="cartDrawer = !cartDrawer, mobileDrawer =false" class="relative">
+                            <el-badge :value="$store.state.inCart.cart_detail.length" class="item" type="primary">
+                                <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
+                            </el-badge>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
         <!--        mini button right screen-->
         <div class="inset-y-0 right-0 fixed hidden sm:hidden md:hidden lg:block z-105">
@@ -89,7 +98,7 @@
         <transition name="slide-left">
             <div v-if="mobileDrawer"
                  class="inset-y-0 left-0 fixed bg-gray_bg fixed z-20 shadow-md w-70  overflow-auto h-screen z-105">
-                <ul class="w-full py-6">|</ul>
+                <NavbarSpace/>
                 <div class="relative h-100 w-70 bg-white">
                     <div class="py-3 px-10 text-xl text-center border-bottom font-l bg-gray_bg cursor-pointer block lg:hidden">
                         <a @click="changeLocale(`en`)" class="cursor-pointer"
@@ -146,7 +155,7 @@
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg">{{$t('product')}}</div>
                     <div v-for="category in categorys" :key="category.id" @click="goCategory(category)"
                          class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
-                        <span>{{category.type}}</span>
+                        <span>{{nameTranslate(category.type)}}</span>
                     </div>
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg"></div>
                     <div v-if="$store.state.isAuthenticated" @click="logout"
@@ -160,7 +169,7 @@
         <!--cart screen-->
         <transition name="slide">
             <div v-if="cartDrawer" class="inset-y-0 right-0 bg-white fixed z-20 shadow-md z-105">
-                <ul class="w-full py-6">I</ul>
+                <NavbarSpace/>
                 <div class="relative h-full w-70 overflow-auto">
                     <div class="w-70 p-3 text-xl border-bottom fixed justify-between flex bg-white">
                         <el-badge :value="$store.state.inCart.cart_detail.length" class="item" type="primary">
@@ -249,7 +258,7 @@
         <!--right screen-->
         <transition name="slide">
             <div v-if="accountDrawer" class="inset-y-0 right-0 bg-gray_bg fixed z-20 shadow-md z-105">
-                <ul class="w-full py-6">|</ul>
+                <NavbarSpace/>
                 <div class="relative h-100 w-70 bg-white">
                     <!--                    show when not log in-->
                     <div v-if="!$store.state.isAuthenticated">
@@ -299,11 +308,13 @@
     import i18n from "../plugins/i18n";
     import InCartItem from "./InCartItem";
     import axios from 'axios'
+    import NavbarSpace from "./NavbarSpace";
 
     export default {
         name: "Navbar",
         components: {
-            InCartItem
+            InCartItem,
+            NavbarSpace
         },
         data() {
             return {
@@ -311,14 +322,14 @@
                 cartDrawer: false,
                 mobileDrawer: false,
                 categorys: [
-                    {id: 1, type: "Fruits and Vegetables", color: "green"},
-                    {id: 2, type: "Dry goods and Seasonings", color: "blue"},
-                    {id: 3, type: "Rice Flour and Noodles", color: "yellow"},
-                    {id: 4, type: "Condiments and Sauces", color: "red"},
-                    {id: 5, type: "Normal and Alcoholic Beverages", color: "black"},
-                    {id: 6, type: "Snack", color: "orange"},
-                    {id: 7, type: "Frozen Products", color: "purple"},
-                    {id: 8, type: "Other", color: "pink"},
+                    {id: 1, type: "Fruits and Vegetables(ผักและผลไม้)", color: "green"},
+                    {id: 2, type: "Dry goods and Seasonings(ของแห้งและเครื่องปรุงรส)", color: "blue"},
+                    {id: 3, type: "Rice Flour and Noodles( แป้งและเส้น)", color: "yellow"},
+                    {id: 4, type: "Condiments and Sauces(เครื่องปรุงรสและซอส)", color: "red"},
+                    {id: 5, type: "Normal and Alcoholic Beverages(เครื่องดื่มและแอลกอฮอล์)", color: "black"},
+                    {id: 6, type: "Snack(ขนมขบเคี้ยว)", color: "orange"},
+                    {id: 7, type: "Frozen Products(อาหารแช่แข็ง)", color: "purple"},
+                    {id: 8, type: "Other(อื่น ๆ)", color: "pink"},
                 ],
                 itemIncart: [],
                 code: '',
@@ -332,6 +343,18 @@
             this.updateShipping()
         },
         methods: {
+            nameTranslate(text) {
+                let list = text.split(')').join('(').split('(')
+                if (list.length == 1) {
+                    return text
+                } else {
+                    if (this.$i18n.locale == 'th') {
+                        return list[1]
+                    } else {
+                        return list[0]
+                    }
+                }
+            },
             updateCart() {
                 axios.get(`${this.$store.state.endpoints.host}/api/products/cart/`, {
                     headers: {
@@ -419,12 +442,12 @@
             },
             changeLocale(locale) {
                 i18n.locale = locale
+                localStorage.setItem("setLocalLanguage", locale)
                 this.toggleOpacity()
             },
             checkCode() {
                 clearTimeout(this.timeout)
                 this.codeStatus = 'loading'
-
                 this.timeout = setTimeout(() => {
                     axios.post(`${this.$store.state.endpoints.host}/api/products/code/`, {
                         code_name: this.code
@@ -491,7 +514,7 @@
                 if (this.subTotal == 0) {
                     return 0
                 } else {
-                    return this.shipping_fee
+                    return this.$store.state.shippingFee
                 }
                 return 0
             },
@@ -507,7 +530,7 @@
             },
             total() {
                 if (this.codeStatus == 'error') {
-                    return this.totalShipping
+                    return this.totalShipping.toFixed(2)
                 } else {
                     return (this.totalShipping - ((this.totalShipping / 100) * this.percent)).toFixed(2)
                 }

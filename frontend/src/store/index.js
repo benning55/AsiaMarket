@@ -29,7 +29,8 @@ export default new Vuex.Store({
         userAddress: [],
         indexUserAddress:0,
         allOrder:[],
-        shippingFee:0
+        shippingFee:0,
+        localLanguage:'en'
     },
     mutations: {
         setAuth(state, isAuthenticated) {
@@ -82,6 +83,9 @@ export default new Vuex.Store({
         },
         setShippingFee(state,shippingFee){
             state.shippingFee = shippingFee
+        },
+        setLocalLanguage(state,local){
+            state.localLanguage = local
         }
     },
     getters: {

@@ -1,9 +1,7 @@
 <template>
     <div class="sm:mx-0 md:mx-24 lg:mx-0 xl:mx-0">
         <Loader v-if="isLoading"/>
-        <ul class="w-full py-6">
-            <li class="inline-block px-5"></li>
-        </ul>
+        <NavbarSpace/>
 
         <h1 class="sm:mt-16 lg:mt-16 xl:mt-16 py-1 text-xl font-l">{{$t('order_history')}}</h1>
         <div v-if="orders.length > 0" class="bg-white w-full px-4 sm:h-full lg:px-24 pb-5 mx-auto">
@@ -26,10 +24,11 @@
     import ListOrder from "../components/ListOrder";
     import NoLoginText from "../components/NoLoginText";
     import Loader from "../components/Loader";
+    import NavbarSpace from "../components/NavbarSpace";
 
     export default {
         components: {
-            ListOrder, NoLoginText, Loader
+            ListOrder, NoLoginText, Loader,NavbarSpace
         },
         data() {
             return {

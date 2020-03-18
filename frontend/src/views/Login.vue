@@ -1,16 +1,17 @@
 <template lang="html">
     <div>
         <Loader v-if="isLoading"/>
-        <ul class="w-full py-6">
-            <li class="inline-block px-5"></li>
-        </ul>
+        <NavbarSpace/>
         <div class="auth">
             <form class="mt-16 w-11/12 sm:w-4/5 md:w-3/5 lg:w-4/5 xl:w-full mx-auto bg-white shadow-md px-3 sm:px-3 md:px-5 lg:px-16 xl:px-16 pt-6 pb-8 mb-4"
                   style="border-top: 6px solid #619F21;">
-                <el-alert v-if="error" type="error" show-icon @close="closeError">
-                    {{error}}
-                </el-alert>
                 <div class="text-center text-2xl mb-10 mt-5 font-l">{{$t('login')}}</div>
+                <div class="mb-4 sm:px-10 md:px-16 lg:px-10">
+                    <el-alert v-if="error" type="error" show-icon @close="closeError">
+                        {{$t(error)}}
+                    </el-alert>
+                </div>
+
                 <div class="mb-4 sm:px-10 md:px-16 lg:px-10">
                     <label v-if="!validation.firstError('username')"
                            class="block text-sm mb-2"
@@ -44,13 +45,15 @@
 
                 <div class="mb-6 sm:px-10 md:px-16 lg:px-10">
                     <button @click="authenticate()"
-                            class="w-full bg-green text-white py-2 px-20 focus:outline-none"
+                            class="w-full bg-green text-white py-2 focus:outline-none"
                             type="button">{{$t('login')}}
                     </button>
-                    <div class="text-center font-l mt-4" style="font-size: 10px">{{$t('use_asian_market_in_first_time')}} <span
+                    <div class="text-center font-l mt-4" style="font-size: 10px">
+                        {{$t('use_asian_market_in_first_time')}} <span
                             @click="goRegister" class="text-orange cursor-pointer">{{$t('register_now')}}</span></div>
                     <div class="text-center font-l mt-4" style="font-size: 10px">{{$t('forget_your_password')}} <span
-                            @click="goForgetPassword" class="text-orange cursor-pointer">{{$t('click_here')}}</span></div>
+                            @click="goForgetPassword" class="text-orange cursor-pointer">{{$t('click_here')}}</span>
+                    </div>
                 </div>
             </form>
         </div>
@@ -61,11 +64,13 @@
     import axios from 'axios'
     import {Validator} from "../main";
     import Loader from "../components/Loader";
+    import NavbarSpace from "../components/NavbarSpace";
 
     export default {
         name: "Login",
-        components:{
-            Loader
+        components: {
+            Loader,
+            NavbarSpace
         },
         data() {
             return {
@@ -103,7 +108,6 @@
                 })
             },
             closeError() {
-                console.log('close')
                 this.error = ''
             },
             goForgetPassword() {
@@ -148,15 +152,15 @@
                                 // location.reload();
                             }).catch(e => {
                                 this.isLoading = false
-                                this.$message.error('Oops, Something is Error. code ' + e.status + ', at Login');
+                                this.$message.error('Oops, Something is Error. code ' + e.response.status + ', at Login');
                             })
                         })
                         .catch((error) => {
                             this.isLoading = false
-                            if (error.status == '400') {
-                                this.error = 'Username or Password incorrect'
+                            if (error.response.status == '400') {
+                                this.error = 'error_user_alert_username_password_incorrect'
                             } else {
-                                this.error = 'Something is wrong. Try again later'
+                                this.error = 'something_is_wrong_try_again_later'
                             }
                         })
                 }

@@ -1,9 +1,7 @@
 <template>
     <div>
         <Loader v-if="isLoading"/>
-        <ul class="w-full py-6">
-            <li class="inline-block px-5">|</li>
-        </ul>
+        <NavbarSpace/>
         <section class="bg-white p-5 my-5">
             <a><span @click="goHome" class="hover:text-green cursor-pointer">{{$t('home')}}</span> / <span
                     @click="goCategory(dataProduct.category_id)" class="hover:text-green cursor-pointer">{{dataProduct.category_name}}</span>
@@ -120,11 +118,21 @@
                          @mouseleave="hover = false"
                          v-else-if="(hover || count() > 0 || isInCart > -1) && dataProduct.quantity > 0"
                          class="button-area mx-auto flex justify-between mb-2">
-                        <div @click="decrease" class="button-increase  bg-green" style="user-select: none">
+                        <div v-if="count() > 0" @click="decrease" class="button-increase  bg-green"
+                             style="user-select: none">
+                            <i class="material-icons">remove</i>
+                        </div>
+                        <div v-else class="button-increase bg-green cursor-not-allowed"
+                             style="user-select: none;opacity: .5">
                             <i class="material-icons">remove</i>
                         </div>
                         <div class="text-2xl">{{count()}}</div>
-                        <div @click="increase" class="button-decrease bg-green" style="user-select: none">
+                        <div v-if="count() < this.dataProduct.quantity" @click="increase"
+                             class="button-decrease bg-green" style="user-select: none">
+                            <i class="material-icons">add</i>
+                        </div>
+                        <div v-else class="button-decrease bg-green cursor-not-allowed"
+                             style="user-select: none;opacity: .5">
                             <i class="material-icons">add</i>
                         </div>
                     </div>
@@ -164,13 +172,15 @@
     import axios from "axios";
     import SwiperItem from "../components/SwiperItem";
     import Loader from "../components/Loader";
+    import NavbarSpace from "../components/NavbarSpace";
 
     export default {
         name: 'Detail',
         components: {
             VueSlickCarousel,
             Loader,
-            SwiperItem
+            SwiperItem,
+            NavbarSpace
         },
         data() {
             return {
@@ -242,7 +252,7 @@
                 imageError: false
             }
         },
-         created() {
+        created() {
             this.isLoading = true
             // get detail of product
             axios.get(this.$store.state.endpoints.productUrL + this.$route.params.id + "/").then(res => {
@@ -250,7 +260,7 @@
                 this.isLoading = false
             }).catch(e => {
                 this.isLoading = false
-                this.$message.error(this.$t('error_Oops_') + e.status);
+                this.$message.error(this.$t('error_Oops_') + e.response.status);
             })
 
             // get recommend product
@@ -259,7 +269,7 @@
                 this.isLoading = false
             }).catch(e => {
                 this.isLoading = false
-                this.$message.error(this.$t('error_Oops_') + e.status);
+                this.$message.error(this.$t('error_Oops_') + e.response.status);
             })
 
             this.isInCart = this.$store.state.inCart.cart_detail.findIndex(item => item.product.id == this.dataProduct.id)
@@ -302,7 +312,7 @@
                     this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                 }).catch(
                     e => {
-                        this.$message.error(this.$t('error_Oops_') + e.status);
+                        this.$message.error(this.$t('error_Oops_') + e.response.status);
                     }
                 )
                 this.overState = false
@@ -343,10 +353,10 @@
                                 this.$store.commit("setIncart", this.itemIncart);
                                 this.countLoading = false
                             }).catch(e => {
-                                this.$message.error(this.$t('error_Oops_') + e.status + ', at increase c1');
+                                this.$message.error(this.$t('error_Oops_') + e.response.status + ', at increase c1');
                             })
                         }).catch(e => {
-                            this.$message.error(this.$t('error_Oops_') + e.status + ', at increase c1');
+                            this.$message.error(this.$t('error_Oops_') + e.response.status + ', at increase c1');
                         })
                     }, 2000)
                 } else if (this.count() != this.dataProduct.quantity && this.$store.state.isAuthenticated == true) {
@@ -366,11 +376,11 @@
                             this.$store.state.inCart.cart_detail[this.isInCart].product.quantity = res.data.data.product.quantity
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch(e => {
-                            this.$message.error(this.$t('error_Oops_') + e.status + ', at increase c2');
+                            this.$message.error(this.$t('error_Oops_') + e.response.status + ', at increase c2');
                         })
                     }, 2000)
                 } else if (this.$store.state.isAuthenticated == false) {
-                    this.$alert(this.$t('please_login_message'),this.$t('please_login'), {
+                    this.$alert(this.$t('please_login_message'), this.$t('please_login'), {
                         confirmButtonText: this.$t('login'),
                         callback: action => {
                             if (action == 'confirm') {
@@ -399,7 +409,7 @@
                             this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch(e => {
-                            this.$message.error(this.$t('error_Oops_') + e.status + ', at decrease c1');
+                            this.$message.error(this.$t('error_Oops_') + e.response.status + ', at decrease c1');
                         })
                     }, 2000)
                 } else if (this.count() == 1) {
@@ -420,10 +430,10 @@
                             this.$store.commit("setIncart", this.itemIncart);
                             this.value = 0
                         }).catch(e => {
-                            this.$message.error(this.$t('error_Oops_') + e.status + ', at decrease c2');
+                            this.$message.error(this.$t('error_Oops_') + e.response.status + ', at decrease c2');
                         })
                     }).catch(e => {
-                            this.$message.error(this.$t('error_Oops_') + e.status + ', at decrease c2');
+                            this.$message.error(this.$t('error_Oops_') + e.response.status + ', at decrease c2');
                         }
                     )
                 }

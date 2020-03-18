@@ -24,6 +24,8 @@
         transform: translate(-50%, -50%);
     }
     .opacity-80{
-        background-color: rgba(255,255,255,.7);
+        background-color: rgba(255,255,255,.9);
+        top: 0;
+        left: 0;
     }
 </style>

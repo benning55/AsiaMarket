@@ -1,9 +1,7 @@
 <template>
     <div class="sm:mx-0 md:mx-24 lg:mx-0 xl:mx-0">
         <Loader v-if="isLoader"/>
-        <ul class="w-full py-6">
-            <li class="inline-block px-5"></li>
-        </ul>
+        <NavbarSpace/>
         <div v-if="!$store.state.isAuthenticated"
              class="bg-white h-64 w-full border-green-top px-4 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16 relative">
             <NoLoginText/>
@@ -27,12 +25,14 @@
     import ListAddress from "../components/ListAddress";
     import NoLoginText from "../components/NoLoginText";
     import Loader from "../components/Loader";
+    import NavbarSpace from "../components/NavbarSpace";
 
     export default {
         components: {
             ListAddress,
             NoLoginText,
-            Loader
+            Loader,
+            NavbarSpace
         },
         data() {
             return {

@@ -1,9 +1,7 @@
 <template>
     <div>
         <Loader v-if="isLoading"/>
-        <ul class="w-full py-6">
-            <li class="inline-block px-5">|</li>
-        </ul>
+        <NavbarSpace/>
 <!--        <VueSlickCarousel v-bind="setting1">-->
 <!--            <img v-for="image in mockup.showCarousel" :key="image.id" class="object-cover w-full h-56"-->
 <!--                 :src="image.image"-->
@@ -13,7 +11,7 @@
         <Carousel/>
 
         <section class="mt-3 w-full">
-            <h1 class="my-3 text-xl">{{titleCategory.category_name}}</h1>
+            <h1 class="my-3 text-xl">{{nameTranslate(titleCategory.category_name)}}</h1>
             <div class="flex flex-wrap">
                 <div v-for="item in items" :key="item.id" class="w-1/2 sm:w-1/4 sc-480:w-1/3 sc-1400:w-1/5 relative">
                     <ProductCard :productData="item"/>
@@ -32,6 +30,7 @@
     import axios from 'axios'
     import Loader from "../components/Loader";
     import Carousel from "../components/Carousel";
+    import NavbarSpace from "../components/NavbarSpace";
 
     export default {
         name: 'CategoryView',
@@ -39,7 +38,8 @@
             VueSlickCarousel,
             ProductCard,
             Loader,
-            Carousel
+            Carousel,
+            NavbarSpace
         },
         data() {
             return {
@@ -57,22 +57,6 @@
                     "pauseOnFocus": true,
                     "pauseOnHover": true
                 },
-                // mockup: {
-                //     showCarousel: [
-                //         {
-                //             image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                //         },
-                //         {
-                //             image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                //         },
-                //         {
-                //             image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                //         },
-                //         {
-                //             image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                //         }
-                //     ]
-                // },
                 items: [],
                 titleCategory: '',
                 isLoading: false
@@ -83,13 +67,25 @@
             this.loadCategory()
         },
         methods: {
+            nameTranslate(text) {
+                let list = text.split(')').join('(').split('(')
+                if (list.length == 1) {
+                    return text
+                } else {
+                    if (this.$i18n.locale == 'th') {
+                        return list[1]
+                    } else {
+                        return list[0]
+                    }
+                }
+            },
             loadCategory() {
                 this.isLoading = true
                 this.items = []
                 if (this.$route.params.id == "new-product") {
                     axios.get(this.$store.state.endpoints.newestProduct).then(res => {
                         this.items = res.data.data
-                        this.titleCategory = "New Product"
+                        this.titleCategory = {category_name:"New Product(สินค้าใหม่)"}
                         this.isLoading = false
                     }).catch(e => {
                         this.isLoading = false
@@ -98,7 +94,7 @@
                 } else if (this.$route.params.id == "recommend") {
                     axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                         this.items = res.data.data
-                        this.titleCategory = "Recommend Product"
+                        this.titleCategory = {category_name:"Recommend Product(สินค้าแนะนำ)"}
                         this.isLoading = false
                     }).catch(e => {
                         this.isLoading = false
@@ -113,7 +109,7 @@
                         this.isLoading = false
                     }).catch(e => {
                         this.isLoading = false
-                        this.$message.error(this.$t('error_Oops_') + e.status + ', at load caategory ' + this.$route.params.id);
+                        this.$message.error(this.$t('error_Oops_') + e.response.status + ', at load caategory ' + this.$route.params.id);
                     })
                 }
 
