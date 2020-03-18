@@ -10,20 +10,20 @@
         </div>
         <div v-else
              class="bg-white w-full border-green-top px-4 sm:h-full lg:px-20 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
-            <div class="text-center text-2xl mb-10 mt-5 font-l">Profile</div>
+            <div class="text-center text-2xl mb-10 mt-5 font-l">{{$t('')}}Profile</div>
             <div class="flex-none sm:flex justify-between mb-5">
-                <h1 class="text-xl font-l text-gray">Email</h1>
+                <h1 class="text-xl font-l text-gray">{{$t('')}}Email</h1>
                 <h1 class="text-xl">{{this.$store.state.authUser.user.email}}</h1>
             </div>
             <div class="flex-none sm:flex justify-between mb-5">
-                <h1 class="text-xl font-l text-gray">Firstname</h1>
+                <h1 class="text-xl font-l text-gray">{{$t('firstname')}}</h1>
                 <div v-if="!isEditFirstname" class="md:flex lg:flex xl:flex relative">
                     <h1 class="text-xl">{{this.$store.state.authUser.user.first_name}}</h1>
                     <h1 @click="isEditFirstname = !isEditFirstname"
-                        class="hidden sm:block text-sm text-right text-orange self-center ml-2">Edit</h1>
+                        class="hidden sm:block text-sm text-right text-orange self-center ml-2">{{$t('edit')}}</h1>
                     <h1 @click="isEditFirstname = !isEditFirstname"
                         class="block sm:hidden text-sm text-right text-orange self-center ml-2"
-                        style="position: absolute;top: -9px;right: 15px;">Edit</h1>
+                        style="position: absolute;top: -9px;right: 15px;">{{$t('edit')}}</h1>
                 </div>
                 <div v-else class="flex">
                     <el-input placeholder="Please input" v-model="newFirstname"></el-input>
@@ -38,14 +38,14 @@
                 </div>
             </div>
             <div class="flex-none sm:flex justify-between mb-5">
-                <h1 class="text-xl font-l text-gray">Lastname</h1>
+                <h1 class="text-xl font-l text-gray">{{$t('lastname')}}</h1>
                 <div v-if="!isEditLastname" class="md:flex lg:flex xl:flex relative">
                     <h1 class="text-xl">{{this.$store.state.authUser.user.last_name}}</h1>
                     <h1 @click="isEditLastname = !isEditLastname"
-                        class="hidden sm:block text-sm text-right text-orange self-center ml-2">Edit</h1>
+                        class="hidden sm:block text-sm text-right text-orange self-center ml-2">{{$t('edit')}}</h1>
                     <h1 @click="isEditLastname = !isEditLastname"
                         class="block sm:hidden text-sm text-right text-orange self-center ml-2"
-                        style="position: absolute;top: -9px;right: 15px;">Edit</h1>
+                        style="position: absolute;top: -9px;right: 15px;">{{$t('edit')}}</h1>
                 </div>
                 <div v-else class="flex">
                     <el-input placeholder="Please input" v-model="newLastname"></el-input>
@@ -62,15 +62,15 @@
                 </div>
             </div>
             <div class="flex-none sm:flex justify-between mb-5">
-                <h1 class="text-xl font-l text-gray">Phone Number</h1>
+                <h1 class="text-xl font-l text-gray">{{$t('phone_number')}}</h1>
                 <div v-if="!isEditPhone" class="md:flex lg:flex xl:flex relative">
                     <h1 class="text-xl">{{this.$store.state.authUser.profile.tel}}</h1>
                     <h1 @click="isEditPhone = !isEditPhone"
                         class="hidden sm:block text-sm text-right text-orange self-center ml-2">
-                        Edit</h1>
+                        {{$t('edit')}}</h1>
                     <h1 @click="isEditPhone = !isEditPhone"
                         class="block sm:hidden text-sm text-right text-orange self-center ml-2"
-                        style="position: absolute;top: -9px;right: 15px;">Edit</h1>
+                        style="position: absolute;top: -9px;right: 15px;">{{$t('edit')}}</h1>
                 </div>
                 <div v-else class="flex">
                     <el-input placeholder="Please input" v-model="newPhone" class="text-3xl"></el-input>
@@ -86,15 +86,15 @@
                 </div>
             </div>
             <div class="flex-none sm:flex justify-between mb-5">
-                <h1 class="text-xl font-l text-gray">Date of Birth</h1>
+                <h1 class="text-xl font-l text-gray">{{$t('date_of_birth')}}</h1>
                 <div v-if="!isEditDOB" class="md:flex lg:flex xl:flex relative">
                     <h1 class="text-xl">{{this.$store.state.authUser.profile.dob}}</h1>
                     <h1 @click="isEditDOB = !isEditDOB"
                         class="hidden sm:block text-sm text-right text-orange self-center ml-2">
-                        Edit</h1>
+                        {{$t('edit')}}</h1>
                     <h1 @click="isEditDOB = !isEditDOB"
                         class="block sm:hidden text-sm text-right text-orange self-center ml-2"
-                        style="position: absolute;top: -9px;right: 15px;">Edit</h1>
+                        style="position: absolute;top: -9px;right: 15px;">{{$t('edit')}}</h1>
                 </div>
                 <div v-else class="flex">
                     <el-date-picker

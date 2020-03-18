@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--        banner-->
-        <div class="h-2 w-full bg-orange fixed">a</div>
+        <div class="h-2 w-full bg-orange fixed">|</div>
 
         <!--        navbar desktop version-->
         <nav class="hidden sm:hidden md:hidden lg:block shadow-lg flex items-center justify-between flex-wrap bg-white  fixed w-full z-110">
@@ -36,10 +36,6 @@
                         <el-badge :value="$store.state.inCart.cart_detail.length" class="item" type="primary">
                             <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
                         </el-badge>
-                        <!--                        <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">-->
-                        <!--                        <div class="absolute text-white rounded-full h-5 w-5 flex items-center justify-center bg-green count-position3">-->
-                        <!--                            {{$store.state.inCart.cart_detail.length}}-->
-                        <!--                        </div>-->
                     </div>
                 </li>
             </ul>
@@ -61,7 +57,7 @@
                         <div @click="accountDrawer = !accountDrawer"
                              class="w-20 bg-white hover:bg-unHilight py-3 rounded-bl-lg cursor-pointer">
                             <img class="w-8 mx-auto " src="../assets/icon/user.svg">
-                            <h1 class="text-md text-center">Account</h1>
+                            <h1 class="text-md text-center">{{$t('account')}}</h1>
                         </div>
                     </div>
                 </div>
@@ -76,7 +72,7 @@
                         <div @click="mobileDrawer = !mobileDrawer"
                              class="w-20 bg-white hover:bg-unHilight py-3 rounded-r-lg cursor-pointer">
                             <img class="w-8 mx-auto " src="../assets/icon/next.svg">
-                            <h1 class="text-md text-center">Category</h1>
+                            <h1 class="text-md text-center">{{$t('category')}}</h1>
                         </div>
                     </div>
                 </div>
@@ -93,7 +89,7 @@
         <transition name="slide-left">
             <div v-if="mobileDrawer"
                  class="inset-y-0 left-0 fixed bg-gray_bg fixed z-20 shadow-md w-70  overflow-auto h-screen z-105">
-                <ul class="w-full py-6">L</ul>
+                <ul class="w-full py-6">|</ul>
                 <div class="relative h-100 w-70 bg-white">
                     <div class="py-3 px-10 text-xl text-center border-bottom font-l bg-gray_bg cursor-pointer block lg:hidden">
                         <a @click="changeLocale(`en`)" class="cursor-pointer"
@@ -106,11 +102,11 @@
                     <div v-if="!$store.state.isAuthenticated" class="block lg:hidden">
                         <div @click="goLogin"
                              class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
-                            Login
+                            {{$t('login')}}
                         </div>
                         <div @click="goRegister"
                              class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">
-                            Register
+                            {{$t('register')}}
                         </div>
                         <div class="pb-3 pt-5 px-5 text-xl bg-gray_bg"></div>
                     </div>
@@ -124,35 +120,38 @@
                             {{firstname_lastname}}
                         </div>
                         <div @click="goOrder"
-                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Order
-                            history
+                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                            {{$t('order_history')}}
                         </div>
                         <div @click="goProfile"
-                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Personal
-                            Detail
+                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                            {{$t('personal_detail')}}
                         </div>
                         <div @click="goAddress"
-                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">Address
+                             class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                            {{$t('address')}}
                         </div>
                         <div class="pb-3 pt-5 px-5 text-xl bg-gray_bg"></div>
                     </div>
 
-                    <div @click="goCategory({id:'recommend'})" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
-                        <span>Recommend</span>
+                    <div @click="goCategory({id:'recommend'})"
+                         class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <span>{{$t('recommend')}}</span>
                     </div>
-                    <div @click="goCategory({id:'new-product'})" class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
-                        <span>New Product</span>
+                    <div @click="goCategory({id:'new-product'})"
+                         class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
+                        <span>{{$t('new_product')}}</span>
                     </div>
 
-                    <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg">Product</div>
+                    <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg">{{$t('product')}}</div>
                     <div v-for="category in categorys" :key="category.id" @click="goCategory(category)"
                          class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
-                        <span >{{category.type}}</span>
+                        <span>{{category.type}}</span>
                     </div>
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg"></div>
                     <div v-if="$store.state.isAuthenticated" @click="logout"
                          class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer block lg:hidden">
-                        Log Out
+                        {{$t('logout')}}
                     </div>
                 </div>
             </div>
@@ -167,7 +166,7 @@
                         <el-badge :value="$store.state.inCart.cart_detail.length" class="item" type="primary">
                             <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
                         </el-badge>
-                        My Cart
+                        {{$t('my_cart')}}
                         <i @click="cartDrawer = !cartDrawer" class="material-icons text-3xl cursor-pointer">keyboard_arrow_right</i>
                     </div>
                     <div class="w-full">
@@ -178,15 +177,15 @@
                 </div>
                 <div class="fixed-b w-70 bottom-0  border-top p-2 bg-white z-50 appearance-none">
                     <div class="flex justify-between font-l">
-                        <div class="">Subtotal</div>
+                        <div class="">{{$t('subTotal')}}</div>
                         <div>{{subTotal}} €</div>
                     </div>
                     <div class="flex justify-between font-l">
-                        <div class="">Shipping</div>
+                        <div class="">{{$t('shipping')}}</div>
                         <div>{{shipping}} €</div>
                     </div>
                     <div class="flex justify-between font-l my-1">
-                        <div class="">Coupon Code</div>
+                        <div class="">{{$t('coupon_code')}}</div>
                         <div class="flex">
                             <input v-model="code"
                                    @input="checkCode"
@@ -215,7 +214,7 @@
                         </div>
                     </div>
                     <div class="flex justify-between">
-                        <div class="">Total</div>
+                        <div class="">{{$t('total')}}</div>
                         <div>{{total}} €</div>
                     </div>
 
@@ -230,18 +229,18 @@
                                 slot="reference"
                                 class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
                             <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
-                            Process to checkout
+                            {{$t('process_to_checkout')}}
                         </button>
                     </el-popover>
                     <button v-else-if="subTotal == 0"
                             class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
                         <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
-                        Process to checkout
+                        {{$t('process_to_checkout')}}
                     </button>
                     <button v-else @click="goCheckOut"
                             class="w-full h-10 bg-orange mt-3 text-white flex justify-center">
                         <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
-                        Process to checkout
+                        {{$t('process_to_checkout')}}
                     </button>
                 </div>
             </div>
@@ -250,17 +249,17 @@
         <!--right screen-->
         <transition name="slide">
             <div v-if="accountDrawer" class="inset-y-0 right-0 bg-gray_bg fixed z-20 shadow-md z-105">
-                <ul class="w-full py-6">L</ul>
+                <ul class="w-full py-6">|</ul>
                 <div class="relative h-100 w-70 bg-white">
                     <!--                    show when not log in-->
                     <div v-if="!$store.state.isAuthenticated">
                         <div @click="goLogin"
                              class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
-                            Login
+                            {{$t('login')}}
                         </div>
                         <div @click="goRegister"
                              class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
-                            Register
+                            {{$t('register')}}
                         </div>
                     </div>
 
@@ -274,23 +273,20 @@
                         </div>
                         <div @click="goOrder"
                              class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
-                            Order history
+                            {{$t('order_history')}}
                         </div>
                         <div @click="goProfile"
                              class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
-                            Personal Detail
+                            {{$t('personal_detail')}}
                         </div>
                         <div @click="goAddress"
                              class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
-                            Address
+                            {{$t('address')}}
                         </div>
-                        <!--                        <div class="py-3 px-10 text-xl font-l hover:bg-unHilight cursor-pointer">-->
-                        <!--                            Payment-->
-                        <!--                        </div>-->
                         <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg"></div>
                         <div v-if="$store.state.isAuthenticated" @click="logout"
                              class="py-3 px-10 text-xl border-bottom font-l text-orange hover:bg-unHilight cursor-pointer">
-                            Log Out
+                            {{$t('logout')}}
                         </div>
                     </div>
                 </div>
@@ -567,7 +563,7 @@
 
     .container {
         height: 100%;
-        width: 220px;
+        /*width: 220px;*/
         position: relative;
     }
 

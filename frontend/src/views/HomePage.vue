@@ -1,15 +1,11 @@
 <template>
     <div>
-        <Loader v-if="isLoading" />
+        <Loader v-if="isLoading"/>
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
 
-        <VueSlickCarousel v-bind="setting1" v-if="carousel">
-            <img v-for="image in carousel" :key="image.id" class="object-cover w-full h-56"
-                 :src="image.picture"
-                 alt="Promotion">
-        </VueSlickCarousel>
+        <Carousel/>
 
         <div class="mt-3 w-full">
             <swiper :options="swiperOption">
@@ -24,12 +20,12 @@
         </div>
 
         <section class="mt-3">
-            <h1 class="my-3 text-xl">Recommend</h1>
+            <h1 class="my-3 text-xl">{{$t('recommend')}}</h1>
             <SwiperItem :dataItem="recommendProduct"/>
         </section>
 
         <section class="mt-3">
-            <h1 class="my-3 text-xl">New Product</h1>
+            <h1 class="my-3 text-xl">{{$t('new_product')}}</h1>
             <SwiperItem :dataItem="newestProduct"/>
         </section>
     </div>
@@ -41,11 +37,12 @@
     import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
     import axios from 'axios'
     import SwiperItem from "../components/SwiperItem";
+    import Carousel from '../components/Carousel'
     import Loader from "../components/Loader";
 
     export default {
         name: 'MyComponent',
-        components: {VueSlickCarousel, SwiperItem,Loader},
+        components: {VueSlickCarousel, SwiperItem, Loader, Carousel},
         data() {
             return {
                 swiperOption: {
@@ -77,7 +74,6 @@
                     "speed": 500,
                     "slidesToShow": 1,
                     "slidesToScroll": 1,
-                    "autoplay": true,
                     "autoplaySpeed": 3000,
                     "pauseOnDotsHover": true,
                     "pauseOnFocus": true,
@@ -111,8 +107,8 @@
                 },
                 recommendProduct: [],
                 newestProduct: [],
-                isLoading:true,
-                carousel:''
+                isLoading: true,
+                carousel: ''
             }
         },
         created() {
@@ -128,12 +124,7 @@
             }).catch(e => {
                 this.$message.error('Oops, Something is Error. code ' + e.status + ', at load new Product');
             })
-            axios.get(`${this.$store.state.endpoints.host}/api/products/carousel/`).then(res => {
-                this.carousel = res.data.data
-                this.isLoading = false
-            }).catch(e => {
-                this.$message.error('Oops, Something is Error. code ' + e.status + ', at load new Product');
-            })
+
         },
         methods: {
             goCategory(category) {

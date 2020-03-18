@@ -1,21 +1,36 @@
 <template>
     <div class="max-w-sm bg-white cs-border cursor-pointer">
-        <div v-if="productData.quantity == 0">
-            <div class="absolute bg-white w-full h-full opacity-50"></div>
-            <div class="shadow-lg text-center text-red center absolute opacity-100 bg-white px-1 py-1">Out of Stock
+        <div v-if="productData.quantity == 0" class="cursor-not-allowed">
+            <div class="absolute bg-white w-full h-full opacity-50 "></div>
+            <div class="shadow-lg text-center text-red center absolute opacity-100 bg-white px-1 py-1">
+                {{$t('out_of_stock')}}
             </div>
         </div>
 
-        <img @click="goDetail(productData.id)" v-if="productData.pic1 == null" class="w-4/6 object-contain mx-auto my-3"
-             src="https://charliesfruitonline.com.au/wp-content/uploads/2014/03/green-cabbage.jpg" style="height: 155px"
-             :alt="productData.title">
+        <div @click="goDetail(productData.id)" v-if="productData.pic1 == null" class="w-4/6 mx-auto my-3"
+             style="height: 155px">
+            <svg style="width: 100%;height: 100%" xmlns="http://www.w3.org/2000/svg"
+                 height="300px" width="300px"
+                 version="1.1"
+                 viewBox="-300 -300 600 600"
+                 font-family="Bitstream Vera Sans,Liberation Sans, Arial, sans-serif"
+                 font-size="72"
+                 text-anchor="middle">
+
+                <circle stroke="#AAA" stroke-width="10" r="280" fill="#FFF"/>
+                <text style="fill:#444;">
+                    <tspan x="0" y="-8">{{$t('NO_IMAGE')}}</tspan>
+                    <tspan x="0" y="80">{{$t('AVAILABLE')}}</tspan>
+                </text>
+            </svg>
+        </div>
         <img @click="goDetail(productData.id)" v-else class="w-4/6 object-contain mx-auto my-3" style="height: 155px"
              v-lazy="this.$store.state.endpoints.host+productData.pic1"
              :alt="productData.title">
 
         <div class="px-2 py-2">
             <div @click="goDetail(productData.id)" class="w-full text-left bg-white text-black py-2 h-24">
-                {{nameTranslate(productData.title)}}
+                {{reduceLetter(nameTranslate(productData.title))}}
             </div>
             <div v-if="!(overStatee() == true && productData.quantity > 0)" @click="goDetail(productData.id)"
                  class="text-left text-md title text-green h-12"
@@ -24,18 +39,18 @@
             </div>
 
             <div v-else @click="goDetail(productData.id)" class="text-center text-xl title text-red h-12">
-                Not Enough
+                {{$t('not_enough')}}
             </div>
 
             <div v-if="overStatee() == true && productData.quantity > 0" class="flex">
                 <a class="text-2xl ml-2 text-red">*</a>
-                <a class="text-red ml-2 self-center">Left : {{productData.quantity}}</a>
+                <a class="text-red ml-2 self-center">{{$t('left')}} : {{productData.quantity}}</a>
             </div>
 
             <!--            show this when not over-->
             <div v-else class="flex justify-between">
                 <a class="text-2xl ml-2">{{productData.price}} €</a>
-                <a class="text-lightGray ml-2 self-center absolute" style="right: 8px"> /piece</a>
+                <!--                <a class="text-lightGray ml-2 self-center absolute" style="right: 8px"> /{{$t('')}}piece</a>-->
             </div>
 
             <!--            show this when over-->
@@ -45,7 +60,7 @@
                     <i class='fas fa-trash-alt text-white text-sm'></i>
                 </div>
                 <div @click="changeOverState()" class="text-3xl bg-lightGray button-change" style="margin: auto">
-                    Change
+                    {{$t('change')}}
                 </div>
             </div>
 
@@ -80,7 +95,7 @@
                  @mouseleave="hover = false"
                  v-else-if="!hover && count() == 0 || productData.quantity == 0"
                  class="button-area mx-auto flex justify-between mb-2" style="border: 1.5px solid #707070">
-                <div class="text-xl" style="margin: auto">Add</div>
+                <div class="text-xl" style="margin: auto">{{$t('add')}}</div>
             </div>
         </div>
     </div>
@@ -119,6 +134,13 @@
                     } else {
                         return list[0]
                     }
+                }
+            },
+            reduceLetter(title) {
+                if (title.length > 40) {
+                    return title.substring(0, 40) + '...'
+                } else {
+                    return title
                 }
             },
             changeOverState() {
@@ -177,12 +199,12 @@
                                 this.$store.commit("setIncart", this.itemIncart);
                                 this.countLoading = false
                             }).catch(e => {
-                                this.$message.error('Oops, Something is Error. code ' + e.status+', at increase product c1');
-                            }
+                                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase product c1');
+                                }
                             )
                         }).catch(
                             e => {
-                                this.$message.error('Oops, Something is Error. code ' + e.status+', at increase product c1');
+                                this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase product c1');
                             }
                         )
                     }, 2000)
@@ -203,7 +225,7 @@
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch(
                             e => {
-                                this.$message.error('Oops, Something is Error. code ' + e.status+', at increase product c2');
+                                this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase product c2');
                             }
                         )
                     }, 2000)
@@ -237,8 +259,8 @@
                             this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch(e => {
-                                this.$message.error('Oops, Something is Error. code ' + e.status+', at decrease product c1');
-                            })
+                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at decrease product c1');
+                        })
 
                     }, 2000)
                 } else if (this.count() == 1) {
@@ -259,11 +281,11 @@
                             this.$store.commit("setIncart", this.itemIncart);
                             this.value = 0
                         }).catch(e => {
-                                this.$message.error('Oops, Something is Error. code ' + e.status+', at increase product c2');
-                            })
+                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase product c2');
+                        })
                     }).catch(e => {
-                                this.$message.error('Oops, Something is Error. code ' + e.status+', at increase delete product c2');
-                            })
+                        this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase delete product c2');
+                    })
                 }
             },
 

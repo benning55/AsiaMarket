@@ -5,9 +5,9 @@
                  :class="{'max-w-3xl': type == 'address','max-w-sm': type == 'check_confirm' }"
                  role="dialog">
                 <div class="p-5 w-full h-16 flex justify-between bg-white">
-                    <h1 v-if="type == 'address'">Select Destination</h1>
-                    <h1 v-if="type == 'check_confirm'">Confirm</h1>
-                    <i @click="close" class="fas fa-times cursor-pointer"></i>
+                    <h1 v-if="type == 'address'">{{$t('select_destination')}}</h1>
+                    <h1 v-if="type == 'check_confirm'">{{$t('confirm')}}</h1>
+                    <i v-if="type != 'check_confirm'" @click="close" class="fas fa-times cursor-pointer"></i>
                 </div>
                 <hr>
 
@@ -35,27 +35,28 @@
 
                         <!--                        show when complete-->
                         <div v-if="isOrderComplete" class="h-full flex flex-wrap content-between">
-                            <div class="w-full text-center text-green" style="font-size: 3.2rem"><i
-                                    class="far fa-check-circle"></i></div>
-                            <p class="pb-5">You Order Complete. You will pay now?</p>
+                            <div class="w-full text-center text-green" style="font-size: 3.2rem">
+                                <i class="far fa-check-circle"></i></div>
+                            <p class="pb-5">{{$t('you_order_complete')}}</p>
                             <div class="flex justify-between w-full">
-                                <div @click="goHome" class="bg-red py-2  px-4 text-white cursor-pointer">Back to
-                                    HomePage
+                                <div @click="goHome" class="bg-red py-2  px-4 text-white cursor-pointer">
+                                    {{$t('back_to_homepage')}}
                                 </div>
                                 <div @click="goEachOrder" class="bg-green py-2 px-4 text-white cursor-pointer">
-                                    Go Payment
+                                    {{$t('go_payment')}}
                                 </div>
                             </div>
                         </div>
 
                         <!--                        show before select-->
                         <div v-else class="h-full flex flex-wrap content-between">
-                            <p class="pb-5">Are you sure to confirm this order. Product and address can't not change
-                                later</p>
+                            <p class="pb-5">{{$t('are_you_sure_to_confirm')}}</p>
                             <div class="flex justify-between w-full">
-                                <div @click="close" class="bg-red py-2  px-4 text-white cursor-pointer">Cancel</div>
+                                <div @click="close" class="bg-red py-2  px-4 text-white cursor-pointer">
+                                    {{$t('cancel')}}
+                                </div>
                                 <div @click="confirmOrder" class="bg-green py-2 px-4 text-white cursor-pointer">
-                                    Confirm
+                                    {{$t('confirm')}}
                                 </div>
                             </div>
                         </div>

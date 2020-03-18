@@ -10,14 +10,14 @@
                 <el-alert v-if="error" type="error" show-icon @close="closeError">
                     {{error}}
                 </el-alert>
-                <div class="text-center text-2xl mb-10 mt-5 font-l">Login</div>
+                <div class="text-center text-2xl mb-10 mt-5 font-l">{{$t('login')}}</div>
                 <div class="mb-4 sm:px-10 md:px-16 lg:px-10">
                     <label v-if="!validation.firstError('username')"
                            class="block text-sm mb-2"
                            for="username"> {{$t('username')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2"
-                           for="username">{{validation.firstError('username')}}</label>
+                           for="username">{{$t(`${validation.firstError('username')}`)}}</label>
                     <el-input id="username"
                               @keyup.enter.native="$refs.password.focus"
                               ref="username"
@@ -32,7 +32,7 @@
                            for="password">{{$t('password')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2"
-                           for="password">{{validation.firstError('password')}}</label>
+                           for="password">{{$t(validation.firstError('password'))}}</label>
                     <el-input id="password"
                               ref="password"
                               @keyup.enter.native="authenticate"
@@ -47,10 +47,10 @@
                             class="w-full bg-green text-white py-2 px-20 focus:outline-none"
                             type="button">{{$t('login')}}
                     </button>
-                    <div class="text-center font-l mt-4" style="font-size: 10px">Use Asian market in First time? <span
-                            @click="goRegister" class="text-orange cursor-pointer">Register Now</span></div>
-                    <div class="text-center font-l mt-4" style="font-size: 10px">Forget your password? <span
-                            @click="goForgetPassword" class="text-orange cursor-pointer">Click Here</span></div>
+                    <div class="text-center font-l mt-4" style="font-size: 10px">{{$t('use_asian_market_in_first_time')}} <span
+                            @click="goRegister" class="text-orange cursor-pointer">{{$t('register_now')}}</span></div>
+                    <div class="text-center font-l mt-4" style="font-size: 10px">{{$t('forget_your_password')}} <span
+                            @click="goForgetPassword" class="text-orange cursor-pointer">{{$t('click_here')}}</span></div>
                 </div>
             </form>
         </div>
@@ -82,12 +82,12 @@
         validators: {
             username(value) {
                 return Validator.value(value)
-                    .required("username");
+                    .required("error_user_username_require");
             },
             password(value) {
                 return Validator.value(value)
-                    .required("password")
-                    .minLength(6, "รหัสผ่านต้องมีมากกว่า 6 ตัวขึ้นไป");
+                    .required("error_user_password_require")
+                    .minLength(6, "error_user_password_length");
             }
         },
         mounted() {
