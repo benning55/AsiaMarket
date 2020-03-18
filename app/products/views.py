@@ -225,8 +225,11 @@ def csv_upload(request):
             price=column[4],
             quantity=column[5]
         )
+        # try:
         product.url = column[2]
         product.save()
+        # except:
+        #     continue
 
     context = {}
     return render(request, template, context)
