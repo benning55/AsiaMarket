@@ -116,13 +116,13 @@
                 this.recommendProduct = res.data.data.slice(0, 8)
                 this.isLoading = false
             }).catch(e => {
-                this.$message.error('Oops, Something is Error. code ' + e.status + ', at load recommend');
+                this.$message.error(this.$t('error_Oops_') + e.status + ', at load recommend');
             })
             axios.get(this.$store.state.endpoints.newestProduct).then(res => {
                 this.newestProduct = res.data.data.slice(0, 8)
                 this.isLoading = false
             }).catch(e => {
-                this.$message.error('Oops, Something is Error. code ' + e.status + ', at load new Product');
+                this.$message.error(this.$t('error_Oops_') + e.status + ', at load new Product');
             })
 
         },

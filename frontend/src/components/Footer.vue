@@ -67,7 +67,7 @@
                     console.log(this.footerData)
                     this.isLoading = false
                 }).catch(e => {
-                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at load recommend');
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at load recommend');
                 })
             }
         }

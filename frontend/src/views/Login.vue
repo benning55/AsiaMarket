@@ -22,7 +22,7 @@
                               @keyup.enter.native="$refs.password.focus"
                               ref="username"
                               type="text"
-                              placeholder="Please input"
+                              :placeholder="$t('error_user_username_require')"
                               v-model="username">
                     </el-input>
                 </div>
@@ -36,7 +36,7 @@
                     <el-input id="password"
                               ref="password"
                               @keyup.enter.native="authenticate"
-                              placeholder="Please input"
+                              :placeholder="$t('error_user_password_require')"
                               v-model="password"
                               show-password>
                     </el-input>

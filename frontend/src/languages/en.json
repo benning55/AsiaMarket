@@ -129,5 +129,7 @@
   "error_user_username_length": "Username length must more 4 letter",
   "payment": "Payment",
   "NO_IMAGE": "NO IMAGE",
-  "AVAILABLE": "AVAILABLE"
+  "AVAILABLE": "AVAILABLE",
+  "please_login_message": "If you want to add Product. Please Login",
+  "please_login": "Please Login"
 }

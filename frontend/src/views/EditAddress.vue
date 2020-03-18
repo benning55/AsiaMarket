@@ -17,7 +17,7 @@
                        for="recipient">{{$t('firstname_and_lastname_of_recipient')}}</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
-                       for="recipient">{{validation.firstError('recipient')}}</label>
+                       for="recipient">{{$t(validation.firstError('recipient'))}}</label>
                 <el-input id="recipient"
                           placeholder="Please input"
                           v-model="recipient">
@@ -31,7 +31,7 @@
                        for="house_number">{{$t('house_number')}}</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
-                       for="house_number">{{validation.firstError('house_number')}}</label>
+                       for="house_number">{{$t(validation.firstError('house_number'))}}</label>
                 <el-input id="house_number"
                           placeholder="Please input"
                           v-model="house_number">
@@ -45,7 +45,7 @@
                        for="street">{{$t('street')}}</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
-                       for="street">{{validation.firstError('street')}}</label>
+                       for="street">{{$t(validation.firstError('street'))}}</label>
                 <el-input id="street"
                           placeholder="Please input"
                           v-model="street">
@@ -58,7 +58,7 @@
                     <label v-if="!validation.firstError('city')"
                            class="block text-sm mb-2">{{$t('city')}}</label>
                     <label v-else
-                           class="block text-red text-sm mb-2">{{validation.firstError('city')}}</label>
+                           class="block text-red text-sm mb-2">{{$t(validation.firstError('city'))}}</label>
                     <el-select v-model="city" placeholder="Select">
                         <el-option
                                 v-for="item in cityOptions"
@@ -74,7 +74,7 @@
                            for="post_code">{{$t('postal')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2"
-                           for="post_code">{{validation.firstError('post_code')}}</label>
+                           for="post_code">{{$t(validation.firstError('post_code'))}}</label>
                     <el-input id="post_code"
                               placeholder="Please input"
                               type="number"
@@ -148,24 +148,24 @@
         validators: {
             recipient(value) {
                 return Validator.value(value)
-                    .required("please input recipient");
+                    .required("error_address_recipient");
             },
             house_number(value) {
                 return Validator.value(value)
-                    .required("please input housenumber");
+                    .required("error_address_house_number");
             },
             street(value) {
                 return Validator.value(value)
-                    .required("please input street");
+                    .required("error_address_street");
             },
             city(value) {
                 return Validator.value(value)
-                    .required("please input city");
+                    .required("error_address_city");
             },
             post_code(value) {
                 return Validator.value(value)
-                    .required("please input postal code")
-                    .length(5, "Invalid Postal Code")
+                    .required("error_address_postalCode_require")
+                    .length(5, "error_address_postalCode_number")
             },
         },
         created() {
@@ -198,7 +198,7 @@
                     })
                 }).catch(e => {
                     this.isLoading = false
-                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at edit address');
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at edit address');
                 })
             },
             deleteAddress() {
@@ -220,7 +220,7 @@
                         })
                     }).catch(e => {
                         this.isLoading = false
-                        this.$message.error('Oops, Something is Error. code ' + e.status + ', at delete address');
+                        this.$message.error(this.$t('error_Oops_') + e.status + ', at delete address');
                     })
                 }
             }

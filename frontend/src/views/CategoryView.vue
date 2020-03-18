@@ -57,22 +57,22 @@
                     "pauseOnFocus": true,
                     "pauseOnHover": true
                 },
-                mockup: {
-                    showCarousel: [
-                        {
-                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                        },
-                        {
-                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                        },
-                        {
-                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                        },
-                        {
-                            image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
-                        }
-                    ]
-                },
+                // mockup: {
+                //     showCarousel: [
+                //         {
+                //             image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
+                //         },
+                //         {
+                //             image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
+                //         },
+                //         {
+                //             image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
+                //         },
+                //         {
+                //             image: 'https://images.unsplash.com/photo-1565564331571-c3a69a159944?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1053&q=80'
+                //         }
+                //     ]
+                // },
                 items: [],
                 titleCategory: '',
                 isLoading: false
@@ -93,7 +93,7 @@
                         this.isLoading = false
                     }).catch(e => {
                         this.isLoading = false
-                        this.$message.error('Oops, Something is Error. code ' + e.status + ', at load new product');
+                        this.$message.error(this.$t('error_Oops_') + e.status + ', at load new product');
                     })
                 } else if (this.$route.params.id == "recommend") {
                     axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
@@ -102,7 +102,7 @@
                         this.isLoading = false
                     }).catch(e => {
                         this.isLoading = false
-                        this.$message.error('Oops, Something is Error. code ' + e.status + ', at load recommend product');
+                        this.$message.error(this.$t('error_Oops_') + e.status + ', at load recommend product');
                     })
                 } else {
                     axios.post(this.$store.state.endpoints.productUrL, {
@@ -113,7 +113,7 @@
                         this.isLoading = false
                     }).catch(e => {
                         this.isLoading = false
-                        this.$message.error('Oops, Something is Error. code ' + e.status + ', at load caategory ' + this.$route.params.id);
+                        this.$message.error(this.$t('error_Oops_') + e.status + ', at load caategory ' + this.$route.params.id);
                     })
                 }
 

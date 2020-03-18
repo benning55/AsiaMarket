@@ -201,7 +201,7 @@
                     this.$store.commit("setNewFirstname", firstname);
                     this.isEditFirstname = false
                 }).catch(e => {
-                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at edit Edit Firstname');
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at edit Edit Firstname');
                     this.isEditFirstname = false
                 })
             },
@@ -225,7 +225,7 @@
                     this.$store.commit("setNewLastname", lastname);
                     this.isEditLastname = false
                 }).catch(e => {
-                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at edit lastname');
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at edit lastname');
                     this.isEditLastname = false
                 })
             },
@@ -242,7 +242,7 @@
                     this.$store.commit("setNewTel", phone);
                     this.isEditPhone = false
                 }).catch(e => {
-                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at edit phone');
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at edit phone');
                     this.isEditPhone = false
                 })
             },
@@ -259,7 +259,7 @@
                     this.$store.commit("setNewDOB", dob);
                     this.isEditDOB = false
                 }).catch(e => {
-                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at edit Date of Barth');
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at edit Date of Barth');
                     this.isEditDOB = false
                 })
             }

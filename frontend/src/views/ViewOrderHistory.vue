@@ -55,7 +55,7 @@
                     })
                     .catch(e => {
                         this.isLoading = false
-                        this.$message.error('Oops, Something is Error. code ' + e.status + ', at Load Order');
+                        this.$message.error(this.$t('error_Oops_') + e.status + ', at Load Order');
                     })
             },
             goHome() {

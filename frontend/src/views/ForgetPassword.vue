@@ -16,7 +16,7 @@
             </div>
             <label v-if="validation.firstError('email')"
                    class="block text-sm mb-2 text-red"
-                   for="email">{{validation.firstError('email')}}</label>
+                   for="email">{{$t(validation.firstError('email'))}}</label>
             <el-input id="email"
                       placeholder="Please input email"
                       v-model="email">

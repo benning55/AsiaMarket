@@ -7,13 +7,13 @@
             </div>
         </div>
 
-        <div @click="goDetail(productData.id)" v-if="productData.pic1 == null" class="w-4/6 mx-auto my-3"
+        <div @click="goDetail(productData.id)" v-if="(productData.pic1 == null) || imageError" class="w-4/6 mx-auto my-3"
              style="height: 155px">
             <svg style="width: 100%;height: 100%" xmlns="http://www.w3.org/2000/svg"
                  height="300px" width="300px"
                  version="1.1"
                  viewBox="-300 -300 600 600"
-                 font-family="Bitstream Vera Sans,Liberation Sans, Arial, sans-serif"
+                 font-family="Kanit"
                  font-size="72"
                  text-anchor="middle">
 
@@ -25,7 +25,8 @@
             </svg>
         </div>
         <img @click="goDetail(productData.id)" v-else class="w-4/6 object-contain mx-auto my-3" style="height: 155px"
-             v-lazy="this.$store.state.endpoints.host+productData.pic1"
+             :src="this.$store.state.endpoints.host+productData.pic1"
+             @error="printerror()"
              :alt="productData.title">
 
         <div class="px-2 py-2">
@@ -117,13 +118,17 @@
                 oldQuantity: 0,
                 countLoading: false,
                 tmp: 0,
-                overState: false
+                overState: false,
+                imageError:false
             }
         },
         created() {
             this.count()
         },
         methods: {
+            printerror(){
+                this.imageError = true
+            },
             nameTranslate(text) {
                 let list = text.split(')').join('(').split('(')
                 if (list.length == 1) {
@@ -159,13 +164,17 @@
                     this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                 }).catch(
                     e => {
-                        this.$message.error('Oops, Something is Error. code ' + e.status);
+                        this.$message.error(this.$t('error_Oops_') + e.status);
                     }
                 )
                 this.overState = false
             },
             goDetail(id) {
                 if (this.$route.name == 'Detail') {
+                    this.$router.push({
+                        name: 'Detail',
+                        params: {id: id}
+                    })
                     location.reload();
                 } else {
                     this.$router.push({
@@ -199,12 +208,12 @@
                                 this.$store.commit("setIncart", this.itemIncart);
                                 this.countLoading = false
                             }).catch(e => {
-                                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase product c1');
+                                    this.$message.error(this.$t('error_Oops_') + e.status + ', at increase product c1');
                                 }
                             )
                         }).catch(
                             e => {
-                                this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase product c1');
+                                this.$message.error(this.$t('error_Oops_') + e.status + ', at increase product c1');
                             }
                         )
                     }, 2000)
@@ -225,13 +234,13 @@
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch(
                             e => {
-                                this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase product c2');
+                                this.$message.error(this.$t('error_Oops_') + e.status + ', at increase product c2');
                             }
                         )
                     }, 2000)
                 } else if (this.$store.state.isAuthenticated == false) {
-                    this.$alert('If you want to add Product. Please Login', 'Please Login', {
-                        confirmButtonText: 'Login',
+                    this.$alert(this.$t('please_login_message'),this.$t('please_login'), {
+                        confirmButtonText: this.$t('login'),
                         callback: action => {
                             if (action == 'confirm') {
                                 this.$router.push({
@@ -259,7 +268,7 @@
                             this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch(e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at decrease product c1');
+                            this.$message.error(this.$t('error_Oops_') + e.status + ', at decrease product c1');
                         })
 
                     }, 2000)
@@ -281,10 +290,10 @@
                             this.$store.commit("setIncart", this.itemIncart);
                             this.value = 0
                         }).catch(e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase product c2');
+                            this.$message.error(this.$t('error_Oops_') + e.status + ', at increase product c2');
                         })
                     }).catch(e => {
-                        this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase delete product c2');
+                        this.$message.error(this.$t('error_Oops_') + e.status + ', at increase delete product c2');
                     })
                 }
             },

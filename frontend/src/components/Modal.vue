@@ -108,7 +108,7 @@
                 }).then(res => {
                     this.id = res.data.data.id
                 }).catch(e => {
-                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at confirm order');
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at confirm order');
                 })
             },
             goEachOrder() {

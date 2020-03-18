@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Loader v-if="isLoading" />
+        <Loader v-if="isLoading"/>
         <ul class="w-full py-6">
             <li class="inline-block px-5">|</li>
         </ul>
@@ -20,9 +20,27 @@
                             :arrows="false"
                             :infinite="false">
 
-                        <div class="w-full p-10 md:p-5">
-                            <img class="height220" :src="$store.state.endpoints.host+dataProduct.pic1" alt="sa">
+                        <div v-if="(dataProduct.pic1 == null) || imageError" class="w-full p-10 md:p-5">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 height="100%" width="100%"
+                                 version="1.1"
+                                 viewBox="-300 -300 600 600"
+                                 font-family="Kanit"
+                                 font-size="72"
+                                 text-anchor="middle">
+
+                                <circle stroke="#AAA" stroke-width="10" r="280" fill="#FFF"/>
+                                <text style="fill:#444;">
+                                    <tspan x="0" y="-8">{{$t('NO_IMAGE')}}</tspan>
+                                    <tspan x="0" y="80">{{$t('AVAILABLE')}}</tspan>
+                                </text>
+                            </svg>
                         </div>
+                        <div v-else class="w-full p-10 md:p-5">
+                            <img @error="imgError()" class="height220"
+                                 :src="$store.state.endpoints.host+dataProduct.pic1" alt="saa">
+                        </div>
+
                         <div v-if="dataProduct.pic2 != null" class="w-full p-10 md:p-5">
                             <img class="height220" :src="$store.state.endpoints.host+dataProduct.pic2" alt="s">
                         </div>
@@ -37,7 +55,23 @@
                                           :arrows="true"
                                           :slidesToShow="3"
                                           :infinite="false">
-                            <div class="w-full p-2 md:p-2">
+                            <div v-if="(dataProduct.pic1 == null) || imageError" class="w-full p-2 md:p-2">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     height="100%" width="100%"
+                                     version="1.1"
+                                     viewBox="-300 -300 600 600"
+                                     font-family="Kanit"
+                                     font-size="72"
+                                     text-anchor="middle">
+
+                                    <circle stroke="#AAA" stroke-width="10" r="280" fill="#FFF"/>
+                                    <text style="fill:#444;">
+                                        <tspan x="0" y="-8">{{$t('NO_IMAGE')}}</tspan>
+                                        <tspan x="0" y="80">{{$t('AVAILABLE')}}</tspan>
+                                    </text>
+                                </svg>
+                            </div>
+                            <div v-else class="w-full p-2 md:p-2">
                                 <img class="height80" :src="$store.state.endpoints.host+dataProduct.pic1" alt="s">
                             </div>
                             <div v-if="dataProduct.pic2 != null" class="w-full p-2 md:p-2">
@@ -45,12 +79,17 @@
                                      :src="$store.state.endpoints.host+dataProduct.pic2"
                                      alt="s">
                             </div>
+                            <div v-if="dataProduct.pic3 != null" class="w-full p-2 md:p-2">
+                                <img class="height80"
+                                     :src="$store.state.endpoints.host+dataProduct.pic3"
+                                     alt="s">
+                            </div>
                         </VueSlickCarousel>
                     </div>
                 </div>
                 <div class="w-full sm:w-5/12 md:5/12 lg:md:5/12 px-10 pt-12">
                     <h1 class="text-3xl">{{nameTranslate(dataProduct.title)}}</h1>
-<!--                    <h1 class="text-lightGray">unit</h1>-->
+                    <!--                    <h1 class="text-lightGray">unit</h1>-->
                     <p class="mt-10"> {{dataProduct.description}}</p>
                 </div>
                 <div class="w-full sm:w-4/12 px-10 pt-12">
@@ -104,7 +143,8 @@
                         <div class="text-xl text-red" style="margin: auto">{{$t('out_of_stock')}}</div>
                     </div>
 
-                    <h1 v-if="dataProduct.quantity > 0" class="text-lightGray my-5">{{$t('left')}} : {{dataProduct.quantity}}</h1>
+                    <h1 v-if="dataProduct.quantity > 0" class="text-lightGray my-5">{{$t('left')}} :
+                        {{dataProduct.quantity}}</h1>
                     <h1 v-else class="text-red my-5">{{$t('left')}} : {{dataProduct.quantity}}</h1>
                 </div>
             </div>
@@ -198,10 +238,11 @@
                 isInCart: false,
                 value: 0,
                 overState: false,
-                isLoading:false
+                isLoading: false,
+                imageError: false
             }
         },
-        created() {
+         created() {
             this.isLoading = true
             // get detail of product
             axios.get(this.$store.state.endpoints.productUrL + this.$route.params.id + "/").then(res => {
@@ -209,7 +250,7 @@
                 this.isLoading = false
             }).catch(e => {
                 this.isLoading = false
-                this.$message.error('Oops, Something is Error. code ' + e.status);
+                this.$message.error(this.$t('error_Oops_') + e.status);
             })
 
             // get recommend product
@@ -218,7 +259,7 @@
                 this.isLoading = false
             }).catch(e => {
                 this.isLoading = false
-                this.$message.error('Oops, Something is Error. code ' + e.status);
+                this.$message.error(this.$t('error_Oops_') + e.status);
             })
 
             this.isInCart = this.$store.state.inCart.cart_detail.findIndex(item => item.product.id == this.dataProduct.id)
@@ -227,6 +268,9 @@
             }
         },
         methods: {
+            imgError() {
+                this.imageError = true
+            },
             nameTranslate(text) {
                 let list = text.split(')').join('(').split('(')
                 if (list.length == 1) {
@@ -258,7 +302,7 @@
                     this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                 }).catch(
                     e => {
-                        this.$message.error('Oops, Something is Error. code ' + e.status);
+                        this.$message.error(this.$t('error_Oops_') + e.status);
                     }
                 )
                 this.overState = false
@@ -299,10 +343,10 @@
                                 this.$store.commit("setIncart", this.itemIncart);
                                 this.countLoading = false
                             }).catch(e => {
-                                this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase c1');
+                                this.$message.error(this.$t('error_Oops_') + e.status + ', at increase c1');
                             })
                         }).catch(e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase c1');
+                            this.$message.error(this.$t('error_Oops_') + e.status + ', at increase c1');
                         })
                     }, 2000)
                 } else if (this.count() != this.dataProduct.quantity && this.$store.state.isAuthenticated == true) {
@@ -322,12 +366,12 @@
                             this.$store.state.inCart.cart_detail[this.isInCart].product.quantity = res.data.data.product.quantity
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch(e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at increase c2');
+                            this.$message.error(this.$t('error_Oops_') + e.status + ', at increase c2');
                         })
                     }, 2000)
                 } else if (this.$store.state.isAuthenticated == false) {
-                    this.$alert('If you want to add Product. Please Login', 'Please Login', {
-                        confirmButtonText: 'Login',
+                    this.$alert(this.$t('please_login_message'),this.$t('please_login'), {
+                        confirmButtonText: this.$t('login'),
                         callback: action => {
                             if (action == 'confirm') {
                                 this.$router.push({
@@ -355,7 +399,7 @@
                             this.$store.state.inCart.cart_detail[this.isInCart].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[this.isInCart].price = res.data.data.price
                         }).catch(e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at decrease c1');
+                            this.$message.error(this.$t('error_Oops_') + e.status + ', at decrease c1');
                         })
                     }, 2000)
                 } else if (this.count() == 1) {
@@ -376,10 +420,10 @@
                             this.$store.commit("setIncart", this.itemIncart);
                             this.value = 0
                         }).catch(e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at decrease c2');
+                            this.$message.error(this.$t('error_Oops_') + e.status + ', at decrease c2');
                         })
                     }).catch(e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.status + ', at decrease c2');
+                            this.$message.error(this.$t('error_Oops_') + e.status + ', at decrease c2');
                         }
                     )
                 }

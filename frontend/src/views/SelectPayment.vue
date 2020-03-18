@@ -172,7 +172,6 @@
                                     // this.$message.error('Oops, Something is Error. code ' + e.status + ', at cart');
                                     this.$alert("Can't save Data, But payment success", 'Error', {
                                         confirmButtonText: 'OK',
-
                                     });
                                 })
                             }

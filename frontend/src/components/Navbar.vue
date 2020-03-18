@@ -491,7 +491,6 @@
                 if (this.subTotal == 0) {
                     return 0
                 } else {
-                    console.log(this.shipping_fee)
                     return this.shipping_fee
                 }
                 return 0

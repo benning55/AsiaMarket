@@ -49,7 +49,7 @@
                 axios.get(`${this.$store.state.endpoints.host}/api/products/carousel/`).then(res => {
                     this.carousel = res.data.data
                 }).catch(e => {
-                    this.$message.error('Oops, Something is Error. code ' + e.status + ', at load new Product');
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at load new Product');
                 })
             }
         }

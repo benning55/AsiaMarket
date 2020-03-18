@@ -16,7 +16,7 @@
                                    for="firstname">{{$t('firstname')}}</label>
                             <label v-else
                                    class="block text-red text-sm mb-2"
-                                   for="firstname">{{validation.firstError('firstname')}}</label>
+                                   for="firstname">{{$t(validation.firstError('firstname'))}}</label>
                             <el-input id="firstname"
                                       ref="firstname"
                                       @keyup.enter.native="$refs.lastname.focus"
@@ -29,7 +29,7 @@
                                    class="block text-sm mb-2"
                                    for="lastname">{{$t('lastname')}}</label>
                             <label v-else class="block text-red text-sm mb-2"
-                                   for="lastname">{{validation.firstError('lastname')}}</label>
+                                   for="lastname">{{$t(validation.firstError('lastname'))}}</label>
                             <el-input id="lastname"
                                       ref="lastname"
                                       @keyup.enter.native="$refs.houseNumber.focus"
@@ -45,7 +45,7 @@
                                for="sex">{{$t('select_gender')}}</label>
                         <label v-else
                                class="block text-red text-sm mb-2 text-left"
-                               for="sex">{{validation.firstError('sex')}}</label>
+                               for="sex">{{$t(validation.firstError('sex'))}}</label>
                         <el-radio-group id="sex" v-model="sex" style="border-radius: 0px">
                             <el-radio-button label="Male">{{$t('male')}}</el-radio-button>
                             <el-radio-button label="Female">{{$t('female')}}</el-radio-button>
@@ -58,7 +58,7 @@
                                for="houseNumber">{{$t('house_number')}}</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
-                               for="houseNumber">{{validation.firstError('houseNumber')}}</label>
+                               for="houseNumber">{{$t(validation.firstError('houseNumber'))}}</label>
                         <el-input id="houseNumber"
                                   ref="houseNumber"
                                   @keyup.enter.native="$refs.street.focus"
@@ -71,7 +71,7 @@
                                class="block text-sm mb-2"
                                for="houseNumber">{{$t('street')}}Street</label>
                         <label v-else class="block text-sm mb-2 text-red"
-                               for="street">{{validation.firstError('street')}}</label>
+                               for="street">{{$t(validation.firstError('street'))}}</label>
                         <el-input id="street"
                                   ref="street"
                                   @keyup.enter.native="$refs.city.focus"
@@ -84,7 +84,7 @@
                             <label v-if="!validation.firstError('city')"
                                    class="block text-sm mb-2">{{$t('city')}}</label>
                             <label v-else
-                                   class="block text-red text-sm mb-2">{{validation.firstError('city')}}</label>
+                                   class="block text-red text-sm mb-2">{{$t(validation.firstError('city'))}}</label>
                             <el-select v-model="city" ref="city" placeholder="Select">
                                 <el-option
                                         v-for="item in cityOptions"
@@ -100,7 +100,7 @@
                                    for="postal">{{$t('postal')}}</label>
                             <label v-else
                                    class="block text-red text-sm mb-2"
-                                   for="postal">{{validation.firstError('postalCode')}}</label>
+                                   for="postal">{{$t(validation.firstError('postalCode'))}}</label>
                             <el-input id="postal"
                                       ref="postal"
                                       @keyup.enter.native="$refs.dob.focus"
@@ -115,7 +115,7 @@
                             <label v-if="!validation.firstError('dob')"
                                    class="block text-sm mb-2">{{$t('date_of_birth')}}</label>
                             <label v-else
-                                   class="block text-red text-sm mb-2">{{validation.firstError('dob')}}</label>
+                                   class="block text-red text-sm mb-2">{{$t(validation.firstError('dob'))}}</label>
                             <el-date-picker
                                     ref="dob"
                                     @keyup.enter.native="$refs.phone.focus"
@@ -134,7 +134,7 @@
                                    for="phone">{{$t('phone_number')}}</label>
                             <label v-else
                                    class="block text-red text-sm mb-2"
-                                   for="phone">{{validation.firstError('phone')}}</label>
+                                   for="phone">{{$t(validation.firstError('phone'))}}</label>
                             <el-input id="phone"
                                       ref="phone"
                                       @keyup.enter.native="addState"
@@ -167,7 +167,7 @@
                                for="email">{{$t('email')}}</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
-                               for="email">{{validation.firstError('email')}}</label>
+                               for="email">{{$t(validation.firstError('email'))}}</label>
                         <el-input id="email"
                                   ref="email"
                                   @keyup.enter.native="$refs.username.focus"
@@ -181,7 +181,7 @@
                                for="username">{{$t('username')}}</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
-                               for="username">{{validation.firstError('username')}}</label>
+                               for="username">{{$t(validation.firstError('username'))}}</label>
                         <el-input id="username"
                                   ref="username"
                                   @keyup.enter.native="$refs.password.focus"
@@ -195,7 +195,7 @@
                                for="password">{{$t('password')}}</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
-                               for="password">{{validation.firstError('password')}}</label>
+                               for="password">{{$t(validation.firstError('password'))}}</label>
                         <el-input id="password"
                                   ref="password"
                                   @keyup.enter.native="$refs.password2.focus"
@@ -210,7 +210,7 @@
                                for="password2">{{$t('repassword')}}</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
-                               for="password2">{{validation.firstError('password2')}}</label>
+                               for="password2">{{$t(validation.firstError('password2'))}}</label>
                         <el-input id="password2"
                                   ref="password2"
                                   @keyup.enter.native="addState()"

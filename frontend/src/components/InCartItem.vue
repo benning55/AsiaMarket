@@ -140,7 +140,7 @@
                             this.$store.state.inCart.cart_detail[index].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[index].price = res.data.data.price
                         }).catch(e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.status);
+                            this.$message.error(this.$t('error_Oops_') + e.status);
                         })
                     }, 2000)
                 } else {
@@ -165,7 +165,7 @@
                             this.$store.state.inCart.cart_detail[index].quantity = res.data.data.quantity
                             this.$store.state.inCart.cart_detail[index].price = res.data.data.price
                         }).catch(e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.status + 'at decrease product');
+                            this.$message.error(this.$t('error_Oops_') + e.status + 'at decrease product');
                         })
                     }, 2000)
                 }
