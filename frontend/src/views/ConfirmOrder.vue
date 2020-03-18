@@ -4,14 +4,14 @@
         <ul class="w-full py-6">
             <li class="inline-block px-5"></li>
         </ul>
-        <h1 class="mt-10 py-1 text-xl font-l">Product</h1>
+        <h1 class="mt-10 py-1 text-xl font-l">{{$t('product')}}</h1>
 
         <!--        show this when no item in cart-->
         <div v-if="$store.state.inCart.cart_detail.length == 0"
              class="bg-white w-full px-1 pb-16 mx-auto h-64 relative">
             <div class="center-y w-full">
-                <h1 class="text-2xl text-center">No Item in Cart</h1>
-                <h1 @click="goHome" class="text-center text-orange cursor-pointer">Go back to Homepage</h1>
+                <h1 class="text-2xl text-center">{{$t('no_item_in_cart')}}</h1>
+                <h1 @click="goHome" class="text-center text-orange cursor-pointer">{{$t('go_back_to_homepage')}}</h1>
             </div>
         </div>
 
@@ -22,11 +22,11 @@
                     <thead class="border-bottom">
                     <tr class="">
                         <th class="px-2 py-2 w-2/12 sm:1/12"></th>
-                        <th class="px-2 py-2 w-3/12 text-left" style="font-weight: normal">Name</th>
-                        <th class="p-0 sm:p-2 w-1/12" style="font-weight: normal">Price</th>
-                        <th class="p-0 sm:p-2 w-1/12 hidden sm:table-cell" style="font-weight: normal">Quantity</th>
-                        <th class="p-0 sm:p-2 w-1/12 table-cell sm:hidden" style="font-weight: normal">(Q)</th>
-                        <th class="p-0 sm:p-2 w-1/12" style="font-weight: normal">Total</th>
+                        <th class="px-2 py-2 w-3/12 text-left" style="font-weight: normal">{{$t('product_name')}}</th>
+                        <th class="p-0 sm:p-2 w-1/12" style="font-weight: normal">{{$t('product_price')}}</th>
+                        <th class="p-0 sm:p-2 w-1/12 hidden sm:table-cell" style="font-weight: normal">{{$t('product_quantity')}}</th>
+                        <th class="p-0 sm:p-2 w-1/12 table-cell sm:hidden" style="font-weight: normal">{{$t('product_q')}}</th>
+                        <th class="p-0 sm:p-2 w-1/12" style="font-weight: normal">{{$t('total')}}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -46,37 +46,39 @@
                 </table>
                 <div class="px-5 md:px-10 font-l mt-5 text-xl">
                     <div class="flex justify-between">
-                        <h1 class="">SubTotal</h1>
+                        <h1 class="">{{$t('subTotal')}}</h1>
                         <h1 class="text-green">{{subTotal}} €</h1>
                     </div>
                     <div class="flex justify-between">
-                        <h1 class="">Shipping</h1>
+                        <h1 class="">{{$t('shipping')}}</h1>
                         <h1 class="">{{shipping}} €</h1>
                     </div>
                     <div class="flex justify-between">
-                        <h1 class="">Coupon Code</h1>
-                        <h1 class="">{{getCode.name}}</h1>
+                        <h1 class="">{{$t('coupon_code')}}</h1>
+                        <h1 v-if="this.$store.state.inCart.code == null" >{{$t('no_code')}}</h1>
+                        <h1 v-else>{{getCode.name}}</h1>
+
                     </div>
                     <div class="flex justify-between">
-                        <h1 class="">Total</h1>
+                        <h1 class="">{{$t('total')}}</h1>
                         <h1 class="text-green">{{total}} €</h1>
                     </div>
                 </div>
             </div>
 
             <div class="flex justify-between px-1 sm:px-0">
-                <h1 class="mt-5 py-1 text-xl font-l">Shipping Information</h1>
-                <h1 @click="showModal" class="mt-5 py-1 text-sm font-l self-end text-gray cursor-pointer">Change</h1>
+                <h1 class="mt-5 py-1 text-xl font-l">{{$t('shipping_information')}}</h1>
+                <h1 @click="showModal" class="mt-5 py-1 text-sm font-l self-end text-gray cursor-pointer">{{$t('change')}}</h1>
             </div>
             <div class="bg-white w-full px-1 sm:h-full lg:px-10 xl:px-24 mx-auto py-5">
                 <div class="px-5 md:px-10 font-l text-lg">
                     <div class="flex justify-between">
-                        <h1 class="">Recipient</h1>
+                        <h1 class="">{{$t('recipient')}}</h1>
                         <h1 class="text-right">
                             {{this.$store.state.userAddress[$store.state.indexUserAddress].recipient}}</h1>
                     </div>
                     <div class="flex justify-between">
-                        <h1>Address</h1>
+                        <h1>{{$t('address')}}</h1>
                         <h1 class="text-right">
                             {{this.$store.state.userAddress[$store.state.indexUserAddress].house_number}},
                             {{this.$store.state.userAddress[$store.state.indexUserAddress].street}},
@@ -92,12 +94,12 @@
                 <button class="w-32 text-black_p py-2 focus:outline-none flex justify-start"
                         type="button">
                     <p class="inline-flex ml-0">
-                        <i class="material-icons">keyboard_arrow_left</i><span>Previous</span>
+                        <i class="material-icons">keyboard_arrow_left</i><span>{{$t('previous')}}</span>
                     </p>
                 </button>
                 <div @click="goPayment"
                      class="w-64 bg-green text-white text-center py-2 px-2 focus:outline-none cursor-pointer">
-                    Confirm Order and Go Payment
+                    {{$t('confirm_order_and_go_payment')}}
                 </div>
             </div>
         </div>

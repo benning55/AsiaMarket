@@ -5,7 +5,7 @@
             <li class="inline-block px-5"></li>
         </ul>
 
-        <h1 class="sm:mt-16 lg:mt-16 xl:mt-16 py-1 text-xl font-l">Order History</h1>
+        <h1 class="sm:mt-16 lg:mt-16 xl:mt-16 py-1 text-xl font-l">{{$t('order_history')}}</h1>
         <div v-if="orders.length > 0" class="bg-white w-full px-4 sm:h-full lg:px-24 pb-5 mx-auto">
             <ListOrder v-for="order in orders" :key="order.id" :orderdata="order"/>
         </div>
@@ -14,8 +14,8 @@
         </div>
         <div v-else class="bg-white w-full px-4 h-64 lg:px-24 pb-5 mx-auto relative">
             <div class="center-y w-full">
-                <h1 class="text-2xl text-center">You don't have any purchase orders</h1>
-                <h1 @click="goHome" class="text-center text-orange cursor-pointer">Go back to Homepage</h1>
+                <h1 class="text-2xl text-center">{{$t('you_dont_have_any_orders')}}</h1>
+                <h1 @click="goHome" class="text-center text-orange cursor-pointer">{{$t('go_back_to_homepage')}}</h1>
             </div>
         </div>
     </div>

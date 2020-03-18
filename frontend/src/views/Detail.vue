@@ -2,10 +2,10 @@
     <div>
         <Loader v-if="isLoading" />
         <ul class="w-full py-6">
-            <li class="inline-block px-5">LOGO</li>
+            <li class="inline-block px-5">|</li>
         </ul>
         <section class="bg-white p-5 my-5">
-            <a><span @click="goHome" class="hover:text-green cursor-pointer">Home</span> / <span
+            <a><span @click="goHome" class="hover:text-green cursor-pointer">{{$t('home')}}</span> / <span
                     @click="goCategory(dataProduct.category_id)" class="hover:text-green cursor-pointer">{{dataProduct.category_name}}</span>
                 / {{nameTranslate(dataProduct.title)}}</a>
         </section>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="w-full sm:w-5/12 md:5/12 lg:md:5/12 px-10 pt-12">
                     <h1 class="text-3xl">{{nameTranslate(dataProduct.title)}}</h1>
-                    <h1 class="text-lightGray">unit</h1>
+<!--                    <h1 class="text-lightGray">unit</h1>-->
                     <p class="mt-10"> {{dataProduct.description}}</p>
                 </div>
                 <div class="w-full sm:w-4/12 px-10 pt-12">
@@ -64,7 +64,7 @@
                         </div>
                         <div @click="changeOverState()" class="text-3xl bg-lightGray button-change"
                              style="margin: auto">
-                            Change
+                            {{$t('change')}}
                         </div>
                     </div>
 
@@ -95,23 +95,23 @@
                          @mouseleave="hover = false"
                          v-else-if="!hover && count() == 0 && dataProduct.quantity > 0"
                          class="button-area mx-auto flex justify-between mb-2" style="border: 1.5px solid #707070">
-                        <div class="text-xl" style="margin: auto">Add</div>
+                        <div class="text-xl" style="margin: auto">{{$t('add')}}</div>
                     </div>
 
                     <!--            show add when no item not in cart-->
                     <div v-else-if="!hover && dataProduct.quantity == 0"
                          class="button-area mx-auto flex justify-between mb-2" style="border: 1.5px solid #707070">
-                        <div class="text-xl text-red" style="margin: auto">Out of Stock</div>
+                        <div class="text-xl text-red" style="margin: auto">{{$t('out_of_stock')}}</div>
                     </div>
 
-                    <h1 v-if="dataProduct.quantity > 0" class="text-lightGray my-5">{{dataProduct.quantity}} Left</h1>
-                    <h1 v-else class="text-red my-5">{{dataProduct.quantity}} Left</h1>
+                    <h1 v-if="dataProduct.quantity > 0" class="text-lightGray my-5">{{$t('left')}} : {{dataProduct.quantity}}</h1>
+                    <h1 v-else class="text-red my-5">{{$t('left')}} : {{dataProduct.quantity}}</h1>
                 </div>
             </div>
         </section>
 
         <section class="mt-3">
-            <h1 class="mb-2 text-xl">You may also like</h1>
+            <h1 class="mb-2 text-xl">{{$t('you_may_also_like')}}</h1>
             <SwiperItem :dataItem="recommendProduct"/>
         </section>
     </div>

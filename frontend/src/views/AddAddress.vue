@@ -10,11 +10,11 @@
         </div>
         <div v-else
              class="bg-white w-full border-green-top px-4 sm:h-full sm:px-8 md:px-10 lg:px-24 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
-            <div class="text-center text-2xl mb-10 mt-5 font-l">Add new Address</div>
+            <div class="text-center text-2xl mb-10 mt-5 font-l">{{$t('add_new_address')}}</div>
             <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
                 <label v-if="!validation.firstError('recipient')"
                        class="block text-sm mb-2"
-                       for="recipient">Firstname and Lastname of Recipient</label>
+                       for="recipient">{{$t('firstname_and_lastname_of_recipient')}}</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
                        for="recipient">{{validation.firstError('recipient')}}</label>
@@ -28,7 +28,7 @@
             <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
                 <label v-if="!validation.firstError('house_number')"
                        class="block text-sm mb-2"
-                       for="house_number">House number</label>
+                       for="house_number">{{$t('house_number')}}</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
                        for="house_number">{{validation.firstError('house_number')}}</label>
@@ -42,7 +42,7 @@
             <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
                 <label v-if="!validation.firstError('street')"
                        class="block text-sm mb-2"
-                       for="street">Street</label>
+                       for="street">{{$t('street')}}</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
                        for="street">{{validation.firstError('street')}}</label>
@@ -56,7 +56,7 @@
             <div class="mb-6 flex justify-between sm:px-10 md:px-16 lg:px-0">
                 <div class="w-1/2 pr-1">
                     <label v-if="!validation.firstError('city')"
-                           class="block text-sm mb-2">City</label>
+                           class="block text-sm mb-2">{{$t('city')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2">{{validation.firstError('city')}}</label>
                     <el-select v-model="city" placeholder="Select">
@@ -71,7 +71,7 @@
                 <div class="w-1/2 pl-1">
                     <label v-if="!validation.firstError('post_code')"
                            class="block text-sm mb-2"
-                           for="post_code">Postal Code</label>
+                           for="post_code">{{$t('postal')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2"
                            for="post_code">{{validation.firstError('post_code')}}</label>
@@ -86,7 +86,7 @@
 
             <div @click="addAddress"
                  class="w-64 mx-auto bg-green text-white text-center mt-10 py-2 px-2 focus:outline-none cursor-pointer">
-                Add new Address
+                {{$t('add_new_address')}}
             </div>
 
         </div>

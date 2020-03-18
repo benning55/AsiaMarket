@@ -2,13 +2,15 @@
     <div>
         <Loader v-if="isLoading"/>
         <ul class="w-full py-6">
-            <li class="inline-block px-5">LOGO</li>
+            <li class="inline-block px-5">|</li>
         </ul>
-        <VueSlickCarousel v-bind="setting1">
-            <img v-for="image in mockup.showCarousel" :key="image.id" class="object-cover w-full h-56"
-                 :src="image.image"
-                 alt="Promotion">
-        </VueSlickCarousel>
+<!--        <VueSlickCarousel v-bind="setting1">-->
+<!--            <img v-for="image in mockup.showCarousel" :key="image.id" class="object-cover w-full h-56"-->
+<!--                 :src="image.image"-->
+<!--                 alt="Promotion">-->
+<!--        </VueSlickCarousel>-->
+
+        <Carousel/>
 
         <section class="mt-3 w-full">
             <h1 class="my-3 text-xl">{{titleCategory.category_name}}</h1>
@@ -29,13 +31,15 @@
     import ProductCard from "../components/ProductCard";
     import axios from 'axios'
     import Loader from "../components/Loader";
+    import Carousel from "../components/Carousel";
 
     export default {
         name: 'CategoryView',
         components: {
             VueSlickCarousel,
             ProductCard,
-            Loader
+            Loader,
+            Carousel
         },
         data() {
             return {

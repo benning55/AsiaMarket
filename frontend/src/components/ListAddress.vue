@@ -7,7 +7,7 @@
             {{address.house_number}} {{address.street}} {{address.city}} {{address.post_code}}
         </div>
         <div @click="goEditAddress(address.id)" class="w-1/12 text-right text-orange px-1 py-2 h-full cursor-pointer">
-            edit
+            {{$t('edit')}}
         </div>
     </div>
 </template>

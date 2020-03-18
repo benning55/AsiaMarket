@@ -22,7 +22,7 @@
             </div>
             <div class=" w-full sm:w-1/2 lg:w-1/4 pb-5 ">
                 <div class="">
-                    <h1 class="text-xl mb-3">Contact Us</h1>
+                    <h1 class="text-xl mb-3">{{$t('contact_us')}}</h1>
                     <p><i class="fas fa-phone-alt"></i>{{footerData.phone}}</p>
 <!--                    <p><i class="fas fa-phone-alt"></i>0545516165fefe</p>-->
                     <p><i class="fas fa-envelope"></i>{{footerData.email}}</p>
@@ -37,10 +37,10 @@
             </div>
             <div class=" w-full sm:w-1/2 lg:w-1/4 ">
                 <div class="">
-                    <h1 class="text-xl mb-3">Help</h1>
-                    <p>How to Order</p>
-                    <p>How to Payment</p>
-                    <p>How to Manage Address</p>
+                    <h1 class="text-xl mb-3">{{$t('help')}}</h1>
+                    <p>{{$t('how_to_order')}}</p>
+                    <p>{{$t('how_to_payment')}}</p>
+                    <p>{{$t('how_to_manage_address')}}</p>
                 </div>
             </div>
         </div>

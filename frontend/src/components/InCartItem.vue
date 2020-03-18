@@ -8,7 +8,7 @@
                 <div class="relative" style="width: 90%">
                     <img :src="$store.state.endpoints.host+data.product.pic1" alt=""
                          style="max-height: 80px;margin: auto;opacity: .2">
-                    <a class="center text-red text-center absolute">Not Enough</a>
+                    <a class="center text-red text-center absolute">{{$t('not_enough')}}</a>
                 </div>
             </div>
             <div class="div2">
@@ -18,7 +18,8 @@
                 <i @click="isWillDelete=true" class='fas fa-trash-alt m-2 text-lightGray cursor-pointer'></i>
             </div>
             <div class="div4">
-                <div @click="changeOverState()" class="button-change cursor-pointer bg-lightGray text-center">Change
+                <div @click="changeOverState()" class="button-change cursor-pointer bg-lightGray text-center">
+                    {{$t('change')}}
                 </div>
             </div>
             <div class="div5" style="align-self: end">
@@ -73,7 +74,7 @@
                 <i @click="isWillDelete=true" class='fas fa-trash-alt m-2 text-lightGray cursor-pointer'></i>
             </div>
             <div class="div4">
-                <div class="text-lg text-red">Out of stock</div>
+                <div class="text-lg text-red">{{$t('out_of_stock')}}</div>
             </div>
             <div class="div5" style="align-self: end">
                 <div class="text-green" style="text-align: end;margin-right: 8px;">
@@ -85,11 +86,11 @@
 
         <div v-else class="parent2" style="height: fit-content">
             <div @click="deleteItem" class="div22 bg-red text-white text-center w-full h-20 cursor-pointer">
-                <p>Delete</p>
+                <p>{{$t('delete')}}</p>
             </div>
             <div @click="isWillDelete=false"
                  class="div12 text-black text-center w-full h-20 cursor-pointer hover:bg-unHilight">
-                <p>Cancel</p>
+                <p>{{$t('cancel')}}</p>
             </div>
 
         </div>
