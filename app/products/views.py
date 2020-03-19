@@ -99,7 +99,7 @@ def search_product(request):
         data = request.data
         queryset = Product.objects.all().filter(title__icontains=data['name'])
         if len(queryset) == 0:
-            return Response({"error": 'Data not enough'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": 'data not found'}, status=status.HTTP_404_NOT_FOUND)
         else:
             serializer = serializers.ProductSerializer(queryset, many=True)
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)

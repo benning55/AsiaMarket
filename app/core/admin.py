@@ -83,6 +83,12 @@ class ProductAdmin(admin.ModelAdmin):
 
     search_fields = ['title']
 
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ['id', 'username', 'first_name', 'last_name', 'is_active', 'is_staff']
