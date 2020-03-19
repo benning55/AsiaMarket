@@ -89,6 +89,22 @@ def recommend_products(request):
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)
 
 
+@api_view(['POST', ])
+@permission_classes([AllowAny, ])
+def search_product(request):
+    """
+    Search the product by title
+    """
+    if request.method == 'POST':
+        data = request.data
+        queryset = Product.objects.all().filter(title__icontains=data['name'])
+        if len(queryset) == 0:
+            return Response({"error": 'Data not enough'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer = serializers.ProductSerializer(queryset, many=True)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+
 class CartApiView(APIView):
     """
     Cart api view
