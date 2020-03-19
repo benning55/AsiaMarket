@@ -128,3 +128,5 @@ dmypy.json
 .pyre/
 
 app/core/migrations/0001_initial.py
+
+app/core/migrations/
