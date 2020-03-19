@@ -29,3 +29,6 @@ password: postgres15
 
 # get static files
 ```docker-compose exec app sh -c "python manage.py collectstatic"```
+
+# Run restock check
+``` docker-compose exec app sh -c "python manage.py checkproduct" ```

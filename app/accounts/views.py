@@ -332,7 +332,7 @@ def forget_password(request):
         send_mail(
             'Reset Password',
             message,
-            "support@Asiamarket.com",
+            "support@thaimarket.express",
             [queryset.email],
             html_message=message,
             fail_silently=False,

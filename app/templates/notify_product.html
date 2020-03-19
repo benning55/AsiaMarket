@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .full-height {
+            height: 100vh;
+        }
+
+        .content-center {
+            display: flex;
+            align-items: center;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid full-height content-center">
+        <div class="container">
+            <h1>This is the product you need to restock</h1>
+            <table style="width:100%">
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Quantity</th>
+              </tr>
+              {% for product in queryset %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.title }}</td>
+                    <td>{{ product.quantity }}</td>
+                </tr>
+              {% endfor %}
+            </table>
+            <br>
+            <button type="button" class="btn btn-success"><a href="https://thaimarket.express/">Go to website</a></button>
+        </div>
+    </div>
+</body>
+</html>
