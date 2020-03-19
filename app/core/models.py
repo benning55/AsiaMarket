@@ -142,7 +142,7 @@ class Product(models.Model):
     pic1 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
     pic2 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
     pic3 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
-    url = models.URLField(blank=True, null=True)
+    url = models.TextField(blank=True, null=True)
     description = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=7, decimal_places=2)
     quantity = models.IntegerField()
