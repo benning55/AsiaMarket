@@ -5,13 +5,33 @@
             <div class="hidden sm:hidden md:hidden lg:block h-6 w-full bg-orange text-center text-white">Type ABD to
                 reduce 10%
             </div>
-            <nav class="hidden sm:hidden md:hidden lg:block  flex items-center justify-between flex-wrap">
-                <ul class="w-full">
-                    <li @click="goHome" class="hidden sm:hidden md:hidden lg:inline-block px-5 cursor-pointer">
-                        <h1 style="font-size: 24px;margin-top: 16px">ThaiMarket Express</h1>
+            <nav class="hidden sm:hidden md:hidden lg:block  flex items-center  ">
+                <ul class="w-full flex justify-between">
+                    <li class="flex-1 hidden sm:hidden md:hidden lg:inline-block px-5 pt-4">
+                        <a @click="goHome" class="cursor-pointer" style="font-size: 24px;margin-top: 16px">ThaiMarket
+                            Express</a>
                         <!--                    <img src="../assets/Logo/logo.jpg">-->
                     </li>
-                    <li class="float-right px-5 flex-grow  py-6">
+                    <li class="flex-1">
+                        <div class="pt-4 relative mx-auto text-black">
+                            <input v-model="searchText"
+                                   v-on:keyup.enter="goSearch(searchText)"
+                                   class="bg-unHilight h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none w-full"
+                                   type="search" name="search" :placeholder="nameTranslate('Find Product(ค้นหาสินค้า)')">
+                            <button @click="goSearch(searchText)" type="submit" class="absolute right-0 mt-5 mr-4"
+                                    style="top:8px">
+                                <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px"
+                                     y="0px"
+                                     viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;"
+                                     xml:space="preserve"
+                                     width="512px" height="512px">
+                                    <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </li>
+                    <li class="flex-1 px-5 text-right  py-6">
                         <a @click="changeLocale(`en`)" class="cursor-pointer"
                            :class="{'text-green':$i18n.locale == 'en'}">EN </a>
                         |
@@ -25,19 +45,19 @@
         </div>
 
         <!--        navbar mobile version-->
-        <div class="fixed w-full z-110 bg-white shadow-lg">
+        <div class="fixed w-full z-110 bg-white">
             <div class="block sm:block md:block lg:hidden h-6 w-full bg-orange text-center text-white">Type ABD to
                 reduce 10%
             </div>
-            <nav class="block sm:block md:block lg:hidden  flex items-center justify-between flex-wrap  py-5 "
+            <nav class="block sm:block md:block lg:hidden  flex items-center justify-between flex-wrap  py-5 shadow-lg"
                  style="height: 72px;">
                 <ul class="w-full flex justify-between">
                     <li @click="mobileDrawer = !mobileDrawer,cartDrawer = false"
                         class="inline-block sm:inline-block md:inline-block lg:hidden px-5 "><i
                             class="material-icons text-3xl">menu</i>
                     </li>
-                    <li @click="goHome" class="inline-block cursor-pointer">
-                        <h1 style="font-size: 19px;">ThaiMarket Express</h1>
+                    <li class="inline-block cursor-pointer flex">
+                        <h1 @click="goHome" style="font-size: 19px;">ThaiMarket Express</h1>
                     </li>
                     <li class="float-right px-5">
                         <div @click="cartDrawer = !cartDrawer, mobileDrawer =false" class="relative">
@@ -48,6 +68,7 @@
                     </li>
                 </ul>
             </nav>
+
         </div>
 
         <!--        mini button right screen-->
@@ -107,6 +128,25 @@
                             :class="{'text-green':$i18n.locale == 'th'}"> TH</a>
                     </div>
 
+                    <div class="block lg:hidden py-3 px-3 text-xl border-bottom font-l text-orange cursor-pointer">
+                        <div class="relative mx-auto text-black">
+                            <input v-model="searchText" v-on:keyup.enter="goSearch(searchText)"
+                                   class="border-2 border-lightGray bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none w-full"
+                                   type="search" name="search" placeholder="Search">
+                            <button @click="goSearch(searchText)" type="submit" class="absolute right-0 mt-3 mr-4"
+                                    style="top:0px">
+                                <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px"
+                                     y="0px"
+                                     viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;"
+                                     xml:space="preserve"
+                                     width="512px" height="512px">
+                                    <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
                     <!--                    show when not log in-->
                     <div v-if="!$store.state.isAuthenticated" class="block lg:hidden">
                         <div @click="goLogin"
@@ -125,7 +165,7 @@
                         <div class="py-3 px-10 text-xl border-bottom hover:bg-unHilight">
                             <i @click="mobileDrawer =! mobileDrawer"
                                class="material-icons text-2xl cursor-pointer absolute"
-                               style="top:61px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
+                               style="top:128px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
                             {{firstname_lastname}}
                         </div>
                         <div @click="goOrder"
@@ -181,7 +221,7 @@
                     <div class="w-full">
                         <ul class="w-full" style="height: 3.5rem"></ul>
                         <InCartItem v-for="item in $store.state.inCart.cart_detail" :key="item.id" :data="item"/>
-                        <div class="w-full" style="height: 249px"></div>
+                        <div class="w-full" style="height: 273px"></div>
                     </div>
                 </div>
                 <div class="fixed-b w-70 bottom-0  border-top p-2 bg-white z-50 appearance-none">
@@ -230,10 +270,10 @@
                     <el-popover
                             v-if="checkPass.length > 0"
                             placement="top"
-                            title="Product Incorrect"
+                            :title="nameTranslate('Product Incorrect(สินค้าไม่ถูกต้อง)')"
                             width="300"
                             trigger="click"
-                            content="Some Product maybe out of stock or not enough please edit and try again">
+                            :content="nameTranslate('Some Product maybe out of stock or not enough please edit and try again(สินค้าบางชื้นหมดแล้วหรือมีไม่เพียงพอ กรุณาแก้ไขสินค้าชิ้นนั้น)')">
                         <button
                                 slot="reference"
                                 class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
@@ -335,7 +375,8 @@
                 code: '',
                 codeStatus: 'none',
                 percent: 0,
-                shipping_fee: 0
+                shipping_fee: 0,
+                searchText: ''
             }
         },
         created() {
@@ -353,6 +394,15 @@
                     } else {
                         return list[0]
                     }
+                }
+            },
+            goSearch(text) {
+                if (text.length > 0) {
+                    this.toggleOpacity()
+                    this.$router.push({
+                        name: 'SearchView',
+                        params: {id: text}
+                    })
                 }
             },
             updateCart() {
@@ -568,7 +618,7 @@
 <style scoped>
     .fixed-b {
         /*position: -webkit-sticky; !* Safari *!*/
-        position: fixed;
+        position: absolute;
     }
 
     .z-105 {

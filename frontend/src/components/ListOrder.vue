@@ -1,7 +1,23 @@
 <template>
     <div>
-        <div class="flex justify-between" @click="goEachOrder(orderdata.id)">
-            <img style="max-width: 130px;" class="my-3 w-1/3 sm:w-1/3 mx-auto object-contain"
+        <div class="flex justify-between cursor-pointer hover:bg-unHilight" @click="goEachOrder(orderdata.id)">
+            <div v-if="imageError" style="max-width: 130px;" class="my-3 w-1/3 sm:w-1/3 mx-auto object-contain">
+                <svg style="width: 100%;height: 100%" xmlns="http://www.w3.org/2000/svg"
+                     height="300px" width="300px"
+                     version="1.1"
+                     viewBox="-300 -300 600 600"
+                     font-family="Kanit"
+                     font-size="72"
+                     text-anchor="middle">
+                    <circle stroke="#AAA" stroke-width="10" r="280" fill="#FFF"/>
+                    <text style="fill:#444;">
+                        <tspan x="0" y="-8">{{$t('NO_IMAGE')}}</tspan>
+                        <tspan x="0" y="80">{{$t('AVAILABLE')}}</tspan>
+                    </text>
+                </svg>
+            </div>
+            <img v-else style="max-width: 130px;" class="my-3 w-1/3 sm:w-1/3 mx-auto object-contain"
+                 @error="printerror()"
                  :src="$store.state.endpoints.host +'/media/'+orderdata.pic1">
             <div class=" my-3 ml-2 w-2/3 self-center">
                 <div class="flex justify-between">
@@ -42,10 +58,14 @@
         props: ["orderdata"],
         data() {
             return {
-                orderData: this.orderdata
+                orderData: this.orderdata,
+                imageError:false
             }
         },
         methods: {
+            printerror(){
+                this.imageError = true
+            },
             goEachOrder(id) {
                 this.$router.push({
                     name: 'ViewEachOrder',

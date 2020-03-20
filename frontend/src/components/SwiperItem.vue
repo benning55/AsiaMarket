@@ -8,9 +8,10 @@
 
 <script>
     import ProductCard from "./ProductCard";
+
     export default {
         props: ["dataItem"],
-        components:{
+        components: {
             ProductCard
         },
         data() {

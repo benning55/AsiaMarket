@@ -20,7 +20,7 @@
         <section class="mt-3">
             <div class="flex justify-between">
                 <h1 class="ml-2 lg:ml-0 my-3 text-xl">{{$t('recommend')}}</h1>
-                <router-link :to="{ name: 'Category', params: { id: 'new-product' }}">
+                <router-link :to="{ name: 'Category', params: { id: 'recommend' }}">
                     <h1 class="mr-2 lg:mr-0 my-3 text-md self-center text-gray">{{$t('see_more')}} ></h1>
                 </router-link>
             </div>

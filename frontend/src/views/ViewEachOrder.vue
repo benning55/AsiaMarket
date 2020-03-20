@@ -20,7 +20,7 @@
 
         </div>
 
-        <h1 v-if="$store.state.isAuthenticated" class="py-1 text-xl font-l">{{$t('product')}}</h1>
+        <h1 v-if="$store.state.isAuthenticated" class="py-1 text-xl font-l px-3 md:px-0">{{$t('product')}}</h1>
 
         <div v-if="!$store.state.isAuthenticated"
              class="bg-white w-full px-1 h-64 lg:px-10 xl:px-24 pb-10 mx-auto relative mt-10">
@@ -36,16 +36,37 @@
                         <th class="px-2 py-2 w-2/12 sm:1/12"></th>
                         <th class="px-2 py-2 w-3/12 text-left" style="font-weight: normal">{{$t('product_name')}}</th>
                         <th class="p-0 sm:p-2 w-1/12" style="font-weight: normal">{{$t('product_price')}}</th>
-                        <th class="p-0 sm:p-2 w-1/12 hidden sm:table-cell" style="font-weight: normal">{{$t('product_quantity')}}</th>
-                        <th class="p-0 sm:p-2 w-1/12 table-cell sm:hidden" style="font-weight: normal">{{$t('product_q')}}</th>
+                        <th class="p-0 sm:p-2 w-1/12 hidden sm:table-cell" style="font-weight: normal">
+                            {{$t('product_quantity')}}
+                        </th>
+                        <th class="p-0 sm:p-2 w-1/12 table-cell sm:hidden" style="font-weight: normal">
+                            {{$t('product_q')}}
+                        </th>
                         <th class="p-0 sm:p-2 w-1/12" style="font-weight: normal">{{$t('total')}}</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="item in orderDetail" :key="item.id" class="border-bottom">
                         <td class="px-2 py-2">
-                            <img class="w-full mx-auto" style="max-width: 120px;height: 120px; object-fit: contain"
+                            <div v-if="imageError" class="w-full mx-auto" style="max-width: 120px;height: 120px; object-fit: contain">
+                                <svg style="width: 100%;height: 100%" xmlns="http://www.w3.org/2000/svg"
+                                     height="300px" width="300px"
+                                     version="1.1"
+                                     viewBox="-300 -300 600 600"
+                                     font-family="Kanit"
+                                     font-size="72"
+                                     text-anchor="middle">
+
+                                    <circle stroke="#AAA" stroke-width="10" r="280" fill="#FFF"/>
+                                    <text style="fill:#444;">
+                                        <tspan x="0" y="-8">{{$t('NO_IMAGE')}}</tspan>
+                                        <tspan x="0" y="80">{{$t('AVAILABLE')}}</tspan>
+                                    </text>
+                                </svg>
+                            </div>
+                            <img v-else class="w-full mx-auto" style="max-width: 120px;height: 120px; object-fit: contain"
                                  :src="$store.state.endpoints.host + item.product.pic1"
+                                 @error="printerror()"
                                  alt="">
                         </td>
                         <td class="px-2 py-2">{{item.product.title}}</td>
@@ -111,7 +132,7 @@
             <div class="flex justify-between pt-10">
                 <button class="w-32 text-black_p py-2 focus:outline-none flex justify-start"
                         type="button">
-                    <p class="inline-flex ml-0">
+                    <p @click="$router.go(-1)" class="inline-flex ml-0">
                         <i class="material-icons">keyboard_arrow_left</i><span>{{$t('previous')}}</span>
                     </p>
                 </button>
@@ -143,7 +164,8 @@
                     total_price: ''
                 },
                 orderDetail: null,
-                isLoading: false
+                isLoading: false,
+                imageError:false
             }
         },
         created() {
@@ -161,6 +183,11 @@
                 this.isLoading = false
                 this.$message.error(this.$t('error_Oops_') + e.status + ', at Load this Order');
             })
+        },
+        methods:{
+            printerror(){
+                this.imageError = true
+            }
         }
     }
 </script>

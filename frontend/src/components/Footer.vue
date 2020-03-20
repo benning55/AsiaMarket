@@ -23,9 +23,9 @@
             <div class=" w-full sm:w-1/2 lg:w-1/4 pb-5 ">
                 <div class="">
                     <h1 class="text-xl mb-3">{{$t('contact_us')}}</h1>
-                    <p><i class="fas fa-phone-alt"></i>{{footerData[0].phone}}</p>
+                    <p v-if="footerData[0].phone!=null"><i class="fas fa-phone-alt"></i>{{footerData[0].phone}}</p>
                     <p v-if="footerData[1].phone!=null"><i class="fas fa-phone-alt"></i>{{footerData[1].phone}}</p>
-                    <p><i class="fas fa-envelope"></i>{{footerData[0].email}}</p>
+                    <p v-if="footerData[0].email!=null"><i class="fas fa-envelope"></i>{{footerData[0].email}}</p>
                     <p v-if="footerData[1].email!=null"><i class="fas fa-envelope"></i>{{footerData[1].email}}</p>
                 </div>
             </div>
@@ -54,7 +54,16 @@
     export default {
         data() {
             return {
-                footerData: {}
+                footerData: [
+                    {
+                        phone: "",
+                        email: ''
+                    },
+                    {
+                        phone: "",
+                        email: ''
+                    }
+                ]
             }
         },
         created() {
@@ -63,7 +72,7 @@
         methods: {
             getFooterData() {
                 axios.get(`${this.$store.state.endpoints.host}/api/footer/`).then(res => {
-                    this.footerData = res.data.data
+                    this.footerData = res.data.data.reverse()
                     this.isLoading = false
                 }).catch(e => {
                     this.$message.error(this.$t('error_Oops_') + e.status + ', at load recommend');

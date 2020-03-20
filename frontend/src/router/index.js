@@ -17,6 +17,11 @@ const ConfirmOrder = () => import("../views/ConfirmOrder");
 const ViewOrderHistory = () => import("../views/ViewOrderHistory");
 const ViewEachOrder = () => import("../views/ViewEachOrder");
 const PageNotFound = () => import("../views/PageNotFound");
+const Help_01 = () => import("../views/Help_01")
+const Help_02 = () => import("../views/Help_02")
+const Help_03 = () => import("../views/Help_03")
+const SearchView = () => import('../views/SearchView')
+
 
 Vue.use(VueRouter)
 
@@ -43,6 +48,11 @@ const routes = [
         path: '/category=:id',
         name: 'Category',
         component: CategoryView
+    },
+    {
+        path: '/search=:id',
+        name: 'SearchView',
+        component: SearchView
     },
     {
         path: '/detail=:id',
@@ -92,7 +102,22 @@ const routes = [
     {
         path: "*",
         component: PageNotFound
-    }
+    },
+    {
+        path: "/help-01",
+        name: "Help01",
+        component: Help_01
+    },
+    {
+        path: "/help-02",
+        name: "Help02",
+        component: Help_02
+    },
+    {
+        path: "/help-03",
+        name: "Help03",
+        component: Help_03
+    },
 ]
 
 const router = new VueRouter({

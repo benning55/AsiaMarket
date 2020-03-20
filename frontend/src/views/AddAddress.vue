@@ -17,7 +17,7 @@
                        class="block text-red text-sm mb-2"
                        for="recipient">{{$t(validation.firstError('recipient'))}}</label>
                 <el-input id="recipient"
-                          placeholder="Please input"
+                          :placeholder="$t('')"
                           v-model="recipient">
                 </el-input>
             </div>
@@ -31,7 +31,7 @@
                        class="block text-red text-sm mb-2"
                        for="house_number">{{$t(validation.firstError('house_number'))}}</label>
                 <el-input id="house_number"
-                          placeholder="Please input"
+                          :placeholder="$t('')"
                           v-model="house_number">
                 </el-input>
             </div>
@@ -45,7 +45,7 @@
                        class="block text-red text-sm mb-2"
                        for="street">{{$t(validation.firstError('street'))}}</label>
                 <el-input id="street"
-                          placeholder="Please input"
+                          :placeholder="$t('')"
                           v-model="street">
                 </el-input>
             </div>
@@ -57,7 +57,7 @@
                            class="block text-sm mb-2">{{$t('city')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2">{{$t(validation.firstError('city'))}}</label>
-                    <el-select v-model="city" placeholder="Select">
+                    <el-select v-model="city" :placeholder="$t('')">
                         <el-option
                                 v-for="item in cityOptions"
                                 :key="item"
@@ -74,7 +74,7 @@
                            class="block text-red text-sm mb-2"
                            for="post_code">{{$t(validation.firstError('post_code'))}}</label>
                     <el-input id="post_code"
-                              placeholder="Please input"
+                              :placeholder="$t('')"
                               type="number"
                               v-model="post_code">
                     </el-input>

@@ -22,8 +22,12 @@
                         <th class="px-2 py-2 w-2/12 sm:1/12"></th>
                         <th class="px-2 py-2 w-3/12 text-left" style="font-weight: normal">{{$t('product_name')}}</th>
                         <th class="p-0 sm:p-2 w-1/12" style="font-weight: normal">{{$t('product_price')}}</th>
-                        <th class="p-0 sm:p-2 w-1/12 hidden sm:table-cell" style="font-weight: normal">{{$t('product_quantity')}}</th>
-                        <th class="p-0 sm:p-2 w-1/12 table-cell sm:hidden" style="font-weight: normal">{{$t('product_q')}}</th>
+                        <th class="p-0 sm:p-2 w-1/12 hidden sm:table-cell" style="font-weight: normal">
+                            {{$t('product_quantity')}}
+                        </th>
+                        <th class="p-0 sm:p-2 w-1/12 table-cell sm:hidden" style="font-weight: normal">
+                            {{$t('product_q')}}
+                        </th>
                         <th class="p-0 sm:p-2 w-1/12" style="font-weight: normal">{{$t('total')}}</th>
                     </tr>
                     </thead>
@@ -53,7 +57,7 @@
                     </div>
                     <div class="flex justify-between">
                         <h1 class="">{{$t('coupon_code')}}</h1>
-                        <h1 v-if="this.$store.state.inCart.code == null" >{{$t('no_code')}}</h1>
+                        <h1 v-if="this.$store.state.inCart.code == null">{{$t('no_code')}}</h1>
                         <h1 v-else>{{getCode.name}}</h1>
 
                     </div>
@@ -66,7 +70,8 @@
 
             <div class="flex justify-between px-1 sm:px-0">
                 <h1 class="mt-5 py-1 text-xl font-l">{{$t('shipping_information')}}</h1>
-                <h1 @click="showModal" class="mt-5 py-1 text-sm font-l self-end text-gray cursor-pointer">{{$t('change')}}</h1>
+                <h1 @click="showModal" class="mt-5 py-1 text-sm font-l self-end text-gray cursor-pointer">
+                    {{$t('change')}}</h1>
             </div>
             <div class="bg-white w-full px-1 sm:h-full lg:px-10 xl:px-24 mx-auto py-5">
                 <div class="px-5 md:px-10 font-l text-lg">
@@ -91,7 +96,7 @@
             <div class="flex justify-between pt-10">
                 <button class="w-32 text-black_p py-2 focus:outline-none flex justify-start"
                         type="button">
-                    <p class="inline-flex ml-0">
+                    <p @click="$router.go(-1)" class="inline-flex ml-0">
                         <i class="material-icons">keyboard_arrow_left</i><span>{{$t('previous')}}</span>
                     </p>
                 </button>
@@ -102,11 +107,12 @@
             </div>
         </div>
 
-        <!--        modal-->
-        <modal :type="typeModal" :total="[subTotal,shipping,getCode.name,total]" v-show="isModalVisible"
-               @close="closeModal"/>
 
-        <!--        <modal type="check_confirm" v-show="isConfirmModalVisible" @close="closeConfirmModal"/>-->
+        <el-dialog :title="nameTranslate(titleModal())" :visible.sync="centerDialogVisible">
+            <modal :type="typeModal" :total="[subTotal,shipping,getCode.name,total]"
+               @close="closeModal"/>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -128,21 +134,38 @@
                 isConfirmModalVisible: false,
                 typeModal: '',
                 isPass: false,
-                isLoading:false
+                isLoading: false,
+                centerDialogVisible: false
             }
         },
         created() {
             this.loadAddress()
         },
         methods: {
+            swapIndex(index) {
+                this.$store.commit("setIndexUserAddress", index);
+            },
+            nameTranslate(text) {
+                let list = text.split(')').join('(').split('(')
+                if (list.length == 1) {
+                    return text
+                } else {
+                    if (this.$i18n.locale == 'th') {
+                        return list[1]
+                    } else {
+                        return list[0]
+                    }
+                }
+            },
             goHome() {
                 this.$router.push({
                     name: 'HomePage'
                 })
             },
             showModal() {
+                $( ".el-dialog" ).css( {"max-width": "500px","height":"initial"});
                 this.typeModal = 'address'
-                this.isModalVisible = true;
+                this.centerDialogVisible = true
             },
             closeModal() {
                 this.isModalVisible = false;
@@ -165,8 +188,17 @@
                 })
             },
             goPayment() {
+                $( ".el-dialog" ).css({"max-width": "350px","height":"235px"});
                 this.typeModal = 'check_confirm'
-                this.isModalVisible = true
+                // this.isModalVisible = true
+                this.centerDialogVisible = true
+            },
+            titleModal(){
+                if(this.typeModal == 'address'){
+                    return 'Select Address(โปรดเลือกที่อยู่)'
+                } else {
+                    return 'Confirm Order(ยืนยันการสั่งซื้อ)'
+                }
             }
         },
         computed: {
@@ -218,5 +250,13 @@
     }
 </script>
 
-<style scoped>
+<style>
+    .el-dialog{
+        width: 95% !important;
+        top: 30%;
+        -ms-transform: translate(0%, -50%);
+        transform: translate(0%, -50%);
+    }
+
+
 </style>

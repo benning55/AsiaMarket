@@ -61,7 +61,7 @@
                     <i class='fas fa-trash-alt text-white text-sm'></i>
                 </div>
                 <div @click="changeOverState()" class="text-3xl bg-lightGray button-change" style="margin: auto">
-                    {{$t('change')}}
+                    <h1 style="margin-top: 8px">{{$t('change')}}</h1>
                 </div>
             </div>
 
@@ -371,7 +371,7 @@
         text-align: center;
         width: 100%;
         height: 40px;
-        padding-top: 5px;
+        /*padding-top: 5px;*/
     }
 
     .button-delete {
@@ -380,7 +380,7 @@
         text-align: center;
         width: 50px;
         height: 40px;
-        padding-top: 5px;
+        /*padding-top: 5px;*/
     }
 
     .button-increase {

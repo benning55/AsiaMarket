@@ -6,7 +6,24 @@
         <div v-if="!isWillDelete && this.data.overStatus && quantity > 0" class="parent" style="height: 80px">
             <div class="div1 self-center">
                 <div class="relative" style="width: 90%">
-                    <img :src="$store.state.endpoints.host+data.product.pic1" alt=""
+                    <div v-if="imageEror" style="max-height: 80px;margin: auto;opacity: .2">
+                        <svg style="width: 100%;height: 100%" xmlns="http://www.w3.org/2000/svg"
+                             height="300px" width="300px"
+                             version="1.1"
+                             viewBox="-300 -300 600 600"
+                             font-family="Kanit"
+                             font-size="72"
+                             text-anchor="middle">
+
+                            <circle stroke="#AAA" stroke-width="10" r="280" fill="#FFF"/>
+                            <text style="fill:#444;">
+                                <tspan x="0" y="-8">{{$t('NO_IMAGE')}}</tspan>
+                                <tspan x="0" y="80">{{$t('AVAILABLE')}}</tspan>
+                            </text>
+                        </svg>
+                    </div>
+                    <img v-else :src="$store.state.endpoints.host+data.product.pic1" alt="aa"
+                         @error="printerror()"
                          style="max-height: 80px;margin: auto;opacity: .2">
                     <a class="center text-red text-center absolute">{{$t('not_enough')}}</a>
                 </div>
@@ -32,7 +49,24 @@
         <div v-else-if="!isWillDelete && quantity > 0" class="parent" style="height: 80px">
             <div class="div1 self-center">
                 <div class="" style="width: 90%">
-                    <img :src="$store.state.endpoints.host+data.product.pic1" alt=""
+                    <div v-if="imageEror" style="max-height: 80px;margin: auto">
+                        <svg style="width: 100%;height: 100%" xmlns="http://www.w3.org/2000/svg"
+                             height="300px" width="300px"
+                             version="1.1"
+                             viewBox="-300 -300 600 600"
+                             font-family="Kanit"
+                             font-size="72"
+                             text-anchor="middle">
+
+                            <circle stroke="#AAA" stroke-width="10" r="280" fill="#FFF"/>
+                            <text style="fill:#444;">
+                                <tspan x="0" y="-8">{{$t('NO_IMAGE')}}</tspan>
+                                <tspan x="0" y="80">{{$t('AVAILABLE')}}</tspan>
+                            </text>
+                        </svg>
+                    </div>
+                    <img v-else :src="$store.state.endpoints.host+data.product.pic1" alt="aa"
+                         @error="printerror()"
                          style="max-height: 80px;margin: auto">
                 </div>
             </div>
@@ -47,14 +81,17 @@
                     <div v-if="value > 1" @click="decrease" class="button-increase  bg-green" style="user-select: none">
                         <i class="material-icons">remove</i>
                     </div>
-                    <div v-else class="button-increase bg-green cursor-not-allowed" style="user-select: none;opacity: .5">
+                    <div v-else class="button-increase bg-green cursor-not-allowed"
+                         style="user-select: none;opacity: .5">
                         <i class="material-icons">remove</i>
                     </div>
                     <div class="text-lg">{{value}}</div>
-                    <div v-if="value < quantity" @click="increase" class="button-decrease bg-green" style="user-select: none">
+                    <div v-if="value < quantity" @click="increase" class="button-decrease bg-green"
+                         style="user-select: none">
                         <i class="material-icons">add</i>
                     </div>
-                    <div v-else class="button-decrease bg-green cursor-not-allowed" style="user-select: none;opacity: .5">
+                    <div v-else class="button-decrease bg-green cursor-not-allowed"
+                         style="user-select: none;opacity: .5">
                         <i class="material-icons">add</i>
                     </div>
                 </div>
@@ -113,10 +150,14 @@
                 value: this.data.quantity,
                 quantity: this.data.product.quantity,
                 isWillDelete: false,
-                itemStatus: 'ok'
+                itemStatus: 'ok',
+                imageEror:false
             }
         },
         methods: {
+            printerror(){
+                this.imageEror = true
+            },
             reduceTitle(title) {
                 if (title.length > 30) {
                     return title.substring(0, 30) + "...."
@@ -194,8 +235,8 @@
                     this.$store.state.inCart.cart_detail[isInCart].price = res.data.data.price
                 }).catch(
                     e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.response.status + 'at change state');
-                        }
+                        this.$message.error('Oops, Something is Error. code ' + e.response.status + 'at change state');
+                    }
                 )
                 this.overState = false
             },
@@ -210,8 +251,8 @@
                     let index = this.$store.state.inCart.cart_detail.findIndex(item => item.id == this.data.id)
                     this.$store.state.inCart.cart_detail.splice(index, 1)
                 }).catch(e => {
-                            this.$message.error('Oops, Something is Error. code ' + e.response.status + 'at delete product');
-                        })
+                    this.$message.error('Oops, Something is Error. code ' + e.response.status + 'at delete product');
+                })
             }
         },
         computed: {

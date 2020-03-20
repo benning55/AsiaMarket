@@ -1,5 +1,5 @@
 <template>
-    <swiper class="swiper" :options="swiperCarousel">
+    <swiper v-if="carousel.length>0" class="swiper" :options="swiperCarousel">
         <swiper-slide v-for="image in carousel" :key="image.id">
             <img class="object-cover w-full h-80"
                  :src="image.picture"
@@ -55,7 +55,7 @@
 </script>
 
 <style>
-    .h-80{
+    .h-80 {
         height: 20rem;
     }
 

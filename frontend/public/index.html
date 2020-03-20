@@ -26,10 +26,14 @@
 </body>
 <style>
     #app {
-        position: fixed;
+        {#position: fixed;#}
         width: 100%;
         height: 100%;
         overflow-x: hidden
+    }
+
+    .v-modal{
+        z-index: 10 !important;
     }
 
     :focus {
@@ -65,10 +69,10 @@
         background: #beeb8f; /* Gecko Browsers */
     }
 
-    .el-message-box {
-        display: inline-block;
-        width: 90% !important;
-        max-width: 350px;
+     .el-popover {
+        word-break: break-word;
     }
+
+
 </style>
 </html>
