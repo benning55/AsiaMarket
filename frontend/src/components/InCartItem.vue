@@ -82,7 +82,7 @@
                         <i class="material-icons">remove</i>
                     </div>
                     <div v-else class="button-increase bg-green cursor-not-allowed"
-                         style="user-select: none;opacity: .5">
+                         style="user-select: none;opacity: .5;z-index: -1">
                         <i class="material-icons">remove</i>
                     </div>
                     <div class="text-lg">{{value}}</div>
@@ -91,7 +91,7 @@
                         <i class="material-icons">add</i>
                     </div>
                     <div v-else class="button-decrease bg-green cursor-not-allowed"
-                         style="user-select: none;opacity: .5">
+                         style="user-select: none;opacity: .5;z-index: -1">
                         <i class="material-icons">add</i>
                     </div>
                 </div>

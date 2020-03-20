@@ -617,7 +617,6 @@
 
 <style scoped>
     .fixed-b {
-        /*position: -webkit-sticky; !* Safari *!*/
         position: absolute;
     }
 

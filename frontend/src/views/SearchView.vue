@@ -106,7 +106,10 @@
                     this.isNotFound = false
                     this.isLoading = false
                 }).catch(e => {
-                    if (e.response.status == 400) {
+                    if (e.response.status >= 500) {
+                        this.isNotFound = true
+                        this.$message.error(this.$t('error_Oops_') + e.response.status + ', at search product');
+                    } else if (e.response.status >= 400) {
                         this.isNotFound = true
                     } else {
                         this.$message.error(this.$t('error_Oops_') + e.response.status + ', at search product');
