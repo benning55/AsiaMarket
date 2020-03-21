@@ -2,8 +2,8 @@
     <div>
         <!--        navbar desktop version-->
         <div class="fixed w-full z-110  bg-white shadow-lg">
-            <div class="hidden sm:hidden md:hidden lg:block h-6 w-full bg-orange text-center text-white">Type ABD to
-                reduce 10%
+            <div class="hidden sm:hidden md:hidden lg:block h-6 w-full bg-orange text-center text-white">
+                {{this.banner.address}}
             </div>
             <nav class="hidden sm:hidden md:hidden lg:block  flex items-center  ">
                 <ul class="w-full flex justify-between">
@@ -17,7 +17,8 @@
                             <input v-model="searchText"
                                    v-on:keyup.enter="goSearch(searchText)"
                                    class="bg-unHilight h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none w-full"
-                                   type="search" name="search" :placeholder="nameTranslate('Find Product(ค้นหาสินค้า)')">
+                                   type="search" name="search"
+                                   :placeholder="nameTranslate('Find Product(ค้นหาสินค้า)')">
                             <button @click="goSearch(searchText)" type="submit" class="absolute right-0 mt-5 mr-4"
                                     style="top:8px">
                                 <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
@@ -46,8 +47,8 @@
 
         <!--        navbar mobile version-->
         <div class="fixed w-full z-110 bg-white">
-            <div class="block sm:block md:block lg:hidden h-6 w-full bg-orange text-center text-white">Type ABD to
-                reduce 10%
+            <div class="block sm:block md:block lg:hidden h-6 w-full bg-orange text-center text-white">
+                {{this.banner.address}}
             </div>
             <nav class="block sm:block md:block lg:hidden  flex items-center justify-between flex-wrap  py-5 shadow-lg"
                  style="height: 72px;">
@@ -376,12 +377,14 @@
                 codeStatus: 'none',
                 percent: 0,
                 shipping_fee: 0,
-                searchText: ''
+                searchText: '',
+                banner: []
             }
         },
         created() {
             this.updateCart()
             this.updateShipping()
+            this.getBannerData()
         },
         methods: {
             nameTranslate(text) {
@@ -405,6 +408,17 @@
                     })
                 }
             },
+
+            getBannerData() {
+                axios.get(`${this.$store.state.endpoints.host}/api/footer/`).then(res => {
+                    this.banner = res.data.data[0]
+                    console.log(this.banner)
+                    this.isLoading = false
+                }).catch(e => {
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at load recommend');
+                })
+            },
+
             updateCart() {
                 axios.get(`${this.$store.state.endpoints.host}/api/products/cart/`, {
                     headers: {
@@ -540,7 +554,8 @@
                 } else {
                     return name
                 }
-            },
+            }
+            ,
             checkPass() {
                 let p = []
                 this.$store.state.inCart.cart_detail.reduce(function (accumulate, data) {
@@ -549,7 +564,8 @@
                     }
                 }, 0);
                 return p
-            },
+            }
+            ,
             subTotal() {
                 let sum = this.$store.state.inCart.cart_detail.reduce(function (accumulate, data) {
                     if (data.overStatus == true || data.product.quantity == 0) {
@@ -559,7 +575,8 @@
                     }
                 }, 0);
                 return (sum).toFixed(2);
-            },
+            }
+            ,
             shipping() {
                 if (this.subTotal == 0) {
                     return 0
@@ -567,17 +584,20 @@
                     return this.$store.state.shippingFee
                 }
                 return 0
-            },
+            }
+            ,
             totalShipping() {
                 return Number(this.subTotal) + Number(this.shipping)
-            },
+            }
+            ,
             getCode() {
                 if (this.$store.state.inCart.code == null) {
                     return 0
                 } else {
                     return this.$store.state.inCart.code[0]
                 }
-            },
+            }
+            ,
             total() {
                 if (this.codeStatus == 'error') {
                     return this.totalShipping.toFixed(2)
@@ -585,33 +605,41 @@
                     return (this.totalShipping - ((this.totalShipping / 100) * this.percent)).toFixed(2)
                 }
             }
-        },
+        }
+        ,
         watch: {
             getCode: {
                 deep: true,
-                handler: function (code) {
-                    if (code != 0) {
-                        this.percent = Number(code.percent)
-                        this.code = code.name
-                    } else {
-                        this.percent = 0
-                        this.code = ''
-                    }
-                }
-            },
-            code: {
-                deep: true,
-                handler: function (newVal) {
-                    if (this.codeStatus == 'loading') {
-                        this.codeStatus = 'loading'
-                    } else if (newVal.length > 0) {
-                        this.codeStatus = 'ok'
-                    } else {
-                        this.codeStatus = 'none'
-                    }
-                }
+                handler
+    :
+
+    function (code) {
+        if (code != 0) {
+            this.percent = Number(code.percent)
+            this.code = code.name
+        } else {
+            this.percent = 0
+            this.code = ''
+        }
+    }
+    }
+    ,
+    code: {
+        deep: true,
+            handler
+    :
+
+        function (newVal) {
+            if (this.codeStatus == 'loading') {
+                this.codeStatus = 'loading'
+            } else if (newVal.length > 0) {
+                this.codeStatus = 'ok'
+            } else {
+                this.codeStatus = 'none'
             }
         }
+    }
+    }
     }
 </script>
 
