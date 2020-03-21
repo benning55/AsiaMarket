@@ -208,7 +208,7 @@
         </transition>
 
         <!--cart screen-->
-        <transition name="slide">
+<!--        <transition name="slide">-->
             <div v-if="cartDrawer" class="inset-y-0 right-0 bg-white fixed z-20 shadow-md z-105">
                 <NavbarSpace/>
                 <div class="relative h-full w-70 overflow-auto">
@@ -294,7 +294,7 @@
                     </button>
                 </div>
             </div>
-        </transition>
+<!--        </transition>-->
 
         <!--right screen-->
         <transition name="slide">
