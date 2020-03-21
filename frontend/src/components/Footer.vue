@@ -23,16 +23,16 @@
             <div class=" w-full sm:w-1/2 lg:w-1/4 pb-5 ">
                 <div class="">
                     <h1 class="text-xl mb-3">{{$t('contact_us')}}</h1>
-                    <p v-if="footerData[1].phone!=null"><i class="fas fa-phone-alt"></i>{{footerData[1].phone}}</p>
-                    <p v-if="footerData[2].phone!=''"><i class="fas fa-phone-alt"></i>{{footerData[2].phone}}</p>
+                    <p v-if="footerData[0].phone!=null"><i class="fas fa-phone-alt"></i>{{footerData[0].phone}}</p>
+                    <p v-if="footerData[1].phone!=''"><i class="fas fa-phone-alt"></i>{{footerData[1].phone}}</p>
+                    <p v-if="footerData[0].email!=null"><i class="fas fa-envelope"></i>{{footerData[0].email}}</p>
                     <p v-if="footerData[1].email!=null"><i class="fas fa-envelope"></i>{{footerData[1].email}}</p>
-                    <p v-if="footerData[2].email!=null"><i class="fas fa-envelope"></i>{{footerData[2].email}}</p>
                 </div>
             </div>
             <div class="py-10 w-full sm:w-1/2 lg:w-1/4 ">
                 <div class="flex pr-2 ">
                     <i class="fas fa-map-marker-alt"></i>
-                    <p>{{footerData[1].address}}</p>
+                    <p>{{footerData[0].address}}</p>
                 </div>
             </div>
             <div class=" w-full sm:w-1/2 lg:w-1/4 ">
@@ -73,7 +73,6 @@
             getFooterData() {
                 axios.get(`${this.$store.state.endpoints.host}/api/footer/`).then(res => {
                     this.footerData = res.data.data
-                    console.log(this.footerData)
                     this.isLoading = false
                 }).catch(e => {
                     this.$message.error(this.$t('error_Oops_') + e.status + ', at load recommend');

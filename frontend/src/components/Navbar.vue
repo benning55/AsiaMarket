@@ -3,7 +3,7 @@
         <!--        navbar desktop version-->
         <div class="fixed w-full z-110  bg-white shadow-lg">
             <div class="hidden sm:hidden md:hidden lg:block h-6 w-full bg-orange text-center text-white">
-                {{this.banner.address}}
+                {{this.banner}}
             </div>
             <nav class="hidden sm:hidden md:hidden lg:block  flex items-center  ">
                 <ul class="w-full flex justify-between">
@@ -48,7 +48,7 @@
         <!--        navbar mobile version-->
         <div class="fixed w-full z-110 bg-white">
             <div class="block sm:block md:block lg:hidden h-6 w-full bg-orange text-center text-white">
-                {{this.banner.address}}
+                {{this.banner}}
             </div>
             <nav class="block sm:block md:block lg:hidden  flex items-center justify-between flex-wrap  py-5 shadow-lg"
                  style="height: 72px;">
@@ -410,9 +410,8 @@
             },
 
             getBannerData() {
-                axios.get(`${this.$store.state.endpoints.host}/api/footer/`).then(res => {
-                    this.banner = res.data.data[0]
-                    console.log(this.banner)
+                axios.get(`${this.$store.state.endpoints.host}/api/banner/`).then(res => {
+                    this.banner = res.data.data[0].description
                     this.isLoading = false
                 }).catch(e => {
                     this.$message.error(this.$t('error_Oops_') + e.status + ', at load recommend');
