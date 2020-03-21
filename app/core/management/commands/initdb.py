@@ -2,7 +2,7 @@ from abc import ABC
 
 from django.core.management import BaseCommand, CommandError
 
-from core.models import Category, User, Product
+from core.models import Category, User, Product, Banner
 
 
 class Command(BaseCommand):
@@ -32,3 +32,9 @@ class Command(BaseCommand):
             Category.objects.create(type='Other', color='pink').save()
         else:
             self.stdout.write("Category Data already add.")
+        banner = Banner.objects.all()
+        if banner.count() < 1:
+            self.stdout.write("add banner example")
+            Banner.objects.create(description='Example')
+        else:
+            pass

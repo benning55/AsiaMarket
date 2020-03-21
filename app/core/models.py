@@ -301,3 +301,8 @@ class FooterData(models.Model):
     phone = models.CharField(max_length=12, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
+
+
+class Banner(models.Model):
+    """Data for red banner"""
+    description = models.TextField()

@@ -14,7 +14,7 @@ from rest_framework import status
 from collections import namedtuple
 import json
 
-from core.models import Product, Category, Cart, CartDetail, Code, CarouselImage, FooterData
+from core.models import Product, Category, Cart, CartDetail, Code, CarouselImage, FooterData, Banner
 from products import serializers
 
 Timeline = namedtuple('Timeline', ('cart', 'cart_detail', 'code'))
@@ -241,11 +241,11 @@ def csv_upload(request):
             price=column[4],
             quantity=column[5]
         )
-        # try:
-        product.url = column[2]
-        product.save()
-        # except:
-        #     continue
+        try:
+            product.url = column[2]
+            product.save()
+        except:
+            continue
 
     context = {}
     return render(request, template, context)
@@ -279,3 +279,15 @@ def get_footer(request):
         else:
             serializer = serializers.FooterDataSerializer(queryset, many=True)
             return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', ])
+@permission_classes([AllowAny, ])
+def get_banner(request):
+    """
+    Get Banner for data
+    """
+    if request.method == 'GET':
+        queryset = Banner.objects.all()
+        serializer = serializers.BannerSerializer(queryset, many=True)
+        return Response({"data": serializer.data}, status=status.HTTP_200_OK)

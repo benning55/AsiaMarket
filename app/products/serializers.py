@@ -1,4 +1,4 @@
-from core.models import Category, Product, Cart, Code, CartDetail, CarouselImage, FooterData
+from core.models import Category, Product, Cart, Code, CartDetail, CarouselImage, FooterData, Banner
 from rest_framework import serializers
 
 
@@ -130,6 +130,15 @@ class FooterDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = FooterData
         fields = ('id', 'phone', 'email', 'address')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }
+
+
+class BannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Banner
+        fields = ('id', 'description')
         extra_kwargs = {
             'id': {'read_only': True}
         }

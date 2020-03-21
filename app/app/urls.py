@@ -28,6 +28,7 @@ urlpatterns = [
     path('auth/obtain_token/', obtain_jwt_token),
     path('auth/refresh_token/', refresh_jwt_token),
     path('api/footer/', views.get_footer),
+    path('api/banner/', views.get_banner),
     path('api/accounts/', include('accounts.urls')),
     path('api/products/', include('products.urls')),
     path('api/orders/', include('orders.urls'))
