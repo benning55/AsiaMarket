@@ -31,7 +31,7 @@ const routes = [
         name: 'HomePage',
         component: HomePage,
         meta: {
-            title: 'AsiaMarket'
+            title: 'ThaiMarket Express'
         }
     },
     {

@@ -284,14 +284,11 @@
             nameTranslate(text) {
                 let list = text.split(')').join('(').split('(')
                 if (list.length == 1) {
-                    document.title = text
                     return text
                 } else {
                     if (this.$i18n.locale == 'th') {
-                        document.title = list[1]
                         return list[1]
                     } else {
-                        document.title = list[0]
                         return list[0]
                     }
                 }
