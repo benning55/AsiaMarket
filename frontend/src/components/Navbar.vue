@@ -208,93 +208,93 @@
         </transition>
 
         <!--cart screen-->
-<!--        <transition name="slide">-->
-            <div v-if="cartDrawer" class="inset-y-0 right-0 bg-white fixed z-20 shadow-md z-105">
-                <NavbarSpace/>
-                <div class="relative h-full w-70 overflow-auto">
-                    <div class="w-70 p-3 text-xl border-bottom fixed justify-between flex bg-white">
-                        <el-badge :value="$store.state.inCart.cart_detail.length" class="item" type="primary">
-                            <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
-                        </el-badge>
-                        {{$t('my_cart')}}
-                        <i @click="cartDrawer = !cartDrawer" class="material-icons text-3xl cursor-pointer">keyboard_arrow_right</i>
-                    </div>
-                    <div class="w-full">
-                        <ul class="w-full" style="height: 3.5rem"></ul>
-                        <InCartItem v-for="item in $store.state.inCart.cart_detail" :key="item.id" :data="item"/>
-                        <div class="w-full" style="height: 273px"></div>
-                    </div>
+        <!--        <transition name="slide">-->
+        <div v-if="cartDrawer" class="inset-y-0 right-0 bg-white fixed z-20 shadow-md z-105">
+            <NavbarSpace/>
+            <div class="relative h-full w-70 overflow-auto">
+                <div class="w-70 p-3 text-xl border-bottom fixed justify-between flex bg-white">
+                    <el-badge :value="$store.state.inCart.cart_detail.length" class="item" type="primary">
+                        <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
+                    </el-badge>
+                    {{$t('my_cart')}}
+                    <i @click="cartDrawer = !cartDrawer" class="material-icons text-3xl cursor-pointer">keyboard_arrow_right</i>
                 </div>
-                <div class="fixed-b w-70 bottom-0  border-top p-2 bg-white z-50 appearance-none">
-                    <div class="flex justify-between font-l">
-                        <div class="">{{$t('subTotal')}}</div>
-                        <div>{{subTotal}} €</div>
-                    </div>
-                    <div class="flex justify-between font-l">
-                        <div class="">{{$t('shipping')}}</div>
-                        <div>{{shipping}} €</div>
-                    </div>
-                    <div class="flex justify-between font-l my-1">
-                        <div class="">{{$t('coupon_code')}}</div>
-                        <div class="flex">
-                            <input v-model="code"
-                                   @input="checkCode"
-                                   class="appearance-none border rounded-l-lg w-24 py-1 px-2 text-gray leading-tight focus:outline-none"
-                                   id="username"
-                                   type="text"/>
-                            <div v-if="codeStatus == 'ok'" class="height1-85 bg-green rounded-r-lg"
-                                 style="padding: 4px">
-                                <i class="fas fa-check text-white"></i>
-                            </div>
+                <div class="w-full">
+                    <ul class="w-full" style="height: 3.5rem"></ul>
+                    <InCartItem v-for="item in $store.state.inCart.cart_detail" :key="item.id" :data="item"/>
+                    <div class="w-full" style="height: 273px"></div>
+                </div>
+            </div>
+            <div class="fixed-b w-70 bottom-0  border-top p-2 bg-white z-50 appearance-none">
+                <div class="flex justify-between font-l">
+                    <div class="">{{$t('subTotal')}}</div>
+                    <div>{{subTotal}} €</div>
+                </div>
+                <div class="flex justify-between font-l">
+                    <div class="">{{$t('shipping')}}</div>
+                    <div>{{shipping}} €</div>
+                </div>
+                <div class="flex justify-between font-l my-1">
+                    <div class="">{{$t('coupon_code')}}</div>
+                    <div class="flex">
+                        <input v-model="code"
+                               @input="checkCode"
+                               class="appearance-none border rounded-l-lg w-24 py-1 px-2 text-gray leading-tight focus:outline-none"
+                               id="username"
+                               type="text"/>
+                        <div v-if="codeStatus == 'ok'" class="height1-85 bg-green rounded-r-lg"
+                             style="padding: 4px">
+                            <i class="fas fa-check text-white"></i>
+                        </div>
 
-                            <div v-else-if="codeStatus == 'loading'" class="height1-85 bg-green rounded-r-lg opacity-50"
-                                 style="padding: 4px">
-                                <img src="../assets/icon/Rolling-1s-24px.svg">
-                            </div>
+                        <div v-else-if="codeStatus == 'loading'" class="height1-85 bg-green rounded-r-lg opacity-50"
+                             style="padding: 4px">
+                            <img src="../assets/icon/Rolling-1s-24px.svg">
+                        </div>
 
-                            <div v-else-if="codeStatus == 'none'" class="height1-85 bg-green rounded-r-lg opacity-50"
-                                 style="padding: 4px">
-                                <i class="fas fa-check text-white"></i>
-                            </div>
+                        <div v-else-if="codeStatus == 'none'" class="height1-85 bg-green rounded-r-lg opacity-50"
+                             style="padding: 4px">
+                            <i class="fas fa-check text-white"></i>
+                        </div>
 
-                            <div v-else class="height1-85 bg-red rounded-r-lg text-center"
-                                 style="padding: 3px">
-                                <i class="fas fa-times text-white"></i>
-                            </div>
+                        <div v-else class="height1-85 bg-red rounded-r-lg text-center"
+                             style="padding: 3px">
+                            <i class="fas fa-times text-white"></i>
                         </div>
                     </div>
-                    <div class="flex justify-between">
-                        <div class="">{{$t('total')}}</div>
-                        <div>{{total}} €</div>
-                    </div>
+                </div>
+                <div class="flex justify-between">
+                    <div class="">{{$t('total')}}</div>
+                    <div>{{total}} €</div>
+                </div>
 
-                    <el-popover
-                            v-if="checkPass.length > 0"
-                            placement="top"
-                            :title="nameTranslate('Product Incorrect(สินค้าไม่ถูกต้อง)')"
-                            width="300"
-                            trigger="click"
-                            :content="nameTranslate('Some Product maybe out of stock or not enough please edit and try again(สินค้าบางชื้นหมดแล้วหรือมีไม่เพียงพอ กรุณาแก้ไขสินค้าชิ้นนั้น)')">
-                        <button
-                                slot="reference"
-                                class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
-                            <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
-                            {{$t('process_to_checkout')}}
-                        </button>
-                    </el-popover>
-                    <button v-else-if="subTotal == 0"
+                <el-popover
+                        v-if="checkPass.length > 0"
+                        placement="top"
+                        :title="nameTranslate('Product Incorrect(สินค้าไม่ถูกต้อง)')"
+                        width="300"
+                        trigger="click"
+                        :content="nameTranslate('Some Product maybe out of stock or not enough please edit and try again(สินค้าบางชื้นหมดแล้วหรือมีไม่เพียงพอ กรุณาแก้ไขสินค้าชิ้นนั้น)')">
+                    <button
+                            slot="reference"
                             class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
                         <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
                         {{$t('process_to_checkout')}}
                     </button>
-                    <button v-else @click="goCheckOut"
-                            class="w-full h-10 bg-orange mt-3 text-white flex justify-center">
-                        <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
-                        {{$t('process_to_checkout')}}
-                    </button>
-                </div>
+                </el-popover>
+                <button v-else-if="subTotal == 0"
+                        class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
+                    <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
+                    {{$t('process_to_checkout')}}
+                </button>
+                <button v-else @click="goCheckOut"
+                        class="w-full h-10 bg-orange mt-3 text-white flex justify-center">
+                    <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
+                    {{$t('process_to_checkout')}}
+                </button>
             </div>
-<!--        </transition>-->
+        </div>
+        <!--        </transition>-->
 
         <!--right screen-->
         <transition name="slide">
@@ -607,38 +607,36 @@
         }
         ,
         watch: {
+            '$route.name'() {
+                this.updateCart()
+                this.updateShipping()
+            },
             getCode: {
                 deep: true,
-                handler
-    :
-
-    function (code) {
-        if (code != 0) {
-            this.percent = Number(code.percent)
-            this.code = code.name
-        } else {
-            this.percent = 0
-            this.code = ''
-        }
-    }
-    }
-    ,
-    code: {
-        deep: true,
-            handler
-    :
-
-        function (newVal) {
-            if (this.codeStatus == 'loading') {
-                this.codeStatus = 'loading'
-            } else if (newVal.length > 0) {
-                this.codeStatus = 'ok'
-            } else {
-                this.codeStatus = 'none'
+                handler: function (code) {
+                    if (code != 0) {
+                        this.percent = Number(code.percent)
+                        this.code = code.name
+                    } else {
+                        this.percent = 0
+                        this.code = ''
+                    }
+                }
+            }
+            ,
+            code: {
+                deep: true,
+                handler: function (newVal) {
+                    if (this.codeStatus == 'loading') {
+                        this.codeStatus = 'loading'
+                    } else if (newVal.length > 0) {
+                        this.codeStatus = 'ok'
+                    } else {
+                        this.codeStatus = 'none'
+                    }
+                }
             }
         }
-    }
-    }
     }
 </script>
 

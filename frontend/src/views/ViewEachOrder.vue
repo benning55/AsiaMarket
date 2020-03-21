@@ -48,7 +48,8 @@
                     <tbody>
                     <tr v-for="item in orderDetail" :key="item.id" class="border-bottom">
                         <td class="px-2 py-2">
-                            <div v-if="imageError" class="w-full mx-auto" style="max-width: 120px;height: 120px; object-fit: contain">
+                            <div v-if="imageError" class="w-full mx-auto"
+                                 style="max-width: 120px;height: 120px; object-fit: contain">
                                 <svg style="width: 100%;height: 100%" xmlns="http://www.w3.org/2000/svg"
                                      height="300px" width="300px"
                                      version="1.1"
@@ -64,7 +65,8 @@
                                     </text>
                                 </svg>
                             </div>
-                            <img v-else class="w-full mx-auto" style="max-width: 120px;height: 120px; object-fit: contain"
+                            <img v-else class="w-full mx-auto"
+                                 style="max-width: 120px;height: 120px; object-fit: contain"
                                  :src="$store.state.endpoints.host + item.product.pic1"
                                  @error="printerror()"
                                  alt="">
@@ -115,7 +117,8 @@
             <div id="payment" class="flex justify-between px-1 sm:px-0">
                 <h1 class="mt-5 py-1 text-xl font-l">{{$t('payment')}}</h1>
             </div>
-            <SelectPayment v-if="!order.payment_status && !order.receipt" :id="$route.params.id" :order="order"/>
+            <SelectPayment v-if="!order.payment_status && !order.receipt" :id="$route.params.id" :order="order"
+                           @updatePayment="loadData"/>
             <div v-else-if="!order.payment_status && order.receipt"
                  class="bg-white w-full px-1 sm:h-full lg:px-10 xl:px-24 mx-auto py-5">
                 <div class="px-5 md:px-10 font-l text-lg">
@@ -165,27 +168,30 @@
                 },
                 orderDetail: null,
                 isLoading: false,
-                imageError:false
+                imageError: false
             }
         },
         created() {
             this.isLoading = true
-            axios.get(`${this.$store.state.endpoints.host}/api/orders/order/` + this.$route.params.id + '/', {
-                headers: {
-                    Authorization: `JWT ${this.$store.state.jwt}`,
-                    'Content-Type': 'application/json'
-                }
-            }).then(res => {
-                this.isLoading = false
-                this.order = res.data.data.order[0]
-                this.orderDetail = res.data.data.order_detail
-            }).catch(e => {
-                this.isLoading = false
-                this.$message.error(this.$t('error_Oops_') + e.status + ', at Load this Order');
-            })
+            this.loadData()
         },
-        methods:{
-            printerror(){
+        methods: {
+            loadData() {
+                axios.get(`${this.$store.state.endpoints.host}/api/orders/order/` + this.$route.params.id + '/', {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    }
+                }).then(res => {
+                    this.isLoading = false
+                    this.order = res.data.data.order[0]
+                    this.orderDetail = res.data.data.order_detail
+                }).catch(e => {
+                    this.isLoading = false
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at Load this Order');
+                })
+            },
+            printerror() {
                 this.imageError = true
             }
         }

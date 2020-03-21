@@ -101,7 +101,7 @@
                     </p>
                 </button>
                 <div @click="goPayment"
-                     class="w-64 bg-green text-white text-center py-2 px-2 focus:outline-none cursor-pointer">
+                     class="mr-2 lg:mr-0 w-64 bg-green text-white text-center py-2 px-2 focus:outline-none cursor-pointer">
                     {{$t('confirm_order_and_go_payment')}}
                 </div>
             </div>

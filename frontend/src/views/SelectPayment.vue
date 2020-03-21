@@ -1,6 +1,8 @@
 <template>
 
     <div class="bg-white w-full px-4 sm:h-full lg:px-24 pb-16 mx-auto pt-5">
+        <Loader v-if="isLoading"/>
+
         {{$t('paypal_debit_or_credit_card')}}
         <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">
             <div class="px-2 bg-green" ref="paypal"></div>
@@ -62,11 +64,14 @@
     import axios from 'axios'
     import {Validator} from "../main";
     import moment from 'moment'
+    import Loader from "../components/Loader";
 
 
     export default {
         props: ["id", "order"],
-
+        components: {
+            Loader
+        },
         data: function () {
             return {
                 loaded: false,
@@ -86,7 +91,8 @@
                     disabledDate(time) {
                         return time.getTime() > Date.now();
                     },
-                }
+                },
+                isLoading: false
 
             };
         },
@@ -101,6 +107,18 @@
             },
         },
         methods: {
+            nameTranslate(text) {
+                let list = text.split(')').join('(').split('(')
+                if (list.length == 1) {
+                    return text
+                } else {
+                    if (this.$i18n.locale == 'th') {
+                        return list[1]
+                    } else {
+                        return list[0]
+                    }
+                }
+            },
             previewImage(event) {
                 this.imageData = event.target.files[0]
                 this.profileImageURL = URL.createObjectURL(this.imageData)
@@ -134,14 +152,14 @@
                                         given_name: this.$store.state.authUser.user.first_name,
                                         surname: this.$store.state.authUser.user.last_name
                                     },
-                                    // address: {
-                                    //     address_line_1: "123 ABC Street",
-                                    //     address_line_2: "Apt 2",
-                                    //     admin_area_2: "San Jose",
-                                    //     admin_area_1: "CA",
-                                    //     postal_code: "95121",
-                                    //     country_code: "US"
-                                    // },
+                                    address: {
+                                        address_line_1: "-",
+                                        address_line_2: "-",
+                                        admin_area_2: "-",
+                                        admin_area_1: "-",
+                                        postal_code: "-",
+                                        country_code: "-"
+                                    },
                                     email_address: this.$store.state.authUser.user.email,
                                     phone: {
                                         phone_type: "MOBILE",
@@ -167,9 +185,9 @@
                                         'Content-Type': 'application/json'
                                     }
                                 }).then(res => {
-                                    console.log(res)
-                                    this.$alert('Payment success', 'Success', {
-                                        confirmButtonText: 'OK',
+                                    this.$emit('updatePayment');
+                                    this.$alert(this.nameTranslate('Payment success(ชำระเงินสำเร็จ)'), this.nameTranslate('Success(สำเร็จ)'), {
+                                        confirmButtonText: this.nameTranslate('OK(ตกลง)'),
                                     });
                                 }).catch(e => {
                                     // this.$message.error('Oops, Something is Error. code ' + e.status + ', at cart');
@@ -182,7 +200,7 @@
                         },
                         onError: e => {
                             // this.$message.error('Oops, Something is Error. code ' + e.status + ', at paypal');
-                            this.$alert("Can't save Data, But payment success", 'Error', {
+                            this.$alert(`Oops, Something is Error. code ${e.response.status}, at paypal`, 'Error', {
                                 confirmButtonText: 'OK',
                             });
                         }
@@ -190,6 +208,7 @@
                     .render('#paypal-button-container');
             },
             sendSlip() {
+                this.isLoading = true
                 let formData = new FormData();
                 formData.append('pic', this.imageData);
                 formData.append('order', this.$route.params.id);
@@ -201,14 +220,18 @@
                         'Content-Type': 'application/json'
                     }
                 }).then(() => {
-                    this.$alert('Upload Complete', 'Upload slip', {
-                        confirmButtonText: 'Ok',
+                    this.isLoading = false
+                    this.$emit('updatePayment');
+                    this.$alert(this.nameTranslate('Upload success(อัปโหลดสำเร็จ)'), this.nameTranslate('Upload Slip(อัปโหลดสหลักฐานการโอนเงิน)'), {
+                        confirmButtonText: this.nameTranslate('OK(ตกลง)'),
                         callback: action => {
                             if (action == 'confirm') {
+
                             }
                         }
                     });
                 }).catch(e => {
+                    this.isLoading = false
                     this.$alert('Error : ' + e.response, 'Upload slip', {
                         confirmButtonText: 'Ok',
                         callback: action => {

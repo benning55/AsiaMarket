@@ -3,6 +3,7 @@
          @focusout="handleFocusOut"
          tabindex="0">
 
+        <!--        not enough case-->
         <div v-if="!isWillDelete && this.data.overStatus && quantity > 0" class="parent" style="height: 80px">
             <div class="div1 self-center">
                 <div class="relative" style="width: 90%">
@@ -46,6 +47,7 @@
             </div>
         </div>
 
+        <!--normal case-->
         <div v-else-if="!isWillDelete && quantity > 0" class="parent" style="height: 80px">
             <div class="div1 self-center">
                 <div class="" style="width: 90%">
@@ -65,7 +67,7 @@
                             </text>
                         </svg>
                     </div>
-                    <img v-else :src="$store.state.endpoints.host+data.product.pic1" alt="aa"
+                    <img v-else :src="$store.state.endpoints.host+data.product.pic1" alt="product"
                          @error="printerror()"
                          style="max-height: 80px;margin: auto">
                 </div>
@@ -76,6 +78,7 @@
             <div class="div3" style="align-self: flex-start;text-align: right;">
                 <i @click="isWillDelete=true" class='fas fa-trash-alt m-2 text-lightGray cursor-pointer'></i>
             </div>
+
             <div class="div4">
                 <div class="button-area flex justify-between cursor-pointer">
                     <div v-if="value > 1" @click="decrease" class="button-increase  bg-green" style="user-select: none">
@@ -103,6 +106,7 @@
             </div>
         </div>
 
+        <!--        out of stock case-->
         <div v-else-if="!isWillDelete && quantity == 0" class="parent" style="height: 80px">
             <div class="div1 self-center">
                 <div class="" style="width: 90%">
@@ -126,7 +130,7 @@
             </div>
         </div>
 
-
+        <!--        choose delete or cancel-->
         <div v-else class="parent2" style="height: fit-content">
             <div @click="deleteItem" class="div22 bg-red text-white text-center w-full h-20 cursor-pointer">
                 <p>{{$t('delete')}}</p>
@@ -151,11 +155,11 @@
                 quantity: this.data.product.quantity,
                 isWillDelete: false,
                 itemStatus: 'ok',
-                imageEror:false
+                imageEror: false
             }
         },
         methods: {
-            printerror(){
+            printerror() {
                 this.imageEror = true
             },
             reduceTitle(title) {
@@ -247,18 +251,12 @@
                         'Content-Type': 'application/json'
                     },
                 }).then(() => {
-                    // console.log(res.status)
                     let index = this.$store.state.inCart.cart_detail.findIndex(item => item.id == this.data.id)
                     this.$store.state.inCart.cart_detail.splice(index, 1)
                 }).catch(e => {
                     this.$message.error('Oops, Something is Error. code ' + e.response.status + 'at delete product');
                 })
             }
-        },
-        computed: {
-            // isOver(){
-            //     if(this.data.quantity > this.data.product.quantity){}
-            // }
         }
     }
 </script>

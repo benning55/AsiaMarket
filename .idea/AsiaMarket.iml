@@ -18,6 +18,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Remote Python 3.8.1 Docker (asiamarket_app:latest) (4)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="818733fa55" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

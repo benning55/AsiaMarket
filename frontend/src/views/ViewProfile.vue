@@ -8,9 +8,9 @@
         </div>
         <div v-else
              class="bg-white w-full border-green-top px-4 sm:h-full lg:px-20 pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
-            <div class="text-center text-2xl mb-10 mt-5 font-l">{{$t('')}}Profile</div>
+            <div class="text-center text-2xl mb-10 mt-5 font-l">{{$t('profile')}}</div>
             <div class="flex-none sm:flex justify-between mb-5">
-                <h1 class="text-xl font-l text-gray">{{$t('')}}Email</h1>
+                <h1 class="text-xl font-l text-gray">{{$t('email')}}</h1>
                 <h1 class="text-xl">{{this.$store.state.authUser.user.email}}</h1>
             </div>
             <div class="flex-none sm:flex justify-between mb-5">

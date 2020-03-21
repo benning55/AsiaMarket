@@ -99,6 +99,12 @@
                     {{$t('save')}}
                 </div>
             </div>
+            <button class="w-32 mt-5 text-black_p py-2 focus:outline-none flex justify-start"
+                    type="button">
+                <p @click="$router.go(-1)" class="inline-flex ml-0">
+                    <i class="material-icons">keyboard_arrow_left</i><span>{{$t('previous')}}</span>
+                </p>
+            </button>
         </div>
     </div>
 </template>
@@ -211,22 +217,22 @@
                     this.isLoading = false
                     alert("can not delete")
                 }
-                // else if (this.$store.state.userAddress[this.$store.state.indexUserAddress].id == this.$route.params.id) {
-                //     // this.$store.commit("setIndexUserAddress", this.$store.state.indexUserAddress - 1);
-                //     axios.delete(`${this.$store.state.endpoints.host}/api/accounts/user/address/` + this.$route.params.id + '/', {
-                //         headers: {
-                //             Authorization: `JWT ${this.$store.state.jwt}`,
-                //             'Content-Type': 'application/json'
-                //         },
-                //     }).then(() => {
-                //         this.isLoading = false
-                //         this.$router.push({
-                //             name: 'ViewAddress'
-                //         })
-                //     }).catch(e => {
-                //         this.isLoading = false
-                //         this.$message.error(this.$t('error_Oops_') + e.response.status + ', at delete address');
-                //     })
+                    // else if (this.$store.state.userAddress[this.$store.state.indexUserAddress].id == this.$route.params.id) {
+                    //     // this.$store.commit("setIndexUserAddress", this.$store.state.indexUserAddress - 1);
+                    //     axios.delete(`${this.$store.state.endpoints.host}/api/accounts/user/address/` + this.$route.params.id + '/', {
+                    //         headers: {
+                    //             Authorization: `JWT ${this.$store.state.jwt}`,
+                    //             'Content-Type': 'application/json'
+                    //         },
+                    //     }).then(() => {
+                    //         this.isLoading = false
+                    //         this.$router.push({
+                    //             name: 'ViewAddress'
+                    //         })
+                    //     }).catch(e => {
+                    //         this.isLoading = false
+                    //         this.$message.error(this.$t('error_Oops_') + e.response.status + ', at delete address');
+                    //     })
                 // }
                 else {
                     console.log(`${this.$store.state.endpoints.host}/api/accounts/user/address/`)

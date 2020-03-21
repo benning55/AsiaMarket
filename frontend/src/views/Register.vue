@@ -67,7 +67,7 @@
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
                         <label v-if="!validation.firstError('street')"
                                class="block text-sm mb-2"
-                               for="houseNumber">{{$t('street')}}Street</label>
+                               for="houseNumber">{{$t('street')}}</label>
                         <label v-else class="block text-sm mb-2 text-red"
                                for="street">{{$t(validation.firstError('street'))}}</label>
                         <el-input id="street"

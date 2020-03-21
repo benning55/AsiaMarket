@@ -27,10 +27,10 @@ export default new Vuex.Store({
             cart_detail: []
         },
         userAddress: [],
-        indexUserAddress:0,
-        allOrder:[],
-        shippingFee:0,
-        localLanguage:'en'
+        indexUserAddress: 0,
+        allOrder: [],
+        shippingFee: 0,
+        localLanguage: 'en'
     },
     mutations: {
         setAuth(state, isAuthenticated) {
@@ -56,6 +56,10 @@ export default new Vuex.Store({
             state.inCart = {
                 cart_detail: []
             }
+            state.userAddress = []
+            state.indexUserAddress = 0
+            state.allOrder = []
+            state.shippingFee = 0
         },
         setIncart(state, incart) {
             state.inCart = incart
@@ -63,28 +67,28 @@ export default new Vuex.Store({
         setUserAddress(state, address) {
             state.userAddress = address
         },
-        setNewFirstname(state,firstname){
+        setNewFirstname(state, firstname) {
             state.authUser.user.first_name = firstname
         },
-        setNewLastname(state,lastname){
+        setNewLastname(state, lastname) {
             state.authUser.user.last_name = lastname
         },
-        setNewTel(state,tel){
+        setNewTel(state, tel) {
             state.authUser.profile.tel = tel
         },
-        setNewDOB(state,dob){
+        setNewDOB(state, dob) {
             state.authUser.profile.dob = dob
         },
-        setIndexUserAddress(state,index){
+        setIndexUserAddress(state, index) {
             state.indexUserAddress = index
         },
-        setAllOrder(state,allOrder){
+        setAllOrder(state, allOrder) {
             state.allOrder = allOrder
         },
-        setShippingFee(state,shippingFee){
+        setShippingFee(state, shippingFee) {
             state.shippingFee = shippingFee
         },
-        setLocalLanguage(state,local){
+        setLocalLanguage(state, local) {
             state.localLanguage = local
         }
     },

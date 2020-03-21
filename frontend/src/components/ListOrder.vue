@@ -36,11 +36,11 @@
                 <div class="flex justify-between">
                     <h1 class="text-key_column">{{$t('status')}}</h1>
                     <h1 v-if="orderdata.payment_status">
-                        <span v-if="orderdata.delivery_status == 'Waiting'" class="text-gray">{{$t('waiting_for_delivery')}}</span>
+                        <span v-if="orderdata.delivery_status == 'Waiting'" class="text-gray">{{nameTranslate('Wait for Shipping(รอนำส่ง)')}}</span>
                         <span v-if="orderdata.delivery_status == 'Shipping'"
-                              class="text-orange">{{$t('shipping')}}</span>
+                              class="text-orange">{{nameTranslate('(กำลังส่ง)')}}</span>
                         <span v-if="orderdata.delivery_status == 'Delivered'"
-                              class="text-green">{{$t('delivered')}}</span>
+                              class="text-green">{{nameTranslate('Delivered(ส่งสำเร็จ)')}}</span>
                     </h1>
                     <h1 class="text-red" v-else>{{$t('not_paid')}}</h1>
                 </div>
@@ -65,6 +65,18 @@
         methods: {
             printerror(){
                 this.imageError = true
+            },
+            nameTranslate(text) {
+                let list = text.split(')').join('(').split('(')
+                if (list.length == 1) {
+                    return text
+                } else {
+                    if (this.$i18n.locale == 'th') {
+                        return list[1]
+                    } else {
+                        return list[0]
+                    }
+                }
             },
             goEachOrder(id) {
                 this.$router.push({

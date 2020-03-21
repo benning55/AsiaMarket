@@ -87,6 +87,13 @@
                 {{$t('add_new_address')}}
             </div>
 
+            <button class="w-32 mt-5 text-black_p py-2 focus:outline-none flex justify-start"
+                    type="button">
+                <p @click="$router.go(-1)" class="inline-flex ml-0">
+                    <i class="material-icons">keyboard_arrow_left</i><span>{{$t('previous')}}</span>
+                </p>
+            </button>
+
         </div>
     </div>
 </template>
