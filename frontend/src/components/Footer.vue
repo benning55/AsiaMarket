@@ -38,9 +38,9 @@
             <div class=" w-full sm:w-1/2 lg:w-1/4 ">
                 <div class="">
                     <h1 class="text-xl mb-3">{{$t('help')}}</h1>
-                    <p>{{$t('how_to_order')}}</p>
-                    <p>{{$t('how_to_payment')}}</p>
-                    <p>{{$t('how_to_manage_address')}}</p>
+                    <router-link to="/help-01"><p>{{$t('how_to_order')}}</p></router-link>
+                    <router-link to="/help-02"><p>{{$t('how_to_payment')}}</p></router-link>
+                    <router-link to="/help-03"><p>{{$t('how_to_manage_address')}}</p></router-link>
                 </div>
             </div>
         </div>
