@@ -168,7 +168,8 @@
                 this.centerDialogVisible = true
             },
             closeModal() {
-                this.isModalVisible = false;
+                console.log('close')
+                this.centerDialogVisible = false;
             },
             loadAddress() {
                 this.isLoading = true

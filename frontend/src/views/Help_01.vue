@@ -1,98 +1,86 @@
 <template>
     <div>
         <NavbarSpace/>
-        <nav id="header" class="fixed w-full">
+        <div class="w-full bg-white px-2 sm:px-5 md:px-10 lg:px-12 py-10">
+            <h1 class="text-xl mb-10">How to Order</h1>
 
-            <!--Nav-->
-            <div class="relative w-full z-10 fixed top-0 bg-gray-200 border-b border-grey-light">
-                <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-4">
-                    <div class="pl-4 flex items-center">
-                        <svg class="h-5 pr-3 fill-current text-teal-400" xmlns="http://www.w3.org/2000/svg"
-                             viewBox="0 0 20 20">
-                            <path d="M17.94 11H13V9h4.94A8 8 0 0 0 11 2.06V7H9V2.06A8 8 0 0 0 2.06 9H7v2H2.06A8 8 0 0 0 9 17.94V13h2v4.94A8 8 0 0 0 17.94 11zM10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20z"/>
-                        </svg>
-                        <a class="text-teal-700 text-base no-underline hover:no-underline font-extrabold text-xl"
-                           href="#"> Searchy</a>
-                        <div id="search-toggle" class="search-icon cursor-pointer pl-6">
-                            <svg class="fill-current pointer-events-none text-grey-darkest w-4 h-4 inline"
-                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="pr-4">
-                        <button id="nav-toggle"
-                                class="block lg:hidden flex items-center px-3 py-2 border rounded text-grey border-grey-dark hover:text-black hover:border-purple appearance-none focus:outline-none">
-                            <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <title>Menu</title>
-                                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div class="w-full flex-grow lg:flex lg:flex-1 lg:content-center lg:justify-end lg:w-auto hidden lg:block mt-2 lg:mt-0 z-20"
-                         id="nav-content">
-
-                        <ul class="list-reset lg:flex justify-end items-center">
-                            <li class="mr-3 py-2 lg:py-0">
-                                <a class="inline-block py-2 px-4 text-black font-bold no-underline" href="#">Active</a>
-                            </li>
-                            <li class="mr-3 py-2 lg:py-0">
-                                <a class="inline-block text-grey-dark no-underline hover:text-black hover:underline py-2 px-4"
-                                   href="#">link</a>
-                            </li>
-                            <li class="mr-3 py-2 lg:py-0">
-                                <a class="inline-block text-grey-dark no-underline hover:text-black hover:underline py-2 px-4"
-                                   href="#">link</a>
-                            </li>
-                        </ul>
-
-                    </div>
-
-                </div>
+            <p>กดปุ่ม "ใส่ตะกร้า" หรือ "Add" และเลือกจำนวนสินค้าที่ต้องการลงในตะกร้า</p>
+            <div class="mt-5 mb-20 px-3 md:px-5 lg:px-8 xl:px-12 ">
+                <img class="mx-auto shadow-md" src="../assets/help/order/select.png">
             </div>
 
-            <!--Search-->
-            <div class="relative w-full bg-white shadow-xl" id="search-content">
-                <div class="container mx-auto py-4 text-black">
-                    <input id="searchfield" type="search" placeholder="Search..." autofocus="autofocus"
-                           class="w-full text-grey-800 transition focus:outline-none focus:border-transparent p-2 appearance-none leading-normal text-xl lg:text-2xl">
-                </div>
-
+            <p>กดปุ่มสัญลักษณ์รถเข็นด้านซ้ายของหน้าจอ (มุมบนขวาในหน้าจอโทรศัพท์) เพื่อดูสิ่งของต่าง ๆ ในตะกร้า</p>
+            <ul style="list-style:disc " class="ml-5">
+                <li>สามารถเอาสินค้าออกได้โดยการกดเครื่องหมายรูปถังขยะ และกด "ลบ"</li>
+                <li>หากท่ามีรหัสส่วนลด สามารถใส่ได้ในช่อง "รหัสส่วนลด"</li>
+            </ul>
+            <div class="mt-5 mb-20 px-3 md:px-5 lg:px-8 xl:px-12 ">
+                <img v-if="$i18n.locale == 'en'" class="mx-auto  shadow-md" src="../assets/help/order/cartEN.png">
+                <img v-if="$i18n.locale == 'th'" class="mx-auto shadow-md" src="../assets/help/order/cartTH.png">
             </div>
 
-        </nav>
+            <p>กด "ตรวจสอบสินค้า" เพื่อทำการตรวจสอบสินค้า</p>
+            <ul style="list-style:disc " class="ml-5">
+                <li>ไม่สามารถกดได้หากสินค้าในตะกร้าอย่างน้อง 1 ชิ้น มีไม่เพียงพอ ให้เปลี่ยนจำนวนสินค้าใหม่หรือลบออก</li>
+                <li>หากสินค้าหมด กรุณาลบออกจากตะกร้า</li>
+            </ul>
+            <div class="mt-5 mb-20 mx-auto px-3 md:px-5 lg:px-8 xl:px-12 ">
+                <img v-if="$i18n.locale == 'en'" class="mx-auto shadow-md w-4/5 lg:w-1/3"
+                     src="../assets/help/order/checkoutbuttonEN.png">
+                <img v-if="$i18n.locale == 'th'" class="mx-auto shadow-md w-4/5 lg:w-1/3"
+                     src="../assets/help/order/checkoutbuttonTH.png">
+            </div>
 
+            <p>ตรวจสอบสินค้าและข้อมูลต่าง ๆ ของการสั่งซื้อ</p>
+            <ul style="list-style:disc " class="ml-5">
+                <li>สามารถแก้ไขสินค้าได้ในตระกร้าสินค้า</li>
+            </ul>
+            <div class="mt-5 mb-20 mx-auto px-3 md:px-5 lg:px-8 xl:px-12 ">
+                <img v-if="$i18n.locale == 'en'" class="mx-auto shadow-md" src="../assets/help/order/confirmEN.png">
+                <img v-if="$i18n.locale == 'th'" class="mx-auto shadow-md" src="../assets/help/order/confirmEN.png">
+            </div>
 
-        <div class="pt-24 container mx-auto">
-            <div class="bg-white border p-6 rounded shadow h-64">
-                Click the
-                <svg class="fill-current pointer-events-none text-grey-darkest w-4 h-4 inline"
-                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                    <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
-                </svg>
-                to show the search field.
+            <p>เลื่อนจอลงมาด้านล่าง จะพบกับข้อมูลของสถานที่สำหรับจัดส่ง หากต้องการเปลี่ยนที่อยู่จัดส่ง ให้กดปุ่ม
+                "เปลี่ยน"</p>
+            <div class="mt-5 mb-20 mx-auto px-3 md:px-5 lg:px-8 xl:px-12 ">
+                <img v-if="$i18n.locale == 'en'" class="mx-auto shadow-md" src="../assets/help/order/confirm2EN.png">
+                <img v-if="$i18n.locale == 'th'" class="mx-auto shadow-md" src="../assets/help/order/confirm2TH.png">
+            </div>
+
+            <p>เลือกที่อยู่ที่ต้องการจัดส่ง</p>
+            <div class="mt-5 mb-20 mx-auto px-3 md:px-5 lg:px-8 xl:px-12 ">
+                <img v-if="$i18n.locale == 'en'" class="mx-auto shadow-md w-4/5 lg:w-1/3"
+                     src="../assets/help/order/selectaddressEN.png">
+                <img v-if="$i18n.locale == 'th'" class="mx-auto shadow-md w-4/5 lg:w-1/3"
+                     src="../assets/help/order/selectaddressTH.png">
+            </div>
+
+            <p>กดปุ่ม "ยืนยันการสั่งซื้อและไปยังหน้าชำระเงิน" เพื่อทำการสั่งซื้อ</p>
+            <div class="mt-5 mb-20 mx-auto px-3 md:px-5 lg:px-8 xl:px-12 ">
+                <img v-if="$i18n.locale == 'en'" class="mx-auto shadow-md w-4/5 lg:w-1/3"
+                     src="../assets/help/order/confirm_btnTH.png">
+                <img v-if="$i18n.locale == 'th'" class="mx-auto shadow-md w-4/5 lg:w-1/3"
+                     src="../assets/help/order/confirm_btnTH.png">
+            </div>
+
+            <p>กด "ยืนยัน" เพื่อสั่งซื้อ กด "ยกเลิก" เพื่อออก</p>
+            <div class="mt-5 mb-20 mx-auto px-3 md:px-5 lg:px-8 xl:px-12 ">
+                <img v-if="$i18n.locale == 'en'" class="mx-auto shadow-md w-4/5 lg:w-1/3"
+                     src="../assets/help/order/confirmorderEN.png">
+                <img v-if="$i18n.locale == 'th'" class="mx-auto shadow-md w-4/5 lg:w-1/3"
+                     src="../assets/help/order/confirmorderTH.png">
+            </div>
+
+            <p>เมื่อการสั่งซื้อสำเร็จ</p>
+            <ul style="list-style:disc " class="ml-5">
+                <li>เลือก "ชำระเงิน" เพื่อไปยังหน้าชำระเงิน</li>
+                <li>เลือก "กลับไปหน้าหลัก" หากต้องการชำระเงินในภายหลัง</li>
+            </ul>
+            <div class="mt-5 mb-20 mx-auto px-3 md:px-5 lg:px-8 xl:px-12 ">
+                <img v-if="$i18n.locale == 'en'" class="mx-auto shadow-md w-4/5 lg:w-1/3" src="../assets/help/order/completeEN.png">
+                <img v-if="$i18n.locale == 'th'" class="mx-auto shadow-md w-4/5 lg:w-1/3" src="../assets/help/order/completeTH.png">
             </div>
         </div>
-        <!--        <NavbarSpace/>-->
-        <!--        <div class="w-full bg-white px-2 sm:px-5 md:px-10 lg:px-12 py-10">-->
-        <!--            <h1 class="text-xl">How to Order</h1>-->
-
-        <!--        </div>-->
-        <!--        <el-button type="text" @click="centerDialogVisible = true">Click to open the Dialog</el-button>-->
-
-        <!--        <el-dialog-->
-        <!--                title="Warning"-->
-        <!--                :visible.sync="centerDialogVisible"-->
-        <!--                width="30%"-->
-        <!--                center>-->
-        <!--            <span>It should be noted that the content will not be aligned in center by default</span>-->
-        <!--            <span slot="footer" class="dialog-footer">-->
-        <!--    <el-button @click="centerDialogVisible = false">Cancel</el-button>-->
-        <!--    <el-button type="primary" @click="centerDialogVisible = false">Confirm</el-button>-->
-        <!--  </span>-->
-        <!--        </el-dialog>-->
     </div>
 </template>
 
@@ -105,15 +93,36 @@
         },
         data() {
             return {
-                centerDialogVisible: false
+                text: [
+                    'กดปุ่ม "ใส่ตะกร้า" และเลือกจำนวนสินค้าที่ต้องการลงในตะกร้า',
+                    'กดปุ่มสัญลักษณ์รถเข็นด้านซ้ายของหน้าจอ (มุมบนซ้ายในหน้าจอโทรศัพท์) เพื่อดูสิ่งของต่าง ๆ ในตะกร้า',
+                    '-สามารถเอาสินค้าออกได้โดยการกดเครื่องหมายรูปถังขยะ และกด "ลบ"',
+                    '-หากท่ามีรหัสส่วนลด สามารถใส่ได้ในช่อง "รหัสส่วนลด"',
+                    'กด "ตรวจสอบสินค้า" เพื่อทำการตรวจสอบสินค้า',
+                    '-ไม่สามารถกดได้หากสินค้าในตะกร้าอย่างน้อง 1 ชิ้น มีไม่เพียงพอ ให้เปลี่ยนจำนวนสินค้าใหม่หรือลบออก',
+                    '-หากสินค้าหมด กรุณาลบออกจากตะกร้า',
+                    'สามารถแก้ไขสินค้าได้ในตระกร้าสินค้า',
+                    '', '', '', '', '', '',
+
+                ]
             }
+        },
+        methods: {
+            nameTranslate(text) {
+                let list = text.split(')').join('(').split('(')
+                if (list.length == 1) {
+                    return text
+                } else {
+                    if (this.$i18n.locale == 'th') {
+                        return list[1]
+                    } else {
+                        return list[0]
+                    }
+                }
+            },
         }
     }
 </script>
 
 <style scoped>
-    .el-popup-parent--hidden {
-        overflow: scroll;
-        -webkit-overflow-scrolling: touch
-    }
 </style>

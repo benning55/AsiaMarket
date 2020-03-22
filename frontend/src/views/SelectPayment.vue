@@ -30,7 +30,7 @@
             <div class="mb-4">
                 <div>
                     <label v-if="!validation.firstError('date')"
-                           class="block text-sm mb-2">{{$t('transfer_time')}}</label>
+                           class="block text-sm mb-2">{{$t('transfer_date')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2">{{validation.firstError('date')}}</label>
                     <el-date-picker
@@ -44,7 +44,7 @@
                     </el-date-picker>
 
                     <label v-if="!validation.firstError('time')"
-                           class="block text-sm mb-2 mt-3">{{$t('transfer_date')}}</label>
+                           class="block text-sm mb-2 mt-3">{{$t('transfer_time')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2 mt-3">{{validation.firstError('time')}}</label>
                     <el-time-picker
@@ -143,7 +143,7 @@
                                     {
                                         amount: {
                                             currency_code: "EUR",
-                                            value: this.order.total_price
+                                            value: this.order.price
                                         },
                                     }
                                 ],
