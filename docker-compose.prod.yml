@@ -11,6 +11,8 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app:Z
+      - static_volume:/vol/web/static
+      - media_volume:/vol/web/media
     command: >
       sh -c "pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py makemigrations && python manage.py migrate && python manage.py initdb && gunicorn app.wsgi:application --timeout 800 --bind 0.0.0.0:8000"
     environment:
@@ -67,9 +69,14 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
+    volumes:
+      - static_volume:/vol/web/static
+      - media_volume:/vol/web/media
     depends_on:
       - frontend
       - app
 
 volumes:
+  media_volume:
+  static_volume:
   ssl_data:

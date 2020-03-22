@@ -69,6 +69,8 @@ JWT_AUTH = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -154,6 +156,7 @@ EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 LANGUAGE_CODE = 'en-us'
 

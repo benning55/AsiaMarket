@@ -1,3 +1,3 @@
 from .settings import *
 
-DEBUG = os.environ.get('DEBUG')
+DEBUG = False

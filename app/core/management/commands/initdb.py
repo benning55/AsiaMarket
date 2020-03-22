@@ -3,12 +3,15 @@ from abc import ABC
 from django.core.management import BaseCommand, CommandError
 
 from core.models import Category, User, Product, Banner
+from django.contrib.auth.models import Group
 
 
 class Command(BaseCommand):
     """Django command to add data to db"""
 
     def handle(self, *args, **options):
+        admin, _ = Group.objects.get_or_create(name='admin')
+        customer, _ = Group.objects.get_or_create(name='customer')
         users = User.objects.all()
         if users.count() < 1:
             self.stdout.write("Create super user")

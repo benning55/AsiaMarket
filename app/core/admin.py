@@ -165,6 +165,10 @@ class BannerAdmin(admin.ModelAdmin):
     list_display = ['id', 'description']
 
 
+class NotifyEmailAdmin(admin.ModelAdmin):
+    list_display = ['id', 'email']
+
+
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Profile, ProfileAdmin)
 admin.site.register(models.Address, AddressAdmin)
@@ -180,3 +184,4 @@ admin.site.register(models.ShippingRate, ShippingRateAdmin)
 admin.site.register(models.CarouselImage, CarouselImageAdmin)
 admin.site.register(models.FooterData, FooterDataAdmin)
 admin.site.register(models.Banner, BannerAdmin)
+admin.site.register(models.NotifyEmail, NotifyEmailAdmin)

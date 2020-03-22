@@ -4,10 +4,14 @@ import time
 import schedule
 from django.template.loader import render_to_string
 
-from core.models import Product
+from core.models import Product, NotifyEmail
 
 
 def check_product():
+    admin_email = []
+    emails = NotifyEmail.objects.all()
+    for email in emails:
+        admin_email.append(email.email)
     queryset = Product.objects.all().filter(quantity__lte=10)
     if len(queryset) > 0:
         message = render_to_string('notify_product.html', {
@@ -17,7 +21,7 @@ def check_product():
             'Product is running out!',
             message,
             'no-reply@thaimarket.express',
-            ['bmaisonti@gmail.com'],
+            admin_email,
             html_message=message,
             fail_silently=False
         )

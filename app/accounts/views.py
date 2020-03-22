@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from rest_framework import status
 import json
+from django.contrib.auth.models import Group
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
@@ -80,6 +81,8 @@ def register(request):
             )
             new_user.set_password(user['password'])
             new_user.save()
+            customer_group = Group.objects.get(name='customer')
+            new_user.groups.add(customer_group)
             new_profile = Profile.objects.create(
                 user_id=new_user.id,
                 tel=profile['tel'],

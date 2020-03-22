@@ -306,3 +306,8 @@ class FooterData(models.Model):
 class Banner(models.Model):
     """Data for red banner"""
     description = models.TextField()
+
+
+class NotifyEmail(models.Model):
+    """Email to send notification to"""
+    email = models.EmailField(max_length=255)
