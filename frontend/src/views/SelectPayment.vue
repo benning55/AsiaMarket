@@ -8,6 +8,7 @@
             <div class="px-2 bg-green" ref="paypal"></div>
             <div id="paypal-button-container"></div>
         </div>
+
         <el-divider> {{$t('or')}}</el-divider>
         {{$t('bank_transfer')}}
         <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">
@@ -76,11 +77,6 @@
             return {
                 loaded: false,
                 paidFor: false,
-                product: {
-                    price: 7.77,
-                    description: "leg lamp from that one movie",
-                    img: "./assets/lamp.jpg"
-                },
                 profileImageURL: null,
                 imageURL: null,
                 imageData: null,
@@ -92,8 +88,8 @@
                         return time.getTime() > Date.now();
                     },
                 },
-                isLoading: false
-
+                isLoading: false,
+                data: {}
             };
         },
         validators: {
@@ -105,6 +101,9 @@
                 return Validator.value(value)
                     .required("time");
             },
+        },
+        created() {
+
         },
         methods: {
             nameTranslate(text) {
@@ -134,45 +133,10 @@
                             label: "paypal"
                         },
                         createOrder: (data, actions) => {
-                            return actions.order.create({
-                                application_context: {
-                                    shipping_preference: 'NO_SHIPPING',
-                                    locale: "en-US"
-                                },
-                                purchase_units: [
-                                    {
-                                        amount: {
-                                            currency_code: "EUR",
-                                            value: this.order.price
-                                        },
-                                    }
-                                ],
-                                payer: {
-                                    name: {
-                                        given_name: this.$store.state.authUser.user.first_name,
-                                        surname: this.$store.state.authUser.user.last_name
-                                    },
-                                    address: {
-                                        address_line_1: "-",
-                                        address_line_2: "-",
-                                        admin_area_2: "-",
-                                        admin_area_1: "-",
-                                        postal_code: "-",
-                                        country_code: "-"
-                                    },
-                                    email_address: this.$store.state.authUser.user.email,
-                                    phone: {
-                                        phone_type: "MOBILE",
-                                        phone_number: {
-                                            national_number: this.$store.state.authUser.profile.tel
-                                        }
-                                    }
-                                }
-                            });
+                            return actions.order.create(this.data);
                         },
                         onApprove: async (data, actions) => {
                             const order = await actions.order.capture();
-                            this.data;
                             this.paidFor = true;
                             if (order.status == "COMPLETED") {
                                 axios.put(`${this.$store.state.endpoints.host}/api/orders/order/`, {
@@ -251,6 +215,50 @@
             script.addEventListener("load", this.setLoaded);
             document.body.appendChild(script);
         },
+        watch: {
+            order() {
+                if (this.order != null) {
+                    let address = this.order.address.split(',')
+                    let city_code = address[address.length-1].split(' ')
+
+                    this.data = {
+                        application_context: {
+                            shipping_preference: 'NO_SHIPPING',
+                            locale: "en-US"
+                        },
+                        purchase_units: [
+                            {
+                                amount: {
+                                    currency_code: "EUR",
+                                    value: this.order.price
+                                },
+                            }
+                        ],
+                        payer: {
+                            name: {
+                                given_name: this.$store.state.authUser.user.first_name,
+                                surname: this.$store.state.authUser.user.last_name
+                            },
+                            address: {
+                                address_line_1: "-",
+                                address_line_2: "-",
+                                admin_area_2: address[address.length-2],
+                                admin_area_1: city_code[1],
+                                postal_code: city_code[2],
+                                country_code: "DE"
+                            },
+                            email_address: this.$store.state.authUser.user.email,
+                            phone: {
+                                phone_type: "MOBILE",
+                                phone_number: {
+                                    national_number: this.$store.state.authUser.profile.tel
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 </script>
 

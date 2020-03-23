@@ -2,10 +2,11 @@
     <div>
         <section v-if="type == 'address'" class="modal-body" id="modalDescription"
                  style="max-height: 500px;height: 50%">
+            {{chooseNewAddress}}
             <div class="overflow-auto" style="max-height: 500px">
                 <div v-for="(address,index) in $store.state.userAddress" :key="address.id">
                     <div @click="swapIndex(index)" class="round px-2 flex cursor-pointer"
-                         :class="{ 'select': $store.state.indexUserAddress == index }">
+                         :class="{ 'select': $store.state.indexUserAddress == index && chooseNewAddress == false }">
                         <div class="w-6/12 text-left text-black px-1 py-2 h-full text-center">
                             {{address.recipient}}
                         </div>
@@ -41,7 +42,7 @@
                 <div v-else class=" flex flex-wrap content-between">
                     <p class="pb-5">{{$t('are_you_sure_to_confirm')}}</p>
                     <div class="flex justify-between w-full">
-                        <div @click="close" class="bg-red py-2  px-4 text-white cursor-pointer">
+                        <div @click="$emit('close')" class="bg-red py-2  px-4 text-white cursor-pointer">
                             {{$t('cancel')}}
                         </div>
                         <div @click="confirmOrder" class="bg-green py-2 px-4 text-white cursor-pointer">
@@ -64,6 +65,7 @@
             return {
                 index: 5,
                 id: 0,
+                chooseNewAddress:this.total[4],
                 isOrderComplete: false,
                 dialogTableVisible: false
             }
@@ -79,6 +81,8 @@
             },
             swapIndex(index) {
                 this.$store.commit("setIndexUserAddress", index);
+                this.$emit('chooseExist')
+                this.$emit('close')
             },
             confirmOrder() {
                 axios.post(`${this.$store.state.endpoints.host}/api/orders/order/`, {
