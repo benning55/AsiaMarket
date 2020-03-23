@@ -6,9 +6,5 @@ module.exports = {
     presets: [
         '@vue/app'
     ],
-    plugins: removeConsolePlugin,
-    build: {
-        assetsPublicPath: '/',
-        assetsSubDirectory: 'static'
-    }
+    plugins: removeConsolePlugin
 }
