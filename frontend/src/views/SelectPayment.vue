@@ -130,7 +130,7 @@
                             layout: "vertical",
                             color: "gold",
                             shape: "rect",
-                            label: "paypal"
+                            label: "paypal",
                         },
                         createOrder: (data, actions) => {
                             return actions.order.create(this.data);
@@ -211,7 +211,7 @@
         mounted: function () {
             const script = document.createElement("script");
             script.src =
-                "https://www.paypal.com/sdk/js?client-id=AVT3yQTUXd2oByh2YuOlVhGhoTLGsyb5-BYgzX53YG7Wc-nqBF60Ugmk8kZljHxj4EA1wLWrexXwd8lj&currency=EUR";
+                "https://www.paypal.com/sdk/js?client-id=AUfSkf9yx6gyQTqqAw7BHpTQfX9cte8g35Yv_AbosN4DWOC6rN8LmiItOtkyJJvWZ7Svp6qE5vmbfqDJ&currency=EUR";
             script.addEventListener("load", this.setLoaded);
             document.body.appendChild(script);
         },
