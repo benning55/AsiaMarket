@@ -4,6 +4,7 @@
         <NavbarSpace/>
 
         <h1 class="px-3 lg:px-0 sm:mt-16 lg:mt-16 xl:mt-16 py-1 text-xl font-l">{{$t('order_history')}}</h1>
+
         <div v-if="orders.length > 0" class="bg-white w-full px-4 sm:h-full lg:px-24 pb-5 mx-auto">
             <ListOrder v-for="order in orders" :key="order.id" :orderdata="order"/>
         </div>

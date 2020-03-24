@@ -132,5 +132,7 @@
   "AVAILABLE": "AVAILABLE",
   "please_login_message": "If you want to purchase Product. Please Login",
   "please_login": "Please Login",
-  "see_more": "See more"
+  "see_more": "See more",
+  "after_reduce_price": "Price after reduce",
+  "wait_admin": "Awaiting verification by admin"
 }

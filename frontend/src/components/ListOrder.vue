@@ -42,7 +42,11 @@
                         <span v-if="orderdata.delivery_status == 'Delivered'"
                               class="text-green">{{nameTranslate('Delivered(ส่งสำเร็จ)')}}</span>
                     </h1>
-                    <h1 class="text-red" v-else>{{$t('not_paid')}}</h1>
+                    <h1 class="text-red" v-else>
+                        <span v-if="orderData.payment_type == 'BankTransfer'"
+                              class="text-orange">{{$t('wait_admin')}}</span>
+                        <span v-else class="text-red">{{$t('not_paid')}}</span>
+                    </h1>
                 </div>
             </div>
         </div>
@@ -59,11 +63,11 @@
         data() {
             return {
                 orderData: this.orderdata,
-                imageError:false
+                imageError: false
             }
         },
         methods: {
-            printerror(){
+            printerror() {
                 this.imageError = true
             },
             nameTranslate(text) {

@@ -51,19 +51,27 @@
                         <h1 class="">{{$t('subTotal')}}</h1>
                         <h1 class="text-green">{{subTotal}} €</h1>
                     </div>
-                    <div class="flex justify-between">
-                        <h1 class="">{{$t('shipping')}}</h1>
-                        <h1 class="">{{shipping}} €</h1>
-                    </div>
+
                     <div class="flex justify-between">
                         <h1 class="">{{$t('coupon_code')}}</h1>
                         <h1 v-if="this.$store.state.inCart.code == null">{{$t('no_code')}}</h1>
                         <h1 v-else>{{getCode.name}}</h1>
-
                     </div>
+
+                    <div class="flex justify-between">
+                        <h1 class="">{{$t('after_reduce_price')}}</h1>
+                        <h1 class="text-green">{{totalWithCode}} €</h1>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <h1 class="">{{$t('shipping')}}</h1>
+                        <h1 class="">{{shipping}} €</h1>
+                    </div>
+
+
                     <div class="flex justify-between">
                         <h1 class="">{{$t('total')}}</h1>
-                        <h1 class="text-green">{{total}} €</h1>
+                        <h1 class="text-green">{{totalWithShipping}} €</h1>
                     </div>
                 </div>
             </div>
@@ -348,13 +356,14 @@
                 } else {
                     address = this.$store.state.userAddress[this.$store.state.indexUserAddress].recipient + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].house_number + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].street + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].city + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].post_code
                 }
+                console.log(this.total)
                 axios.post(`${this.$store.state.endpoints.host}/api/orders/order/`, {
                     address: address,
-                    total_price: this.total[0],
+                    total_price: this.subTotal,
                     payment_type: "",
                     payment_status: false,
-                    shipping_fee: this.total[1],
-                    price: this.total[3]
+                    shipping_fee: this.shipping,
+                    price: this.total
 
                 }, {
                     headers: {
@@ -391,7 +400,6 @@
             },
 
             subTotal() {
-
                 let sum = this.$store.state.inCart.cart_detail.reduce(function (accumulate, data) {
                     if (data.overStatus == true || data.product.quantity == 0) {
                         return accumulate + 0;
@@ -401,15 +409,30 @@
                 }, 0);
                 return (sum).toFixed(2);
             },
+            reduceValue() {
+                if (this.$store.state.inCart.code == null) {
+                    return "0.00"
+                } else {
+                    console.log(Number((this.subTotal / 100) * this.getCode.percent).toFixed(2))
+                    return Number((this.subTotal / 100) * this.getCode.percent).toFixed(2)
+                }
+
+            },
             shipping() {
                 if (this.subTotal == 0) {
                     return 0
                 } else {
                     return this.$store.state.shippingFee
                 }
+                return 0
             },
-            totalShipping() {
-                return Number(this.subTotal) + Number(this.shipping)
+            totalWithCode() {
+                // return Number(this.subTotal) + Number(this.shipping)
+                if (this.$store.state.inCart.code == null) {
+                    return Number(this.subTotal).toFixed(2)
+                } else {
+                    return (Number(this.subTotal) - this.reduceValue).toFixed(2)
+                }
             },
             getCode() {
                 if (this.$store.state.inCart.code == null) {
@@ -421,8 +444,8 @@
                     return this.$store.state.inCart.code[0]
                 }
             },
-            total() {
-                return (this.totalShipping - ((this.totalShipping / 100) * this.getCode.percent)).toFixed(2)
+            totalWithShipping() {
+                return Number(Number(this.totalWithCode) + Number(this.shipping)).toFixed(2)
             }
         }
     }

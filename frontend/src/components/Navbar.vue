@@ -80,7 +80,7 @@
                         <div @click="cartDrawer = !cartDrawer"
                              class="w-20 bg-white hover:bg-unHilight py-3 rounded-tl-lg border-bottom cursor-pointer">
                             <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
-                            <h1 class="text-lg text-center text-green">{{total}} €</h1>
+                            <h1 class="text-lg text-center text-green">{{totalWithShipping}} €</h1>
                             <div class=" text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position">
                                 {{$store.state.inCart.cart_detail.length}}
                             </div>
@@ -227,12 +227,9 @@
             </div>
             <div class="fixed-b w-70 bottom-0  border-top p-2 bg-white z-50 appearance-none">
                 <div class="flex justify-between font-l">
-                    <div class="">{{$t('subTotal')}}</div>
-                    <div>{{subTotal}} €</div>
-                </div>
-                <div class="flex justify-between font-l">
-                    <div class="">{{$t('shipping')}}</div>
-                    <div>{{shipping}} €</div>
+                    <div class="">{{$t('subTotal')}} <a class="text-gray">( ลดไป {{reduceValue}} € )</a></div>
+
+                    <div>{{totalWithCode}} €</div>
                 </div>
                 <div class="flex justify-between font-l my-1">
                     <div class="">{{$t('coupon_code')}}</div>
@@ -241,6 +238,7 @@
                                @input="checkCode"
                                class="appearance-none border rounded-l-lg w-24 py-1 px-2 text-gray leading-tight focus:outline-none"
                                id="username"
+                               autocomplete="off"
                                type="text"/>
                         <div v-if="codeStatus == 'ok'" class="height1-85 bg-green rounded-r-lg"
                              style="padding: 4px">
@@ -263,9 +261,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex justify-between font-l">
+                    <div class="">{{$t('shipping')}}</div>
+                    <div>{{shipping}} €</div>
+                </div>
+
                 <div class="flex justify-between">
                     <div class="">{{$t('total')}}</div>
-                    <div>{{total}} €</div>
+                    <div>{{totalWithShipping}} €</div>
                 </div>
 
                 <el-popover
@@ -436,6 +439,7 @@
                             res.data.data.cart_detail[i].overStatus = false
                         }
                     }
+                    console.log(res.data.data)
                     this.$store.commit("setIncart", res.data.data);
                 }).catch(() => {
                     this.$store.commit("setIncart", {
@@ -512,24 +516,25 @@
                 clearTimeout(this.timeout)
                 this.codeStatus = 'loading'
                 this.timeout = setTimeout(() => {
-                    axios.post(`${this.$store.state.endpoints.host}/api/products/code/`, {
-                        code_name: this.code
-                    }, {
-                        headers: {
-                            Authorization: `JWT ${this.$store.state.jwt}`,
-                            'Content-Type': 'application/json'
-                        },
-                    }).then(res => {
-                        if (res.data.success == "code is delete") {
-                            this.codeStatus = 'none'
-                        } else {
+                    if (this.code == '') {
+                        this.codeStatus = 'none'
+                        console.log('delete code')
+                    } else {
+                        axios.post(`${this.$store.state.endpoints.host}/api/products/code/`, {
+                            code_name: this.code
+                        }, {
+                            headers: {
+                                Authorization: `JWT ${this.$store.state.jwt}`,
+                                'Content-Type': 'application/json'
+                            },
+                        }).then(() => {
                             this.codeStatus = 'ok'
-                        }
-                        this.updateCart()
-                    }).catch(() => {
-                        this.codeStatus = 'error'
-                        this.$store.state.inCart.code = null
-                    })
+                            this.updateCart()
+                        }).catch((e) => {
+                            this.codeStatus = 'error'
+                            this.$store.state.inCart.code = null
+                        })
+                    }
                 }, 1000)
 
             },
@@ -563,8 +568,7 @@
                     }
                 }, 0);
                 return p
-            }
-            ,
+            },
             subTotal() {
                 let sum = this.$store.state.inCart.cart_detail.reduce(function (accumulate, data) {
                     if (data.overStatus == true || data.product.quantity == 0) {
@@ -574,8 +578,15 @@
                     }
                 }, 0);
                 return (sum).toFixed(2);
-            }
-            ,
+            },
+            reduceValue() {
+                if (this.codeStatus == 'error' || this.code.length == 0) {
+                    return "0.00"
+                } else {
+                    return Number((this.subTotal / 100) * this.percent).toFixed(2)
+                }
+
+            },
             shipping() {
                 if (this.subTotal == 0) {
                     return 0
@@ -583,12 +594,15 @@
                     return this.$store.state.shippingFee
                 }
                 return 0
-            }
-            ,
-            totalShipping() {
-                return Number(this.subTotal) + Number(this.shipping)
-            }
-            ,
+            },
+            totalWithCode() {
+                if (this.codeStatus == 'error' || this.code.length == 0) {
+                    return Number(this.subTotal).toFixed(2)
+                } else {
+                    console.log(Number(this.subTotal) - Number(((this.subTotal / 100) * this.percent).toFixed(2)))
+                    return (Number(this.subTotal) - this.reduceValue).toFixed(2)
+                }
+            },
             getCode() {
                 if (this.$store.state.inCart.code == null) {
                     return 0
@@ -597,12 +611,10 @@
                 }
             }
             ,
-            total() {
-                if (this.codeStatus == 'error') {
-                    return this.totalShipping.toFixed(2)
-                } else {
-                    return (this.totalShipping - ((this.totalShipping / 100) * this.percent)).toFixed(2)
-                }
+            totalWithShipping() {
+
+                return Number(Number(this.totalWithCode) + Number(this.shipping)).toFixed(2)
+
             }
         }
         ,
@@ -619,11 +631,10 @@
                         this.code = code.name
                     } else {
                         this.percent = 0
-                        this.code = ''
+                        // this.code = ''
                     }
                 }
-            }
-            ,
+            },
             code: {
                 deep: true,
                 handler: function (newVal) {
@@ -632,6 +643,7 @@
                     } else if (newVal.length > 0) {
                         this.codeStatus = 'ok'
                     } else {
+                        console.log(newVal.length)
                         this.codeStatus = 'none'
                     }
                 }
