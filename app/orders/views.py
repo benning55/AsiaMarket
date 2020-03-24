@@ -1,4 +1,6 @@
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -7,10 +9,34 @@ from rest_framework.response import Response
 from rest_framework import status
 from collections import namedtuple
 
-from core.models import Product, Category, Cart, CartDetail, Code, Order, OrderDetail, PaymentBill, ShippingRate
+from core.models import Product, Category, Cart, CartDetail, Code, Order, OrderDetail, PaymentBill, ShippingRate, \
+    NotifyEmail
 from orders import serializers
 
 Timeline = namedtuple('Timeline', ('order', 'order_detail'))
+
+
+def order_notify(order):
+    """
+    Send an notify email to admin everytime that have order
+    """
+    admin_email = []
+    emails = NotifyEmail.objects.all()
+    for email in emails:
+        admin_email.append(email.email)
+    product_order = OrderDetail.objects.all().filter(order_id=order.id)
+    message = render_to_string('notify_order.html', {
+        'order': order,
+        'products': product_order
+    })
+    send_mail(
+        'We have new order!!',
+        message,
+        'new-order@thaimarket.express',
+        admin_email,
+        html_message=message,
+        fail_silently=False
+    )
 
 
 class OrderApiView(APIView):
@@ -80,6 +106,7 @@ class OrderApiView(APIView):
                     order.save()
                     cart.code = None
                     cart.save()
+                order_notify(order)
                 order_serialize = serializers.OrderSerializer(order)
                 return Response({'data': order_serialize.data}, status=status.HTTP_200_OK)
             else:
