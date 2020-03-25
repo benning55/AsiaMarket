@@ -1,57 +1,57 @@
 <template>
     <div>
-        <section v-if="type == 'address'" class="modal-body" id="modalDescription"
-                 style="max-height: 500px;height: 50%">
-            {{chooseNewAddress}}
-            <div class="overflow-auto" style="max-height: 500px">
-                <div v-for="(address,index) in $store.state.userAddress" :key="address.id">
-                    <div @click="swapIndex(index)" class="round px-2 flex cursor-pointer"
-                         :class="{ 'select': $store.state.indexUserAddress == index && chooseNewAddress == false }">
-                        <div class="w-6/12 text-left text-black px-1 py-2 h-full text-center">
-                            {{address.recipient}}
-                        </div>
-                        <div class="w-6/12 text-left text-black px-1 py-2 h-full">
-                            {{address.house_number}} {{address.street}} {{address.city}} {{address.post_code}}
-                        </div>
-                    </div>
-                </div>
+<!--        <section v-if="type == 'address'" class="modal-body" id="modalDescription"-->
+<!--                 style="max-height: 500px;height: 50%">-->
+<!--            {{chooseNewAddress}}-->
+<!--            <div class="overflow-auto" style="max-height: 500px">-->
+<!--                <div v-for="(address,index) in $store.state.userAddress" :key="address.id">-->
+<!--                    <div @click="swapIndex(index)" class="round px-2 flex cursor-pointer"-->
+<!--                         :class="{ 'select': $store.state.indexUserAddress == index && chooseNewAddress == false }">-->
+<!--                        <div class="w-6/12 text-left text-black px-1 py-2 h-full text-center">-->
+<!--                            {{address.recipient}}-->
+<!--                        </div>-->
+<!--                        <div class="w-6/12 text-left text-black px-1 py-2 h-full">-->
+<!--                            {{address.house_number}} {{address.street}} {{address.city}} {{address.post_code}}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-            </div>
-        </section>
+<!--            </div>-->
+<!--        </section>-->
 
         <!--                show check user is comfirm-->
-        <section v-else-if="type == 'check_confirm'" class="modal-body">
-            <div class="px-4 pb-4 sm:px-5 sm:py-5 h-full">
+<!--        <section v-if="type == 'check_confirm'" class="modal-body">-->
+<!--            <div class="px-4 pb-4 sm:px-5 sm:py-5 h-full">-->
 
-                <!--                        show when complete-->
-                <div v-if="isOrderComplete" class="h-full flex flex-wrap content-between">
-                    <div class="w-full text-center text-green" style="font-size: 3.2rem">
-                        <i class="far fa-check-circle"></i></div>
-                    <p class="pb-5">{{$t('you_order_complete')}}</p>
-                    <div class="flex justify-between w-full">
-                        <div @click="goHome" class="bg-red py-2  px-4 text-white cursor-pointer">
-                            {{$t('back_to_homepage')}}
-                        </div>
-                        <div @click="goEachOrder" class="bg-green py-2 px-4 text-white cursor-pointer">
-                            {{$t('go_payment')}}
-                        </div>
-                    </div>
-                </div>
+<!--                &lt;!&ndash;                        show when complete&ndash;&gt;-->
+<!--                <div v-if="isOrderComplete" class="h-full flex flex-wrap content-between">-->
+<!--                    <div class="w-full text-center text-green" style="font-size: 3.2rem">-->
+<!--                        <i class="far fa-check-circle"></i></div>-->
+<!--                    <p class="pb-5">{{$t('you_order_complete')}}</p>-->
+<!--                    <div class="flex justify-between w-full">-->
+<!--                        <div @click="goHome" class="bg-red py-2  px-4 text-white cursor-pointer">-->
+<!--                            {{$t('back_to_homepage')}}-->
+<!--                        </div>-->
+<!--                        <div @click="goEachOrder" class="bg-green py-2 px-4 text-white cursor-pointer">-->
+<!--                            {{$t('go_payment')}}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                <!--                        show before select-->
-                <div v-else class=" flex flex-wrap content-between">
-                    <p class="pb-5">{{$t('are_you_sure_to_confirm')}}</p>
-                    <div class="flex justify-between w-full">
-                        <div @click="$emit('close')" class="bg-red py-2  px-4 text-white cursor-pointer">
-                            {{$t('cancel')}}
-                        </div>
-                        <div @click="confirmOrder" class="bg-green py-2 px-4 text-white cursor-pointer">
-                            {{$t('confirm')}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!--                &lt;!&ndash;                        show before select&ndash;&gt;-->
+<!--                <div v-else class=" flex flex-wrap content-between">-->
+<!--                    <p class="pb-5">{{$t('are_you_sure_to_confirm')}}</p>-->
+<!--                    <div class="flex justify-between w-full">-->
+<!--                        <div @click="$emit('close')" class="bg-red py-2  px-4 text-white cursor-pointer">-->
+<!--                            {{$t('cancel')}}-->
+<!--                        </div>-->
+<!--                        <div @click="confirmOrder" class="bg-green py-2 px-4 text-white cursor-pointer">-->
+<!--                            {{$t('confirm')}}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </section>-->
     </div>
 </template>
 
@@ -123,7 +123,7 @@
     };
 </script>
 
-<style>
+<style scoped>
 
     .el-alert .el-alert__description {
         margin: 0 0 0 0 !important;

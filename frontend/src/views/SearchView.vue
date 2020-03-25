@@ -4,14 +4,18 @@
         <NavbarSpace/>
 
         <section class="mt-3 w-full">
-            <h1 class="ml-2 lg:ml-0 my-3 text-xl">{{nameTranslate(titleCategory.category_name)}} "{{this.$route.params.id}}"</h1>
+            <h1 class="ml-2 lg:ml-0 my-3 text-xl">{{nameTranslate(titleCategory.category_name)}}
+                "{{this.$route.params.id}}"</h1>
             <div v-if="isNotFound" class=" w-full px-0 sm:h-full pb-16 mx-auto sm:mt-16 lg:mt-16 xl:mt-16">
-                <div class="text-center text-2xl mb-10 mt-5 font-l">{{nameTranslate('Product Not Found(ไม่พบสินค้าที่คุณค้นหา)')}}</div>
+                <div class="text-center text-2xl mb-10 mt-5 font-l">{{nameTranslate('Product Not
+                    Found(ไม่พบสินค้าที่คุณค้นหา)')}}
+                </div>
                 <div class="mb-6 pl-2 w-1/2 mx-auto mt-8">
                 </div>
                 <section class="mt-3">
                     <div class="flex justify-between">
-                        <h1 class="ml-2 lg:ml-0 my-3 text-xl">{{nameTranslate('You maybe also like(ลองดูสินค้าชิ้นอื่น ๆ)')}}</h1>
+                        <h1 class="ml-2 lg:ml-0 my-3 text-xl">{{nameTranslate('You maybe also like(ลองดูสินค้าชิ้นอื่น
+                            ๆ)')}}</h1>
                         <router-link :to="{ name: 'Category', params: { id: 'recommend' }}">
                             <h1 class="mr-2 lg:mr-0 my-3 text-md self-center text-gray">{{$t('see_more')}} ></h1>
                         </router-link>
@@ -124,12 +128,14 @@
         watch: {
             '$route.params.id'() {
                 this.loadCategory()
+                window.scrollTo(0, 0);
             },
             isNotFound() {
                 if (this.isNotFound) {
                     axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                         this.recommendProduct = res.data.data.slice(0, 8)
                         this.isLoading = false
+                        window.scrollTo(0, 0);
                     }).catch(e => {
                         this.$message.error(this.$t('error_Oops_') + e.response.status + ', at load recommend');
                     })

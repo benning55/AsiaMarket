@@ -174,6 +174,7 @@
         created() {
             this.isLoading = true
             this.loadData()
+            window.scrollTo(0, 0);
         },
         methods: {
             loadData() {

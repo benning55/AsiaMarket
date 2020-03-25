@@ -162,6 +162,9 @@
                     .length(5, "error_address_postalCode_number")
             },
         },
+        created() {
+            window.scrollTo(0, 0);
+        },
         methods: {
             addAddress() {
                 this.$validate().then(success => {

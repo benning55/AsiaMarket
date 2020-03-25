@@ -201,14 +201,14 @@
 
 <script>
     import axios from "axios";
-    import Modal from "../components/Modal";
+    // import Modal from "../components/Modal";
     import Loader from "../components/Loader";
     import NavbarSpace from "../components/NavbarSpace";
     import TypeAddress from "../components/TypeAddress";
 
     export default {
         components: {
-            Modal,
+            // Modal,
             Loader,
             NavbarSpace,
             TypeAddress
@@ -237,6 +237,7 @@
         },
         created() {
             this.loadAddress()
+            window.scrollTo(0, 0);
         },
         methods: {
             loadAddress() {
@@ -263,7 +264,7 @@
                 this.toggleAddress = false
             },
             nameTranslate(text) {
-                let list = text.split(')').join('(').split('(')
+                let list = text.split('|')
                 if (list.length == 1) {
                     return text
                 } else {
@@ -276,9 +277,9 @@
             },
             titleModal() {
                 if (this.typeModal == 'address') {
-                    return 'Select Address(โปรดเลือกที่อยู่)'
+                    return 'Select Address|โปรดเลือกที่อยู่'
                 } else {
-                    return 'Confirm Order(ยืนยันการสั่งซื้อ)'
+                    return 'Confirm Order|ยืนยันการสั่งซื้อ'
                 }
             },
             goHome() {
@@ -312,7 +313,6 @@
                                 'Content-Type': 'application/json'
                             },
                         }).then(() => {
-                            console.log('axiosed')
                             this.$store.state.userAddress.unshift({
                                 "recipient": recipient,
                                 "street": street,
@@ -472,5 +472,8 @@
         opacity: 0;
     }
 
+    .select {
+        background-color: rgba(97, 159, 33, .3);
+    }
 
 </style>

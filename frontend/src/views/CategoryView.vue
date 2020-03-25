@@ -2,11 +2,6 @@
     <div>
         <Loader v-if="isLoading"/>
         <NavbarSpace/>
-<!--        <VueSlickCarousel v-bind="setting1">-->
-<!--            <img v-for="image in mockup.showCarousel" :key="image.id" class="object-cover w-full h-56"-->
-<!--                 :src="image.image"-->
-<!--                 alt="Promotion">-->
-<!--        </VueSlickCarousel>-->
 
         <Carousel/>
 
@@ -43,20 +38,6 @@
         },
         data() {
             return {
-                setting1: {
-                    "dots": true,
-                    "dotsClass": "slick-dots custom-dot-class",
-                    "edgeFriction": 0.35,
-                    "infinite": false,
-                    "speed": 500,
-                    "slidesToShow": 1,
-                    "slidesToScroll": 1,
-                    "autoplay": true,
-                    "autoplaySpeed": 3000,
-                    "pauseOnDotsHover": true,
-                    "pauseOnFocus": true,
-                    "pauseOnHover": true
-                },
                 items: [],
                 titleCategory: '',
                 isLoading: false
@@ -112,13 +93,12 @@
                         this.$message.error(this.$t('error_Oops_') + e.response.status + ', at load caategory ' + this.$route.params.id);
                     })
                 }
-
-
             }
         },
         watch: {
             '$route.params.id'() {
                 this.loadCategory()
+                window.scrollTo(0, 0);
             }
         }
     }

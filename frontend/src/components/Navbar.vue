@@ -366,14 +366,14 @@
                 cartDrawer: false,
                 mobileDrawer: false,
                 categorys: [
-                    {id: 1, type: "Fruits and Vegetables(ผักและผลไม้)", color: "green"},
-                    {id: 2, type: "Dry goods and Seasonings(ของแห้งและเครื่องปรุงรส)", color: "blue"},
-                    {id: 3, type: "Rice Flour and Noodles( แป้งและเส้น)", color: "yellow"},
-                    {id: 4, type: "Condiments and Sauces(เครื่องปรุงรสและซอส)", color: "red"},
-                    {id: 5, type: "Normal and Alcoholic Beverages(เครื่องดื่มและแอลกอฮอล์)", color: "black"},
-                    {id: 6, type: "Snack(ขนมขบเคี้ยว)", color: "orange"},
-                    {id: 7, type: "Frozen Products(อาหารแช่แข็ง)", color: "purple"},
-                    {id: 8, type: "Other(อื่น ๆ)", color: "pink"},
+                    // {id: 1, type: "Fruits and Vegetables(ผักและผลไม้)", color: "green"},
+                    // {id: 2, type: "Dry goods and Seasonings(ของแห้งและเครื่องปรุงรส)", color: "blue"},
+                    // {id: 3, type: "Rice Flour and Noodles( แป้งและเส้น)", color: "yellow"},
+                    // {id: 4, type: "Condiments and Sauces(เครื่องปรุงรสและซอส)", color: "red"},
+                    // {id: 5, type: "Normal and Alcoholic Beverages(เครื่องดื่มและแอลกอฮอล์)", color: "black"},
+                    // {id: 6, type: "Snack(ขนมขบเคี้ยว)", color: "orange"},
+                    // {id: 7, type: "Frozen Products(อาหารแช่แข็ง)", color: "purple"},
+                    // {id: 8, type: "Other(อื่น ๆ)", color: "pink"},
                 ],
                 itemIncart: [],
                 code: '',
@@ -388,8 +388,17 @@
             this.updateCart()
             this.updateShipping()
             this.getBannerData()
+            this.getCategory()
         },
         methods: {
+            getCategory(){
+                axios.get(`${this.$store.state.endpoints.host}/api/products/category/`).then(res => {
+                    // console.log(res.data.data)
+                    this.categorys = res.data.data
+                }).catch(e => {
+                    this.$message.error(this.$t('error_Oops_') + e.response.status + ', at load category');
+                })
+            },
             nameTranslate(text) {
                 let list = text.split(')').join('(').split('(')
                 if (list.length == 1) {

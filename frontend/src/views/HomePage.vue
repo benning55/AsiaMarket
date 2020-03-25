@@ -54,7 +54,7 @@
 
     export default {
         name: 'MyComponent',
-        components: {VueSlickCarousel, SwiperItem, Loader, Carousel,NavbarSpace},
+        components: {VueSlickCarousel, SwiperItem, Loader, Carousel, NavbarSpace},
         data() {
             return {
                 swiperOption: {
@@ -78,38 +78,44 @@
                         }
                     }
                 },
-                categorys: [
-                    {id: 1, type: "Fruits and Vegetables(ผักและผลไม้)", color: "green"},
-                    {id: 2, type: "Dry goods and Seasonings(ของแห้งและเครื่องปรุงรส)", color: "blue"},
-                    {id: 3, type: "Rice Flour and Noodles( แป้งและเส้น)", color: "yellow"},
-                    {id: 4, type: "Condiments and Sauces(เครื่องปรุงรสและซอส)", color: "red"},
-                    {id: 5, type: "Normal and Alcoholic Beverages(เครื่องดื่มและแอลกอฮอล์)", color: "black"},
-                    {id: 6, type: "Snack(ขนมขบเคี้ยว)", color: "orange"},
-                    {id: 7, type: "Frozen Products(อาหารแช่แข็ง)", color: "purple"},
-                    {id: 8, type: "Other(อื่น ๆ)", color: "pink"},
-                ],
+                categorys: [],
                 recommendProduct: [],
                 newestProduct: [],
                 isLoading: true,
-                carousel: ''
+                loadStatus:[],
+                carousel: '',
+
             }
         },
         created() {
+            this.getCategory()
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                 this.recommendProduct = res.data.data.slice(0, 8)
-                this.isLoading = false
+                // this.isLoading = false
+                this.loadStatus.push('done')
             }).catch(e => {
                 this.$message.error(this.$t('error_Oops_') + e.response.status + ', at load recommend');
             })
             axios.get(this.$store.state.endpoints.newestProduct).then(res => {
                 this.newestProduct = res.data.data.slice(0, 8)
-                this.isLoading = false
+                // this.isLoading = false
+                this.loadStatus.push('done')
             }).catch(e => {
                 this.$message.error(this.$t('error_Oops_') + e.response.status + ', at load new Product');
             })
+            window.scrollTo(0, 0);
 
         },
         methods: {
+            getCategory() {
+                axios.get(`${this.$store.state.endpoints.host}/api/products/category/`).then(res => {
+                    // console.log(res.data.data)
+                    this.categorys = res.data.data
+                    // this.isLoading = false
+                }).catch(e => {
+                    this.$message.error(this.$t('error_Oops_') + e.response.status + ', at load category');
+                })
+            },
             nameTranslate(text) {
                 let list = text.split(')').join('(').split('(')
                 if (list.length == 1) {
@@ -127,6 +133,13 @@
                     name: 'Category',
                     params: {id: category.id}
                 })
+            }
+        },
+        watch:{
+            loadStatus(){
+                if(this.loadStatus.length >= 2){
+                    this.isLoading = false
+                }
             }
         }
     }

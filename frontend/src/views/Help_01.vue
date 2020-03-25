@@ -114,6 +114,9 @@
                 ]
             }
         },
+        created() {
+            window.scrollTo(0, 0);
+        },
         methods: {
             nameTranslate(text) {
                 let list = text.split('|')

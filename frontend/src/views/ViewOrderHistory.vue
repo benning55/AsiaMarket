@@ -39,6 +39,7 @@
         },
         created() {
             this.getOrder()
+            window.scrollTo(0, 0);
         },
         methods: {
             getOrder() {

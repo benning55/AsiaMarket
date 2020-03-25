@@ -249,7 +249,8 @@
                 value: 0,
                 overState: false,
                 isLoading: false,
-                imageError: false
+                imageError: false,
+                loadStatus:[]
             }
         },
         created() {
@@ -257,7 +258,8 @@
             // get detail of product
             axios.get(this.$store.state.endpoints.productUrL + this.$route.params.id + "/").then(res => {
                 this.dataProduct = res.data.data
-                this.isLoading = false
+                // this.isLoading = false
+                this.loadStatus.push('done')
             }).catch(e => {
                 this.isLoading = false
                 this.$message.error(this.$t('error_Oops_') + e.response.status);
@@ -266,7 +268,8 @@
             // get recommend product
             axios.get(this.$store.state.endpoints.recommendProduct).then(res => {
                 this.recommendProduct = res.data.data.slice(0, 8)
-                this.isLoading = false
+                // this.isLoading = false
+                this.loadStatus.push('done')
             }).catch(e => {
                 this.isLoading = false
                 this.$message.error(this.$t('error_Oops_') + e.response.status);
@@ -469,6 +472,13 @@
                 }
             }
         },
+        watch:{
+            loadStatus(){
+                if(this.loadStatus.length >= 2){
+                    this.isLoading = false
+                }
+            }
+        }
     }
 </script>
 

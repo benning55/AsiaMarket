@@ -243,8 +243,8 @@
                                 address_line_1: "-",
                                 address_line_2: "-",
                                 admin_area_2: address[address.length-2],
-                                admin_area_1: city_code[1],
-                                postal_code: city_code[2],
+                                admin_area_1: city_code[city_code.length -2],
+                                postal_code: city_code[city_code.length -1],
                                 country_code: "DE"
                             },
                             email_address: this.$store.state.authUser.user.email,
