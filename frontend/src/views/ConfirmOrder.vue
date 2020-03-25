@@ -363,7 +363,7 @@
                     payment_type: "",
                     payment_status: false,
                     shipping_fee: this.shipping,
-                    price: this.total
+                    price: this.totalWithShipping
 
                 }, {
                     headers: {

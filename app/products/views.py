@@ -291,3 +291,15 @@ def get_banner(request):
         queryset = Banner.objects.all()
         serializer = serializers.BannerSerializer(queryset, many=True)
         return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', ])
+@permission_classes([AllowAny, ])
+def get_category(request):
+    """
+    Get Banner for data
+    """
+    if request.method == 'GET':
+        queryset = Category.objects.all()
+        serializer = serializers.CategorySerializer(queryset, many=True)
+        return Response({"data": serializer.data}, status=status.HTTP_200_OK)
