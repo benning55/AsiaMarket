@@ -18,7 +18,8 @@
         </div>
         <div class="bg-white flex flex-wrap mx-auto px-10 sm:px-16 md:px-40 lg:px-56 xl:px-64 pb-10">
             <div class="h-32 w-full sm:w-1/2 lg:w-1/4 pb-5 relative">
-                <div class="center" style="font-size: 22px">ThaiMarket Express</div>
+<!--                <div class="center" style="font-size: 22px">ThaiMarket Express</div>-->
+                <img class="center w-10/12" src="../assets/Logo/v1.png">
             </div>
             <div class=" w-full sm:w-1/2 lg:w-1/4 pb-5 ">
                 <div class="">
