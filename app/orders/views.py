@@ -95,7 +95,8 @@ class OrderApiView(APIView):
                     order_details = OrderDetail.objects.create(
                         order_id=order.id,
                         product_id=product.id,
-                        quantity=pro_in_cart.quantity
+                        quantity=pro_in_cart.quantity,
+                        price=(product.price * pro_in_cart.quantity)
                     )
                     pro_in_cart.delete()
                 if cart.code is not None:

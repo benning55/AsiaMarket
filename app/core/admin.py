@@ -1,8 +1,16 @@
 from django.contrib import admin
 from django.contrib.admin import DateFieldListFilter
-
+import base64
 # Register your models here.
+from django.shortcuts import redirect
+from weasyprint import HTML
+import tempfile
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.template.loader import render_to_string
+
 from core import models
+from core.models import OrderDetail
 
 
 class OrderInLine(admin.TabularInline):
@@ -58,9 +66,33 @@ class OrderAdmin(admin.ModelAdmin):
 
     inlines = [OrderDetailInLine]
 
+    change_form_template = "pdf_admin.html"
+
     def set_delivery_to_shipping(self, request, queryset):
         queryset.update(delivery_status='Shipping')
     set_delivery_to_shipping.short_description = "Change selected waiting to shipping stage"
+
+    def response_change(self, request, obj):
+        if "_make-pdf" in request.POST:
+            order_detail = OrderDetail.objects.all().filter(order_id=obj.id)
+            html_string = render_to_string('reciept/order_reciept.html', {
+                'order_detail': order_detail,
+                'order': obj,
+                'data': 'Hello Benning'
+            })
+            html = HTML(string=html_string)
+            result = html.write_pdf()
+
+            # Creating http response
+            response = HttpResponse(content_type='application/pdf;')
+            response['Content-Disposition'] = 'inline; filename=test.pdf'
+            response['Content-Transfer-Encoding'] = 'binary'
+            with tempfile.NamedTemporaryFile(delete=True) as output:
+                output.write(result)
+                output.flush()
+                output = open(output.name, 'rb')
+                response.write(output.read())
+            return response
 
 
 class CartAdmin(admin.ModelAdmin):

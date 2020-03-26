@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sarabun&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        /*@page {*/
+        /*size: 21cm 29.7cm;*/
+        /*margin: 30mm 45mm 100mm 45mm;*/
+        /*}*/
+        @media print {
+            @font-face {
+                font-family: 'Verdana';
+                src: url("../resources/fonts/THSarabunNew Italic.ttf");
+            }
+
+            body {
+                font-family: 'Verdana' !important;
+                font-size: 16px !important;
+            }
+        }
+
+
+
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>ThaiMarket Express PDF</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-12">
+            <img src="https://scontent.fbkk2-7.fna.fbcdn.net/v/t1.0-9/s960x960/91350021_219476206129329_6866867745196081152_o.jpg?_nc_cat=106&_nc_sid=110474&_nc_eui2=AeFrRBrD6ZvHmL6hrDdBSZ7kU2GOMxN8r66BQXLQVkrrOvHoWk6597JjHR_7Ykg0dPPIOJB28Dlbjyi5gm0eXjsQLO6I0mT-NsfdPjGaiYmVlQ&_nc_ohc=8emziIYwIwEAX9yFiFw&_nc_ht=scontent.fbkk2-7.fna&_nc_tp=7&oh=db4f96fe4a7c86ff60455ef7b5fbd0c6&oe=5EA0541F" alt="" style="width: 90%;">
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div>
+        <div class="row">
+            <div class="col-13">
+                <b>Customer: {{ order.user.first_name }} {{ order.user.last_name }}</b><br>
+                <b>Address: {{ order.address }}</b><br>
+                <b>Payment Type: {{ order.payment_type }}</b><br>
+                <b>Promotion Code: {{ order.code }}</b><br>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">PRODUCT</th>
+          <th scope="col">QUANTITY</th>
+          <th scope="col">PRICE</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for obj in order_detail %}
+        <tr>
+            <td>{{ obj.product.title }}</td>
+            <td>{{ obj.quantity }}</td>
+            <td>{{ obj.price }}  EUR</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+    <h5 style="text-align: center;">Sub Total: {{ order.total_price }}  EUR</h5><br>
+    <h5 style="text-align: center;">Shipping: {{ order.shipping_fee }}  EUR</h5><br>
+    <h5 style="text-align: center;">Total: {{ order.price }}  EUR</h5>
+
+
+    <div class="fixed-bottom" style="text-align: center;top:1200px;">
+        <div style="margin-bottom: 20px">
+            <h4 class="more-bold" style="font-size: 19px !important;">ThaiMarket Express</h4>
+            <small style="font-size: 13px !important;">Head Office: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur at dignissimos distinctio earum expedita illum ipsam ipsum necessitatibus nisi qui quo repudiandae veritatis voluptas voluptates, voluptatum. Est, exercitationem, facilis? Minus?</small><br>
+            <small style="font-size: 13px !important;">Tel: 0000000
+                thaimarket.express</small><br>
+
+        </div>
+        <div style="border-top: 1px solid black;">&nbsp;</div>
+    </div>
+
+</body>
+</html>
