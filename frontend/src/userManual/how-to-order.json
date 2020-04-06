@@ -1,0 +1,14 @@
+{
+  "order": [
+    {
+      "type": "text",
+      "text_en": "555",
+      "text_th": "ห้า"
+    },
+    {
+      "type": "image",
+      "image_en": "@/assets/help/order/cartEN.png",
+      "image_th": "cartEN.png"
+    }
+  ]
+}

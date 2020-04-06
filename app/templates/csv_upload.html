@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load crispy_forms_tags %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .full-height {
+            height: 100vh;
+        }
+
+        .content-center {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid full-height content-center">
+        <div class="container">
+            {% if messages %}
+                {% for message in messages %}
+                <div>
+                    <strong>{{ message|safe }}</strong>
+                    <h1>Benning</h1>
+                </div>
+                {% endfor %}
+            {% else %}
+                <h1>Bulk upload for products</h1>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Column</th>
+                      <th scope="col">Detail</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Category Id</td>
+                      <td>Id of product category</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Title</td>
+                      <td>Product name cannot be the same</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>Picture Url</td>
+                      <td>Please shorten url with <a href="http://gg.gg/">here</a> It only go in first picture</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">4</th>
+                      <td>Description</td>
+                      <td>Detail of product</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">4</th>
+                      <td>Price</td>
+                      <td>As EUR</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">5</th>
+                      <td>Quantity</td>
+                      <td>How many product in stock</td>
+                    </tr>
+                  </tbody>
+                </table>
+                {{ order }}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label>Upload a file</label>
+                    <input type="file" name="file">
+                    <p>Only accept CSV files</p>
+                    <button type="submit">Upload</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
