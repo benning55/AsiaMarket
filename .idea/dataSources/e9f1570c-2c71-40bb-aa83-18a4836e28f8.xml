@@ -10,28 +10,28 @@
       <Owner>adminmarket</Owner>
       <IntrospectionStateNumber>14829</IntrospectionStateNumber>
       <Current>1</Current>
-      <Relations>sequence|table|41781|41783|1
+      <Relations>sequence|table|41477|41479|1
+sequence|table|41487|41489|1
+sequence|table|41521|41523|1
+sequence|table|41536|41538|1
+sequence|table|41459|41461|1
+sequence|table|41469|41471|1
+sequence|table|41448|41450|1
+sequence|table|41781|41783|1
 sequence|table|41678|41680|1
-sequence|table|41609|41611|1
-sequence|table|41620|41622|1
-sequence|table|41638|41640|1
-sequence|table|41651|41653|1
 sequence|table|41659|41661|1
 sequence|table|41667|41669|1
+sequence|table|41638|41640|1
+sequence|table|41651|41653|1
+sequence|table|41620|41622|1
+sequence|table|41609|41611|1
+sequence|table|41590|41592|1
+sequence|table|41601|41603|1
 sequence|table|41544|41546|1
 sequence|table|41552|41554|1
 sequence|table|41571|41573|1
 sequence|table|41582|41584|1
-sequence|table|41590|41592|1
-sequence|table|41601|41603|1
 sequence|table|41563|41565|1
-sequence|table|41477|41479|1
-sequence|table|41487|41489|1
-sequence|table|41521|41523|1
-sequence|table|41536|41538|1
-sequence|table|41448|41450|1
-sequence|table|41459|41461|1
-sequence|table|41469|41471|1
 </Relations>
     </database>
     <database id="3" parent="1" name="postgres">

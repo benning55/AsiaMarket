@@ -1,56 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d8abc8cd-f707-4623-b831-77f92b27a11f" name="Default Changelist" comment="" />
+    <list default="true" id="d8abc8cd-f707-4623-b831-77f92b27a11f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cbb0053f-f58d-43c7-8a71-2ae880f86c68.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cbb0053f-f58d-43c7-8a71-2ae880f86c68.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/cbb0053f-f58d-43c7-8a71-2ae880f86c68/storage_v2/_src_/database/asiamarket.him2kA/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/cbb0053f-f58d-43c7-8a71-2ae880f86c68/storage_v2/_src_/database/asiamarket.him2kA/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e9f1570c-2c71-40bb-aa83-18a4836e28f8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e9f1570c-2c71-40bb-aa83-18a4836e28f8.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/core/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/admin.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="asiamarket@159.65.129.72" type="feb32156:DbDataSourceImpl" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="asiamarket@159.65.129.72" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="asiamarket@159.65.129.72" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="asiamarket: database" type="162271b6:PgImplModel$Database" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="asiamarket@159.65.129.72" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="asiamarket: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="asiamarket@159.65.129.72" type="feb32156:DbDataSourceImpl" />
-        <item name="databases" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="asiamarket: database" type="162271b6:PgImplModel$Database" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="public: schema" type="983ebcf7:PgImplModel$Schema" />
-      </path>
-    </expand>
-    <select />
   </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
@@ -72,7 +33,6 @@
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -80,7 +40,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../HelpCovid-19TH" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -127,11 +87,15 @@
       <workItem from="1585295810245" duration="603000" />
       <workItem from="1585303266684" duration="1512000" />
       <workItem from="1585321011175" duration="43000" />
+      <workItem from="1586448075986" duration="1787000" />
+      <workItem from="1586786578806" duration="20000" />
+      <workItem from="1586786774499" duration="28000" />
+      <workItem from="1587966697712" duration="348000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -146,9 +110,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="625" y="345" width="659" height="388" key="#com.intellij.fileTypes.FileTypeChooser/235.1080.1366.768/0.0.1920.1080@0.0.1920.1080" timestamp="1585225036636" />
-    <state x="701" y="1235" width="424" height="482" key="FileChooserDialogImpl" timestamp="1585321056211">
-      <screen x="235" y="1080" width="1366" height="768" />
+    <state x="466" y="177" width="424" height="482" key="FileChooserDialogImpl" timestamp="1586786799304">
+      <screen x="0" y="27" width="1366" height="741" />
     </state>
+    <state x="466" y="177" key="FileChooserDialogImpl/0.27.1366.741@0.27.1366.741" timestamp="1586786799304" />
     <state x="655" y="218" key="FileChooserDialogImpl/235.1080.1366.768/0.0.1920.1080@0.0.1920.1080" timestamp="1584622932188" />
     <state x="701" y="1235" width="424" height="482" key="FileChooserDialogImpl/235.1080.1366.768/0.0.1920.1080@235.1080.1366.768" timestamp="1585321056211" />
     <state x="449" y="175" key="SettingsEditor" timestamp="1584623356047">
@@ -160,10 +125,10 @@
     </state>
     <state x="0" y="0" width="377" height="1078" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/235.1080.1366.768/0.0.1920.1080@0.0.1920.1080" timestamp="1585207635675" />
     <state x="235" y="1107" width="377" height="741" key="com.intellij.database.actions.DdlActions$DeleteProvider2$1/235.1080.1366.768/0.0.1920.1080@235.1080.1366.768" timestamp="1585205975440" />
-    <state x="574" y="1305" key="com.intellij.ide.util.TipDialog" timestamp="1585321032493">
-      <screen x="235" y="1080" width="1366" height="768" />
+    <state x="339" y="244" key="com.intellij.ide.util.TipDialog" timestamp="1586786774570">
+      <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="339" y="244" key="com.intellij.ide.util.TipDialog/0.27.1366.741@0.27.1366.741" timestamp="1585138754976" />
+    <state x="339" y="244" key="com.intellij.ide.util.TipDialog/0.27.1366.741@0.27.1366.741" timestamp="1586786774570" />
     <state x="476" y="316" key="com.intellij.ide.util.TipDialog/235.1080.1366.768/0.0.1920.1080@0.0.1920.1080" timestamp="1585295818813" />
     <state x="574" y="1305" key="com.intellij.ide.util.TipDialog/235.1080.1366.768/0.0.1920.1080@235.1080.1366.768" timestamp="1585321032493" />
     <state x="739" y="232" width="432" height="614" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1584623677900">

@@ -85,7 +85,7 @@ class OrderAdmin(admin.ModelAdmin):
 
             # Creating http response
             response = HttpResponse(content_type='application/pdf;')
-            response['Content-Disposition'] = 'inline; filename=test.pdf'
+            response['Content-Disposition'] = f'attachment; filename=order {obj.id}.pdf'
             response['Content-Transfer-Encoding'] = 'binary'
             with tempfile.NamedTemporaryFile(delete=True) as output:
                 output.write(result)
