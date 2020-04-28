@@ -134,5 +134,10 @@
   "please_login": "Please Login",
   "see_more": "See more",
   "after_reduce_price": "Price after reduce",
-  "wait_admin": "Awaiting verification by admin"
+  "wait_admin": "Awaiting verification by admin",
+
+  "click_to_copy": "Click to Copy",
+  "copied": "Copied",
+  "bank_name": "Bank Name",
+  "account_name": "Account Name"
 }

@@ -11,6 +11,27 @@
 
         <el-divider> {{$t('or')}}</el-divider>
         {{$t('bank_transfer')}}
+
+
+        <el-card class="box-card mt-3">
+            <h1 class="text-center text-2xl my-4">{{$t('account_name')}} : Nat Muannamon</h1>
+            <h1 class="text-center my-2">IBAN: DE10 5209 0000 0053 9340 05
+                <el-tooltip class="item" effect="dark" :content="textTooltip" placement="top">
+                    <i v-on:mouseleave="mouseleave" @click="copyIBAN('DE10520900000053934005')"
+                       class="fas fa-copy text-key_column cursor-pointer pl-2"></i>
+                </el-tooltip>
+            </h1>
+            <h1 class="text-center my-2">BIC: GENODE51KS1
+                <el-tooltip class="item" effect="dark" :content="textTooltip" placement="top">
+                    <i v-on:mouseleave="mouseleave" @click="copyIBAN('GENODE51KS1')"
+                       class="fas fa-copy text-key_column cursor-pointer pl-2"></i>
+                </el-tooltip>
+            </h1>
+            <h1 class="text-center mb-4">{{$t('bank_name')}} : Volksbank Kassel Göttingen</h1>
+            <img class="mx-auto" style="width: 200px;display: block;" src="../assets/png/Logo_Volksbank_Kassel_Göttingen_eG.png">
+        </el-card>
+
+
         <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">
             <div class="col-12 upload-section">
                 <div class="upload-btn-wrapper w-full">
@@ -89,7 +110,8 @@
                     },
                 },
                 isLoading: false,
-                data: {}
+                data: {},
+                textTooltip: this.$t('click_to_copy')
             };
         },
         validators: {
@@ -121,6 +143,21 @@
             previewImage(event) {
                 this.imageData = event.target.files[0]
                 this.profileImageURL = URL.createObjectURL(this.imageData)
+            },
+            copyIBAN(text) {
+                let dummy = document.createElement("input");
+                dummy.style.height = "1px"
+                dummy.style.width = "1px"
+                dummy.style.position = 'fixed'
+                document.body.appendChild(dummy);
+                dummy.value = text;
+                dummy.select();
+                document.execCommand("copy");
+                this.textTooltip = this.$t('copied')+text;
+            },
+            mouseleave() {
+                this.textTooltip = this.$t('click_to_copy')
+                console.log("dddd")
             },
             setLoaded: function () {
                 this.loaded = true;
@@ -219,7 +256,7 @@
             order() {
                 if (this.order != null) {
                     let address = this.order.address.split(',')
-                    let city_code = address[address.length-1].split(' ')
+                    let city_code = address[address.length - 1].split(' ')
 
                     this.data = {
                         application_context: {
@@ -242,9 +279,9 @@
                             address: {
                                 address_line_1: "-",
                                 address_line_2: "-",
-                                admin_area_2: address[address.length-2],
-                                admin_area_1: city_code[city_code.length -2],
-                                postal_code: city_code[city_code.length -1],
+                                admin_area_2: address[address.length - 2],
+                                admin_area_1: city_code[city_code.length - 2],
+                                postal_code: city_code[city_code.length - 1],
                                 country_code: "DE"
                             },
                             email_address: this.$store.state.authUser.user.email,
