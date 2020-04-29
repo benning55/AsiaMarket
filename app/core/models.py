@@ -138,7 +138,7 @@ class Product(models.Model):
         Category,
         on_delete=models.CASCADE
     )
-    title = models.CharField(max_length=255, unique=True)
+    title = models.CharField(max_length=255, unique=False)
     pic1 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
     pic2 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
     pic3 = models.ImageField(upload_to=product_image_path, null=True, blank=True)
@@ -231,7 +231,7 @@ class Order(models.Model):
     )
     code = models.CharField(max_length=255, blank=True, null=True)
     expected_arrive = models.DateField(blank=True, null=True)
-    created = models.DateTimeField(default=datetime.datetime.now, editable=False)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
         user = User.objects.get(pk=self.user_id)
@@ -265,7 +265,7 @@ class PaymentBill(models.Model):
     pic = models.ImageField(upload_to=bill_payment_image, null=True, blank=True)
     time_transfer = models.DateTimeField()
     approve_status = models.BooleanField(default=False)
-    created = models.DateTimeField(default=datetime.datetime.now, editable=False)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
 
     def save(self, *args, **kwargs):
         """ change state of some order """
