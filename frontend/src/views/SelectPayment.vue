@@ -129,7 +129,7 @@
         },
         methods: {
             nameTranslate(text) {
-                let list = text.split(')').join('(').split('(')
+                let list = text.split('|')
                 if (list.length == 1) {
                     return text
                 } else {
@@ -187,8 +187,8 @@
                                     }
                                 }).then(res => {
                                     this.$emit('updatePayment');
-                                    this.$alert(this.nameTranslate('Payment success(ชำระเงินสำเร็จ)'), this.nameTranslate('Success(สำเร็จ)'), {
-                                        confirmButtonText: this.nameTranslate('OK(ตกลง)'),
+                                    this.$alert(this.nameTranslate('Payment success|ชำระเงินสำเร็จ'), this.nameTranslate('Success|สำเร็จ'), {
+                                        confirmButtonText: this.nameTranslate('OK|ตกลง'),
                                     });
                                 }).catch(e => {
                                     // this.$message.error('Oops, Something is Error. code ' + e.status + ', at cart');
@@ -223,8 +223,8 @@
                 }).then(() => {
                     this.isLoading = false
                     this.$emit('updatePayment');
-                    this.$alert(this.nameTranslate('Upload success(อัปโหลดสำเร็จ)'), this.nameTranslate('Upload Slip(อัปโหลดสหลักฐานการโอนเงิน)'), {
-                        confirmButtonText: this.nameTranslate('OK(ตกลง)'),
+                    this.$alert(this.nameTranslate('Upload success|อัปโหลดสำเร็จ'), this.nameTranslate('Upload Slip|อัปโหลดสหลักฐานการโอนเงิน'), {
+                        confirmButtonText: this.nameTranslate('OK|ตกลง'),
                         callback: action => {
                             if (action == 'confirm') {
 

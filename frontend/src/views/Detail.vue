@@ -285,7 +285,7 @@
                 this.imageError = true
             },
             nameTranslate(text) {
-                let list = text.split(')').join('(').split('(')
+                let list = text.split('|')
                 if (list.length == 1) {
                     return text
                 } else {
