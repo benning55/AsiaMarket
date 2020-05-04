@@ -71,7 +71,7 @@
                                  @error="printerror()"
                                  alt="">
                         </td>
-                        <td class="px-2 py-2">{{item.product.title}}</td>
+                        <td class="px-2 py-2">{{nameTranslate(item.product.title)}}</td>
                         <td class="px-2 py-2 text-center text-green">{{item.product.price}}</td>
                         <td class="px-2 py-2 text-center">{{item.quantity}}</td>
                         <td class="px-2 py-2 text-center text-green">{{(item.product.price*item.quantity).toFixed(2)}}
@@ -96,6 +96,12 @@
                     <div class="flex justify-between">
                         <h1 class="">{{$t('total')}}</h1>
                         <h1 class="text-green">{{order.price}} €</h1>
+                    </div>
+
+                    <div class="flex justify-between mt-5">
+                        <h1 class="">{{$t('tracking_no')}}</h1>
+                        <h1 v-if="order.tracking_no != null" class="text-orange">{{order.tracking_no}}</h1>
+                        <h1 v-else class="text-orange">{{$t('dont_shipping')}}</h1>
                     </div>
                 </div>
             </div>
@@ -177,6 +183,18 @@
             window.scrollTo(0, 0);
         },
         methods: {
+            nameTranslate(text) {
+                let list = text.split('|')
+                if (list.length == 1) {
+                    return text
+                } else {
+                    if (this.$i18n.locale == 'th') {
+                        return list[1]
+                    } else {
+                        return list[0]
+                    }
+                }
+            },
             loadData() {
                 axios.get(`${this.$store.state.endpoints.host}/api/orders/order/` + this.$route.params.id + '/', {
                     headers: {

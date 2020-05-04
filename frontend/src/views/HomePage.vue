@@ -43,7 +43,6 @@
 </template>
 
 <script>
-    import VueSlickCarousel from 'vue-slick-carousel'
     import 'vue-slick-carousel/dist/vue-slick-carousel.css'
     import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
     import axios from 'axios'
@@ -54,7 +53,7 @@
 
     export default {
         name: 'MyComponent',
-        components: {VueSlickCarousel, SwiperItem, Loader, Carousel, NavbarSpace},
+        components: { SwiperItem, Loader, Carousel, NavbarSpace},
         data() {
             return {
                 swiperOption: {
@@ -117,7 +116,7 @@
                 })
             },
             nameTranslate(text) {
-                let list = text.split(')').join('(').split('(')
+                let list = text.split('|')
                 if (list.length == 1) {
                     return text
                 } else {

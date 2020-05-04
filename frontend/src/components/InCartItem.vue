@@ -73,7 +73,7 @@
                 </div>
             </div>
             <div class="div2">
-                <div class="w-full" style="line-height: 20px;">{{reduceTitle(data.product.title)}}</div>
+                <div class="w-full" style="line-height: 20px;">{{reduceTitle(nameTranslate(data.product.title))}}</div>
             </div>
             <div class="div3" style="align-self: flex-start;text-align: right;">
                 <i @click="isWillDelete=true" class='fas fa-trash-alt m-2 text-lightGray cursor-pointer'></i>
@@ -159,6 +159,18 @@
             }
         },
         methods: {
+            nameTranslate(text) {
+                let list = text.split('|')
+                if (list.length == 1) {
+                    return text
+                } else {
+                    if (this.$i18n.locale == 'th') {
+                        return list[1]
+                    } else {
+                        return list[0]
+                    }
+                }
+            },
             printerror() {
                 this.imageEror = true
             },

@@ -47,7 +47,7 @@
                         <el-radio-group id="sex" v-model="sex" style="border-radius: 0px">
                             <el-radio-button label="Male">{{$t('male')}}</el-radio-button>
                             <el-radio-button label="Female">{{$t('female')}}</el-radio-button>
-                            <el-radio-button label="LTGB">{{$t('ltgb')}}</el-radio-button>
+<!--                            <el-radio-button label="LTGB">{{$t('ltgb')}}</el-radio-button>-->
                         </el-radio-group>
                     </div>
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
@@ -174,20 +174,20 @@
                                   v-model="email">
                         </el-input>
                     </div>
-                    <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
-                        <label v-if="!validation.firstError('username')"
-                               class="block text-sm mb-2"
-                               for="username">{{$t('username')}}</label>
-                        <label v-else
-                               class="block text-red text-sm mb-2"
-                               for="username">{{$t(validation.firstError('username'))}}</label>
-                        <el-input id="username"
-                                  ref="username"
-                                  @keyup.enter.native="$refs.password.focus"
-                                  placeholder="Please input"
-                                  v-model="username">
-                        </el-input>
-                    </div>
+<!--                    <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">-->
+<!--                        <label v-if="!validation.firstError('username')"-->
+<!--                               class="block text-sm mb-2"-->
+<!--                               for="username">{{$t('username')}}</label>-->
+<!--                        <label v-else-->
+<!--                               class="block text-red text-sm mb-2"-->
+<!--                               for="username">{{$t(validation.firstError('username'))}}</label>-->
+<!--                        <el-input id="username"-->
+<!--                                  ref="username"-->
+<!--                                  @keyup.enter.native="$refs.password.focus"-->
+<!--                                  placeholder="Please input"-->
+<!--                                  v-model="username">-->
+<!--                        </el-input>-->
+<!--                    </div>-->
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
                         <label v-if="!validation.firstError('password')"
                                class="block text-sm mb-2"
@@ -373,10 +373,10 @@
                         this.state++
                     }
                 } else if (this.state == 1) {
-                    this.$validate(['email', 'username', 'password', 'password2'])
+                    this.$validate(['email', 'password', 'password2'])
                     if (
                         this.validation.firstError('email') == null &&
-                        this.validation.firstError('username') == null &&
+                        // this.validation.firstError('username') == null &&
                         this.validation.firstError('password') == null &&
                         this.validation.firstError('password2') == null
                     ) {
@@ -389,7 +389,7 @@
                 const payload = {
                     email: this.email,
                     password: this.password,
-                    username: this.username,
+                    username: this.email,
                     firstname: this.firstname,
                     lastname: this.lastname,
                     phone: this.phone,

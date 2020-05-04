@@ -39,7 +39,7 @@
                                  :src="$store.state.endpoints.host + item.product.pic1"
                                  alt="">
                         </td>
-                        <td class="px-2 py-2">{{item.product.title}}</td>
+                        <td class="px-2 py-2">{{nameTranslate(item.product.title)}}</td>
                         <td class="px-2 py-2 text-center text-green">{{item.product.price}}</td>
                         <td class="px-2 py-2 text-center">{{item.quantity}}</td>
                         <td class="px-2 py-2 text-center text-green">{{item.price}}</td>
@@ -240,6 +240,18 @@
             window.scrollTo(0, 0);
         },
         methods: {
+            nameTranslate(text) {
+                let list = text.split('|')
+                if (list.length == 1) {
+                    return text
+                } else {
+                    if (this.$i18n.locale == 'th') {
+                        return list[1]
+                    } else {
+                        return list[0]
+                    }
+                }
+            },
             loadAddress() {
                 this.isLoading = true
                 axios.get(this.$store.state.endpoints.addressUrL, {

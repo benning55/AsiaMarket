@@ -18,7 +18,6 @@
 </template>
 
 <script>
-    import VueSlickCarousel from 'vue-slick-carousel'
     import 'vue-slick-carousel/dist/vue-slick-carousel.css'
     import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
     import ProductCard from "../components/ProductCard";
@@ -30,7 +29,6 @@
     export default {
         name: 'CategoryView',
         components: {
-            VueSlickCarousel,
             ProductCard,
             Loader,
             Carousel,
@@ -49,7 +47,7 @@
         },
         methods: {
             nameTranslate(text) {
-                let list = text.split(')').join('(').split('(')
+                let list = text.split('|')
                 if (list.length == 1) {
                     return text
                 } else {

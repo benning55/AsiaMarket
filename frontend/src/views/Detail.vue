@@ -88,10 +88,10 @@
                 <div class="w-full sm:w-5/12 md:5/12 lg:md:5/12 px-10 pt-12">
                     <h1 class="text-3xl">{{nameTranslate(dataProduct.title)}}</h1>
                     <!--                    <h1 class="text-lightGray">unit</h1>-->
-                    <p class="mt-10"> {{dataProduct.description}}</p>
+                    <p class="mt-10"> {{nameTranslate(dataProduct.description)}}</p>
                 </div>
                 <div class="w-full sm:w-4/12 px-10 pt-12">
-                    <h1 class="text-4xl">{{dataProduct.price}} $</h1>
+                    <h1 class="text-4xl">{{dataProduct.price}} €</h1>
 
                     <!--            show this when over-->
                     <div v-if="overStatee() == true && dataProduct.quantity > 0"

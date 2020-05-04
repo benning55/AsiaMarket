@@ -139,5 +139,7 @@
   "click_to_copy": "Click to Copy",
   "copied": "Copied",
   "bank_name": "Bank Name",
-  "account_name": "Account Name"
+  "account_name": "Account Name",
+  "tracking_no": "Tracking Number",
+  "dont_shipping": "Not yet shipped"
 }

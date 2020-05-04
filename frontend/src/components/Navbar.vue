@@ -18,7 +18,7 @@
                                    v-on:keyup.enter="goSearch(searchText)"
                                    class="bg-unHilight h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none w-full"
                                    type="search" name="search"
-                                   :placeholder="nameTranslate('Find Product(ค้นหาสินค้า)')">
+                                   :placeholder="nameTranslate('Find Product|ค้นหาสินค้า')">
                             <button @click="goSearch(searchText)" type="submit" class="absolute right-0 mt-5 mr-4"
                                     style="top:8px">
                                 <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
@@ -228,7 +228,7 @@
             </div>
             <div class="fixed-b w-70 bottom-0  border-top p-2 bg-white z-50 appearance-none">
                 <div class="flex justify-between font-l">
-                    <div class="">{{$t('subTotal')}} <a class="text-gray">( ลดไป {{reduceValue}} € )</a></div>
+                    <div class="">{{$t('subTotal')}} <a class="text-gray">( {{nameTranslate("Discounted|ลดไป")}} {{reduceValue}} € )</a></div>
 
                     <div>{{totalWithCode}} €</div>
                 </div>
@@ -275,10 +275,10 @@
                 <el-popover
                         v-if="checkPass.length > 0"
                         placement="top"
-                        :title="nameTranslate('Product Incorrect(สินค้าไม่ถูกต้อง)')"
+                        :title="nameTranslate('Product Incorrect|สินค้าไม่ถูกต้อง')"
                         width="300"
                         trigger="click"
-                        :content="nameTranslate('Some Product maybe out of stock or not enough please edit and try again(สินค้าบางชื้นหมดแล้วหรือมีไม่เพียงพอ กรุณาแก้ไขสินค้าชิ้นนั้น)')">
+                        :content="nameTranslate('Some Product maybe out of stock or not enough please edit and try again|สินค้าบางชื้นหมดแล้วหรือมีไม่เพียงพอ กรุณาแก้ไขสินค้าชิ้นนั้น')">
                     <button
                             slot="reference"
                             class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
@@ -392,7 +392,7 @@
                 })
             },
             nameTranslate(text) {
-                let list = text.split(')').join('(').split('(')
+                let list = text.split('|')
                 if (list.length == 1) {
                     return text
                 } else {

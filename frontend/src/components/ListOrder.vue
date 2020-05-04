@@ -34,6 +34,12 @@
                 </div>
 
                 <div class="flex justify-between">
+                    <h1 class="text-key_column">{{$t('tracking_no')}}</h1>
+                    <h1 v-if="orderdata.tracking_no != null" class="text-orange">{{orderdata.tracking_no}}</h1>
+                    <h1 v-else class="text-orange">{{$t('dont_shipping')}}</h1>
+                </div>
+
+                <div class="flex justify-between">
                     <h1 class="text-key_column">{{$t('status')}}</h1>
                     <h1 v-if="orderdata.payment_status">
                         <span v-if="orderdata.delivery_status == 'Waiting'" class="text-gray">{{nameTranslate('Wait for Shipping(รอนำส่ง)')}}</span>

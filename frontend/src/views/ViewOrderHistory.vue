@@ -53,6 +53,7 @@
                     .then(res => {
                         this.isLoading = false
                         this.orders = res.data.data
+                        console.log(res.data.data)
                     })
                     .catch(e => {
                         this.isLoading = false
