@@ -4,7 +4,7 @@
         <NavbarSpace/>
         <section class="bg-white p-5 my-5">
             <a><span @click="goHome" class="hover:text-green cursor-pointer">{{$t('home')}}</span> / <span
-                    @click="goCategory(dataProduct.category_id)" class="hover:text-green cursor-pointer">{{dataProduct.category_name}}</span>
+                    @click="goCategory(dataProduct.category_id)" class="hover:text-green cursor-pointer">{{nameTranslate(dataProduct.category_name)}}</span>
                 / {{nameTranslate(dataProduct.title)}}</a>
         </section>
         <section class="my-5 mb-10">
