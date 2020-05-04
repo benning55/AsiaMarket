@@ -223,6 +223,7 @@ class Order(models.Model):
         blank=True,
         null=True
     )
+    tracking_no = models.CharField(max_length=255, blank=True, null=True)
     payment_status = models.BooleanField(default=False)
     delivery_status = models.CharField(
         choices=AllInfo.DELIVER_TYPE,

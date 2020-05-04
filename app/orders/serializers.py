@@ -50,7 +50,7 @@ class OrderForUseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('id', 'user', 'address', 'total_price', 'payment_type', 'payment_status', 'delivery_status', 'created', 'pic1', 'receipt')
+        fields = ('id', 'user', 'address', 'total_price', 'payment_type', 'payment_status', 'delivery_status', 'tracking_no', 'created', 'pic1', 'receipt')
         extra_kwargs = {
             'id': {'read_only': True}
         }

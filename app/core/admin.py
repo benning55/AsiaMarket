@@ -54,9 +54,9 @@ class AddressDetailInLine(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'address', 'payment_type', 'payment_status', 'delivery_status', 'created']
+    list_display = ['id', 'user', 'address', 'payment_type', 'payment_status', 'delivery_status', 'tracking_no', 'created']
     list_display_links = ['id', 'user']
-    list_editable = ['delivery_status']
+    list_editable = ['delivery_status', 'tracking_no']
     list_filter = ['delivery_status', 'payment_type', ('created', DateFieldListFilter)]
     list_per_page = 10
     actions = ['set_delivery_to_shipping']
@@ -93,6 +93,8 @@ class OrderAdmin(admin.ModelAdmin):
                 output = open(output.name, 'rb')
                 response.write(output.read())
             return response
+        else:
+            return redirect()
 
 
 class CartAdmin(admin.ModelAdmin):
