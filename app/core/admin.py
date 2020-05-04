@@ -5,7 +5,7 @@ import base64
 from django.shortcuts import redirect
 from weasyprint import HTML
 import tempfile
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -94,7 +94,7 @@ class OrderAdmin(admin.ModelAdmin):
                 response.write(output.read())
             return response
         else:
-            return render(request, 'pdf_admin.html')
+            return HttpResponseRedirect(request.path_info)
 
 
 class CartAdmin(admin.ModelAdmin):
