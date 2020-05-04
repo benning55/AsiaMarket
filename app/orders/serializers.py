@@ -9,7 +9,7 @@ class OrderSerializer(serializers.ModelSerializer):
     receipt = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Order
-        fields = ('id', 'user', 'address', 'price', 'shipping_fee', 'total_price', 'payment_type', 'payment_status', 'code', 'receipt')
+        fields = ('id', 'user', 'address', 'price', 'shipping_fee', 'total_price', 'payment_type', 'payment_status', 'tracking_no', 'code', 'receipt')
         extra_kwargs = {
             'id': {'read_only': True},
             'code': {'read_only': True}

@@ -7,8 +7,8 @@ from weasyprint import HTML
 import tempfile
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
-
 from core import models
 from core.models import OrderDetail
 
@@ -85,7 +85,7 @@ class OrderAdmin(admin.ModelAdmin):
 
             # Creating http response
             response = HttpResponse(content_type='application/pdf;')
-            response['Content-Disposition'] = 'attachment; filename=test.pdf'
+            response['Content-Disposition'] = f'attachment; filename=order_no{obj.id}.pdf'
             response['Content-Transfer-Encoding'] = 'binary'
             with tempfile.NamedTemporaryFile(delete=True) as output:
                 output.write(result)
@@ -94,7 +94,7 @@ class OrderAdmin(admin.ModelAdmin):
                 response.write(output.read())
             return response
         else:
-            return redirect()
+            return render(request, 'pdf_admin.html')
 
 
 class CartAdmin(admin.ModelAdmin):
