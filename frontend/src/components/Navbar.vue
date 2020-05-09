@@ -10,7 +10,7 @@
                     <li class="flex-1 hidden sm:hidden md:hidden lg:inline-block px-0 pt-0">
 <!--                        <a @click="goHome" class="cursor-pointer" style="font-size: 24px;margin-top: 16px">ThaiMarket-->
 <!--                            Express</a>-->
-                                            <img @click="goHome" class="cursor-pointer" style="margin: 15px;height: 42px" src="../assets/Logo/v1.png">
+                                            <img @click="goHome" class="cursor-pointer" style="margin: 0px;height: 72px" src="../assets/Logo/v1.png">
                     </li>
                     <li class="flex-1">
                         <div class="pt-4 relative mx-auto text-black">
@@ -58,7 +58,7 @@
                             class="material-icons text-3xl">menu</i>
                     </li>
                     <li class="inline-block cursor-pointer flex">
-                        <img @click="goHome" class="absolute" style="height: 31px;transform: translateX(-50%);" src="../assets/Logo/v1.png">
+                        <img @click="goHome" class="absolute" style="height: 70px;transform: translateX(-50%);top:24px" src="../assets/Logo/v1.png">
 <!--                        <h1 @click="goHome" style="font-size: 19px;">ThaiMarket Express</h1>-->
                     </li>
                     <li class="float-right px-5">
