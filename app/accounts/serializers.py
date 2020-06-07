@@ -82,7 +82,7 @@ class AddressSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Address
-        fields = ('id', 'user_id', 'recipient', 'street', 'house_number', 'post_code', 'city')
+        fields = ('id', 'user_id', 'recipient', 'address', 'city', 'post_code', 'state')
         extra_kwargs = {
             'id': {'read_only': True}
         }
@@ -90,10 +90,10 @@ class AddressSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         address, created = Address.objects.update_or_create(
             recipient=validated_data['recipient'],
-            house_number=validated_data['house_number'],
-            street=validated_data['post_code'],
+            address=validated_data['address'],
+            post_code=validated_data['post_code'],
             defaults={
-                'street': validated_data['street'],
+                'state': validated_data['state'],
                 'city': validated_data['city']
             }
         )
@@ -115,7 +115,7 @@ class AddressRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Address
-        fields = ('street', 'house_number', 'post_code', 'city')
+        fields = ('address', 'city', 'post_code', 'state')
 
 
 class RegisterSerializer(serializers.Serializer):

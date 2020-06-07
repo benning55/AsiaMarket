@@ -111,10 +111,10 @@ class Address(models.Model):
         on_delete=models.CASCADE
     )
     recipient = models.CharField(max_length=255)
-    street = models.CharField(max_length=255)
-    house_number = models.CharField(max_length=255)
+    address = models.TextField(max_length=255)
+    city = models.CharField(max_length=255)
     post_code = models.CharField(max_length=255)
-    city = models.CharField(
+    state = models.CharField(
         choices=AllInfo.CITY_NAME,
         max_length=30,
     )

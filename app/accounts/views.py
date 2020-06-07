@@ -61,10 +61,10 @@ def register(request):
             'sex': data['sex']
         }
         address = {
-            'house_number': data['address']['house_number'],
-            'street': data['address']['street'],
+            'house_number': data['address']['address'],
+            'city': data['address']['city'],
             'post_code': data['address']['postalCode'],
-            'city': data['address']['city']
+            'state': data['address']['state']
         }
         timeline = {
             'user': user,
@@ -93,10 +93,10 @@ def register(request):
             new_profile.save()
             new_address = Address.objects.create(
                 user_id=new_user.id,
-                house_number=address['house_number'],
-                street=address['street'],
+                house_number=address['address'],
+                street=address['city'],
                 post_code=address['post_code'],
-                city=address['city']
+                city=address['state']
             )
             new_address.recipient = new_user.last_name
             new_address.save()
@@ -234,10 +234,10 @@ class UserAddressApiView(APIView):
         user_address = address.filter(
             user_id=user.id,
             recipient=data['recipient'],
-            house_number=data['house_number'],
+            address=data['address'],
             city=data['city'],
             post_code=data['post_code'],
-            street__contains=data['street']
+            state=data['state']
         )
         if len(user_address) == 0:
             serializer = serializers.AddressSerializer(data=data)
@@ -245,8 +245,8 @@ class UserAddressApiView(APIView):
                 address_user = Address.objects.create(
                     user_id=user.id,
                     recipient=data['recipient'],
-                    house_number=data['house_number'],
-                    street=data['street'],
+                    address=data['address'],
+                    state=data['state'],
                     post_code=data['post_code'],
                     city=data['city']
                 )

@@ -141,9 +141,9 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'street', 'house_number', 'post_code', 'city']
+    list_display = ['id', 'user', 'address', 'city', 'post_code', 'state']
     list_display_links = ['id', 'user']
-    list_filter = ['city']
+    list_filter = ['state']
 
     search_fields = ['user__username']
 
