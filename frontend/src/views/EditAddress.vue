@@ -26,7 +26,7 @@
             <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
                 <label v-if="!validation.firstError('house_number')"
                        class="block text-sm mb-2"
-                       for="house_number">{{$t('house_number')}}</label>
+                       for="house_number">{{$t('address')}}</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
                        for="house_number">{{$t(validation.firstError('house_number'))}}</label>
@@ -40,7 +40,7 @@
             <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
                 <label v-if="!validation.firstError('street')"
                        class="block text-sm mb-2"
-                       for="street">{{$t('street')}}</label>
+                       for="street">{{$t('city')}}</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
                        for="street">{{$t(validation.firstError('street'))}}</label>
@@ -54,7 +54,7 @@
             <div class="mb-6 flex justify-between sm:px-10 md:px-16 lg:px-0">
                 <div class="w-1/2 pr-1">
                     <label v-if="!validation.firstError('city')"
-                           class="block text-sm mb-2">{{$t('city')}}</label>
+                           class="block text-sm mb-2">{{$t('state')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2">{{$t(validation.firstError('city'))}}</label>
                     <el-select v-model="city" placeholder="Select">
@@ -158,15 +158,15 @@
             },
             house_number(value) {
                 return Validator.value(value)
-                    .required("error_address_house_number");
+                    .required("error_address_street");
             },
             street(value) {
                 return Validator.value(value)
-                    .required("error_address_street");
+                    .required("error_address_city");
             },
             city(value) {
                 return Validator.value(value)
-                    .required("error_address_city");
+                    .required("error_address_state");
             },
             post_code(value) {
                 return Validator.value(value)
@@ -177,9 +177,9 @@
         created() {
             this.index = this.$store.state.userAddress.findIndex(item => item.id == this.$route.params.id)
             this.recipient = this.$store.state.userAddress[this.index].recipient
-            this.house_number = this.$store.state.userAddress[this.index].house_number
-            this.street = this.$store.state.userAddress[this.index].street
-            this.city = this.$store.state.userAddress[this.index].city
+            this.house_number = this.$store.state.userAddress[this.index].address
+            this.street = this.$store.state.userAddress[this.index].city
+            this.city = this.$store.state.userAddress[this.index].state
             this.post_code = this.$store.state.userAddress[this.index].post_code
         },
         methods: {
@@ -188,10 +188,10 @@
                 axios.put(`${this.$store.state.endpoints.host}/api/accounts/user/address/`, {
                     id: this.$route.params.id,
                     recipient: this.recipient,
-                    street: this.street,
-                    house_number: this.house_number,
+                    city: this.street, // city
+                    address: this.house_number, // address
                     post_code: this.post_code,
-                    city: this.city
+                    state: this.city, // state
                 }, {
                     headers: {
                         Authorization: `JWT ${this.$store.state.jwt}`,
@@ -210,9 +210,6 @@
             deleteAddress() {
                 this.isLoading = true
                 this.$store.state.indexUserAddress = 0
-                console.log(this.$store.state.indexUserAddress)
-                console.log(this.$route.params.id)
-                console.log(this.$store.state.userAddress)
                 if (this.$store.state.userAddress.length == 1) {
                     this.isLoading = false
                     alert("can not delete")
@@ -235,7 +232,6 @@
                     //     })
                 // }
                 else {
-                    console.log(`${this.$store.state.endpoints.host}/api/accounts/user/address/`)
                     axios.delete(`${this.$store.state.endpoints.host}/api/accounts/user/address/` + this.$route.params.id + '/', {
                         headers: {
                             Authorization: `JWT ${this.$store.state.jwt}`,

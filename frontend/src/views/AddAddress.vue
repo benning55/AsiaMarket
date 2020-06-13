@@ -26,7 +26,7 @@
             <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
                 <label v-if="!validation.firstError('house_number')"
                        class="block text-sm mb-2"
-                       for="house_number">{{$t('house_number')}}</label>
+                       for="house_number">{{$t('address')}}</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
                        for="house_number">{{$t(validation.firstError('house_number'))}}</label>
@@ -40,7 +40,7 @@
             <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
                 <label v-if="!validation.firstError('street')"
                        class="block text-sm mb-2"
-                       for="street">{{$t('street')}}</label>
+                       for="street">{{$t('city')}}</label>
                 <label v-else
                        class="block text-red text-sm mb-2"
                        for="street">{{$t(validation.firstError('street'))}}</label>
@@ -54,7 +54,7 @@
             <div class="mb-6 flex justify-between sm:px-10 md:px-16 lg:px-0">
                 <div class="w-1/2 pr-1">
                     <label v-if="!validation.firstError('city')"
-                           class="block text-sm mb-2">{{$t('city')}}</label>
+                           class="block text-sm mb-2">{{$t('state')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2">{{$t(validation.firstError('city'))}}</label>
                     <el-select v-model="city" :placeholder="$t('')">
@@ -146,15 +146,15 @@
             },
             house_number(value) {
                 return Validator.value(value)
-                    .required("error_address_house_number");
+                    .required("error_address_street");
             },
             street(value) {
                 return Validator.value(value)
-                    .required("error_address_street");
+                    .required("error_address_city");
             },
             city(value) {
                 return Validator.value(value)
-                    .required("error_address_city");
+                    .required("error_address_state");
             },
             post_code(value) {
                 return Validator.value(value)
@@ -172,9 +172,9 @@
                         this.isLoading = true
                         axios.post(this.$store.state.endpoints.host + '/api/accounts/user/address/', {
                             recipient: this.recipient,
-                            house_number: this.house_number,
-                            street: this.street,
-                            city: this.city,
+                            address: this.house_number,
+                            city: this.street,
+                            state: this.city,
                             post_code: this.post_code
                         }, {
                             headers: {

@@ -53,7 +53,7 @@
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
                         <label v-if="!validation.firstError('houseNumber')"
                                class="block text-sm mb-2"
-                               for="houseNumber">{{$t('house_number')}}</label>
+                               for="houseNumber">{{$t('address')}}</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
                                for="houseNumber">{{$t(validation.firstError('houseNumber'))}}</label>
@@ -67,7 +67,7 @@
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
                         <label v-if="!validation.firstError('street')"
                                class="block text-sm mb-2"
-                               for="houseNumber">{{$t('street')}}</label>
+                               for="houseNumber">{{$t('city')}}</label>
                         <label v-else class="block text-sm mb-2 text-red"
                                for="street">{{$t(validation.firstError('street'))}}</label>
                         <el-input id="street"
@@ -80,7 +80,7 @@
                     <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-8">
                         <div class="mb-4 pr-2 w-1/2">
                             <label v-if="!validation.firstError('city')"
-                                   class="block text-sm mb-2">{{$t('city')}}</label>
+                                   class="block text-sm mb-2">{{$t('state')}}</label>
                             <label v-else
                                    class="block text-red text-sm mb-2">{{$t(validation.firstError('city'))}}</label>
                             <el-select v-model="city" ref="city" placeholder="Select">
@@ -311,15 +311,15 @@
             },
             houseNumber(value) {
                 return Validator.value(value)
-                    .required("error_address_house_number")
+                    .required("error_address_street")
             },
             street(value) {
                 return Validator.value(value)
-                    .required("error_address_street")
+                    .required("error_address_city")
             },
             city(value) {
                 return Validator.value(value)
-                    .required("error_address_city")
+                    .required("error_address_state")
             },
             postalCode(value) {
                 return Validator.value(value)
@@ -396,9 +396,9 @@
                     dob: this.dob,
                     sex: this.sex,
                     address: {
-                        house_number: this.houseNumber,
-                        street: this.street,
-                        city: this.city,
+                        address: this.houseNumber, // address
+                        city: this.street, // city
+                        state: this.city, // state
                         postalCode: this.postalCode
                     }
                 };

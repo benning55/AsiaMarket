@@ -14,42 +14,42 @@
         </div>
 
         <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
-            <label v-if="!validation.firstError('house_number')"
+            <label v-if="!validation.firstError('address')"
                    class="block text-sm mb-2"
-                   for="house_number">{{$t('house_number')}}</label>
+                   for="address">{{$t('address')}}</label>
             <label v-else
                    class="block text-red text-sm mb-2"
-                   for="house_number">{{$t(validation.firstError('house_number'))}}</label>
-            <el-input id="house_number"
+                   for="address">{{$t(validation.firstError('address'))}}</label>
+            <el-input id="address"
                       :placeholder="$t('')"
-                      v-model="house_number">
+                      v-model="address">
             </el-input>
         </div>
 
 
         <div class="mb-6 sm:px-10 md:px-16 lg:px-0">
-            <label v-if="!validation.firstError('street')"
+            <label v-if="!validation.firstError('city')"
                    class="block text-sm mb-2"
-                   for="street">{{$t('street')}}</label>
+                   for="city">{{$t('city')}}</label>
             <label v-else
                    class="block text-red text-sm mb-2"
-                   for="street">{{$t(validation.firstError('street'))}}</label>
-            <el-input id="street"
+                   for="city">{{$t(validation.firstError('city'))}}</label>
+            <el-input id="city"
                       :placeholder="$t('')"
-                      v-model="street">
+                      v-model="city">
             </el-input>
         </div>
 
 
         <div class="mb-6 flex justify-between sm:px-10 md:px-16 lg:px-0">
             <div class="w-1/2 pr-1">
-                <label v-if="!validation.firstError('city')"
-                       class="block text-sm mb-2">{{$t('city')}}</label>
+                <label v-if="!validation.firstError('state')"
+                       class="block text-sm mb-2">{{$t('state')}}</label>
                 <label v-else
-                       class="block text-red text-sm mb-2">{{$t(validation.firstError('city'))}}</label>
-                <el-select v-model="city" :placeholder="$t('error_address_city')">
+                       class="block text-red text-sm mb-2">{{$t(validation.firstError('state'))}}</label>
+                <el-select v-model="state" :placeholder="$t('error_address_state')">
                     <el-option
-                            v-for="item in cityOptions"
+                            v-for="item in stateOptions"
                             :key="item"
                             :label="item"
                             :value="item">
@@ -92,11 +92,11 @@
         data() {
             return {
                 recipient:'',
-                house_number: '',
-                street: '',
+                address: '',
                 city: '',
+                state: '',
                 post_code: '',
-                cityOptions: [
+                stateOptions: [
                     'Baden-Württemberg',
                     'Bayern',
                     'Berlin',
@@ -122,17 +122,17 @@
                 return Validator.value(value)
                     .required("error_address_recipient");
             },
-            house_number(value) {
-                return Validator.value(value)
-                    .required("error_address_house_number");
-            },
-            street(value) {
+            address(value) {
                 return Validator.value(value)
                     .required("error_address_street");
             },
             city(value) {
                 return Validator.value(value)
                     .required("error_address_city");
+            },
+            state(value) {
+                return Validator.value(value)
+                    .required("error_address_state");
             },
             post_code(value) {
                 return Validator.value(value)
@@ -143,9 +143,9 @@
         created() {
             if(this.chooseNewAddress){
                 this.recipient = this.dataAddress.recipient
-                this.house_number = this.dataAddress.house_number
-                this.street = this.dataAddress.street
-                this.city = this.dataAddress.city
+                this.address = this.dataAddress.house_number
+                this.city = this.dataAddress.street
+                this.state = this.dataAddress.city
                 this.post_code = this.dataAddress.post_code
             }
         },
@@ -153,7 +153,7 @@
             add() {
                 this.$validate().then(success => {
                     if (success) {
-                        this.$emit('updateAddress',this.recipient, this.house_number, this.street, this.city, this.post_code,this.checked);
+                        this.$emit('updateAddress',this.recipient, this.address, this.city, this.state, this.post_code,this.checked);
                         this.recipient = ''
                     }
                 })

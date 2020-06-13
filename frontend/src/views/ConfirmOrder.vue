@@ -92,9 +92,9 @@
                     <div class="flex justify-between">
                         <h1>{{$t('address')}}</h1>
                         <h1 class="text-right">
-                            {{this.$store.state.userAddress[$store.state.indexUserAddress].house_number}},
-                            {{this.$store.state.userAddress[$store.state.indexUserAddress].street}},
-                            {{this.$store.state.userAddress[$store.state.indexUserAddress].city}}
+                            {{this.$store.state.userAddress[$store.state.indexUserAddress].address}},
+                            {{this.$store.state.userAddress[$store.state.indexUserAddress].city}},
+                            {{this.$store.state.userAddress[$store.state.indexUserAddress].state}}
                             {{this.$store.state.userAddress[$store.state.indexUserAddress].post_code}}
                         </h1>
                     </div>
@@ -156,7 +156,7 @@
                                 {{address.recipient}}
                             </div>
                             <div class="w-6/12 text-left text-black px-1 py-2 h-full">
-                                {{address.house_number}} {{address.street}} {{address.city}} {{address.post_code}}
+                                {{address.address}} {{address.city}} {{address.state}} {{address.post_code}}
                             </div>
                         </div>
                     </div>
@@ -240,18 +240,18 @@
             window.scrollTo(0, 0);
         },
         methods: {
-            nameTranslate(text) {
-                let list = text.split('|')
-                if (list.length == 1) {
-                    return text
-                } else {
-                    if (this.$i18n.locale == 'th') {
-                        return list[1]
-                    } else {
-                        return list[0]
-                    }
-                }
-            },
+            // nameTranslate(text) {
+            //     let list = text.split('|')
+            //     if (list.length == 1) {
+            //         return text
+            //     } else {
+            //         if (this.$i18n.locale == 'th') {
+            //             return list[1]
+            //         } else {
+            //             return list[0]
+            //         }
+            //     }
+            // },
             loadAddress() {
                 this.isLoading = true
                 axios.get(this.$store.state.endpoints.addressUrL, {
@@ -304,20 +304,20 @@
                 this.typeModal = 'address'
                 this.addressDialog = true
             },
-            insertAddress(recipient, house_number, street, city, post_code, checked) {
+            insertAddress(recipient, address, city, state, post_code, checked) {
                 this.newAddress.recipient = recipient
-                this.newAddress.house_number = house_number
-                this.newAddress.street = street
-                this.newAddress.city = city
+                this.newAddress.house_number = address
+                this.newAddress.street = city
+                this.newAddress.city = state
                 this.newAddress.post_code = post_code
                 console.log(checked)
                 if (checked) {
                     if (checked) {
                         axios.post(this.$store.state.endpoints.host + '/api/accounts/user/address/', {
                             recipient: recipient,
-                            house_number: house_number,
-                            street: street,
+                            address: address,
                             city: city,
+                            state: state,
                             post_code: post_code
                         }, {
                             headers: {
@@ -327,10 +327,10 @@
                         }).then(() => {
                             this.$store.state.userAddress.unshift({
                                 "recipient": recipient,
-                                "street": street,
-                                "house_number": house_number,
+                                "city": city,
+                                "address": address,
                                 "post_code": post_code,
-                                "city": city
+                                "state": state
                             })
                             this.$store.commit("setIndexUserAddress", 0)
                             this.isLoading = false
@@ -357,7 +357,6 @@
                 }
             },
             confirmOrder() {
-                console.log('dd')
                 let address = ''
                 if (this.chooseNewAddress) {
                     address = this.newAddress.recipient + " " +
@@ -366,9 +365,8 @@
                         this.newAddress.city + " " +
                         this.newAddress.post_code
                 } else {
-                    address = this.$store.state.userAddress[this.$store.state.indexUserAddress].recipient + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].house_number + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].street + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].city + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].post_code
+                    address = this.$store.state.userAddress[this.$store.state.indexUserAddress].recipient + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].address + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].city + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].state + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].post_code
                 }
-                console.log(this.total)
                 axios.post(`${this.$store.state.endpoints.host}/api/orders/order/`, {
                     address: address,
                     total_price: this.subTotal,

@@ -141,5 +141,7 @@
   "bank_name": "Bank Name",
   "account_name": "Account Name",
   "tracking_no": "Tracking Number",
-  "dont_shipping": "Not yet shipped"
+  "dont_shipping": "Not yet shipped",
+  "state": "State",
+  "error_address_state": "Please input State"
 }

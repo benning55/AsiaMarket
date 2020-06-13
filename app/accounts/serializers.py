@@ -101,10 +101,10 @@ class AddressSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.recipient = validated_data.get('recipient', instance.recipient)
-        instance.street = validated_data.get('street', instance.street)
-        instance.house_number = validated_data.get('house_number', instance.house_number)
-        instance.post_code = validated_data.get('post_code', instance.post_code)
         instance.city = validated_data.get('city', instance.city)
+        instance.address = validated_data.get('address', instance.address)
+        instance.post_code = validated_data.get('post_code', instance.post_code)
+        instance.state = validated_data.get('state', instance.state)
 
         instance.save()
         return instance
