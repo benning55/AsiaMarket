@@ -19,7 +19,7 @@
   "edit_address": "Edit Address",
   "email": "Email",
   "error_Oops_": "Oops, Something is Error. code ",
-  "error_address_city": "Please input city",
+  "error_address_city": "Please input City",
   "error_address_house_number": "Please input house number",
   "error_address_postalCode_number": "Postal Code must be 5 digit",
   "error_address_postalCode_require": "Please input Postal Code",
