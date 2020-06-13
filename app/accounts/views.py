@@ -48,6 +48,7 @@ def register(request):
         Save new user
         """
         data = request.data
+        print(data['address'])
         user = {
             'username': data['username'],
             'password': data['password'],
@@ -61,7 +62,7 @@ def register(request):
             'sex': data['sex']
         }
         address = {
-            'house_number': data['address']['address'],
+            'address': data['address']['address'],
             'city': data['address']['city'],
             'post_code': data['address']['postalCode'],
             'state': data['address']['state']
@@ -71,7 +72,12 @@ def register(request):
             'profile': profile,
             'address': address
         }
+        print('user', timeline['user'])
+        print('profile', timeline['profile'])
+        print('address', timeline['address'])
+
         serializer = serializers.RegisterSerializer(data=timeline)
+        print('it pass')
         if serializer.is_valid():
             new_user = User.objects.create(
                 username=user['username'],
@@ -93,10 +99,10 @@ def register(request):
             new_profile.save()
             new_address = Address.objects.create(
                 user_id=new_user.id,
-                house_number=address['address'],
-                street=address['city'],
+                address=address['address'],
+                city=address['city'],
                 post_code=address['post_code'],
-                city=address['state']
+                state=address['state']
             )
             new_address.recipient = new_user.last_name
             new_address.save()
