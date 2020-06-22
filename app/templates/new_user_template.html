@@ -1,0 +1,28 @@
+{% extends 'admin/change_list.html' %}
+
+{% block object-tools %}
+    <div>
+        <form action="new-csv/">
+            {% csrf_token %}
+                <button type="submit" style="
+            display: inline-block;
+            color:white;
+            background-color: #96CDCD;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;">Generate CSV</button>
+        </form>
+    </div>
+    <br />
+    {{ block.super }}
+{% endblock %}

@@ -143,5 +143,6 @@
   "tracking_no": "Tracking Number",
   "dont_shipping": "Not yet shipped",
   "state": "State",
-  "error_address_state": "Please input State"
+  "error_address_state": "Please input State",
+  "Street_&_House_Number": "Street & House Number"
 }

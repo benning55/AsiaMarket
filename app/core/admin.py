@@ -1,8 +1,11 @@
+import csv
+
 from django.contrib import admin
 from django.contrib.admin import DateFieldListFilter
 import base64
 # Register your models here.
 from django.shortcuts import redirect
+from django.urls import path
 from weasyprint import HTML
 import tempfile
 from django.http import HttpResponse, HttpResponseRedirect
@@ -11,6 +14,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from core import models
 from core.models import OrderDetail
+import datetime
 
 
 class OrderInLine(admin.TabularInline):
@@ -125,11 +129,50 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['id', 'username', 'first_name', 'last_name', 'is_active', 'is_staff']
+    list_display = ['id', 'username', 'first_name', 'last_name', 'age', 'is_active', 'is_staff']
     list_display_links = ['id', 'username']
     list_filter = ['is_staff', 'is_active']
 
     inlines = [ProfileDetailInLine, AddressDetailInLine]
+
+    change_list_template = 'new_user_template.html'
+
+    def has_add_permission(self, request):
+        return False
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('new-csv/', self.look_user)
+        ]
+        return my_urls + urls
+
+    def look_user(self, request):
+        """get user list to csv"""
+        all_user = models.User.objects.all()
+        response = HttpResponse(content_type='text/csv')
+
+        writer = csv.writer(response)
+        writer.writerow(['Email', 'First Name', 'Last Name', 'Sex', 'DOB', 'Age', 'Tel'])
+
+        for user in all_user:
+            age = self.age(user)
+            data = (user.email, user.first_name, user.last_name, user.profile.sex, user.profile.dob, age, user.profile.tel)
+            writer.writerow(data)
+
+        response['Content-Disposition'] = 'attachment; filename="user.csv"'
+        return response
+
+    def age(self, obj):
+        user_id = obj.id
+        profile = models.Profile.objects.get(pk=user_id)
+        cur_date = datetime.datetime.now().date()
+        dob = "None" if profile.dob is None else profile.dob
+        if dob == "None":
+            return dob
+        else:
+            age = (cur_date - dob).days // 365
+            return age
 
 
 class ProfileAdmin(admin.ModelAdmin):

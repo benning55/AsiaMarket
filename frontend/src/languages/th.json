@@ -141,5 +141,6 @@
   "tracking_no": "หมายเลขติดตามสินค้า",
   "dont_shipping": "ยังไม่จัดส่ง",
   "state": "รัฐ",
-  "error_address_state": "โปรดใส่รัฐ"
+  "error_address_state": "โปรดใส่รัฐ",
+  "Street_&_House_Number": "ถนนและเลขที่บ้าน"
 }

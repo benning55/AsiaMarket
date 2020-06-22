@@ -53,10 +53,10 @@
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
                         <label v-if="!validation.firstError('houseNumber')"
                                class="block text-sm mb-2"
-                               for="houseNumber">{{$t('address')}}</label>
+                               for="houseNumber">{{$t('Street_&_House_Number')}}</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
-                               for="houseNumber">{{$t(validation.firstError('houseNumber'))}}</label>
+                               for="houseNumber">{{$t(validation.firstError('Street_&_House_Number'))}}</label>
                         <el-input id="houseNumber"
                                   ref="houseNumber"
                                   @keyup.enter.native="$refs.street.focus"

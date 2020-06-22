@@ -76,6 +76,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
+    class Meta:
+        verbose_name_plural = "User"
+
 
 class Profile(models.Model):
     """ Profile model """
@@ -103,6 +106,9 @@ class Profile(models.Model):
         name = user.username
         return name
 
+    class Meta:
+        verbose_name_plural = "Profile"
+
 
 class Address(models.Model):
     """ All address in the system"""
@@ -124,6 +130,9 @@ class Address(models.Model):
         name = user.username
         return name + " " + str(self.id)
 
+    class Meta:
+        verbose_name_plural = "Address"
+
 
 class Category(models.Model):
     type = models.CharField(max_length=255)
@@ -131,6 +140,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.type
+
+    class Meta:
+        verbose_name_plural = "Category"
 
 
 class Product(models.Model):
@@ -159,6 +171,9 @@ class Product(models.Model):
             self.pic1.save(f"image_{self.pk}.jpg", File(img_temp, 'rb'))
         super(Product, self).save(*args, **kwargs)
 
+        class Meta:
+            verbose_name_plural = "Product"
+
 
 class Code(models.Model):
     """code table for adding code"""
@@ -170,6 +185,9 @@ class Code(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Code"
 
 
 class Cart(models.Model):
@@ -190,6 +208,9 @@ class Cart(models.Model):
     def __str__(self):
         return self.user.username
 
+    class Meta:
+        verbose_name_plural = "Cart"
+
 
 class CartDetail(models.Model):
     cart = models.ForeignKey(
@@ -206,6 +227,9 @@ class CartDetail(models.Model):
     def __str__(self):
         carted = Cart.objects.get(pk=self.cart_id)
         return carted.user.username
+
+    class Meta:
+        verbose_name_plural = "Cart Detail"
 
 
 class Order(models.Model):
@@ -239,6 +263,9 @@ class Order(models.Model):
         name = user.username
         return name + " " + str(self.id)
 
+    class Meta:
+        verbose_name_plural = "Order"
+
 
 class OrderDetail(models.Model):
     order = models.ForeignKey(
@@ -257,6 +284,8 @@ class OrderDetail(models.Model):
         product = Product.objects.get(pk=self.product_id)
         return product.title + " " + str(order.id)
 
+    class Meta:
+        verbose_name_plural = "Order Detail"
 
 class PaymentBill(models.Model):
     order = models.ForeignKey(
@@ -286,16 +315,25 @@ class PaymentBill(models.Model):
         return order_price
     get_total_price.short_description = 'Total Price'
 
+    class Meta:
+        verbose_name_plural = "Payment Bill"
+
 
 class ShippingRate(models.Model):
     """ The price for shipping """
     price = models.DecimalField(max_digits=7, decimal_places=2)
     post_code = models.CharField(max_length=255, blank=True, null=True)
 
+    class Meta:
+        verbose_name_plural = "Shipping Rate"
+
 
 class CarouselImage(models.Model):
     """Carousel Image"""
     picture = models.ImageField(upload_to=product_image_path, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Carousel Image"
 
 
 class FooterData(models.Model):
@@ -304,12 +342,21 @@ class FooterData(models.Model):
     email = models.EmailField(max_length=255, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
 
+    class Meta:
+        verbose_name_plural = "Footer Data"
+
 
 class Banner(models.Model):
     """Data for red banner"""
     description = models.TextField()
 
+    class Meta:
+        verbose_name_plural = "Banner"
+
 
 class NotifyEmail(models.Model):
     """Email to send notification to"""
     email = models.EmailField(max_length=255)
+
+    class Meta:
+        verbose_name_plural = "Notify Email"
