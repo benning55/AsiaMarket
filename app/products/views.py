@@ -300,6 +300,6 @@ def get_category(request):
     Get Banner for data
     """
     if request.method == 'GET':
-        queryset = Category.objects.all()
+        queryset = Category.objects.all().order_by('type')
         serializer = serializers.CategorySerializer(queryset, many=True)
         return Response({"data": serializer.data}, status=status.HTTP_200_OK)

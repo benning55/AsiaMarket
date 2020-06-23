@@ -70,10 +70,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class ProfileRegisterSerializer(serializers.ModelSerializer):
     """Serializer for Profile model"""
+    facebook = serializers.CharField(allow_blank=True)
 
     class Meta:
         model = Profile
-        fields = ('tel', 'dob', 'sex')
+        fields = ('tel', 'dob', 'sex', 'facebook')
 
 
 class AddressSerializer(serializers.ModelSerializer):

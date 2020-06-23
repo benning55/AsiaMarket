@@ -92,13 +92,14 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         primary_key=True,
     )
-    tel = models.CharField(max_length=12, blank=True)
+    tel = models.CharField(max_length=255, blank=True)
     dob = models.DateField(auto_now=False, null=True)
     sex = models.CharField(
         max_length=10,
         choices=SEX_TYPE,
         blank=True
     )
+    facebook = models.CharField(max_length=255, blank=True, null=True)
     profile_status = models.BooleanField(default=False)
 
     def __str__(self):
@@ -338,7 +339,7 @@ class CarouselImage(models.Model):
 
 class FooterData(models.Model):
     """Add data in footer"""
-    phone = models.CharField(max_length=12, blank=True)
+    phone = models.CharField(max_length=255, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
 

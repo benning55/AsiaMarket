@@ -48,7 +48,6 @@ def register(request):
         Save new user
         """
         data = request.data
-        print(data['address'])
         user = {
             'username': data['username'],
             'password': data['password'],
@@ -59,7 +58,8 @@ def register(request):
         profile = {
             'tel': data['phone'],
             'dob': data['dob'],
-            'sex': data['sex']
+            'sex': data['sex'],
+            'facebook': data['facebook']
         }
         address = {
             'address': data['address']['address'],
@@ -72,12 +72,8 @@ def register(request):
             'profile': profile,
             'address': address
         }
-        print('user', timeline['user'])
-        print('profile', timeline['profile'])
-        print('address', timeline['address'])
 
         serializer = serializers.RegisterSerializer(data=timeline)
-        print('it pass')
         if serializer.is_valid():
             new_user = User.objects.create(
                 username=user['username'],
@@ -94,6 +90,7 @@ def register(request):
                 tel=profile['tel'],
                 sex=profile['sex'],
                 dob=profile['dob'],
+                facebook=profile['facebook'],
                 profile_status=True
             )
             new_profile.save()

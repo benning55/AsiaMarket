@@ -138,3 +138,7 @@ app/core/migrations/0003_auto_20200429_0958.py
 app/core/migrations/0004_order_tracking_no.py
 
 app/core/migrations/0005_auto_20200607_0416.py
+
+app/core/migrations/0006_auto_20200623_1555.py
+
+app/core/migrations/0007_auto_20200623_1606.py
