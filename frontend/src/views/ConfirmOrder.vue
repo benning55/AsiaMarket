@@ -120,8 +120,8 @@
                 <div class="mt-5">
                     <div @click="toggleAddress = !toggleAddress"
                          :class="{'bg-red':toggleAddress,'bg-green':!toggleAddress}"
-                         class="mx-auto lg:mr-0 w-64 text-white text-center py-2 px-2 focus:outline-none cursor-pointer">
-                        <a v-if="!toggleAddress">New address</a>
+                         class="mx-auto  w-64 text-white text-center py-2 px-2 focus:outline-none cursor-pointer">
+                        <a v-if="!toggleAddress">{{$t('add_new_address')}}</a>
                         <a v-else>{{$t('cancel')}}</a>
                     </div>
                 </div>

@@ -9,7 +9,7 @@
         </section>
         <section class="my-5 mb-10">
             <div class="flex-none sm:flex md:flex lg:flex xl:flex mb-4 bg-white">
-                <div class="w-full sm:w-3/12 md:4/12 lg:4/12">
+                <div class="w-full sm:w-6/12 md:6/12 lg:6/12">
                     <VueSlickCarousel
                             ref="c1"
                             :asNavFor="$refs.c2"
@@ -35,7 +35,7 @@
                             </svg>
                         </div>
                         <div v-else class="w-full p-10 md:p-5">
-                            <img @error="imgError()" class="height220"
+                            <img @error="imgError()" class="height250"
                                  :src="$store.state.endpoints.host+dataProduct.pic1" alt="saa">
                         </div>
 
@@ -85,12 +85,12 @@
                         </VueSlickCarousel>
                     </div>
                 </div>
-                <div class="w-full sm:w-5/12 md:5/12 lg:md:5/12 px-10 pt-12">
+                <div class="w-full sm:w-5/12 md:5/12 lg:md:5/12 pl-10 pt-12">
                     <h1 class="text-3xl">{{nameTranslate(dataProduct.title)}}</h1>
                     <!--                    <h1 class="text-lightGray">unit</h1>-->
                     <p class="mt-10"> {{nameTranslate(dataProduct.description)}}</p>
                 </div>
-                <div class="w-full sm:w-4/12 px-10 pt-12">
+                <div class="w-full sm:w-4/12 px-10 md:px-5 xl:px-10 pt-12">
                     <h1 class="text-4xl">{{dataProduct.price}} €</h1>
 
                     <!--            show this when over-->

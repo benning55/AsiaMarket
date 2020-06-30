@@ -15,7 +15,7 @@
                 <div class="mb-4 sm:px-10 md:px-16 lg:px-10">
                     <label v-if="!validation.firstError('username')"
                            class="block text-sm mb-2"
-                           for="username"> {{$t('username')}}</label>
+                           for="username"> {{$t('email')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2"
                            for="username">{{$t(`${validation.firstError('username')}`)}}</label>
@@ -23,7 +23,7 @@
                               @keyup.enter.native="$refs.password.focus"
                               ref="username"
                               type="text"
-                              :placeholder="$t('error_user_username_require')"
+                              :placeholder="$t('error_user_email_require')"
                               v-model="username">
                     </el-input>
                 </div>
@@ -87,7 +87,7 @@
         validators: {
             username(value) {
                 return Validator.value(value)
-                    .required("error_user_username_require");
+                    .required("error_user_email_require");
             },
             password(value) {
                 return Validator.value(value)

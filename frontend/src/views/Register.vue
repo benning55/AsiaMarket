@@ -56,7 +56,7 @@
                                for="houseNumber">{{$t('Street_&_House_Number')}}</label>
                         <label v-else
                                class="block text-red text-sm mb-2"
-                               for="houseNumber">{{$t(validation.firstError('Street_&_House_Number'))}}</label>
+                               for="houseNumber">{{$t(validation.firstError('houseNumber'))}}</label>
                         <el-input id="houseNumber"
                                   ref="houseNumber"
                                   @keyup.enter.native="$refs.street.focus"
@@ -103,7 +103,6 @@
                                       ref="postal"
                                       @keyup.enter.native="$refs.dob.focus"
                                       placeholder="Please input"
-                                      type="number"
                                       v-model="postalCode">
                             </el-input>
                         </div>
@@ -169,25 +168,26 @@
                                for="email">{{$t(validation.firstError('email'))}}</label>
                         <el-input id="email"
                                   ref="email"
-                                  @keyup.enter.native="$refs.username.focus"
+                                  @keyup.enter.native="$refs.facebook.focus"
                                   placeholder="Please input"
                                   v-model="email">
                         </el-input>
                     </div>
-<!--                    <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">-->
-<!--                        <label v-if="!validation.firstError('username')"-->
-<!--                               class="block text-sm mb-2"-->
-<!--                               for="username">{{$t('username')}}</label>-->
-<!--                        <label v-else-->
-<!--                               class="block text-red text-sm mb-2"-->
-<!--                               for="username">{{$t(validation.firstError('username'))}}</label>-->
-<!--                        <el-input id="username"-->
-<!--                                  ref="username"-->
-<!--                                  @keyup.enter.native="$refs.password.focus"-->
-<!--                                  placeholder="Please input"-->
-<!--                                  v-model="username">-->
-<!--                        </el-input>-->
-<!--                    </div>-->
+                    <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
+                        <label v-if="!validation.firstError('facebook')"
+                               class="block text-sm mb-2"
+                               for="facebook">{{$t('facebook')}}</label>
+                        <label v-else
+                               class="block text-red text-sm mb-2"
+                               for="facebook">{{$t(validation.firstError('facebook'))}}</label>
+                        <el-input id="facebook"
+                                  auto-complete="false"
+                                  ref="facebook"
+                                  @keyup.enter.native="$refs.password.focus"
+                                  placeholder="Please input"
+                                  v-model="facebook">
+                        </el-input>
+                    </div>
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
                         <label v-if="!validation.firstError('password')"
                                class="block text-sm mb-2"
@@ -265,6 +265,7 @@
                 dob: '',
                 phone: '',
                 email: '',
+                facebook:'',
                 username: '',
                 password: '',
                 password2: '',
@@ -311,7 +312,7 @@
             },
             houseNumber(value) {
                 return Validator.value(value)
-                    .required("error_address_street")
+                    .required("Street_&_House_Number")
             },
             street(value) {
                 return Validator.value(value)
@@ -324,7 +325,7 @@
             postalCode(value) {
                 return Validator.value(value)
                     .required("error_address_postalCode_require")
-                    .length(5, "error_address_postalCode_number")
+                    // .length(5, "error_address_postalCode_number")
             },
             dob(value) {
                 return Validator.value(value)
@@ -339,11 +340,15 @@
                     .required("error_user_email_require")
                     .email('error_user_email_invalid')
             },
-            username(value) {
+            facebook(value) {
                 return Validator.value(value)
-                    .required("error_user_username_require")
-                    .minLength(4, "error_user_username_length");
+                    .required("error_user_facebook_require")
             },
+            // username(value) {
+            //     return Validator.value(value)
+            //         .required("error_user_username_require")
+            //         .minLength(4, "error_user_username_length");
+            // },
             password(value) {
                 return Validator.value(value)
                     .required("error_user_password_require")
@@ -373,10 +378,10 @@
                         this.state++
                     }
                 } else if (this.state == 1) {
-                    this.$validate(['email', 'password', 'password2'])
+                    this.$validate(['email','facebook', 'password', 'password2'])
                     if (
                         this.validation.firstError('email') == null &&
-                        // this.validation.firstError('username') == null &&
+                        this.validation.firstError('facebook') == null &&
                         this.validation.firstError('password') == null &&
                         this.validation.firstError('password2') == null
                     ) {
@@ -388,6 +393,7 @@
                 this.isLoading = true
                 const payload = {
                     email: this.email,
+                    facebook:this.facebook,
                     password: this.password,
                     username: this.email,
                     firstname: this.firstname,

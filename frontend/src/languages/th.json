@@ -142,5 +142,8 @@
   "dont_shipping": "ยังไม่จัดส่ง",
   "state": "รัฐ",
   "error_address_state": "โปรดใส่รัฐ",
-  "Street_&_House_Number": "ถนนและเลขที่บ้าน"
+  "Street_&_House_Number": "ถนนและเลขที่บ้าน",
+  "facebook": "Facebook",
+  "error_user_facebook_require": "โปรดใส่บัญชี Facebook",
+  "save_my_address": "บันทึกที่อยู่ในที่อยู่ของฉัน"
 }

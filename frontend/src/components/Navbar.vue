@@ -2,15 +2,17 @@
     <div>
         <!--        navbar desktop version-->
         <div class="fixed w-full z-110  bg-white shadow-lg">
-            <div class="hidden sm:hidden md:hidden lg:block h-6 w-full bg-orange text-center text-white">
+            <div style="background-color: #0099FF"
+                 class="hidden sm:hidden md:hidden lg:block h-6 w-full text-center text-white">
                 {{this.banner}}
             </div>
             <nav class="hidden sm:hidden md:hidden lg:block  flex items-center  ">
                 <ul class="w-full flex justify-between">
                     <li class="flex-1 hidden sm:hidden md:hidden lg:inline-block px-0 pt-0">
-<!--                        <a @click="goHome" class="cursor-pointer" style="font-size: 24px;margin-top: 16px">ThaiMarket-->
-<!--                            Express</a>-->
-                                            <img @click="goHome" class="cursor-pointer" style="margin: 0px;height: 72px" src="../assets/Logo/v1.png">
+                        <!--                        <a @click="goHome" class="cursor-pointer" style="font-size: 24px;margin-top: 16px">ThaiMarket-->
+                        <!--                            Express</a>-->
+                        <img @click="goHome" class="cursor-pointer" style="margin: 0px;height: 72px"
+                             src="../assets/Logo/v1.png">
                     </li>
                     <li class="flex-1">
                         <div class="pt-4 relative mx-auto text-black">
@@ -47,7 +49,8 @@
 
         <!--        navbar mobile version-->
         <div class="fixed w-full z-110 bg-white">
-            <div class="block sm:block md:block lg:hidden h-6 w-full bg-orange text-center text-white">
+            <div style="background-color: #0099FF"
+                 class="block sm:block md:block lg:hidden h-6 w-full bg-orange text-center text-white">
                 {{this.banner}}
             </div>
             <nav class="block sm:block md:block lg:hidden  flex items-center justify-between flex-wrap  py-5 shadow-lg"
@@ -58,13 +61,14 @@
                             class="material-icons text-3xl">menu</i>
                     </li>
                     <li class="inline-block cursor-pointer flex">
-                        <img @click="goHome" class="absolute" style="height: 70px;transform: translateX(-50%);top:24px" src="../assets/Logo/v1.png">
-<!--                        <h1 @click="goHome" style="font-size: 19px;">ThaiMarket Express</h1>-->
+                        <img @click="goHome" class="absolute" style="height: 70px;transform: translateX(-50%);top:24px"
+                             src="../assets/Logo/v1.png">
+                        <!--                        <h1 @click="goHome" style="font-size: 19px;">ThaiMarket Express</h1>-->
                     </li>
                     <li class="float-right px-5">
                         <div @click="cartDrawer = !cartDrawer, mobileDrawer =false" class="relative">
                             <el-badge :value="$store.state.inCart.cart_detail.length" class="item" type="primary">
-                                <img  class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
+                                <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
                             </el-badge>
                         </div>
                     </li>
@@ -97,18 +101,43 @@
         </div>
 
         <!--        mini button left screen-->
-        <div class="inset-y-0 left-0 fixed hidden sm:hidden md:hidden lg:block z-105">
-            <div class="container">
-                <div class="vertical-center-left">
-                    <div class="shadow-md">
-                        <div @click="mobileDrawer = !mobileDrawer"
-                             class="w-20 bg-white hover:bg-unHilight py-3 rounded-r-lg cursor-pointer">
-                            <img class="w-8 mx-auto " src="../assets/icon/next.svg">
-                            <h1 class="text-md text-center">{{$t('category')}}</h1>
-                        </div>
+        <!--        <div class="inset-y-0 left-0 fixed hidden sm:hidden md:hidden lg:block z-105">-->
+        <!--            <div class="container">-->
+        <!--                <div class="vertical-center-left">-->
+        <!--                    <div class="shadow-md">-->
+        <!--                        <div @click="mobileDrawer = !mobileDrawer"-->
+        <!--                             class="w-20 bg-white hover:bg-unHilight py-3 rounded-r-lg cursor-pointer">-->
+        <!--                            <img class="w-8 mx-auto " src="../assets/icon/next.svg">-->
+        <!--                            <h1 class="text-md text-center">{{$t('category')}}</h1>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+
+        <!--        side bar-->
+        <div class="inset-y-0 left-0 fixed z-105 w-56  hidden sm:hidden md:hidden lg:block">
+            <div style="height: 7rem"></div>
+            <div class="px-2">
+                <div @click="goCategory({id:'recommend'})" class="p-2 bg-white hover:bg-unHilight cursor-pointer">
+                    {{$t('recommend')}}
+                    <hr class="w-full text-lightGray" style="border-top-width:2.5px">
+                </div>
+                <div @click="goCategory({id:'new-product'})" class="p-2 bg-white hover:bg-unHilight cursor-pointer">
+                    {{$t('new_product')}}
+                    <hr class="w-full text-lightGray" style="border-top-width:2.5px">
+                </div>
+                <div style="height: 2rem"></div>
+                <div v-for="(category,index) in categorys" :key="category.id" @click="goCategory(category)">
+                    <div class="p-2 bg-white hover:bg-unHilight cursor-pointer">
+                        <span>{{nameTranslate(category.type)}}</span>
+                        <hr v-if="index < categorys.length" class="w-full text-lightGray" style="border-top-width:2.5px"
+                            :style="`color:${category.color}`">
                     </div>
+
                 </div>
             </div>
+
         </div>
 
         <!--        opacity background -->
@@ -167,7 +196,7 @@
                         <div class="py-3 px-10 text-xl border-bottom hover:bg-unHilight">
                             <i @click="mobileDrawer =! mobileDrawer"
                                class="material-icons text-2xl cursor-pointer absolute"
-                               style="top:128px;left: 0px;font-size: 2.5rem;">keyboard_arrow_left</i>
+                               style="top:128px;left: 0;font-size: 2.5rem;">keyboard_arrow_left</i>
                             {{firstname_lastname}}
                         </div>
                         <div @click="goOrder"
@@ -198,6 +227,8 @@
                     <div v-for="category in categorys" :key="category.id" @click="goCategory(category)"
                          class="py-3 px-10 text-xl border-bottom font-l hover:bg-unHilight cursor-pointer">
                         <span>{{nameTranslate(category.type)}}</span>
+                        <hr class="w-full text-lightGray" style="border-top-width:2.5px"
+                            :style="`color:${category.color}`">
                     </div>
                     <div class="pb-3 pt-5 px-5 text-xl cursor-pointer bg-gray_bg"></div>
                     <div v-if="$store.state.isAuthenticated" @click="logout"
@@ -228,7 +259,8 @@
             </div>
             <div class="fixed-b w-70 bottom-0  border-top p-2 bg-white z-50 appearance-none">
                 <div class="flex justify-between font-l">
-                    <div class="">{{$t('subTotal')}} <a class="text-gray">( {{nameTranslate("Discounted|ลดไป")}} {{reduceValue}} € )</a></div>
+                    <div class="">{{$t('subTotal')}} <a class="text-gray">( {{nameTranslate("Discounted|ลดไป")}}
+                        {{reduceValue}} € )</a></div>
 
                     <div>{{totalWithCode}} €</div>
                 </div>
@@ -281,18 +313,18 @@
                         :content="nameTranslate('Some Product maybe out of stock or not enough please edit and try again|สินค้าบางชื้นหมดแล้วหรือมีไม่เพียงพอ กรุณาแก้ไขสินค้าชิ้นนั้น')">
                     <button
                             slot="reference"
-                            class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
+                            class="w-full h-10 bg-orange mt-3 py-2 text-white flex justify-center opacity-50 cursor-not-allowed">
                         <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
                         {{$t('process_to_checkout')}}
                     </button>
                 </el-popover>
-                <button v-else-if="subTotal == 0"
-                        class="w-full h-10 bg-orange mt-3 text-white flex justify-center opacity-50 cursor-not-allowed">
+                <button v-else-if="subTotal == 0.00"
+                        class="w-full h-10 bg-orange mt-3 py-2 text-white flex justify-center opacity-50 cursor-not-allowed">
                     <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
                     {{$t('process_to_checkout')}}
                 </button>
                 <button v-else @click="goCheckOut"
-                        class="w-full h-10 bg-orange mt-3 text-white flex justify-center">
+                        class="w-full h-10 bg-orange mt-3 py-2 text-white flex justify-center">
                     <img width="25px" class="mx-3" src="../assets/icon/supermarket_white.svg">
                     {{$t('process_to_checkout')}}
                 </button>
@@ -383,7 +415,7 @@
             this.getCategory()
         },
         methods: {
-            getCategory(){
+            getCategory() {
                 axios.get(`${this.$store.state.endpoints.host}/api/products/category/`).then(res => {
                     // console.log(res.data.data)
                     this.categorys = res.data.data

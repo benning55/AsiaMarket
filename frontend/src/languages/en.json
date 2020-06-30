@@ -144,5 +144,8 @@
   "dont_shipping": "Not yet shipped",
   "state": "State",
   "error_address_state": "Please input State",
-  "Street_&_House_Number": "Street & House Number"
+  "Street_&_House_Number": "Street & House Number",
+  "facebook": "Facebook",
+  "error_user_facebook_require": "Please input Facebook account",
+  "save_my_address": "Save in My Address"
 }

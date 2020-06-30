@@ -72,7 +72,7 @@
         </div>
 
         <div class="text-center">
-            <el-checkbox v-model="checked">Save in My Address</el-checkbox>
+            <el-checkbox v-model="checked">{{$t('save_my_address')}}</el-checkbox>
         </div>
 
         <div @click="add"

@@ -9,9 +9,13 @@
             <swiper :options="swiperOption">
                 <swiper-slide v-for="category in categorys" :key="category.key">
                     <button @click="goCategory(category)"
-                            class="w-full bg-white cs-border-2 hover:bg-unHilight text-black py-2 h-full text-center"
-                            style="height: 48px">
-                        {{nameTranslate(category.type)}}
+                            class="w-full bg-white cs-border-2 hover:bg-unHilight text-black p-2 h-full text-center"
+                            style="height: 48px;" >
+                        <div>
+                              {{nameTranslate(category.type)}}
+<!--                            <hr class="w-full text-lightGray" style="border-top-width:2.5px"-->
+<!--                            :style="`color:${category.color}`">-->
+                        </div>
                     </button>
                 </swiper-slide>
             </swiper>

@@ -30,11 +30,11 @@
              :alt="productData.title">
 
         <div class="px-2 py-2">
-            <div @click="goDetail(productData.id)" class="w-full text-left bg-white text-black py-2 h-24">
+            <div @click="goDetail(productData.id)" class="w-full text-center bg-white text-black py-2 h-24">
                 {{reduceLetter(nameTranslate(productData.title))}}
             </div>
             <div v-if="!(overStatee() == true && productData.quantity > 0)" @click="goDetail(productData.id)"
-                 class="text-left text-md title text-green h-12"
+                 class="text-center text-md title text-green h-12"
                  :style="`color:${productData.category_color}`">
                 {{nameTranslate(productData.category_name)}}
             </div>
@@ -49,10 +49,15 @@
             </div>
 
             <!--            show this when not over-->
-            <div v-else class="flex justify-between">
-                <a class="text-2xl ml-2">{{productData.price}} €</a>
-                <!--                <a class="text-lightGray ml-2 self-center absolute" style="right: 8px"> /{{$t('')}}piece</a>-->
+
+            <div v-else class="w-full text-center bg-white text-black py-2 text-2xl">
+                {{productData.price}} €
             </div>
+
+<!--            <div v-else class="">-->
+<!--                <a class="text-2xl text-center">{{productData.price}} €</a>-->
+<!--                &lt;!&ndash;                <a class="text-lightGray ml-2 self-center absolute" style="right: 8px"> /{{$t('')}}piece</a>&ndash;&gt;-->
+<!--            </div>-->
 
             <!--            show this when over-->
             <div v-if="overStatee() == true && productData.quantity > 0"

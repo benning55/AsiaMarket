@@ -23,8 +23,6 @@ const messages = {
     'th': t,
 }
 
-console.log(localStorage.getItem("setLocalLanguage"))
-
 const i18n = new VueI18n({
 
     locale: localStorage.getItem("setLocalLanguage") === null ? "en" : localStorage.getItem("setLocalLanguage"), // set locale

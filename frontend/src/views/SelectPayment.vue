@@ -9,6 +9,13 @@
             <div id="paypal-button-container"></div>
         </div>
 
+        <div @click="openKlarna" class="w-32 h-12 bg-orange mx-auto py-3 cursor-pointer">
+            <p class="text-center">
+                Open Klarna
+            </p>
+
+        </div>
+
         <el-divider> {{$t('or')}}</el-divider>
         {{$t('bank_transfer')}}
 
@@ -28,7 +35,8 @@
                 </el-tooltip>
             </h1>
             <h1 class="text-center mb-4">{{$t('bank_name')}} : Volksbank Kassel Göttingen</h1>
-            <img class="mx-auto" style="width: 200px;display: block;" src="../assets/png/Logo_Volksbank_Kassel_Göttingen_eG.png">
+            <img class="mx-auto" style="width: 200px;display: block;"
+                 src="../assets/png/Logo_Volksbank_Kassel_Göttingen_eG.png">
         </el-card>
 
 
@@ -111,7 +119,8 @@
                 },
                 isLoading: false,
                 data: {},
-                textTooltip: this.$t('click_to_copy')
+                textTooltip: this.$t('click_to_copy'),
+                klarnaResponse: null
             };
         },
         validators: {
@@ -153,7 +162,7 @@
                 dummy.value = text;
                 dummy.select();
                 document.execCommand("copy");
-                this.textTooltip = this.$t('copied')+text;
+                this.textTooltip = this.$t('copied') + text;
             },
             mouseleave() {
                 this.textTooltip = this.$t('click_to_copy')
@@ -243,6 +252,49 @@
                 })
 
             },
+            openKlarna: function () {
+                let data = {
+                    purchase_country: "GB",
+                    purchase_currency: "GBP",
+                    locale: "en-GB",
+                    order_amount: 50000,
+                    order_tax_amount: 4545,
+                    order_lines: [
+                        {
+                            type: "physical",
+                            reference: "19-402-USA",
+                            name: "Red T-Shirt",
+                            quantity: 5,
+                            quantity_unit: "pcs",
+                            unit_price: 10000,
+                            tax_rate: 1000,
+                            total_amount: 50000,
+                            total_discount_amount: 0,
+                            total_tax_amount: 4545
+                        }
+                    ],
+                    merchant_urls: {
+                        terms: "https://www.example.com/terms.html",
+                        checkout: "https://www.example.com/checkout.html?order_id={checkout.order.id}",
+                        confirmation: "https://www.example.com/confirmation.html?order_id={checkout.order.id}",
+                        push: "https://www.example.com/api/push?order_id={checkout.order.id}"
+                    }
+                }
+                axios.post('https://api.playground.klarna.com/checkout/v3/orders/', data,
+                    {
+                        headers: {
+                            Authorization: `Basic UEsyMTE5N183Zjc0NTEyMzFhYjI6MUN0eUE2V0NoblVGdkM3aw==`,
+                            'Content-Type': 'application/json',
+                            "cache-control": "no-cache",
+                            "postman-token": "b6047eb4-877d-0f02-e5fb-1791e5708033"
+                        }
+                    })
+                    .then((res) => {
+                        this.klarnaResponse = res;
+                        console.log(this.klarnaResponse);
+                    })
+                console.log("open")
+            }
 
         },
         mounted: function () {
@@ -251,6 +303,25 @@
                 "https://www.paypal.com/sdk/js?client-id=AYPJL4TE_OsKKYRY-xSErDmNeeIYl-3lPd8LFgGyC2vWBH33nuq7qNgZOpm3tcNQrcVjTlR5xah1jK7w&currency=EUR";
             script.addEventListener("load", this.setLoaded);
             document.body.appendChild(script);
+
+
+            const scripts = document.createElement("scripts");
+            // scripts.src = "https://x.klarnacdn.net/kp/lib/v1/api.js"
+            script.addEventListener("load", this.loadKlara);
+            document.body.appendChild(scripts);
+
+            window.klarnaAsyncCallback = function () {
+                try {
+                    Klarna.Payments.init({
+                        client_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.dtxWM6MIcgoeMgH87tGvsNDY6cHWL6MGW4LeYvnm1JA'
+                    })
+                    console.log(("okaysss"))
+                } catch (e) {
+                    console.log("error")
+
+                }
+
+            };
         },
         watch: {
             order() {

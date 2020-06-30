@@ -28,6 +28,8 @@
                     <p v-if="footerData[1].phone!=''"><i class="fas fa-phone-alt"></i>{{footerData[1].phone}}</p>
                     <p v-if="footerData[0].email!=null"><i class="fas fa-envelope"></i>{{footerData[0].email}}</p>
                     <p v-if="footerData[1].email!=null"><i class="fas fa-envelope"></i>{{footerData[1].email}}</p>
+                    <p v-if="footerData[0].email!=null"><i class="fab fa-facebook-square"></i>{{footerData[0].email}}</p>
+                    <p v-if="footerData[1].email!=null"><i class="fab fa-line"></i>{{footerData[1].email}}</p>
                 </div>
             </div>
             <div class="py-10 w-full sm:w-1/2 lg:w-1/4 ">
