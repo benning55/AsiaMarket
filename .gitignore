@@ -142,3 +142,5 @@ app/core/migrations/0005_auto_20200607_0416.py
 app/core/migrations/0006_auto_20200623_1555.py
 
 app/core/migrations/0007_auto_20200623_1606.py
+
+app/core/migrations/0008_auto_20200630_1614.py

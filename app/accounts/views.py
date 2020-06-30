@@ -65,7 +65,8 @@ def register(request):
             'address': data['address']['address'],
             'city': data['address']['city'],
             'post_code': data['address']['postalCode'],
-            'state': data['address']['state']
+            'state': data['address']['state'],
+            'country': data['address']['country']
         }
         timeline = {
             'user': user,
@@ -99,7 +100,8 @@ def register(request):
                 address=address['address'],
                 city=address['city'],
                 post_code=address['post_code'],
-                state=address['state']
+                state=address['state'],
+                country=address['country']
             )
             new_address.recipient = new_user.last_name
             new_address.save()
@@ -240,6 +242,7 @@ class UserAddressApiView(APIView):
             address=data['address'],
             city=data['city'],
             post_code=data['post_code'],
+            country=data['country'],
             state=data['state']
         )
         if len(user_address) == 0:
@@ -251,7 +254,8 @@ class UserAddressApiView(APIView):
                     address=data['address'],
                     state=data['state'],
                     post_code=data['post_code'],
-                    city=data['city']
+                    city=data['city'],
+                    country=data['country']
                 )
                 address_data = serializers.AddressSerializer(address_user)
                 return Response({"address": address_data.data}, status=status.HTTP_200_OK)

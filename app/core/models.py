@@ -125,6 +125,10 @@ class Address(models.Model):
         choices=AllInfo.CITY_NAME,
         max_length=30,
     )
+    country = models.CharField(
+        choices=AllInfo.COUNTRIES,
+        max_length=255
+    )
 
     def __str__(self):
         user = User.objects.get(pk=self.user_id)
@@ -239,6 +243,10 @@ class Order(models.Model):
         on_delete=models.CASCADE
     )
     address = models.TextField()
+    country = models.CharField(
+        choices=AllInfo.COUNTRIES,
+        max_length=255
+    )
     price = models.DecimalField(max_digits=7, decimal_places=2)
     shipping_fee = models.DecimalField(max_digits=7, decimal_places=2)
     total_price = models.DecimalField(max_digits=7, decimal_places=2)
@@ -323,7 +331,10 @@ class PaymentBill(models.Model):
 class ShippingRate(models.Model):
     """ The price for shipping """
     price = models.DecimalField(max_digits=7, decimal_places=2)
-    post_code = models.CharField(max_length=255, blank=True, null=True)
+    country = models.CharField(
+        choices=AllInfo.COUNTRIES,
+        max_length=255
+    )
 
     class Meta:
         verbose_name_plural = "Shipping Rate"
@@ -361,3 +372,12 @@ class NotifyEmail(models.Model):
 
     class Meta:
         verbose_name_plural = "Notify Email"
+
+
+class Util(models.Model):
+    """Every Data that can be change"""
+    type = models.CharField(
+        choices=AllInfo.INFORMATION,
+        max_length=255
+    )
+    value = models.TextField()

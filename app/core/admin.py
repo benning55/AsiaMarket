@@ -58,7 +58,7 @@ class AddressDetailInLine(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'address', 'payment_type', 'payment_status', 'delivery_status', 'tracking_no', 'created']
+    list_display = ['id', 'user', 'address', 'country', 'payment_type', 'payment_status', 'delivery_status', 'tracking_no', 'created']
     list_display_links = ['id', 'user']
     list_editable = ['delivery_status', 'tracking_no']
     list_filter = ['delivery_status', 'payment_type', ('created', DateFieldListFilter)]
@@ -184,7 +184,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'address', 'city', 'post_code', 'state']
+    list_display = ['id', 'user', 'address', 'country', 'city', 'post_code', 'state']
     list_display_links = ['id', 'user']
     list_filter = ['state']
 
@@ -227,7 +227,7 @@ class OrderDetailAdmin(admin.ModelAdmin):
 
 
 class ShippingRateAdmin(admin.ModelAdmin):
-    list_display = ['price', 'post_code']
+    list_display = ['price', 'country']
 
 
 class CarouselImageAdmin(admin.ModelAdmin):

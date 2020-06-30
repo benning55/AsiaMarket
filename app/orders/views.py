@@ -81,7 +81,8 @@ class OrderApiView(APIView):
             "price": data['price'],
             "shipping_fee": data['shipping_fee'],
             "payment_type": data['payment_type'],
-            "payment_status": data['payment_status']
+            "payment_status": data['payment_status'],
+            "country": data['country']
         }
         serializer = serializers.OrderSerializer(data=payload)
         if serializer.is_valid():

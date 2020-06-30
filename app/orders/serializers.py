@@ -9,7 +9,7 @@ class OrderSerializer(serializers.ModelSerializer):
     receipt = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Order
-        fields = ('id', 'user', 'address', 'price', 'shipping_fee', 'total_price', 'payment_type', 'payment_status', 'tracking_no', 'code', 'receipt')
+        fields = ('id', 'user', 'address', 'price', 'shipping_fee', 'total_price', 'payment_type', 'payment_status', 'tracking_no', 'code', 'receipt', 'country')
         extra_kwargs = {
             'id': {'read_only': True},
             'code': {'read_only': True}
@@ -23,7 +23,8 @@ class OrderSerializer(serializers.ModelSerializer):
             shipping_fee=validated_data['shipping_fee'],
             total_price=validated_data['total_price'],
             payment_type=validated_data['payment_type'],
-            payment_status=validated_data['payment_status']
+            payment_status=validated_data['payment_status'],
+            country=validated_data['country']
         )
         return order
 
@@ -50,7 +51,7 @@ class OrderForUseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('id', 'user', 'address', 'total_price', 'payment_type', 'payment_status', 'delivery_status', 'tracking_no', 'created', 'pic1', 'receipt')
+        fields = ('id', 'user', 'address', 'total_price', 'payment_type', 'payment_status', 'delivery_status', 'tracking_no', 'created', 'pic1', 'receipt', 'country')
         extra_kwargs = {
             'id': {'read_only': True}
         }
@@ -110,7 +111,7 @@ class ShippingRateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PaymentBill
-        fields = ('id', 'price', 'post_code')
+        fields = ('id', 'price', 'country')
         extra_kwargs = {
             'id': {'read_only': True}
         }
