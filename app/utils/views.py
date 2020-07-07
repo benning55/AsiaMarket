@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from core.models import Util
 from utils.serializers import UtilSerializer
+import requests
 
 
 @api_view(['GET', ])
@@ -24,3 +25,32 @@ def get_information(request, *args, **kwargs):
                 queryset = Util.objects.all().filter(type=key)
                 serializer = UtilSerializer(queryset, many=True)
                 return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST', ])
+@permission_classes([AllowAny, ])
+def klarna_shoot(request, *args, **kwargs):
+    """
+    Shoot klarna api
+    """
+    if request.method == 'POST':
+        data = request.data
+        mock_data = {
+            "locale": "en-DE",
+            "order_amount": 2500,
+            "order_lines": [
+                {
+                    "name": "Egg",
+                    "quantity": 1,
+                    "total_amount": 2500,
+                    "unit_price": 2500
+                }
+            ],
+            "purchase_country": "DE",
+            "purchase_currency": "EUR"
+        }
+        url = 'https://api.playground.klarna.com/payments/v1/sessions'
+        response = requests.post(url=url, data=data, auth=("PK21198_bf4865091df0", "SDJHZXakMSmY3NYr")).json()
+        print(response)
+        return Response(response, status=status.HTTP_200_OK)
+

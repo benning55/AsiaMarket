@@ -7,5 +7,6 @@ app_name = 'utils'
 
 urlpatterns = [
     path('information/', views.get_information, name='information'),
-    path('information/<str:key>/', views.get_information)
+    path('information/<str:key>/', views.get_information),
+    path('klarna/', views.klarna_shoot)
 ]
