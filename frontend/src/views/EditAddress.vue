@@ -75,9 +75,25 @@
                            for="post_code">{{$t(validation.firstError('post_code'))}}</label>
                     <el-input id="post_code"
                               placeholder="Please input"
-                              type="number"
                               v-model="post_code">
                     </el-input>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-8" style="place-content: center;">
+                <div class="mb-4 pr-2 w-1/2">
+                    <label v-if="!validation.firstError('country')"
+                           class="block text-sm mb-2">{{$t('country')}}</label>
+                    <label v-else
+                           class="block text-red text-sm mb-2">{{$t(validation.firstError('country'))}}</label>
+                    <el-select v-model="country" ref="country" placeholder="Select Country">
+                        <el-option
+                                v-for="item in countryOptions"
+                                :key="item"
+                                :label="item"
+                                :value="item">
+                        </el-option>
+                    </el-select>
                 </div>
             </div>
 
@@ -130,6 +146,53 @@
                 street: '',
                 city: '',
                 post_code: '',
+                country:'',
+                countryOptions: [
+                    'Russia',
+                    'Germany',
+                    'United Kingdom',
+                    'France',
+                    'Italy',
+                    'Spain',
+                    'Ukraine',
+                    'Poland',
+                    'Romania',
+                    'Netherlands',
+                    'Belgium',
+                    'Czech Republic (Czechia)',
+                    'Greece',
+                    'Portugal',
+                    'Sweden',
+                    'Hungary',
+                    'Belarus',
+                    'Austria',
+                    'Serbia',
+                    'Switzerland',
+                    'Bulgaria',
+                    'Denmark',
+                    'Finland',
+                    'Slovakia',
+                    'Norway',
+                    'Ireland',
+                    'Croatia',
+                    'Moldova',
+                    'Bosnia and Herzegovina',
+                    'Albania',
+                    'Lithuania',
+                    'North Macedonia',
+                    'Slovenia',
+                    'Latvia',
+                    'Estonia',
+                    'Montenegro',
+                    'Luxembourg',
+                    'Malta',
+                    'Iceland',
+                    'Andorra',
+                    'Monaco',
+                    'Liechtenstein',
+                    'San Marino',
+                    'Holy See',
+                ].sort(),
                 cityOptions: [
                     'Baden-Württemberg',
                     'Bayern',
@@ -171,7 +234,11 @@
             post_code(value) {
                 return Validator.value(value)
                     .required("error_address_postalCode_require")
-                    .length(5, "error_address_postalCode_number")
+                    // .length(5, "error_address_postalCode_number")
+            },
+            country(value) {
+                return Validator.value(value)
+                    .required("error_address_country");
             },
         },
         created() {
@@ -181,6 +248,7 @@
             this.street = this.$store.state.userAddress[this.index].city
             this.city = this.$store.state.userAddress[this.index].state
             this.post_code = this.$store.state.userAddress[this.index].post_code
+            this.country = this.$store.state.userAddress[this.index].country
         },
         methods: {
             editAddress() {
@@ -192,6 +260,7 @@
                     address: this.house_number, // address
                     post_code: this.post_code,
                     state: this.city, // state
+                    country:this.country
                 }, {
                     headers: {
                         Authorization: `JWT ${this.$store.state.jwt}`,

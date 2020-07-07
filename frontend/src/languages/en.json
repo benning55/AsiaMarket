@@ -147,5 +147,7 @@
   "Street_&_House_Number": "Street & House Number",
   "facebook": "Facebook",
   "error_user_facebook_require": "Please input Facebook account",
-  "save_my_address": "Save in My Address"
+  "save_my_address": "Save in My Address",
+  "country": "Country",
+  "error_address_country": "Please Select Country"
 }

@@ -47,14 +47,10 @@
                        class="block text-sm mb-2">{{$t('state')}}</label>
                 <label v-else
                        class="block text-red text-sm mb-2">{{$t(validation.firstError('state'))}}</label>
-                <el-select v-model="state" :placeholder="$t('error_address_state')">
-                    <el-option
-                            v-for="item in stateOptions"
-                            :key="item"
-                            :label="item"
-                            :value="item">
-                    </el-option>
-                </el-select>
+                <el-input id="state"
+                          :placeholder="$t('')"
+                          v-model="state">
+                </el-input>
             </div>
             <div class="w-1/2 pl-1">
                 <label v-if="!validation.firstError('post_code')"
@@ -65,9 +61,25 @@
                        for="post_code">{{$t(validation.firstError('post_code'))}}</label>
                 <el-input id="post_code"
                           :placeholder="$t('')"
-                          type="number"
                           v-model="post_code">
                 </el-input>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-8" style="place-content: center;">
+            <div class="mb-4 pr-2 w-1/2">
+                <label v-if="!validation.firstError('country')"
+                       class="block text-sm mb-2">{{$t('country')}}</label>
+                <label v-else
+                       class="block text-red text-sm mb-2">{{$t(validation.firstError('country'))}}</label>
+                <el-select v-model="country" ref="country" placeholder="Select Country">
+                    <el-option
+                            v-for="item in countryOptions"
+                            :key="item"
+                            :label="item"
+                            :value="item">
+                    </el-option>
+                </el-select>
             </div>
         </div>
 
@@ -86,16 +98,63 @@
     import axios from "axios";
 
     export default {
-        props:[
-            "dataAddress","chooseNewAddress"
+        props: [
+            "dataAddress", "chooseNewAddress"
         ],
         data() {
             return {
-                recipient:'',
+                recipient: '',
                 address: '',
                 city: '',
                 state: '',
                 post_code: '',
+                country: '',
+                countryOptions: [
+                    'Russia',
+                    'Germany',
+                    'United Kingdom',
+                    'France',
+                    'Italy',
+                    'Spain',
+                    'Ukraine',
+                    'Poland',
+                    'Romania',
+                    'Netherlands',
+                    'Belgium',
+                    'Czech Republic (Czechia)',
+                    'Greece',
+                    'Portugal',
+                    'Sweden',
+                    'Hungary',
+                    'Belarus',
+                    'Austria',
+                    'Serbia',
+                    'Switzerland',
+                    'Bulgaria',
+                    'Denmark',
+                    'Finland',
+                    'Slovakia',
+                    'Norway',
+                    'Ireland',
+                    'Croatia',
+                    'Moldova',
+                    'Bosnia and Herzegovina',
+                    'Albania',
+                    'Lithuania',
+                    'North Macedonia',
+                    'Slovenia',
+                    'Latvia',
+                    'Estonia',
+                    'Montenegro',
+                    'Luxembourg',
+                    'Malta',
+                    'Iceland',
+                    'Andorra',
+                    'Monaco',
+                    'Liechtenstein',
+                    'San Marino',
+                    'Holy See',
+                ].sort(),
                 stateOptions: [
                     'Baden-Württemberg',
                     'Bayern',
@@ -137,11 +196,15 @@
             post_code(value) {
                 return Validator.value(value)
                     .required("error_address_postalCode_require")
-                    .length(5, "error_address_postalCode_number")
+                    // .length(5, "error_address_postalCode_number")
+            },
+            country(value) {
+                return Validator.value(value)
+                    .required("error_address_country");
             },
         },
         created() {
-            if(this.chooseNewAddress){
+            if (this.chooseNewAddress) {
                 this.recipient = this.dataAddress.recipient
                 this.address = this.dataAddress.house_number
                 this.city = this.dataAddress.street
@@ -153,7 +216,7 @@
             add() {
                 this.$validate().then(success => {
                     if (success) {
-                        this.$emit('updateAddress',this.recipient, this.address, this.city, this.state, this.post_code,this.checked);
+                        this.$emit('updateAddress', this.recipient, this.address, this.city, this.state, this.post_code,this.country, this.checked);
                         this.recipient = ''
                     }
                 })

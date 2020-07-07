@@ -95,7 +95,8 @@
                             {{this.$store.state.userAddress[$store.state.indexUserAddress].address}},
                             {{this.$store.state.userAddress[$store.state.indexUserAddress].city}},
                             {{this.$store.state.userAddress[$store.state.indexUserAddress].state}}
-                            {{this.$store.state.userAddress[$store.state.indexUserAddress].post_code}}
+                            {{this.$store.state.userAddress[$store.state.indexUserAddress].post_code}},
+                            {{this.$store.state.userAddress[$store.state.indexUserAddress].country}}
                         </h1>
                     </div>
                 </div>
@@ -113,6 +114,7 @@
                             {{newAddress.street}},
                             {{newAddress.city}}
                             {{newAddress.post_code}}
+                            {{newAddress.country}}
                         </h1>
                     </div>
                 </div>
@@ -230,7 +232,8 @@
                     house_number: '',
                     street: '',
                     city: '',
-                    post_code: ''
+                    post_code: '',
+                    country:''
                 },
                 isOrderComplete: false
             }
@@ -304,12 +307,13 @@
                 this.typeModal = 'address'
                 this.addressDialog = true
             },
-            insertAddress(recipient, address, city, state, post_code, checked) {
+            insertAddress(recipient, address, city, state, post_code,country, checked) {
                 this.newAddress.recipient = recipient
                 this.newAddress.house_number = address
                 this.newAddress.street = city
                 this.newAddress.city = state
                 this.newAddress.post_code = post_code
+                this.newAddress.country = country
                 console.log(checked)
                 if (checked) {
                     if (checked) {
@@ -318,7 +322,8 @@
                             address: address,
                             city: city,
                             state: state,
-                            post_code: post_code
+                            post_code: post_code,
+                            country:country
                         }, {
                             headers: {
                                 Authorization: `JWT ${this.$store.state.jwt}`,
@@ -330,7 +335,8 @@
                                 "city": city,
                                 "address": address,
                                 "post_code": post_code,
-                                "state": state
+                                "state": state,
+                                "country":country
                             })
                             this.$store.commit("setIndexUserAddress", 0)
                             this.isLoading = false
