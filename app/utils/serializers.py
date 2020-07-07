@@ -2,7 +2,7 @@ from rest_framework import serializers
 from core.models import Util
 
 
-class CategorySerializer(serializers.ModelSerializer):
+class UtilSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
 
     class Meta:
