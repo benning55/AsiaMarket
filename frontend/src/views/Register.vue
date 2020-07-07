@@ -47,7 +47,7 @@
                         <el-radio-group id="sex" v-model="sex" style="border-radius: 0px">
                             <el-radio-button label="Male">{{$t('male')}}</el-radio-button>
                             <el-radio-button label="Female">{{$t('female')}}</el-radio-button>
-<!--                            <el-radio-button label="LTGB">{{$t('ltgb')}}</el-radio-button>-->
+                            <!--                            <el-radio-button label="LTGB">{{$t('ltgb')}}</el-radio-button>-->
                         </el-radio-group>
                     </div>
                     <div class="mb-6 sm:px-10 md:px-16 lg:px-8 w-full">
@@ -83,14 +83,20 @@
                                    class="block text-sm mb-2">{{$t('state')}}</label>
                             <label v-else
                                    class="block text-red text-sm mb-2">{{$t(validation.firstError('city'))}}</label>
-                            <el-select v-model="city" ref="city" placeholder="Select">
-                                <el-option
-                                        v-for="item in cityOptions"
-                                        :key="item"
-                                        :label="item"
-                                        :value="item">
-                                </el-option>
-                            </el-select>
+                            <!--                            <el-select v-model="city" ref="city" placeholder="Select">-->
+                            <!--                                <el-option-->
+                            <!--                                        v-for="item in cityOptions"-->
+                            <!--                                        :key="item"-->
+                            <!--                                        :label="item"-->
+                            <!--                                        :value="item">-->
+                            <!--                                </el-option>-->
+                            <!--                            </el-select>-->
+                            <el-input id="city"
+                                      ref="city"
+                                      @keyup.enter.native="$refs.city.focus"
+                                      placeholder="Please input"
+                                      v-model="city">
+                            </el-input>
                         </div>
                         <div class="mb-6 pl-2 w-1/2">
                             <label v-if="!validation.firstError('postalCode')"
@@ -105,6 +111,22 @@
                                       placeholder="Please input"
                                       v-model="postalCode">
                             </el-input>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-8" style="place-content: center;">
+                        <div class="mb-4 pr-2 w-1/2">
+                            <label v-if="!validation.firstError('country')"
+                                   class="block text-sm mb-2">{{$t('country')}}</label>
+                            <label v-else
+                                   class="block text-red text-sm mb-2">{{$t(validation.firstError('country'))}}</label>
+                            <el-select v-model="country" ref="country" placeholder="Select Country">
+                                <el-option
+                                        v-for="item in countryOptions"
+                                        :key="item"
+                                        :label="item"
+                                        :value="item">
+                                </el-option>
+                            </el-select>
                         </div>
                     </div>
                     <div class="flex flex-wrap sm:px-10 md:px-16 lg:px-8">
@@ -265,11 +287,58 @@
                 dob: '',
                 phone: '',
                 email: '',
-                facebook:'',
+                facebook: '',
                 username: '',
                 password: '',
                 password2: '',
                 state: 0,
+                country:'',
+                countryOptions: [
+                    'Russia',
+                    'Germany',
+                    'United Kingdom',
+                    'France',
+                    'Italy',
+                    'Spain',
+                    'Ukraine',
+                    'Poland',
+                    'Romania',
+                    'Netherlands',
+                    'Belgium',
+                    'Czech Republic (Czechia)',
+                    'Greece',
+                    'Portugal',
+                    'Sweden',
+                    'Hungary',
+                    'Belarus',
+                    'Austria',
+                    'Serbia',
+                    'Switzerland',
+                    'Bulgaria',
+                    'Denmark',
+                    'Finland',
+                    'Slovakia',
+                    'Norway',
+                    'Ireland',
+                    'Croatia',
+                    'Moldova',
+                    'Bosnia and Herzegovina',
+                    'Albania',
+                    'Lithuania',
+                    'North Macedonia',
+                    'Slovenia',
+                    'Latvia',
+                    'Estonia',
+                    'Montenegro',
+                    'Luxembourg',
+                    'Malta',
+                    'Iceland',
+                    'Andorra',
+                    'Monaco',
+                    'Liechtenstein',
+                    'San Marino',
+                    'Holy See',
+                ].sort(),
                 cityOptions: [
                     'Baden-Württemberg',
                     'Bayern',
@@ -325,7 +394,12 @@
             postalCode(value) {
                 return Validator.value(value)
                     .required("error_address_postalCode_require")
-                    // .length(5, "error_address_postalCode_number")
+                // .length(5, "error_address_postalCode_number")
+            },
+            country(value) {
+                return Validator.value(value)
+                    .required("error_address_county")
+                // .length(5, "error_address_postalCode_number")
             },
             dob(value) {
                 return Validator.value(value)
@@ -363,7 +437,7 @@
         methods: {
             addState() {
                 if (this.state == 0) {
-                    this.$validate(['firstname', 'lastname', 'sex', 'houseNumber', 'street', 'city', 'postalCode', 'dob', 'phone'])
+                    this.$validate(['firstname', 'lastname', 'sex', 'houseNumber', 'street', 'city', 'postalCode','country', 'dob', 'phone'])
                     if (
                         this.validation.firstError('firstname') == null &&
                         this.validation.firstError('lastname') == null &&
@@ -372,13 +446,14 @@
                         this.validation.firstError('street') == null &&
                         this.validation.firstError('city') == null &&
                         this.validation.firstError('postalCode') == null &&
+                        this.validation.firstError('country') == null &&
                         this.validation.firstError('dob') == null &&
                         this.validation.firstError('phone') == null
                     ) {
                         this.state++
                     }
                 } else if (this.state == 1) {
-                    this.$validate(['email','facebook', 'password', 'password2'])
+                    this.$validate(['email', 'facebook', 'password', 'password2'])
                     if (
                         this.validation.firstError('email') == null &&
                         this.validation.firstError('facebook') == null &&
@@ -393,7 +468,7 @@
                 this.isLoading = true
                 const payload = {
                     email: this.email,
-                    facebook:this.facebook,
+                    facebook: this.facebook,
                     password: this.password,
                     username: this.email,
                     firstname: this.firstname,
@@ -405,7 +480,8 @@
                         address: this.houseNumber, // address
                         city: this.street, // city
                         state: this.city, // state
-                        postalCode: this.postalCode
+                        postalCode: this.postalCode,
+                        country:this.country
                     }
                 };
                 axios.post(this.$store.state.endpoints.registerUrL, payload)

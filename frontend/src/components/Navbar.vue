@@ -116,7 +116,7 @@
         <!--        </div>-->
 
         <!--        side bar-->
-        <div class="inset-y-0 left-0 fixed z-105 w-56  hidden sm:hidden md:hidden lg:block">
+        <div class="inset-y-0 left-0 fixed z-105 w-56  hidden sm:hidden md:hidden lg:block bg-white">
             <div style="height: 7rem"></div>
             <div class="px-2">
                 <div @click="goCategory({id:'recommend'})" class="p-2 bg-white hover:bg-unHilight cursor-pointer">

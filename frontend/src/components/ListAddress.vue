@@ -4,7 +4,7 @@
             {{address.recipient}}
         </div>
         <div class="w-6/12 text-left text-black px-1 py-2 h-full">
-            {{address.address}} {{address.city}} {{address.state}} {{address.post_code}}
+            {{address.address}} {{address.city}} {{address.state}} {{address.post_code}} {{address.country}}
         </div>
         <div @click="goEditAddress(address.id)" class="w-1/12 text-right text-orange px-1 py-2 h-full cursor-pointer">
             {{$t('edit')}}

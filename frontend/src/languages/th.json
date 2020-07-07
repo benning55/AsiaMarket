@@ -145,5 +145,7 @@
   "Street_&_House_Number": "ถนนและเลขที่บ้าน",
   "facebook": "Facebook",
   "error_user_facebook_require": "โปรดใส่บัญชี Facebook",
-  "save_my_address": "บันทึกที่อยู่ในที่อยู่ของฉัน"
+  "save_my_address": "บันทึกที่อยู่ในที่อยู่ของฉัน",
+  "country": "ประเทศ",
+  "error_address_country": "โปรดใส่ประเทศ"
 }
