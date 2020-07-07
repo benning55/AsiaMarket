@@ -121,10 +121,7 @@ class Address(models.Model):
     address = models.TextField(max_length=255)
     city = models.CharField(max_length=255)
     post_code = models.CharField(max_length=255)
-    state = models.CharField(
-        choices=AllInfo.CITY_NAME,
-        max_length=30,
-    )
+    state = models.CharField(max_length=255)
     country = models.CharField(
         choices=AllInfo.COUNTRIES,
         max_length=255
@@ -381,3 +378,6 @@ class Util(models.Model):
         max_length=255
     )
     value = models.TextField()
+
+    def __str__(self):
+        return self.type

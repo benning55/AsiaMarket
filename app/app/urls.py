@@ -31,7 +31,8 @@ urlpatterns = [
     path('api/banner/', views.get_banner),
     path('api/accounts/', include('accounts.urls')),
     path('api/products/', include('products.urls')),
-    path('api/orders/', include('orders.urls'))
+    path('api/orders/', include('orders.urls')),
+    path('api/utils/', include('utils.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
