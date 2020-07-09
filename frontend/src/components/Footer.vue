@@ -18,24 +18,26 @@
         </div>
         <div class="bg-white flex flex-wrap mx-auto px-10 sm:px-16 md:px-40 lg:px-56 xl:px-64 pb-10">
             <div class="h-32 w-full sm:w-1/2 lg:w-1/4 pb-5 relative">
-<!--                <div class="center" style="font-size: 22px">ThaiMarket Express</div>-->
-                <img class="center w-10/12" src="../assets/Logo/v1.png">
+                <!--                <div class="center" style="font-size: 22px">ThaiMarket Express</div>-->
+                <img class="center w-10/12" :src="logo.value">
             </div>
             <div class=" w-full sm:w-1/2 lg:w-1/4 pb-5 ">
                 <div class="">
                     <h1 class="text-xl mb-3">{{$t('contact_us')}}</h1>
-                    <p v-if="footerData[0].phone!=null"><i class="fas fa-phone-alt"></i>{{footerData[0].phone}}</p>
-                    <p v-if="footerData[1].phone!=''"><i class="fas fa-phone-alt"></i>{{footerData[1].phone}}</p>
-                    <p v-if="footerData[0].email!=null"><i class="fas fa-envelope"></i>{{footerData[0].email}}</p>
-                    <p v-if="footerData[1].email!=null"><i class="fas fa-envelope"></i>{{footerData[1].email}}</p>
-                    <p v-if="footerData[0].email!=null"><i class="fab fa-facebook-square"></i>{{footerData[0].email}}</p>
-                    <p v-if="footerData[1].email!=null"><i class="fab fa-line"></i>{{footerData[1].email}}</p>
+                    <p v-for="phone in phoneList"><i class="fas fa-phone-alt"></i>{{phone.value}}</p>
+                    <p v-for="email in emailList"><i class="fas fa-envelope"></i>{{email.value}}</p>
+                    <!--                    <p v-if="footerData[0].phone!=null"><i class="fas fa-phone-alt"></i>{{footerData[0].phone}}</p>-->
+                    <!--                    <p v-if="footerData[1].phone!=''"><i class="fas fa-phone-alt"></i>{{footerData[1].phone}}</p>-->
+                    <!--                    <p v-if="footerData[0].email!=null"><i class="fas fa-envelope"></i>{{footerData[0].email}}</p>-->
+                    <!--                    <p v-if="footerData[1].email!=null"><i class="fas fa-envelope"></i>{{footerData[1].email}}</p>-->
+                    <!--                    <p v-if="footerData[0].email!=null"><i class="fab fa-facebook-square"></i>{{footerData[0].email}}</p>-->
+                    <!--                    <p v-if="footerData[1].email!=null"><i class="fab fa-line"></i>{{footerData[1].email}}</p>-->
                 </div>
             </div>
             <div class="py-10 w-full sm:w-1/2 lg:w-1/4 ">
                 <div class="flex pr-2 ">
                     <i class="fas fa-map-marker-alt"></i>
-                    <p>{{footerData[0].address}}</p>
+                    <p>{{addressList.value}}</p>
                 </div>
             </div>
             <div class=" w-full sm:w-1/2 lg:w-1/4 ">
@@ -66,7 +68,12 @@
                         phone: "",
                         email: ''
                     }
-                ]
+                ],
+                emailList: [],
+                phoneList: [],
+                addressList: "",
+                logo: "",
+                listAbout: ['phone', 'email', 'address', 'logo']
             }
         },
         created() {
@@ -74,13 +81,27 @@
         },
         methods: {
             getFooterData() {
-                axios.get(`${this.$store.state.endpoints.host}/api/footer/`).then(res => {
-                    this.footerData = res.data.data
-                    this.isLoading = false
+                axios.get(`${this.$store.state.endpoints.host}/api/utils/information/phone/`).then(res => {
+                    this.phoneList = res.data.data ?? []
                 }).catch(e => {
-                    this.$message.error(this.$t('error_Oops_') + e.status + ', at load recommend');
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at load ' + 'i');
                 })
-            }
+                axios.get(`${this.$store.state.endpoints.host}/api/utils/information/email/`).then(res => {
+                    this.emailList = res.data.data ?? []
+                }).catch(e => {
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at load ' + 'i');
+                })
+                axios.get(`${this.$store.state.endpoints.host}/api/utils/information/address/`).then(res => {
+                    this.addressList = res.data.data[0] ?? ''
+                }).catch(e => {
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at load ' + 'i');
+                })
+                axios.get(`${this.$store.state.endpoints.host}/api/utils/information/logo/`).then(res => {
+                    this.logo = res.data.data[0] ?? ''
+                }).catch(e => {
+                    this.$message.error(this.$t('error_Oops_') + e.status + ', at load ' + 'i');
+                })
+            },
         }
     }
 </script>

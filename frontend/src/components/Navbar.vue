@@ -119,15 +119,15 @@
         <div class="inset-y-0 left-0 fixed z-105 w-56  hidden sm:hidden md:hidden lg:block bg-white">
             <div style="height: 7rem"></div>
             <div class="px-2">
-                <div @click="goCategory({id:'recommend'})" class="p-2 bg-white hover:bg-unHilight cursor-pointer">
-                    {{$t('recommend')}}
-                    <hr class="w-full text-lightGray" style="border-top-width:2.5px">
-                </div>
-                <div @click="goCategory({id:'new-product'})" class="p-2 bg-white hover:bg-unHilight cursor-pointer">
-                    {{$t('new_product')}}
-                    <hr class="w-full text-lightGray" style="border-top-width:2.5px">
-                </div>
-                <div style="height: 2rem"></div>
+<!--                <div @click="goCategory({id:'recommend'})" class="p-2 bg-white hover:bg-unHilight cursor-pointer">-->
+<!--                    {{$t('recommend')}}-->
+<!--                    <hr class="w-full text-lightGray" style="border-top-width:2.5px">-->
+<!--                </div>-->
+<!--                <div @click="goCategory({id:'new-product'})" class="p-2 bg-white hover:bg-unHilight cursor-pointer">-->
+<!--                    {{$t('new_product')}}-->
+<!--                    <hr class="w-full text-lightGray" style="border-top-width:2.5px">-->
+<!--                </div>-->
+<!--                <div style="height: 2rem"></div>-->
                 <div v-for="(category,index) in categorys" :key="category.id" @click="goCategory(category)">
                     <div class="p-2 bg-white hover:bg-unHilight cursor-pointer">
                         <span>{{nameTranslate(category.type)}}</span>

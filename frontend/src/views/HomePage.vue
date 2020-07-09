@@ -5,7 +5,7 @@
 
         <Carousel/>
 
-        <div class="mt-3 w-full">
+        <div class="mt-3 w-full hidden sm:block md:block lg:hidden">
             <swiper :options="swiperOption">
                 <swiper-slide v-for="category in categorys" :key="category.key">
                     <button @click="goCategory(category)"

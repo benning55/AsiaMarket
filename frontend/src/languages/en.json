@@ -33,7 +33,7 @@
   "error_profile_lastname_require": "Please input Lastname",
   "error_profile_phone_length": "Phone Number must be 10-12 digit",
   "error_profile_phone_require": "Please input Phone Number",
-  "error_user_alert_username_password_incorrect": "Username or Password incorrect",
+  "error_user_alert_username_password_incorrect": "Email or Password incorrect",
   "error_user_email_invalid": "Invalid Email",
   "error_user_email_not_found": "Email not found",
   "error_user_email_require": "Please input email",

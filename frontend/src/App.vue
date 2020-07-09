@@ -2,7 +2,7 @@
     <div id="app">
         <!--        {{$router.currentRoute.name}}-->
         <Navbar/>
-        <div class="mx-auto px-0 sm:px-0 md:px-0 lg:px-56 xl:px-64">
+        <div class="mx-auto px-0 sm:px-0 md:px-0 lg:pl-60 lg:pr-24 xl:px-64">
             <router-view/>
         </div>
         <Footer/>

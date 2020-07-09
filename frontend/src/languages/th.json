@@ -33,7 +33,7 @@
   "error_profile_lastname_require": "กรุณาใส่นามสกุล",
   "error_profile_phone_length": "เบอร์โทรศัพท์ต้องมี 10 - 12 ตัว",
   "error_profile_phone_require": "กรุณาใส่เบอร์โทรศัพท์",
-  "error_user_alert_username_password_incorrect": "ชื่อผู้ใช้งานกับรหัสผ่านไม่ถูกต้อง",
+  "error_user_alert_username_password_incorrect": "อีเมลล์กับรหัสผ่านไม่ถูกต้อง",
   "error_user_email_invalid": "รูปแบบอีเมลล์ไม่ถูกต้อง",
   "error_user_email_not_found": "ไม่พบอีเมลล์นี้ในระบบ",
   "error_user_email_require": "กรุณาใส่อีเมลล์",
