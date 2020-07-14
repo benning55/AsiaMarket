@@ -95,5 +95,7 @@ class AllInfo:
         ('phone', 'phone'),
         ('email', 'email'),
         ('address', 'address'),
-        ('logo', 'logo')
+        ('logo', 'logo'),
+        ('facebook', 'facebook'),
+        ('line', 'line')
     )
