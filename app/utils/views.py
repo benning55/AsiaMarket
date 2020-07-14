@@ -6,6 +6,7 @@ from rest_framework import status
 from core.models import Util
 from utils.serializers import UtilSerializer
 import requests
+import json
 
 
 @api_view(['GET', ])
@@ -80,5 +81,5 @@ def klarna_shoot(request, *args, **kwargs):
         }
         url = 'https://api.klarna.com/payments/v1/sessions'
         response = requests.post(url, auth=('K765595_8b663369197a', 'U7N5Lb2T2bK5Qthv'), json=mock_data)
-        return Response(response, status=response.status_code)
+        return Response(json.loads(response.text), status=response.status_code)
 
