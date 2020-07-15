@@ -233,7 +233,7 @@
                     street: '',
                     city: '',
                     post_code: '',
-                    country:''
+                    country: ''
                 },
                 isOrderComplete: false
             }
@@ -307,14 +307,13 @@
                 this.typeModal = 'address'
                 this.addressDialog = true
             },
-            insertAddress(recipient, address, city, state, post_code,country, checked) {
+            insertAddress(recipient, address, city, state, post_code, country, checked) {
                 this.newAddress.recipient = recipient
                 this.newAddress.house_number = address
                 this.newAddress.street = city
                 this.newAddress.city = state
                 this.newAddress.post_code = post_code
                 this.newAddress.country = country
-                console.log(checked)
                 if (checked) {
                     if (checked) {
                         axios.post(this.$store.state.endpoints.host + '/api/accounts/user/address/', {
@@ -323,7 +322,7 @@
                             city: city,
                             state: state,
                             post_code: post_code,
-                            country:country
+                            country: country
                         }, {
                             headers: {
                                 Authorization: `JWT ${this.$store.state.jwt}`,
@@ -336,7 +335,7 @@
                                 "address": address,
                                 "post_code": post_code,
                                 "state": state,
-                                "country":country
+                                "country": country
                             })
                             this.$store.commit("setIndexUserAddress", 0)
                             this.isLoading = false
@@ -373,13 +372,15 @@
                 } else {
                     address = this.$store.state.userAddress[this.$store.state.indexUserAddress].recipient + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].address + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].city + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].state + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].post_code
                 }
+                console.log(this.$store.state.userAddress[this.$store.state.indexUserAddress].country)
                 axios.post(`${this.$store.state.endpoints.host}/api/orders/order/`, {
                     address: address,
                     total_price: this.subTotal,
                     payment_type: "",
                     payment_status: false,
                     shipping_fee: this.shipping,
-                    price: this.totalWithShipping
+                    price: this.totalWithShipping,
+                    country: this.chooseNewAddress ? this.newAddress.country : this.$store.state.userAddress[this.$store.state.indexUserAddress].country
 
                 }, {
                     headers: {
@@ -463,7 +464,7 @@
             totalWithShipping() {
                 return Number(Number(this.totalWithCode) + Number(this.shipping)).toFixed(2)
             }
-        }
+        },
     }
 </script>
 

@@ -9,12 +9,13 @@
             <div id="paypal-button-container"></div>
         </div>
 
-        <div @click="openKlarna" class="w-32 h-12 bg-orange mx-auto py-3 cursor-pointer">
-            <p class="text-center">
-                Open Klarna
-            </p>
+                <div @click="openKlarna" class="w-32 h-12 bg-orange mx-auto py-3 cursor-pointer">
+                    <p class="text-center">
+                        Open Klarna
+                    </p>
+                </div>
 
-        </div>
+        <div id="klarna-payments-container"></div>
 
         <el-divider> {{$t('or')}}</el-divider>
         {{$t('bank_transfer')}}
@@ -90,6 +91,8 @@
         </div>
     </div>
 </template>
+
+
 <script>
     import axios from 'axios'
     import {Validator} from "../main";
@@ -166,7 +169,6 @@
             },
             mouseleave() {
                 this.textTooltip = this.$t('click_to_copy')
-                console.log("dddd")
             },
             setLoaded: function () {
                 this.loaded = true;
@@ -254,36 +256,37 @@
             },
             openKlarna: function () {
                 let data = {
-                    purchase_country: "GB",
-                    purchase_currency: "GBP",
-                    locale: "en-GB",
-                    order_amount: 50000,
-                    order_tax_amount: 4545,
-                    order_lines: [
+                    "purchase_country": "GB",
+                    "purchase_currency": "GBP",
+                    "locale": "en-GB",
+                    "order_amount": 50000,
+                    "order_tax_amount": 4545,
+                    "order_lines": [
                         {
-                            type: "physical",
-                            reference: "19-402-USA",
-                            name: "Red T-Shirt",
-                            quantity: 5,
-                            quantity_unit: "pcs",
-                            unit_price: 10000,
-                            tax_rate: 1000,
-                            total_amount: 50000,
-                            total_discount_amount: 0,
-                            total_tax_amount: 4545
+                            "type": "physical",
+                            "reference": "19-402-USA",
+                            "name": "Red T-Shirt",
+                            "quantity": 5,
+                            "quantity_unit": "pcs",
+                            "unit_price": 10000,
+                            "tax_rate": 1000,
+                            "total_amount": 50000,
+                            "total_discount_amount": 0,
+                            "total_tax_amount": 4545
                         }
                     ],
-                    merchant_urls: {
-                        terms: "https://www.example.com/terms.html",
-                        checkout: "https://www.example.com/checkout.html?order_id={checkout.order.id}",
-                        confirmation: "https://www.example.com/confirmation.html?order_id={checkout.order.id}",
-                        push: "https://www.example.com/api/push?order_id={checkout.order.id}"
+                    "merchant_urls": {
+                        "terms": "https://www.example.com/terms.html",
+                        "checkout": "https://www.example.com/checkout.html?order_id={checkout.order.id}",
+                        "confirmation": "https://www.example.com/confirmation.html?order_id={checkout.order.id}",
+                        "push": "https://www.example.com/api/push?order_id={checkout.order.id}"
                     }
                 }
-                axios.post('https://api.playground.klarna.com/checkout/v3/orders/', data,
+                axios.post('http://localhost/api/utils/klarna/', data,
                     {
                         headers: {
-                            Authorization: `Basic UEsyMTE5N183Zjc0NTEyMzFhYjI6MUN0eUE2V0NoblVGdkM3aw==`,
+                            // Authorization: `Basic UEsyMTE5N183Zjc0NTEyMzFhYjI6MUN0eUE2V0NoblVGdkM3aw==`,
+                            Authorization: `Basic Szc2NTU5NV84YjY2MzM2OTE5N2E6VTdONUxiMlQyYks1UXRodg==`,
                             'Content-Type': 'application/json',
                             "cache-control": "no-cache",
                             "postman-token": "b6047eb4-877d-0f02-e5fb-1791e5708033"
@@ -291,9 +294,10 @@
                     })
                     .then((res) => {
                         this.klarnaResponse = res;
-                        console.log(this.klarnaResponse);
+                        let a = res.data.client_token
+                        console.log(a)
+
                     })
-                console.log("open")
             }
 
         },
@@ -304,24 +308,31 @@
             script.addEventListener("load", this.setLoaded);
             document.body.appendChild(script);
 
-
-            const scripts = document.createElement("scripts");
-            // scripts.src = "https://x.klarnacdn.net/kp/lib/v1/api.js"
-            script.addEventListener("load", this.loadKlara);
+            // this.openKlarna()
+            const scripts = document.createElement("script");
+            scripts.src = "https://x.klarnacdn.net/kp/lib/v1/api.js"
             document.body.appendChild(scripts);
 
             window.klarnaAsyncCallback = function () {
-                try {
-                    Klarna.Payments.init({
-                        client_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIifQ.dtxWM6MIcgoeMgH87tGvsNDY6cHWL6MGW4LeYvnm1JA'
-                    })
-                    console.log(("okaysss"))
-                } catch (e) {
-                    console.log("error")
+                            console.log("start")
+                            try {
+                                Klarna.Payments.init({
+                                    // client_token:a
+                                    client_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc0OWM5M2U2LTJkNWQtMzJmNC04ZTk1LWJhNWUwZDA1OTJiYSJ9.ewogICJzZXNzaW9uX2lkIiA6ICIzMmE4ZWQ4YS0zMGJiLTc5NjAtYTMxNS03NjRiZDE5YzJlMjgiLAogICJiYXNlX3VybCIgOiAiaHR0cHM6Ly9rbGFybmEtcGF5bWVudHMtZXUua2xhcm5hLmNvbS9wYXltZW50cyIsCiAgImRlc2lnbiIgOiAia2xhcm5hIiwKICAibGFuZ3VhZ2UiIDogImVuIiwKICAicHVyY2hhc2VfY291bnRyeSIgOiAiREUiLAogICJ0cmFjZV9mbG93IiA6IGZhbHNlLAogICJlbnZpcm9ubWVudCIgOiAicHJvZHVjdGlvbiIsCiAgIm1lcmNoYW50X25hbWUiIDogIk5hdCBNdWFubmFtb24iLAogICJzZXNzaW9uX3R5cGUiIDogIlBBWU1FTlRTIiwKICAiY2xpZW50X2V2ZW50X2Jhc2VfdXJsIiA6ICJodHRwczovL2V1LmtsYXJuYWV2dC5jb20iLAogICJleHBlcmltZW50cyIgOiBbIF0KfQ.eXpuHXP6vw-yZJXecwyOd4P4Gvrl732B0WW07UwZfCWvxkgtfuFYvIbcSy0mB3XO393IAoXHS_QihXHNz1DjfaNCwbHK8tJkdUvF74VC-4f4t2K6ZxCv0n37GNJ3x6KzCrMwGEgC8EbQdRmUtvkRO-ZEBB5u7teURZ2BYxOkMap2IQIaytCdh6b608jo92EH4H3XD-BgYbs-ro1u2hc5aGXgVQWRxwULoZm25W2bbWI0EdLOwk3XddJdM0FPbJo5P3XnsADRKG_xqdmnZWjlcwdfUYmmagQrl6ErR1WsRAZxVu8RHc4PXdppDFy-_jhG1nEI6F5Z8BCPusWQIRVv8g'
+                                })
+                                Klarna.Payments.load({
+                                    container: '#klarna-payments-container',
+                                    payment_method_category: 'pay_now'
+                                }, function (res) {
+                                    console.debug(res);
+                                })
+                                console.log(("okaysss"))
+                            } catch (e) {
+                                console.log("error")
+                            }
+                        };
 
-                }
 
-            };
         },
         watch: {
             order() {
@@ -366,6 +377,9 @@
                     }
                 }
             }
+        },
+        loadKlara() {
+
         }
     }
 </script>
