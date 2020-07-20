@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.models import Order, OrderDetail, PaymentBill
+from core.models import Order, OrderDetail, PaymentBill, ShippingRate
 from products.serializers import ProductDataSerializer
 
 
@@ -110,7 +110,7 @@ class PaymentBillSerializer(serializers.ModelSerializer):
 class ShippingRateSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = PaymentBill
+        model = ShippingRate
         fields = ('id', 'price', 'country')
         extra_kwargs = {
             'id': {'read_only': True}

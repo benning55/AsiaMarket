@@ -160,16 +160,23 @@ class PaymentBillUpload(APIView):
 
 @api_view(['GET', ])
 @permission_classes([IsAuthenticated, ])
-def Shipping_Fee(request):
+def Shipping_Fee(request, *args, **kwargs):
     """
     New 10 Product in system
     """
     if request.method == 'GET':
+        country = kwargs.get("country")
         queryset = ShippingRate.objects.all()
-        if len(queryset) == 0:
-            return Response({'price': '2',
-                             'post_code': ''}, status=status.HTTP_200_OK)
+        if country is None:
+            if len(queryset) == 0:
+                return Response({"error": "Data not found"}, status=status.HTTP_404_NOT_FOUND)
+            elif len(queryset) > 0:
+                serilaizer = serializers.ShippingRateSerializer(queryset, many=True)
+                return Response(serilaizer.data, status=status.HTTP_200_OK)
         else:
-            shipping = queryset[0]
-            # serializer = serializers.ShippingRateSerializer(shipping)
-            return Response({"price": shipping.price}, status=status.HTTP_200_OK)
+            queryset = queryset.filter(country=country)
+            if len(queryset) == 0:
+                return Response({"error": "Data not found"}, status=status.HTTP_404_NOT_FOUND)
+            else:
+                serilaizer = serializers.ShippingRateSerializer(queryset, many=True)
+                return Response(serilaizer.data, status=status.HTTP_200_OK)

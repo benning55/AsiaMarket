@@ -13,5 +13,6 @@ urlpatterns = [
     path('order/', views.OrderApiView.as_view(), name='order'),
     path('order/<int:pk>/', views.OrderApiView.as_view()),
     path('payment-bill/', views.PaymentBillUpload.as_view(), name='payment-bill'),
-    path('shipping-fee/', views.Shipping_Fee)
+    path('shipping-fee/', views.Shipping_Fee),
+    path('shipping-fee/<str:country>/', views.Shipping_Fee)
 ]

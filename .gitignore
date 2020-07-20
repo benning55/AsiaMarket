@@ -148,3 +148,5 @@ app/core/migrations/0008_auto_20200630_1614.py
 app/core/migrations/0009_auto_20200707_1353.py
 
 app/core/migrations/0010_auto_20200714_1522.py
+
+app/core/migrations/0011_auto_20200720_1448.py

@@ -330,7 +330,8 @@ class ShippingRate(models.Model):
     price = models.DecimalField(max_digits=7, decimal_places=2)
     country = models.CharField(
         choices=AllInfo.COUNTRIES,
-        max_length=255
+        max_length=255,
+        unique=True
     )
 
     class Meta:
