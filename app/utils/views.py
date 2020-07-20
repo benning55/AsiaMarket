@@ -65,6 +65,7 @@ def klarna_shoot(request, *args, **kwargs):
                 "push": "https://www.example.com/api/push?order_id={checkout.order.id}"
             }
         }
+
         mock_data = {
             "locale": "en-DE",
             "order_amount": 2500,

@@ -330,6 +330,7 @@ def forget_password(request):
     """ Send email to user for change password """
     if request.method == 'POST':
         data = request.data
+        print(data)
         user_email = data['email']
         queryset = get_object_or_404(User.objects.all(), email=user_email)
         currnt_site = get_current_site(request)

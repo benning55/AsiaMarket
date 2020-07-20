@@ -23,12 +23,12 @@ services:
       - SECRET_KEY=3bh=u&qqo2mn&n0*8h$$@kw&k(j#$$al&jc@wr$$^%qxb_=^hgqq-
       - EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
       - EMAIL_HOST=smtp.sendgrid.net
-      - EMAIL_HOST_USER=thaimarketexpress
-      - EMAIL_HOST_PASSWORD=thaimarketexpress55
+      - EMAIL_HOST_USER=info@thaimarket.express
+      - EMAIL_HOST_PASSWORD=OSKOSKOSK100
       - EMAIL_PORT=587
       - EMAIL_USE_TLS=True
       - DEBUG=False
-      - TYPE=dev
+      - TYPE=prod
     depends_on:
       - db
 

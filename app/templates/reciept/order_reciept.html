@@ -43,15 +43,8 @@
     <title>ThaiMarket Express PDF</title>
 </head>
 <body>
-<div class="row">
-    <div class="col-12">
-        <img src="https://scontent.fbkk2-7.fna.fbcdn.net/v/t1.0-9/s960x960/91350021_219476206129329_6866867745196081152_o.jpg?_nc_cat=106&_nc_sid=110474&_nc_eui2=AeFrRBrD6ZvHmL6hrDdBSZ7kU2GOMxN8r66BQXLQVkrrOvHoWk6597JjHR_7Ykg0dPPIOJB28Dlbjyi5gm0eXjsQLO6I0mT-NsfdPjGaiYmVlQ&_nc_ohc=8emziIYwIwEAX9yFiFw&_nc_ht=scontent.fbkk2-7.fna&_nc_tp=7&oh=db4f96fe4a7c86ff60455ef7b5fbd0c6&oe=5EA0541F"
-             alt="" style="width: 90%;">
-    </div>
-</div>
 
-<br>
-<br>
+<div style="padding-bottom: 189px;"></div>
 
 <div>
     <div class="row">
@@ -72,18 +65,38 @@
         <thead class="thead-dark">
         <tr>
             <th scope="col">PRODUCT</th>
-            <th scope="col">QUANTITY</th>
-            <th scope="col">PRICE</th>
+            <th scope="col" style="padding-left: 160px;">QUANTITY</th>
+            <th scope="col" style="padding-left: 122px;">PRICE</th>
         </tr>
         </thead>
         <tbody>
         {% for obj in order_detail %}
             <tr style="{% if forloop.counter == 17 or forloop.counter|divisibleby:20 and forloop.counter != 20 %}page-break-before: always;{% endif %}">
                 <td>{{ obj.product.title }}</td>
-                <td>{{ obj.quantity }}</td>
-                <td>{{ obj.price }} EUR</td>
+                <td style="padding-left: 190px;">{{ obj.quantity }}</td>
+                <td style="padding-left: 100px;">{{ obj.price }} EUR</td>
             </tr>
         {% endfor %}
+        <tr>
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+            <td><b>SUB TOTAL</b></td>
+            <td></td>
+            <td style="padding-left: 100px;">{{ order.total_price }} EUR</td>
+        </tr>
+        <tr>
+            <td><b>SHIPPING FEE</b></td>
+            <td></td>
+            <td style="padding-left: 100px;">{{ order.shipping_fee}} EUR</td>
+        </tr>
+        <tr>
+            <td><b>TOTAL</b></td>
+            <td></td>
+            <td style="padding-left: 100px;">{{ order.total_price }} EUR</td>
+        </tr>
         </tbody>
 
 
@@ -92,12 +105,12 @@
 </div>
 
 
-<h5 style="text-align: right;">Sub Total: {{ order.total_price }} EUR</h5><br>
-<h5 style="text-align: right;">Shipping: {{ order.shipping_fee }} EUR</h5><br>
-<h5 style="text-align: right;">Total: {{ order.price }} EUR</h5>
+{#<h5 style="text-align: right;">Sub Total: {{ order.total_price }} EUR</h5><br>#}
+{#<h5 style="text-align: right;">Shipping: {{ order.shipping_fee }} EUR</h5><br>#}
+{#<h5 style="text-align: right;">Total: {{ order.price }} EUR</h5>#}
 
 
-<footer class="fixed-bottom" style="text-align: center;top:1200px;">
+<footer class="fixed-bottom" style="text-align: center;top:1350px;">
     <div style="margin-bottom: 20px">
         <h4 class="more-bold" style="font-size: 19px !important;">ThaiMarket Express</h4>
         <small style="font-size: 13px !important;">Head Office: Lorem ipsum dolor sit amet, consectetur adipisicing

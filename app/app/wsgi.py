@@ -13,6 +13,7 @@ from django.core.wsgi import get_wsgi_application
 
 runs = os.environ.get('TYPE')
 
+
 if runs == 'prod':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.production')
 else:
