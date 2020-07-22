@@ -413,7 +413,16 @@
                     });
                     // $(".el-dialog").css({"max-width": "350px", "height": "300px"});
                 }).catch(e => {
-                    this.$message.error(this.$t('error_Oops_') + e.response.status + ', at confirm order');
+                    console.log(e)
+                    if (e.response.status == 500) {
+                        this.isOrderComplete = true
+                        // this.id = e.data.data.id
+                        this.$store.commit("setIncart", {
+                            cart_detail: []
+                        });
+                    } else {
+                        this.$message.error(this.$t('error_Oops_') + e.response.status + ', at confirm order');
+                    }
                 })
             },
             goEachOrder() {
