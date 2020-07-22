@@ -71,7 +71,7 @@
 
                     <div class="flex justify-between">
                         <h1 class="">{{$t('total')}}</h1>
-                        <h1 class="text-green">{{totalWithShipping}} €</h1>
+                        <h1 class="text-green">{{totalWithShipping}} € </h1>
                     </div>
                 </div>
             </div>
@@ -235,11 +235,13 @@
                     post_code: '',
                     country: ''
                 },
+                shipping_fee: null,
                 isOrderComplete: false
             }
         },
         created() {
             this.loadAddress()
+            this.getShippingAddress(this.chooseNewAddress ? this.newAddress.country : this.$store.state.userAddress[this.$store.state.indexUserAddress].country)
             window.scrollTo(0, 0);
         },
         methods: {
@@ -272,11 +274,28 @@
                     this.$message.error(this.$t('error_Oops_') + e.response.status + ', add load address');
                 })
             },
+            getShippingAddress(countrystr) {
+                this.isLoading = true
+                axios.get(`${window.location.protocol}//${window.location.hostname}/api/orders/shipping-fee/${countrystr}`, {
+                    headers: {
+                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        'Content-Type': 'application/json'
+                    }
+                }).then((res) => {
+                        this.shipping_fee = res.data[0].price
+                        this.isLoading = false
+                    }
+                ).catch(e => {
+                    this.isLoading = false
+                    this.$message.error(this.$t('error_Oops_') + e.response.status + ', add load address');
+                })
+            },
             swapIndex(index) {
                 this.$store.commit("setIndexUserAddress", index);
                 this.chooseNewAddress = false
                 this.addressDialog = false
                 this.toggleAddress = false
+                this.getShippingAddress(this.chooseNewAddress ? this.newAddress.country : this.$store.state.userAddress[this.$store.state.indexUserAddress].country)
             },
             nameTranslate(text) {
                 let list = text.split('|')
@@ -349,6 +368,7 @@
                     this.chooseNewAddress = true
                 }
                 this.toggleAddress = false
+                this.getShippingAddress(this.chooseNewAddress ? this.newAddress.country : this.$store.state.userAddress[this.$store.state.indexUserAddress].country)
             },
             chooseExist() {
                 this.chooseNewAddress = false
@@ -372,7 +392,6 @@
                 } else {
                     address = this.$store.state.userAddress[this.$store.state.indexUserAddress].recipient + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].address + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].city + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].state + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].post_code
                 }
-                console.log(this.$store.state.userAddress[this.$store.state.indexUserAddress].country)
                 axios.post(`${this.$store.state.endpoints.host}/api/orders/order/`, {
                     address: address,
                     total_price: this.subTotal,
@@ -381,7 +400,6 @@
                     shipping_fee: this.shipping,
                     price: this.totalWithShipping,
                     country: this.chooseNewAddress ? this.newAddress.country : this.$store.state.userAddress[this.$store.state.indexUserAddress].country
-
                 }, {
                     headers: {
                         Authorization: `JWT ${this.$store.state.jwt}`,
@@ -439,7 +457,8 @@
                 if (this.subTotal == 0) {
                     return 0
                 } else {
-                    return this.$store.state.shippingFee
+                    return this.shipping_fee
+                    // return this.$store.state.shippingFee
                 }
                 return 0
             },
@@ -463,7 +482,7 @@
             },
             totalWithShipping() {
                 return Number(Number(this.totalWithCode) + Number(this.shipping)).toFixed(2)
-            }
+            },
         },
     }
 </script>
