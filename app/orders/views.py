@@ -32,7 +32,7 @@ def order_notify(order):
     send_mail(
         'We have new order!!',
         message,
-        'new-order@thaimarket.express',
+        'info@thaimarket.express',
         admin_email,
         html_message=message,
         fail_silently=False
