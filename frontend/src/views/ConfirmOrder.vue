@@ -241,7 +241,6 @@
         },
         created() {
             this.loadAddress()
-            this.getShippingAddress(this.$store.state.userAddress[this.$store.state.indexUserAddress].country)
             window.scrollTo(0, 0);
         },
         methods: {
@@ -267,6 +266,7 @@
                 }).then(
                     res => {
                         this.$store.commit("setUserAddress", res.data.address);
+                        this.getShippingAddress(this.$store.state.userAddress[this.$store.state.indexUserAddress].country)
                         this.isLoading = false
                     }
                 ).catch(e => {
@@ -282,6 +282,7 @@
                         'Content-Type': 'application/json'
                     }
                 }).then((res) => {
+                        console.log(res.data[0].price)
                         this.shipping_fee = res.data[0].price
                         this.isLoading = false
                     }
