@@ -85,7 +85,7 @@
                         <div @click="cartDrawer = !cartDrawer"
                              class="w-20 bg-white hover:bg-unHilight py-3 rounded-tl-lg border-bottom cursor-pointer">
                             <img class="w-8 mx-auto" src="../assets/icon/supermarket.svg">
-                            <h1 class="text-lg text-center text-green">{{totalWithShipping}} €</h1>
+                            <h1 class="text-lg text-center text-green">{{totalWithOutShipping}} €</h1>
                             <div class=" text-white rounded-full h-5 w-5 flex items-center justify-center bg-green absolute count-position">
                                 {{$store.state.inCart.cart_detail.length}}
                             </div>
@@ -116,18 +116,9 @@
         <!--        </div>-->
 
         <!--        side bar-->
-        <div class="inset-y-0 left-0 fixed z-105 w-56  hidden sm:hidden md:hidden lg:block bg-white">
+        <div class="inset-y-0 left-0 fixed overflow-y-auto z-105 w-56  hidden sm:hidden md:hidden lg:block bg-white">
             <div style="height: 7rem"></div>
             <div class="px-2">
-<!--                <div @click="goCategory({id:'recommend'})" class="p-2 bg-white hover:bg-unHilight cursor-pointer">-->
-<!--                    {{$t('recommend')}}-->
-<!--                    <hr class="w-full text-lightGray" style="border-top-width:2.5px">-->
-<!--                </div>-->
-<!--                <div @click="goCategory({id:'new-product'})" class="p-2 bg-white hover:bg-unHilight cursor-pointer">-->
-<!--                    {{$t('new_product')}}-->
-<!--                    <hr class="w-full text-lightGray" style="border-top-width:2.5px">-->
-<!--                </div>-->
-<!--                <div style="height: 2rem"></div>-->
                 <div v-for="(category,index) in categorys" :key="category.id" @click="goCategory(category)">
                     <div class="p-2 bg-white hover:bg-unHilight cursor-pointer">
                         <span>{{nameTranslate(category.type)}}</span>
@@ -137,7 +128,7 @@
 
                 </div>
             </div>
-
+            <div style="height: 3rem"></div>
         </div>
 
         <!--        opacity background -->
@@ -261,7 +252,6 @@
                 <div class="flex justify-between font-l">
                     <div class="">{{$t('subTotal')}} <a class="text-gray">( {{nameTranslate("Discounted|ลดไป")}}
                         {{reduceValue}} € )</a></div>
-
                     <div>{{totalWithCode}} €</div>
                 </div>
                 <div class="flex justify-between font-l my-1">
@@ -294,14 +284,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-between font-l">
-                    <div class="">{{$t('shipping')}}</div>
-                    <div>{{shipping}} €</div>
-                </div>
+                <!--                <div class="flex justify-between font-l">-->
+                <!--                    <div class="">{{$t('shipping')}}</div>-->
+                <!--                    <div>{{shipping}} €</div>-->
+                <!--                </div>-->
 
                 <div class="flex justify-between">
                     <div class="">{{$t('total')}}</div>
-                    <div>{{totalWithShipping}} €</div>
+                    <div>{{totalWithOutShipping}} €</div>
                 </div>
 
                 <el-popover
@@ -410,7 +400,7 @@
         },
         created() {
             this.updateCart()
-            this.updateShipping()
+            // this.updateShipping()
             this.getBannerData()
             this.getCategory()
         },
@@ -480,18 +470,18 @@
                     });
                 })
             },
-            updateShipping() {
-                axios.get(`${this.$store.state.endpoints.host}/api/orders/shipping-fee/`, {
-                    headers: {
-                        Authorization: `JWT ${this.$store.state.jwt}`,
-                        'Content-Type': 'application/json'
-                    },
-                }).then(res => {
-                        this.shipping_fee = Number(res.data.price)
-                        this.$store.commit("setShippingFee", this.shipping_fee)
-                    }
-                ).catch()
-            },
+            // updateShipping() {
+            //     axios.get(`${this.$store.state.endpoints.host}/api/orders/shipping-fee/`, {
+            //         headers: {
+            //             Authorization: `JWT ${this.$store.state.jwt}`,
+            //             'Content-Type': 'application/json'
+            //         },
+            //     }).then(res => {
+            //             this.shipping_fee = Number(res.data.price)
+            //             this.$store.commit("setShippingFee", this.shipping_fee)
+            //         }
+            //     ).catch()
+            // },
             goHome() {
                 this.$router.push({
                     name: 'HomePage'
@@ -613,23 +603,23 @@
                 return (sum).toFixed(2);
             },
             reduceValue() {
-                if (this.codeStatus == 'error' || this.code.length == 0) {
+                if (this.codeStatus === 'error' || this.code.length === 0) {
                     return "0.00"
                 } else {
                     return Number((this.subTotal / 100) * this.percent).toFixed(2)
                 }
 
             },
-            shipping() {
-                if (this.subTotal == 0) {
-                    return 0
-                } else {
-                    return this.$store.state.shippingFee
-                }
-                return 0
-            },
+            // shipping() {
+            //     if (this.subTotal == 0) {
+            //         return 0
+            //     } else {
+            //         return this.$store.state.shippingFee
+            //     }
+            //     return 0
+            // },
             totalWithCode() {
-                if (this.codeStatus == 'error' || this.code.length == 0) {
+                if (this.codeStatus === 'error' || this.code.length === 0) {
                     return Number(this.subTotal).toFixed(2)
                 } else {
                     console.log(Number(this.subTotal) - Number(((this.subTotal / 100) * this.percent).toFixed(2)))
@@ -644,9 +634,8 @@
                 }
             }
             ,
-            totalWithShipping() {
-
-                return Number(Number(this.totalWithCode) + Number(this.shipping)).toFixed(2)
+            totalWithOutShipping() {
+                return Number(Number(this.totalWithCode)).toFixed(2)
 
             }
         }
@@ -654,7 +643,7 @@
         watch: {
             '$route.name'() {
                 this.updateCart()
-                this.updateShipping()
+                // this.updateShipping()
             },
             getCode: {
                 deep: true,

@@ -241,7 +241,7 @@
         },
         created() {
             this.loadAddress()
-            this.getShippingAddress(this.chooseNewAddress ? this.newAddress.country : this.$store.state.userAddress[this.$store.state.indexUserAddress].country)
+            this.getShippingAddress(this.$store.state.userAddress[this.$store.state.indexUserAddress].country)
             window.scrollTo(0, 0);
         },
         methods: {

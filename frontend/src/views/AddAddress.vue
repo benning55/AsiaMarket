@@ -17,7 +17,7 @@
                        class="block text-red text-sm mb-2"
                        for="recipient">{{$t(validation.firstError('recipient'))}}</label>
                 <el-input id="recipient"
-                          :placeholder="$t('')"
+                          :placeholder="$t('please_input_firstname_and_lastname_of_recipient')"
                           v-model="recipient">
                 </el-input>
             </div>
@@ -31,7 +31,7 @@
                        class="block text-red text-sm mb-2"
                        for="house_number">{{$t(validation.firstError('house_number'))}}</label>
                 <el-input id="house_number"
-                          :placeholder="$t('')"
+                          :placeholder="$t('error_address_street')"
                           v-model="house_number">
                 </el-input>
             </div>
@@ -45,7 +45,7 @@
                        class="block text-red text-sm mb-2"
                        for="street">{{$t(validation.firstError('street'))}}</label>
                 <el-input id="street"
-                          :placeholder="$t('')"
+                          :placeholder="$t('error_address_city')"
                           v-model="street">
                 </el-input>
             </div>
@@ -57,14 +57,18 @@
                            class="block text-sm mb-2">{{$t('state')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2">{{$t(validation.firstError('city'))}}</label>
-                    <el-select v-model="city" :placeholder="$t('')">
-                        <el-option
-                                v-for="item in cityOptions"
-                                :key="item"
-                                :label="item"
-                                :value="item">
-                        </el-option>
-                    </el-select>
+<!--                    <el-select v-model="city" :placeholder="$t('')">-->
+<!--                        <el-option-->
+<!--                                v-for="item in cityOptions"-->
+<!--                                :key="item"-->
+<!--                                :label="item"-->
+<!--                                :value="item">-->
+<!--                        </el-option>-->
+<!--                    </el-select>-->
+                    <el-input id="city"
+                          :placeholder="$t('error_address_state')"
+                          v-model="city">
+                </el-input>
                 </div>
                 <div class="w-1/2 pl-1">
                     <label v-if="!validation.firstError('post_code')"
@@ -74,7 +78,7 @@
                            class="block text-red text-sm mb-2"
                            for="post_code">{{$t(validation.firstError('post_code'))}}</label>
                     <el-input id="post_code"
-                              :placeholder="$t('')"
+                              :placeholder="$t('error_address_postalCode_require')"
                               v-model="post_code">
                     </el-input>
                 </div>
@@ -135,24 +139,6 @@
                 city: '',
                 post_code: '',
                 country:'',
-                cityOptions: [
-                    'Baden-Württemberg',
-                    'Bayern',
-                    'Berlin',
-                    'Brandenburg',
-                    'Bremen',
-                    'Hamburg',
-                    'Hessen',
-                    'Niedersachsen',
-                    'Mecklenburg-Vorpommern',
-                    'Nordrhein-Westfalen',
-                    'Rheinland-Pfalz',
-                    'Saarland',
-                    'Sachsen',
-                    'Sachsen-Anhalt',
-                    'Schleswig-Holstein',
-                    'Thüringen'
-                ],
                 countryOptions: [
                     'Russia',
                     'Germany',

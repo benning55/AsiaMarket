@@ -375,7 +375,7 @@
 
                 let csrftoken = readCookie('csrftoken');
 
-                fetch('http://localhost/api/utils/klarna/', {
+                fetch(window.location.protocol + '//' + window.location.hostname + '/api/utils/klarna/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

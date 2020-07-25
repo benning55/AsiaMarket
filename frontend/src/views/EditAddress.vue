@@ -57,14 +57,18 @@
                            class="block text-sm mb-2">{{$t('state')}}</label>
                     <label v-else
                            class="block text-red text-sm mb-2">{{$t(validation.firstError('city'))}}</label>
-                    <el-select v-model="city" placeholder="Select">
-                        <el-option
-                                v-for="item in cityOptions"
-                                :key="item"
-                                :label="item"
-                                :value="item">
-                        </el-option>
-                    </el-select>
+<!--                    <el-select v-model="city" placeholder="Select">-->
+<!--                        <el-option-->
+<!--                                v-for="item in cityOptions"-->
+<!--                                :key="item"-->
+<!--                                :label="item"-->
+<!--                                :value="item">-->
+<!--                        </el-option>-->
+<!--                    </el-select>-->
+                    <el-input id="city"
+                          :placeholder="$t('')"
+                          v-model="city">
+                </el-input>
                 </div>
                 <div class="w-1/2 pl-1">
                     <label v-if="!validation.firstError('post_code')"
@@ -193,24 +197,6 @@
                     'San Marino',
                     'Holy See',
                 ].sort(),
-                cityOptions: [
-                    'Baden-Württemberg',
-                    'Bayern',
-                    'Berlin',
-                    'Brandenburg',
-                    'Bremen',
-                    'Hamburg',
-                    'Hessen',
-                    'Niedersachsen',
-                    'Mecklenburg-Vorpommern',
-                    'Nordrhein-Westfalen',
-                    'Rheinland-Pfalz',
-                    'Saarland',
-                    'Sachsen',
-                    'Sachsen-Anhalt',
-                    'Schleswig-Holstein',
-                    'Thüringen'
-                ],
                 isLoading: false
             }
         },
