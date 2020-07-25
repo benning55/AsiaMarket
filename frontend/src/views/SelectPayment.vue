@@ -9,11 +9,11 @@
             <div id="paypal-button-container"></div>
         </div>
 
-        <div @click="openKlarna" class="w-32 h-12 bg-orange mx-auto py-3 cursor-pointer">
-            <p class="text-center">
-                Open Klarna
-            </p>
-        </div>
+<!--        <div @click="openKlarna" class="w-32 h-12 bg-orange mx-auto py-3 cursor-pointer">-->
+<!--            <p class="text-center">-->
+<!--                Open Klarna-->
+<!--            </p>-->
+<!--        </div>-->
 
         <div id="klarna-payments-container"></div>
 
