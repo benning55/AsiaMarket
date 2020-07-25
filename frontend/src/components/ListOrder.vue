@@ -16,7 +16,7 @@
                     </text>
                 </svg>
             </div>
-            <img v-else style="max-width: 130px;" class="my-3 w-1/3 sm:w-1/3 mx-auto object-contain"
+            <img v-else style="max-width: 130px;max-height: 130px" class="my-3 w-1/3 sm:w-1/3 mx-auto object-contain"
                  @error="printerror()"
                  :src="$store.state.endpoints.host +'/media/'+orderdata.pic1">
             <div class=" my-3 ml-2 w-2/3 self-center">
