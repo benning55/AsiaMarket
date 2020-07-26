@@ -407,7 +407,7 @@
             },
             phone(value) {
                 return Validator.value(value)
-                    .required("error_profile_phone_require").length(10, 'error_profile_phone_length')
+                    .required("error_profile_phone_require")
             },
             email(value) {
                 return Validator.value(value)
