@@ -20,7 +20,7 @@ def check_product():
         send_mail(
             'Product is running out!',
             message,
-            'no-reply@thaimarket.express',
+            'info@thaimarket.express',
             admin_email,
             html_message=message,
             fail_silently=False

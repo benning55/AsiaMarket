@@ -343,7 +343,7 @@ def forget_password(request):
         send_mail(
             'Reset Password',
             message,
-            "support@thaimarket.express",
+            'info@thaimarket.express',
             [queryset.email],
             html_message=message,
             fail_silently=False,
