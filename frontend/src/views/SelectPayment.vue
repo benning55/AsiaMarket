@@ -3,19 +3,19 @@
     <div class="bg-white w-full px-4 sm:h-full lg:px-24 pb-16 mx-auto pt-5">
         <Loader v-if="isLoading"/>
 
-        {{$t('paypal_debit_or_credit_card')}}
-        <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">
-            <div class="px-2 bg-green" ref="paypal"></div>
-            <div id="paypal-button-container"></div>
-        </div>
-
-<!--        <div @click="openKlarna" class="w-32 h-12 bg-orange mx-auto py-3 cursor-pointer">-->
-<!--            <p class="text-center">-->
-<!--                Open Klarna-->
-<!--            </p>-->
+<!--        {{$t('paypal_debit_or_credit_card')}}-->
+<!--        <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">-->
+<!--            <div class="px-2 bg-green" ref="paypal"></div>-->
+<!--            <div id="paypal-button-container"></div>-->
 <!--        </div>-->
 
-        <div id="klarna-payments-container"></div>
+        <!--        <div @click="openKlarna" class="w-32 h-12 bg-orange mx-auto py-3 cursor-pointer">-->
+        <!--            <p class="text-center">-->
+        <!--                Open Klarna-->
+        <!--            </p>-->
+        <!--        </div>-->
+
+<!--        <div id="klarna-payments-container"></div>-->
 
         <el-divider> {{$t('or')}}</el-divider>
         {{$t('bank_transfer')}}
@@ -101,7 +101,7 @@
 
 
     export default {
-        props: ["id", "order"],
+        props: ["id", "order", "orderDetail"],
         components: {
             Loader
         },
@@ -137,49 +137,6 @@
                     .required("time");
             },
         },
-        // beforeCreate() {
-        //     let data = {
-        //         "purchase_country": "GB",
-        //         "purchase_currency": "GBP",
-        //         "locale": "en-GB",
-        //         "order_amount": 50000,
-        //         "order_tax_amount": 4545,
-        //         "order_lines": [
-        //             {
-        //                 "type": "physical",
-        //                 "reference": "19-402-USA",
-        //                 "name": "Red T-Shirt",
-        //                 "quantity": 5,
-        //                 "quantity_unit": "pcs",
-        //                 "unit_price": 10000,
-        //                 "tax_rate": 1000,
-        //                 "total_amount": 50000,
-        //                 "total_discount_amount": 0,
-        //                 "total_tax_amount": 4545
-        //             }
-        //         ],
-        //         "merchant_urls": {
-        //             "terms": "https://www.example.com/terms.html",
-        //             "checkout": "https://www.example.com/checkout.html?order_id={checkout.order.id}",
-        //             "confirmation": "https://www.example.com/confirmation.html?order_id={checkout.order.id}",
-        //             "push": "https://www.example.com/api/push?order_id={checkout.order.id}"
-        //         }
-        //     }
-        //     axios.post('http://localhost/api/utils/klarna/', data,
-        //         {
-        //             headers: {
-        //                 // Authorization: `Basic UEsyMTE5N183Zjc0NTEyMzFhYjI6MUN0eUE2V0NoblVGdkM3aw==`,
-        //                 Authorization: `Basic Szc2NTU5NV84YjY2MzM2OTE5N2E6VTdONUxiMlQyYks1UXRodg==`,
-        //                 'Content-Type': 'application/json',
-        //                 "cache-control": "no-cache",
-        //                 "postman-token": "b6047eb4-877d-0f02-e5fb-1791e5708033"
-        //             }
-        //         })
-        //         .then((res) => {
-        //             this.klarnaResponse = res.data.client_token;
-        //             console.log(this.klarnaResponse)
-        //         })
-        // },
         methods: {
             nameTranslate(text) {
                 let list = text.split('|')
@@ -295,73 +252,27 @@
                 })
 
             },
-            openKlarna: function () {
-                // let data = {
-                //     "purchase_country": "GB",
-                //     "purchase_currency": "GBP",
-                //     "locale": "en-GB",
-                //     "order_amount": 50000,
-                //     "order_tax_amount": 4545,
-                //     "order_lines": [
-                //         {
-                //             "type": "physical",
-                //             "reference": "19-402-USA",
-                //             "name": "Red T-Shirt",
-                //             "quantity": 5,
-                //             "quantity_unit": "pcs",
-                //             "unit_price": 10000,
-                //             "tax_rate": 1000,
-                //             "total_amount": 50000,
-                //             "total_discount_amount": 0,
-                //             "total_tax_amount": 4545
-                //         }
-                //     ],
-                //     "merchant_urls": {
-                //         "terms": "https://www.example.com/terms.html",
-                //         "checkout": "https://www.example.com/checkout.html?order_id={checkout.order.id}",
-                //         "confirmation": "https://www.example.com/confirmation.html?order_id={checkout.order.id}",
-                //         "push": "https://www.example.com/api/push?order_id={checkout.order.id}"
-                //     }
-                // }
-                // axios.post('http://localhost/api/utils/klarna/', data,
-                //     {
-                //         headers: {
-                //             // Authorization: `Basic UEsyMTE5N183Zjc0NTEyMzFhYjI6MUN0eUE2V0NoblVGdkM3aw==`,
-                //             Authorization: `Basic Szc2NTU5NV84YjY2MzM2OTE5N2E6VTdONUxiMlQyYks1UXRodg==`,
-                //             'Content-Type': 'application/json',
-                //             "cache-control": "no-cache",
-                //             "postman-token": "b6047eb4-877d-0f02-e5fb-1791e5708033"
-                //         }
-                //     })
-                //     .then((res) => {
-                //         this.klarnaResponse = res;
-                //         let a = res.data.client_token
-                //         console.log(a)
-                //
-                //     })
-            }
 
         },
-        mounted: function () {
+        mounted() {
+
             const script = document.createElement("script");
             script.src =
                 "https://www.paypal.com/sdk/js?client-id=AYPJL4TE_OsKKYRY-xSErDmNeeIYl-3lPd8LFgGyC2vWBH33nuq7qNgZOpm3tcNQrcVjTlR5xah1jK7w&currency=EUR";
             script.addEventListener("load", this.setLoaded);
             document.body.appendChild(script);
 
-            // this.openKlarna()
             const scripts = document.createElement("script");
             scripts.src = "https://x.klarnacdn.net/kp/lib/v1/api.js"
             document.body.appendChild(scripts);
 
+            let prop = (this.$props);
 
-            // this.openKlarna()
-            // const script3 = document.createElement("script");
-            // scripts.src = "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"
-            // document.body.appendChild(script3);
-
+            console.log(prop.id)
+            console.log(prop.order)
 
             window.klarnaAsyncCallback = function () {
+
                 function readCookie(name) {
                     let nameEQ = name + "=";
                     let ca = document.cookie.split(';');
@@ -398,7 +309,6 @@
                 })
                     .then(response => response.json())
                     .then(json => {
-
                         try {
                             Klarna.Payments.init({
                                 client_token: json.client_token

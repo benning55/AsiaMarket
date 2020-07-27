@@ -124,7 +124,7 @@
                 <h1 class="mt-5 py-1 text-xl font-l">{{$t('payment')}}</h1>
             </div>
             <SelectPayment v-if="!order.payment_status && !order.receipt" :id="$route.params.id" :order="order"
-                           @updatePayment="loadData"/>
+                           :orderDetail="orderDetail" @updatePayment="loadData"/>
             <div v-else-if="!order.payment_status && order.receipt"
                  class="bg-white w-full px-1 sm:h-full lg:px-10 xl:px-24 mx-auto py-5">
                 <div class="px-5 md:px-10 font-l text-lg">
