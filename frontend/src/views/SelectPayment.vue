@@ -260,7 +260,7 @@ export default {
 
     const script = document.createElement("script");
     script.src =
-        "https://www.paypal.com/sdk/js?client-id=AXbJ_Ys6PecXduYZe7EEsPkh7zWPQi2T4bxeKDV55iRsi6d0Ja9cBa8iZ6zTVZ9tXKISck1awbbV7flb&currency=EUR";
+        "https://www.paypal.com/sdk/js?client-id=AYPJL4TE_OsKKYRY-xSErDmNeeIYl-3lPd8LFgGyC2vWBH33nuq7qNgZOpm3tcNQrcVjTlR5xah1jK7w&currency=EUR";
     script.addEventListener("load", this.setLoaded);
     document.body.appendChild(script);
 
@@ -296,13 +296,13 @@ export default {
         },
         body: JSON.stringify({
           "locale": "en-DE",
-          "order_amount": 2500,
+          "order_amount": this.order.price,
           "order_lines": [
             {
               "name": "Eggooo",
               "quantity": 1,
-              "total_amount": 2500,
-              "unit_price": 2500
+              "total_amount": this.order.price,
+              "unit_price": this.order.price
             }
           ],
           "purchase_country": "DE",
@@ -348,7 +348,7 @@ export default {
                     description: "this.product.description",
                     amount: {
                       currency_code: "EUR",
-                      value: 1200
+                      value: this.order.price
                     }
                   }
                 ],
