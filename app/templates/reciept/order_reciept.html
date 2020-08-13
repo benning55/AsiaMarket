@@ -17,10 +17,13 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <style>
-        /*@page {*/
-        /*size: 21cm 29.7cm;*/
-        /*margin: 30mm 45mm 100mm 45mm;*/
-        /*}*/
+        @page {
+            size: A4;
+            {#margin: 30mm 45mm 100mm 45mm;#}
+            margin-top: 50mm;
+            margin-bottom: 30mm;
+            page-break-after: always;
+        }
         @media print {
             @font-face {
                 font-family: 'Verdana';
@@ -29,14 +32,10 @@
 
             body {
                 font-family: 'Verdana' !important;
-                font-size: 16px !important;
+                font-size: 12px !important;
             }
 
         }
-
-        {#addition css#}
-
-
     </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -44,15 +43,16 @@
 </head>
 <body>
 
-<div style="padding-bottom: 189px;"></div>
+{#<div style="padding-bottom: 189px;"></div>#}
 
 <div>
     <div class="row">
         <div class="col-13">
             <b>Customer: {{ order.user.first_name }} {{ order.user.last_name }}</b><br>
-            <b>Address: {{ order.address }}</b><br>
+            <b>Address: {{ address }}</b><br>
             <b>Payment Type: {{ order.payment_type }}</b><br>
             <b>Promotion Code: {{ order.code }}</b><br>
+            <b>Order Id: {{ order.id }}</b><br>
         </div>
     </div>
 </div>
@@ -64,20 +64,26 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
+            <th scope="col">PRODUCT ID</th>
+            <th scope="col">UNIT PRICE</th>
+            <th scope="col">QUANTITY</th>
             <th scope="col">PRODUCT</th>
-            <th scope="col" style="padding-left: 160px;">QUANTITY</th>
-            <th scope="col" style="padding-left: 122px;">PRICE</th>
+            <th scope="col">PRICE</th>
         </tr>
         </thead>
         <tbody>
         {% for obj in order_detail %}
             <tr style="{% if forloop.counter == 17 or forloop.counter|divisibleby:20 and forloop.counter != 20 %}page-break-before: always;{% endif %}">
+                <td>{{ obj.product.id }}</td>
+                <td>{{ obj.product.price }}</td>
+                <td style="padding-left: 35px !important;">{{ obj.quantity }}</td>
                 <td>{{ obj.product.title }}</td>
-                <td style="padding-left: 190px;">{{ obj.quantity }}</td>
-                <td style="padding-left: 100px;">{{ obj.price }} EUR</td>
+                <td>{{ obj.price }} EUR</td>
             </tr>
         {% endfor %}
         <tr>
+            <td>&nbsp;&nbsp;</td>
+            <td> &nbsp;&nbsp;</td>
             <td>&nbsp;&nbsp;</td>
             <td>&nbsp;&nbsp;</td>
             <td>&nbsp;&nbsp;</td>
@@ -85,7 +91,17 @@
         <tr>
             <td><b>SUB TOTAL</b></td>
             <td></td>
-            <td style="padding-left: 100px;">{{ order.total_price }} EUR</td>
+            <td style="padding-left: 100px;">{{ price_no_tax }} EUR</td>
+        </tr>
+        <tr>
+            <td><b>TAX 16%</b></td>
+            <td></td>
+            <td style="padding-left: 100px;">{{ tax_16 }} EUR</td>
+        </tr>
+        <tr>
+            <td><b>TAX 5%</b></td>
+            <td></td>
+            <td style="padding-left: 100px;">{{ tax_5 }} EUR</td>
         </tr>
         <tr>
             <td><b>SHIPPING FEE</b></td>
@@ -95,7 +111,7 @@
         <tr>
             <td><b>TOTAL</b></td>
             <td></td>
-            <td style="padding-left: 100px;">{{ order.total_price }} EUR</td>
+            <td style="padding-left: 100px;">{{ order.price }} EUR</td>
         </tr>
         </tbody>
 
@@ -109,19 +125,34 @@
 {#<h5 style="text-align: right;">Shipping: {{ order.shipping_fee }} EUR</h5><br>#}
 {#<h5 style="text-align: right;">Total: {{ order.price }} EUR</h5>#}
 
+{#<div class="fixed-bottom" style="text-align: center;top:885px;">#}
+{#        <div style="margin-bottom: 20px">#}
+{#            {%if seller.name != 'IQVIA (Thailand) Co., Ltd.'%}#}
+{#            <h4 class="more-bold" style="font-size: 19px !important;">IQVIA Inc. - Thailand</h4>#}
+{#            {%else%}#}
+{#            <h4 class="more-bold" style="font-size: 19px !important;">IQVIA (Thailand) Co., Ltd.</h4>#}
+{#            {%endif%}#}
+{#            <small style="font-size: 13px !important;">Head Office: 191 Silom Complex Building, 23rd Floor, Room No.1-5, Silom Road, Silom, Bangrak, Bangkok 10500 Thailand</small><br>#}
+{#            <small style="font-size: 13px !important;">Tel: (66) 2 686 2300 Fax: (66) 2 686 2490#}
+{#                www.iqvia.com</small><br>#}
+{#            <small style="font-size: 13px !important;">TAX-ID-No. 0100528001654</small>#}
+{##}
+{#        </div>#}
+{#        <div style="border-top: 1px solid black;">&nbsp;</div>#}
+{#    </div>#}
 
-<footer class="fixed-bottom" style="text-align: center;top:1350px;">
-    <div style="margin-bottom: 20px">
-        <h4 class="more-bold" style="font-size: 19px !important;">ThaiMarket Express</h4>
-        <small style="font-size: 13px !important;">Head Office: Lorem ipsum dolor sit amet, consectetur adipisicing
-            elit. Aspernatur at dignissimos distinctio earum expedita illum ipsam ipsum necessitatibus nisi qui quo
-            repudiandae veritatis voluptas voluptates, voluptatum. Est, exercitationem, facilis? Minus?</small><br>
-        <small style="font-size: 13px !important;">Tel: 0000000
-            thaimarket.express</small><br>
-
-    </div>
-    <div style="border-top: 1px solid black;">&nbsp;</div>
-</footer>
+{#<footer class="fixed-bottom" style="text-align: center;top:1350px;">#}
+{#    <div style="margin-bottom: 20px">#}
+{#        <h4 class="more-bold" style="font-size: 19px !important;">ThaiMarket Express</h4>#}
+{#        <small style="font-size: 13px !important;">Head Office: Lorem ipsum dolor sit amet, consectetur adipisicing#}
+{#            elit. Aspernatur at dignissimos distinctio earum expedita illum ipsam ipsum necessitatibus nisi qui quo#}
+{#            repudiandae veritatis voluptas voluptates, voluptatum. Est, exercitationem, facilis? Minus?</small><br>#}
+{#        <small style="font-size: 13px !important;">Tel: 0000000#}
+{#            thaimarket.express</small><br>#}
+{##}
+{#    </div>#}
+{#    <div style="border-top: 1px solid black;">&nbsp;</div>#}
+{#</footer>#}
 <script>
     $(document).ready(function () {
         $('#example').DataTable({

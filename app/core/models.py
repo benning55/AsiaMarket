@@ -382,3 +382,16 @@ class Util(models.Model):
 
     def __str__(self):
         return self.type
+
+
+class SpecialAddress(models.Model):
+    """For special customer"""
+    order = models.OneToOneField(
+        Order,
+        primary_key=True,
+        on_delete=models.CASCADE
+    )
+    address = models.TextField()
+
+    class Meta:
+        verbose_name_plural = "Special Address"

@@ -1,4 +1,5 @@
 import csv
+import decimal
 
 from django.contrib import admin
 from django.contrib.admin import DateFieldListFilter
@@ -66,7 +67,7 @@ class OrderAdmin(admin.ModelAdmin):
     actions = ['set_delivery_to_shipping']
 
     ordering = ['-created']
-    search_fields = ['user__username']
+    search_fields = ['user__username', 'id']
 
     inlines = [OrderDetailInLine]
 
@@ -79,10 +80,27 @@ class OrderAdmin(admin.ModelAdmin):
     def response_change(self, request, obj):
         if "_make-pdf" in request.POST:
             order_detail = OrderDetail.objects.all().filter(order_id=obj.id)
+            special_address_check = models.SpecialAddress.objects.all().filter(pk=obj.id)
+            address = special_address_check[0].address if len(special_address_check) > 0 else obj.address
+            tax_16 = 0
+            tax_5 = 0
+            for products in order_detail:
+                if 'Other' in products.product.category.type or 'Beverages' in products.product.category.type:
+                    tax_16 += products.product.price
+                else:
+                    tax_5 += products.product.price
+            tax_16 = decimal.Decimal(16/100) * tax_16
+            tax_5 = decimal.Decimal(5/100) * tax_5
+            total_tax = tax_16 + tax_5
+            price_no_tax = obj.price - total_tax - obj.shipping_fee
             html_string = render_to_string('reciept/order_reciept.html', {
                 'order_detail': order_detail,
                 'order': obj,
-                'data': 'Hello Benning'
+                'address': address,
+                'data': 'Hello Benning',
+                'tax_16': "{:.2f}".format(float(tax_16)),
+                'tax_5': "{:.2f}".format(float(tax_5)),
+                'price_no_tax': "{:.2f}".format(float(price_no_tax))
             })
             html = HTML(string=html_string)
             result = html.write_pdf()
@@ -250,6 +268,10 @@ class UtilAdmin(admin.ModelAdmin):
     list_display = ['id', 'type', 'value']
 
 
+class SpecialAddressAdmin(admin.ModelAdmin):
+    list_display = ['order', 'address']
+
+
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Profile, ProfileAdmin)
 admin.site.register(models.Address, AddressAdmin)
@@ -267,3 +289,4 @@ admin.site.register(models.FooterData, FooterDataAdmin)
 admin.site.register(models.Banner, BannerAdmin)
 admin.site.register(models.NotifyEmail, NotifyEmailAdmin)
 admin.site.register(models.Util, UtilAdmin)
+admin.site.register(models.SpecialAddress, SpecialAddressAdmin)
