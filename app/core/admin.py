@@ -81,7 +81,7 @@ class OrderAdmin(admin.ModelAdmin):
         if "_make-pdf" in request.POST:
             order_detail = OrderDetail.objects.all().filter(order_id=obj.id)
             special_address_check = models.SpecialAddress.objects.all().filter(pk=obj.id)
-            address = special_address_check[0].address if len(special_address_check) > 0 else obj.address
+            address = special_address_check[0].address if len(special_address_check) > 0 else obj.address + ", " + obj.country
             tax_16 = 0
             tax_5 = 0
             for products in order_detail:
