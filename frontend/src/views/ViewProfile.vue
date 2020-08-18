@@ -255,7 +255,7 @@
             editDOB(dob) {
                 axios.put(this.$store.state.endpoints.host + '/api/accounts/profile/', {
                     user_id: this.$store.state.authUser.user.id,
-                    tel: dob
+                    dob: dob
                 }, {
                     headers: {
                         Authorization: `JWT ${this.$store.state.jwt}`,
