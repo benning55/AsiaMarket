@@ -99,7 +99,7 @@ class CartDetailSaveSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         cart_id = Cart.objects.get(user=validated_data['cart']).user_id
-        product_id = Product.objects.get(title=validated_data['product']).id
+        product_id = validated_data['product'].id
         cart_detail, created = CartDetail.objects.update_or_create(
             cart_id=cart_id,
             product_id=product_id,

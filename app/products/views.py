@@ -166,7 +166,6 @@ class CartDetailApiView(APIView):
             detail_json = serializers.CartDetailForAddSerializer(detail)
             return Response({'data': detail_json.data}, status=status.HTTP_200_OK)
         else:
-            print(serializer.errors)
             return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, *args, **kwargs):
