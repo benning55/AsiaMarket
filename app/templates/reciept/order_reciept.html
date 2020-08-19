@@ -19,11 +19,12 @@
     <style>
         @page {
             size: A4;
-            {#margin: 30mm 45mm 100mm 45mm;#}
+        {#margin: 30mm 45mm 100mm 45mm;#}
             margin-top: 50mm;
             margin-bottom: 30mm;
             page-break-after: always;
         }
+
         @media print {
             @font-face {
                 font-family: 'Verdana';
@@ -48,11 +49,10 @@
 <div>
     <div class="row">
         <div class="col-13">
-            <b>Customer: {{ order.user.first_name }} {{ order.user.last_name }}</b><br>
-            <b>Address: {{ address }}</b><br>
+            <b>Invoice Address: {{ order.user.first_name }} {{ order.user.last_name }}, {{ address }}</b><br>
             <b>Payment Type: {{ order.payment_type }}</b><br>
             <b>Promotion Code: {{ order.code }}</b><br>
-            <b>Order Id: {{ order.id }}</b><br>
+            <b>Invoice Number: {{ order.id }}</b><br>
         </div>
     </div>
 </div>
@@ -62,9 +62,9 @@
 
 <div>
     <table class="table">
-        <thead class="thead-dark">
+        <thead>
         <tr>
-            <th scope="col">PRODUCT ID</th>
+            <th scope="col">CODE</th>
             <th scope="col">UNIT PRICE</th>
             <th scope="col">QUANTITY</th>
             <th scope="col">PRODUCT</th>
@@ -73,51 +73,79 @@
         </thead>
         <tbody>
         {% for obj in order_detail %}
-            <tr style="{% if forloop.counter == 17 or forloop.counter|divisibleby:20 and forloop.counter != 20 %}page-break-before: always;{% endif %}">
+            <tr style="{% if forloop.counter == 14 or forloop.counter|divisibleby:20 and forloop.counter != 20 %}page-break-before: always;{% endif %}">
                 <td>{{ obj.product.id }}</td>
                 <td>{{ obj.product.price }}</td>
                 <td style="padding-left: 35px !important;">{{ obj.quantity }}</td>
                 <td>{{ obj.product.title }}</td>
-                <td>{{ obj.price }} EUR</td>
+                <td>{{ obj.price }}</td>
             </tr>
         {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead>
         <tr>
-            <td>&nbsp;&nbsp;</td>
-            <td> &nbsp;&nbsp;</td>
-            <td>&nbsp;&nbsp;</td>
-            <td>&nbsp;&nbsp;</td>
-            <td>&nbsp;&nbsp;</td>
+            <th scope="col">&nbsp;</th>
+            <th scope="col">&nbsp;</th>
+            <th scope="col">&nbsp;</th>
+            <th scope="col">&nbsp;</th>
+            <th scope="col">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td style="text-align: left"><b>TOTAL GOODS</b></td>
+            <td>EUR {{ price_no_tax }}</td>
         </tr>
         <tr>
-            <td><b>SUB TOTAL</b></td>
-            <td></td>
-            <td style="padding-left: 100px;">{{ price_no_tax }} EUR</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td style="text-align: left"><b>VAT 16%</b></td>
+            <td>EUR {{ tax_16 }}</td>
         </tr>
         <tr>
-            <td><b>TAX 16%</b></td>
-            <td></td>
-            <td style="padding-left: 100px;">{{ tax_16 }} EUR</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td style="text-align: left"><b>VAT 5%</b></td>
+            <td>EUR {{ tax_5 }}</td>
         </tr>
         <tr>
-            <td><b>TAX 5%</b></td>
-            <td></td>
-            <td style="padding-left: 100px;">{{ tax_5 }} EUR</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td style="text-align: left"><b>SHIPPING FEE</b></td>
+            <td>EUR {{ order.shipping_fee }}</td>
         </tr>
         <tr>
-            <td><b>SHIPPING FEE</b></td>
-            <td></td>
-            <td style="padding-left: 100px;">{{ order.shipping_fee}} EUR</td>
-        </tr>
-        <tr>
-            <td><b>TOTAL</b></td>
-            <td></td>
-            <td style="padding-left: 100px;">{{ order.price }} EUR</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td style="text-align: left"><b>TOTAL ORDER VALUE</b></td>
+            <td>EUR {{ order.price }}</td>
         </tr>
         </tbody>
-
-
     </table>
-    
+
+{#    <div class="container">#}
+{#        <div class="row">#}
+{#            <div class="col-6"></div>#}
+{#            <div class="col-7">#}
+{#                <b>TOTAL GOODS EUR {{ price_no_tax }}</b><br>#}
+{#                <b>VAT 16% EUR {{ tax_16 }}</b><br>#}
+{#                <b>VAT 5% EUR {{ tax_5 }}</b><br>#}
+{#                <b>SHIPPING FEE EUR {{ order.shipping_fee }}</b><br>#}
+{#                <b>TOTAL ORDER VALUE EUR {{ order.price }}</b><br>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
 </div>
 
 
