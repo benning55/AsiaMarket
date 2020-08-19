@@ -13,14 +13,14 @@ router.register('code', views.CodeToCartApiView.as_view(), base_name='code')
 
 urlpatterns = [
     path('product/', views.ProductApiView.as_view(), name='product'),
-    path('product/<int:pk>/', views.ProductApiView.as_view()),
+    path('product/<str:pk>/', views.ProductApiView.as_view()),
     path('category/', views.get_category),
     path('search/', views.search_product),
     path('new/', views.new_products),
     path('recommend/', views.recommend_products),
     path('cart/', views.CartApiView.as_view(), name='cart'),
     path('cart-detail/', views.CartDetailApiView.as_view(), name='cart-detail'),
-    path('cart-detail/<int:pk>/', views.CartDetailApiView.as_view()),
+    path('cart-detail/<str:pk>/', views.CartDetailApiView.as_view()),
     path('code/', views.CodeToCartApiView.as_view()),
     path('upload-csv/', views.csv_upload, name="product_upload"),
     path('carousel/', views.get_carousel),
