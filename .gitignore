@@ -152,3 +152,5 @@ app/core/migrations/0010_auto_20200714_1522.py
 app/core/migrations/0011_auto_20200720_1448.py
 
 app/core/migrations/0012_specialaddress.py
+
+app/core/migrations/0013_auto_20200819_0422.py
