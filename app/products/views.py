@@ -235,14 +235,15 @@ def csv_upload(request):
     next(io_string)
     for column in csv.reader(io_string, delimiter=','):
         product, created = Product.objects.update_or_create(
-            category_id=column[0],
-            title=column[1],
-            description=column[3],
-            price=column[4],
-            quantity=column[5]
+            id=column[0],
+            category_id=column[1],
+            title=column[2],
+            description=column[4],
+            price=column[5],
+            quantity=column[6]
         )
         try:
-            product.url = column[2]
+            product.url = column[3]
             product.save()
         except:
             continue
