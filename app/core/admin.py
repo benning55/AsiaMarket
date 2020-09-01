@@ -96,6 +96,7 @@ class OrderAdmin(admin.ModelAdmin):
             html_string = render_to_string('reciept/order_reciept.html', {
                 'order_detail': order_detail,
                 'order': obj,
+                'email': obj.user.email,
                 'address': address,
                 'data': 'Hello Benning',
                 'tax_16': "{:.2f}".format(float(tax_16)),

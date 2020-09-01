@@ -49,7 +49,8 @@
 <div>
     <div class="row">
         <div class="col-13">
-            <b>Invoice Address: {{ order.user.first_name }} {{ order.user.last_name }}, {{ address }}</b><br>
+            <b>Invoice Address: {{ address }}</b><br>
+            <b>E-mail Address: {{ email }} </b><br>
             <b>Payment Type: {{ order.payment_type }}</b><br>
             <b>Promotion Code: {{ order.code }}</b><br>
             <b>Invoice Number: {{ order.id }}</b><br>
