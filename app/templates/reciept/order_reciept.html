@@ -48,7 +48,7 @@
 
 <div>
     <div class="row">
-        <div class="col-13">
+        <div class="col-13" style="font-size: 18px !important;">
             <b>Invoice Address: {{ address }}</b><br>
             <b>E-mail Address: {{ email }} </b><br>
             <b>Payment Type: {{ order.payment_type }}</b><br>
@@ -74,7 +74,7 @@
         </thead>
         <tbody>
         {% for obj in order_detail %}
-            <tr style="{% if forloop.counter == 14 or forloop.counter|divisibleby:20 and forloop.counter != 20 %}page-break-before: always;{% endif %}">
+            <tr style="{% if forloop.counter == 12 or forloop.counter|divisibleby:20 and forloop.counter != 20 %}page-break-before: always;{% endif %}">
                 <td>{{ obj.product.id }}</td>
                 <td>{{ obj.product.price }}</td>
                 <td style="padding-left: 35px !important;">{{ obj.quantity }}</td>

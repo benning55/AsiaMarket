@@ -103,7 +103,7 @@ def register(request):
                 state=address['state'],
                 country=address['country']
             )
-            new_address.recipient = new_user.last_name
+            new_address.recipient = new_user.first_name + " " + new_user.last_name
             new_address.save()
             cart = Cart.objects.create(
                 user_id=new_user.id

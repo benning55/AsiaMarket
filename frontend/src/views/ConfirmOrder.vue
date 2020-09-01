@@ -385,13 +385,13 @@
             confirmOrder() {
                 let address = ''
                 if (this.chooseNewAddress) {
-                    address = this.newAddress.recipient + " " +
+                    address = this.newAddress.recipient + ", " +
                         this.newAddress.house_number + "," +
                         this.newAddress.street + "," +
                         this.newAddress.city + " " +
                         this.newAddress.post_code
                 } else {
-                    address = this.$store.state.userAddress[this.$store.state.indexUserAddress].recipient + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].address + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].city + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].state + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].post_code
+                    address = this.$store.state.userAddress[this.$store.state.indexUserAddress].recipient + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].address + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].city + ', ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].state + ' ' + this.$store.state.userAddress[this.$store.state.indexUserAddress].post_code
                 }
                 axios.post(`${this.$store.state.endpoints.host}/api/orders/order/`, {
                     address: address,
