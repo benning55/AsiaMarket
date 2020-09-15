@@ -159,7 +159,7 @@ class PaymentBillUpload(APIView):
 
 
 @api_view(['GET', ])
-@permission_classes([IsAuthenticated, ])
+@permission_classes([AllowAny, ])
 def Shipping_Fee(request, *args, **kwargs):
     """
     New 10 Product in system
