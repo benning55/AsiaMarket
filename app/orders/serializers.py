@@ -59,8 +59,11 @@ class OrderForUseSerializer(serializers.ModelSerializer):
     def get_pic1(self, obj):
         order_id = obj.id
         queryset = OrderDetail.objects.all().filter(order_id=order_id)
-        product_pic = str(queryset.first().product.pic1)
-        return product_pic
+        if len(queryset) == 0:
+            return None
+        else:
+            product_pic = str(queryset.first().product.pic1)
+            return product_pic
 
     def get_receipt(self, obj):
         order_id = obj.id
