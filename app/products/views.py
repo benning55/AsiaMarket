@@ -64,7 +64,7 @@ def new_products(request):
     New 10 Product in system
     """
     if request.method == 'GET':
-        queryset = Product.objects.all().order_by('-id').filter(quantity__gte=1)
+        queryset = Product.objects.all().order_by('-id').filter(quantity__gte=1, is_active=True)
         if len(queryset) < 10:
             return Response({"error": 'Data not enough'}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -80,7 +80,7 @@ def recommend_products(request):
     Random 10 recommend product
     """
     if request.method == 'GET':
-        queryset = Product.objects.all().filter(quantity__gte=1)
+        queryset = Product.objects.all().filter(quantity__gte=1,is_active=True)
         if len(queryset) < 10:
             return Response({"error": 'Data not enough'}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -97,7 +97,7 @@ def search_product(request):
     """
     if request.method == 'POST':
         data = request.data
-        queryset = Product.objects.all().filter(title__icontains=data['name'])
+        queryset = Product.objects.all().filter(title__icontains=data['name'], is_active=True)
         if len(queryset) == 0:
             return Response({"error": 'data not found'}, status=status.HTTP_404_NOT_FOUND)
         else:

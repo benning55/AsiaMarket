@@ -149,5 +149,6 @@
   "error_user_facebook_require": "Please input Facebook account",
   "save_my_address": "Save in My Address",
   "country": "Country",
-  "error_address_country": "Please Select Country"
+  "error_address_country": "Please Select Country",
+  "product_not_active": "Product has been deleted"
 }

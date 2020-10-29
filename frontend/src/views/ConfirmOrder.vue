@@ -235,7 +235,7 @@
                     post_code: '',
                     country: ''
                 },
-                shipping_fee: null,
+                shipping_fee: 0,
                 isOrderComplete: false
             }
         },
@@ -276,9 +276,9 @@
             },
             getShippingAddress(countrystr) {
                 this.isLoading = true
-                axios.get(`${window.location.protocol}//${window.location.hostname}/api/orders/shipping-fee/${countrystr}`, {
+                axios.get(`${window.location.protocol}//${window.location.hostname}/api/orders/shipping-fee/${countrystr}/`, {
                     headers: {
-                        Authorization: `JWT ${this.$store.state.jwt}`,
+                        // Authorization: `JWT ${this.$store.state.jwt}`,
                         'Content-Type': 'application/json'
                     }
                 }).then((res) => {
@@ -470,7 +470,6 @@
                     return this.shipping_fee
                     // return this.$store.state.shippingFee
                 }
-                return 0
             },
             totalWithCode() {
                 // return Number(this.subTotal) + Number(this.shipping)

@@ -42,14 +42,14 @@
                 <div class="flex justify-between">
                     <h1 class="text-key_column">{{$t('status')}}</h1>
                     <h1 v-if="orderdata.payment_status">
-                        <span v-if="orderdata.delivery_status == 'Waiting'" class="text-gray">{{nameTranslate('Wait for Shipping(รอนำส่ง)')}}</span>
-                        <span v-if="orderdata.delivery_status == 'Shipping'"
+                        <span v-if="orderdata.delivery_status === 'Waiting'" class="text-gray">{{nameTranslate('Wait for Shipping(รอนำส่ง)')}}</span>
+                        <span v-if="orderdata.delivery_status === 'Shipping'"
                               class="text-orange">{{nameTranslate('(กำลังส่ง)')}}</span>
-                        <span v-if="orderdata.delivery_status == 'Delivered'"
+                        <span v-if="orderdata.delivery_status === 'Delivered'"
                               class="text-green">{{nameTranslate('Delivered(ส่งสำเร็จ)')}}</span>
                     </h1>
                     <h1 class="text-red" v-else>
-                        <span v-if="orderData.payment_type == 'BankTransfer'"
+                        <span v-if="orderData.payment_type === 'BankTransfer'"
                               class="text-orange">{{$t('wait_admin')}}</span>
                         <span v-else class="text-red">{{$t('not_paid')}}</span>
                     </h1>
@@ -78,10 +78,10 @@
             },
             nameTranslate(text) {
                 let list = text.split('|')
-                if (list.length == 1) {
+                if (list.length === 1) {
                     return text
                 } else {
-                    if (this.$i18n.locale == 'th') {
+                    if (this.$i18n.locale === 'th') {
                         return list[1]
                     } else {
                         return list[0]

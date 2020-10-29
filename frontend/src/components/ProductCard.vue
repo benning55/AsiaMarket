@@ -1,6 +1,6 @@
 <template>
     <div class="max-w-sm bg-white cs-border cursor-pointer">
-        <div v-if="productData.quantity == 0" class="cursor-not-allowed">
+        <div v-if="productData.quantity === 0 || productData.is_active === false" class="cursor-not-allowed">
             <div class="absolute bg-white w-full h-full opacity-50 "></div>
             <div class="shadow-lg text-center text-red center absolute opacity-100 bg-white px-1 py-1">
                 {{$t('out_of_stock')}}
@@ -33,7 +33,7 @@
             <div @click="goDetail(productData.id)" class="w-full text-center bg-white text-black py-2 h-24">
                 {{reduceLetter(nameTranslate(productData.title))}}
             </div>
-            <div v-if="!(overStatee() == true && productData.quantity > 0)" @click="goDetail(productData.id)"
+            <div v-if="!(overStatee() === true && productData.quantity > 0)" @click="goDetail(productData.id)"
                  class="text-center text-md title text-green h-12"
                  :style="`color:${productData.category_color}`">
                 {{nameTranslate(productData.category_name)}}

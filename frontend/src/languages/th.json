@@ -147,5 +147,6 @@
   "error_user_facebook_require": "โปรดใส่บัญชี Facebook",
   "save_my_address": "บันทึกที่อยู่ในที่อยู่ของฉัน",
   "country": "ประเทศ",
-  "error_address_country": "โปรดใส่ประเทศ"
+  "error_address_country": "โปรดใส่ประเทศ",
+  "product_not_active": "สินค้านี้ถูกลบไปแล้ว"
 }

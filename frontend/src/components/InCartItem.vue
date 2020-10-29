@@ -3,8 +3,32 @@
          @focusout="handleFocusOut"
          tabindex="0">
 
+      <!--        out of not active-->
+        <div v-if="!data.product.is_active" class="parent" style="height: 80px">
+            <div class="div1 self-center">
+                <div class="" style="width: 90%">
+                    <img :src="$store.state.endpoints.host+data.product.pic1" alt=""
+                         style="max-height: 80px;margin: auto">
+                </div>
+            </div>
+            <div class="div2">
+                <div class="w-full" style="line-height: 20px;">{{reduceTitle(data.product.title)}}</div>
+            </div>
+            <div class="div3" style="align-self: flex-start;text-align: right;">
+                <i @click="isWillDelete=true" class='fas fa-trash-alt m-2 text-lightGray cursor-pointer'></i>
+            </div>
+            <div style="grid-area: 2 / 2 / 4 / 8;">
+                <div class="text-lg text-red">{{$t('product_not_active')}}</div>
+            </div>
+            <div class="div5" style="align-self: end">
+                <div class="text-green" style="text-align: end;margin-right: 8px;">
+                    --
+                </div>
+            </div>
+        </div>
+
         <!--        not enough case-->
-        <div v-if="!isWillDelete && this.data.overStatus && quantity > 0" class="parent" style="height: 80px">
+        <div v-else-if="!isWillDelete && this.data.overStatus && quantity > 0" class="parent" style="height: 80px">
             <div class="div1 self-center">
                 <div class="relative" style="width: 90%">
                     <div v-if="imageEror" style="max-height: 80px;margin: auto;opacity: .2">
@@ -107,7 +131,7 @@
         </div>
 
         <!--        out of stock case-->
-        <div v-else-if="!isWillDelete && quantity == 0" class="parent" style="height: 80px">
+        <div v-else-if="!isWillDelete && quantity === 0" class="parent" style="height: 80px">
             <div class="div1 self-center">
                 <div class="" style="width: 90%">
                     <img :src="$store.state.endpoints.host+data.product.pic1" alt=""
