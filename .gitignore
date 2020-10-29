@@ -154,3 +154,9 @@ app/core/migrations/0011_auto_20200720_1448.py
 app/core/migrations/0012_specialaddress.py
 
 app/core/migrations/0013_auto_20200819_0422.py
+
+app/core/migrations/0014_product_is_delete.py
+
+app/core/migrations/0015_auto_20201029_1417.py
+
+app/core/migrations/0016_auto_20201029_1435.py

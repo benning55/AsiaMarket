@@ -132,10 +132,10 @@ class CartAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'category', 'description', 'price', 'quantity']
+    list_display = ['id', 'title', 'category', 'description', 'price', 'quantity', 'is_active']
     list_display_links = ['title']
     list_editable = ['quantity']
-    list_filter = ['category']
+    list_filter = ['category', 'is_active']
     list_per_page = 20
 
     search_fields = ['title']
