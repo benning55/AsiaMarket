@@ -148,5 +148,7 @@
   "save_my_address": "บันทึกที่อยู่ในที่อยู่ของฉัน",
   "country": "ประเทศ",
   "error_address_country": "โปรดใส่ประเทศ",
-  "product_not_active": "สินค้านี้ถูกลบไปแล้ว"
+  "product_not_active": "สินค้านี้ถูกลบไปแล้ว",
+  "must_login_again": "คุณจำเป็นต้องลงชื่อเข้าใช้ใหม่",
+  "token_exp": "Token ผิดพลาดหรือหมดอายุไปแล้ว"
 }
