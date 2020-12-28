@@ -3,11 +3,11 @@
   <div class="bg-white w-full px-4 sm:h-full lg:px-24 pb-16 mx-auto pt-5">
     <Loader v-if="isLoading"/>
 
-    {{ $t('paypal_debit_or_credit_card') }}
-    <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">
-      <div class="px-2 bg-green" ref="paypal"></div>
-      <div id="paypal-button-container"></div>
-    </div>
+<!--    {{ $t('paypal_debit_or_credit_card') }}-->
+<!--    <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">-->
+<!--      <div class="px-2 bg-green" ref="paypal"></div>-->
+<!--      <div id="paypal-button-container"></div>-->
+<!--    </div>-->
 
     <!--        <div @click="openKlarna" class="w-32 h-12 bg-orange mx-auto py-3 cursor-pointer">-->
     <!--            <p class="text-center">-->
@@ -17,7 +17,8 @@
 
     <!--        <div id="klarna-payments-container"></div>-->
 
-    <el-divider> {{ $t('or') }}</el-divider>
+<!--    <el-divider> {{ $t('or') }}</el-divider>-->
+
     {{ $t('bank_transfer') }}
 
 
