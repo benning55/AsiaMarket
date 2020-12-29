@@ -3,6 +3,7 @@
   <div class="bg-white w-full px-4 sm:h-full lg:px-24 pb-16 mx-auto pt-5">
     <Loader v-if="isLoading"/>
 
+
 <!--    {{ $t('paypal_debit_or_credit_card') }}-->
 <!--    <div class="flex-col py-4 w-full mx-auto" style="max-width: 400px">-->
 <!--      <div class="px-2 bg-green" ref="paypal"></div>-->
