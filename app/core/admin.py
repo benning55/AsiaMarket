@@ -82,16 +82,16 @@ class OrderAdmin(admin.ModelAdmin):
             order_detail = OrderDetail.objects.all().filter(order_id=obj.id)
             special_address_check = models.SpecialAddress.objects.all().filter(pk=obj.id)
             address = special_address_check[0].address if len(special_address_check) > 0 else obj.address + ", " + obj.country
-            tax_16 = 0
-            tax_5 = 0
+            tax_19 = 0
+            tax_7 = 0
             for products in order_detail:
                 if 'Other' in products.product.category.type or 'Beverages' in products.product.category.type:
-                    tax_16 += products.product.price
+                    tax_19 += products.product.price
                 else:
-                    tax_5 += products.product.price
-            tax_16 = decimal.Decimal(16/100) * tax_16
-            tax_5 = decimal.Decimal(5/100) * tax_5
-            total_tax = tax_16 + tax_5
+                    tax_7 += products.product.price
+            tax_19 = decimal.Decimal(19/100) * tax_19
+            tax_7 = decimal.Decimal(7/100) * tax_7
+            total_tax = tax_19 + tax_7
             price_no_tax = obj.price - total_tax - obj.shipping_fee
             html_string = render_to_string('reciept/order_reciept.html', {
                 'order_detail': order_detail,
@@ -99,8 +99,8 @@ class OrderAdmin(admin.ModelAdmin):
                 'email': obj.user.email,
                 'address': address,
                 'data': 'Hello Benning',
-                'tax_16': "{:.2f}".format(float(tax_16)),
-                'tax_5': "{:.2f}".format(float(tax_5)),
+                'tax_16': "{:.2f}".format(float(tax_19)),
+                'tax_5': "{:.2f}".format(float(tax_7)),
                 'price_no_tax': "{:.2f}".format(float(price_no_tax))
             })
             html = HTML(string=html_string)
