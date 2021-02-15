@@ -243,6 +243,7 @@ class PaymentBillAdmin(admin.ModelAdmin):
 
 class OrderDetailAdmin(admin.ModelAdmin):
     list_display = ['order', 'product', 'quantity']
+    search_fields = ['order__id']
 
 
 class ShippingRateAdmin(admin.ModelAdmin):
